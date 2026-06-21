@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#6b0f1a">
+<title>Gareth Lewis</title>
+<meta name="description" content="A small workshop of things I make.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf8f0; --card:#fff; --bdr:rgba(107,15,26,.14); --bdr-hi:rgba(107,15,26,.4);
+    --tx:#1a0804; --tx-mid:#5a3820; --tx-lo:#8a6850; --gold:#7a4e00; --red:#6b0f1a;
+    --shadow:0 6px 24px rgba(107,15,26,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0e0804; --card:#1c1208; --bdr:rgba(210,155,40,.18); --bdr-hi:rgba(210,155,40,.45);
+      --tx:#f0e4c8; --tx-mid:#b09060; --tx-lo:#806038; --gold:#d4980a; --red:#c05030;
+      --shadow:0 6px 24px rgba(0,0,0,.45);
+    }
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Lato',sans-serif; background:var(--bg); color:var(--tx);
+    min-height:100vh; padding:8vh 22px 60px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  header{text-align:center;margin-bottom:48px}
+  h1{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(34px,7vw,52px);letter-spacing:.5px;color:var(--red)}
+  .tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(17px,3.5vw,22px);color:var(--tx-mid);margin-top:6px}
+  .rule{width:54px;height:1px;background:linear-gradient(90deg,transparent,var(--bdr-hi),transparent);margin:22px auto 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+  .card{
+    display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--bdr);border-radius:16px;padding:22px 22px 20px;
+    box-shadow:var(--shadow);transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{transform:translateY(-3px);border-color:var(--bdr-hi);box-shadow:0 10px 30px rgba(107,15,26,.14)}
+  .card .sym{font-size:30px;line-height:1;color:var(--gold);margin-bottom:12px;display:block}
+  .card h2{font-family:'Playfair Display',serif;font-weight:600;font-size:20px;letter-spacing:.3px;margin-bottom:5px}
+  .card p{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--tx-mid);line-height:1.5}
+  .card .go{margin-top:12px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold)}
+  .card.soon{opacity:.6;cursor:default;border-style:dashed;box-shadow:none}
+  .card.soon:hover{transform:none;border-color:var(--bdr)}
+  footer{text-align:center;margin-top:54px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--tx-lo);font-size:15px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Gareth Lewis</h1>
+      <p class="tagline">A small workshop of things I make.</p>
+      <div class="rule"></div>
+    </header>
+
+    <main class="grid">
+      <a class="card" href="./ngondro/">
+        <span class="sym">☸</span>
+        <h2>Ngöndro</h2>
+        <p>A companion app for the Karma Kagyu Ngöndro — practice tracker, prayers, lunar calendar, and the refuge tree.</p>
+        <div class="go">Open ›</div>
+      </a>
+
+      <div class="card soon">
+        <span class="sym">✦</span>
+        <h2>More soon</h2>
+        <p>Other bits and pieces will land here over time.</p>
+      </div>
+    </main>
+
+    <footer>Made with care · <span id="yr"></span></footer>
+  </div>
+  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>

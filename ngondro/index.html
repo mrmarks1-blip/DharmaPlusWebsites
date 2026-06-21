@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ngöndro">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#6b0f1a">
+<link rel="manifest" href="manifest.json">
+<title>ESM Ngöndro v8</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   THEMES
+═══════════════════════════════════════════ */
+:root {
+  --bg:#fdf8f0; --surf:#f0e8d8; --card:#fff; --card2:#f5ede0;
+  --bdr:rgba(107,15,26,.15); --bdr-hi:rgba(107,15,26,.4);
+  --gold:#7a4e00; --gold-hi:#a06800; --gold-lo:rgba(122,78,0,.45); --gold-ghost:rgba(122,78,0,.07);
+  --red:#6b0f1a; --red-hi:#8b2020; --red-lo:rgba(107,15,26,.07);
+  --tx:#1a0804; --tx-mid:#5a3820; --tx-lo:#8a6850; --tx-ghost:#c0a890;
+  --nav-bg:linear-gradient(180deg,#fff,#f5ede0); --nav-bdr:rgba(107,15,26,.12);
+  --modal:rgba(0,0,0,.55); --inp:rgba(0,0,0,.04);
+  --nav-h:62px; --safe-b:env(safe-area-inset-bottom,0px);
+  --scale:1;
+  --scroll-bg:rgba(248,240,224,.95);
+}
+[data-theme="dark"] {
+  --bg:#0e0804; --surf:#180e06; --card:#221408; --card2:#2c1a0a;
+  --bdr:rgba(210,155,40,.18); --bdr-hi:rgba(210,155,40,.45);
+  --gold:#d4980a; --gold-hi:#f0b830; --gold-lo:rgba(212,152,10,.45); --gold-ghost:rgba(212,152,10,.07);
+  --red:#8a3820; --red-hi:#c05030; --red-lo:rgba(138,56,32,.12);
+  --tx:#f0e4c8; --tx-mid:#b09060; --tx-lo:#705838; --tx-ghost:#3a2814;
+  --nav-bg:linear-gradient(180deg,#1a1006,#0e0804); --nav-bdr:rgba(210,155,40,.12);
+  --modal:rgba(0,0,0,.82); --inp:rgba(255,255,255,.04);
+  --scroll-bg:rgba(0,0,0,.84);
+}
+[data-theme="neuro"] {
+  --bg:#08101c; --surf:#101828; --card:#182030; --card2:#1e2838;
+  --bdr:rgba(80,140,200,.2); --bdr-hi:rgba(80,140,200,.5);
+  --gold:#5898c8; --gold-hi:#78b8e8; --gold-lo:rgba(88,152,200,.5); --gold-ghost:rgba(88,152,200,.07);
+  --red:#2a5878; --red-hi:#3878b0; --red-lo:rgba(42,88,120,.1);
+  --tx:#e0eaf8; --tx-mid:#80a0c0; --tx-lo:#406080; --tx-ghost:#182840;
+  --nav-bg:linear-gradient(180deg,#101828,#08101c); --nav-bdr:rgba(80,140,200,.12);
+  --modal:rgba(0,0,0,.85); --inp:rgba(255,255,255,.05);
+  --scroll-bg:rgba(0,0,0,.84);
+}
+[data-theme="temple"] {
+  --bg:#1a0608; --surf:#220a0c; --card:#2c0e10; --card2:#340f12;
+  --bdr:rgba(200,120,20,.2); --bdr-hi:rgba(200,120,20,.5);
+  --gold:#e09020; --gold-hi:#f0b030; --gold-lo:rgba(220,140,20,.5); --gold-ghost:rgba(220,140,20,.08);
+  --red:#d0560a; --red-hi:#e87020; --red-lo:rgba(200,80,10,.1);
+  --tx:#f5e8d0; --tx-mid:#c09060; --tx-lo:#705030; --tx-ghost:#3a1a10;
+  --nav-bg:linear-gradient(180deg,#2c0e10,#1a0608); --nav-bdr:rgba(200,120,20,.15);
+  --modal:rgba(0,0,0,.85); --inp:rgba(255,255,255,.05);
+  --scroll-bg:rgba(0,0,0,.84);
+}
+[data-theme="night"] {
+  --bg:#080c1e; --surf:#0e1430; --card:#141c3a; --card2:#1a2244;
+  --bdr:rgba(160,130,200,.2); --bdr-hi:rgba(160,130,200,.5);
+  --gold:#c0a060; --gold-hi:#d8bc80; --gold-lo:rgba(190,160,80,.5); --gold-ghost:rgba(190,160,80,.07);
+  --red:#8050b8; --red-hi:#a070d8; --red-lo:rgba(120,70,180,.1);
+  --tx:#f0e8ff; --tx-mid:#9080c0; --tx-lo:#504080; --tx-ghost:#201830;
+  --nav-bg:linear-gradient(180deg,#141c3a,#080c1e); --nav-bdr:rgba(160,130,200,.12);
+  --modal:rgba(0,0,0,.88); --inp:rgba(255,255,255,.05);
+  --scroll-bg:rgba(0,0,0,.84);
+}
+[data-theme="earth"] {
+  --bg:#f5ede0; --surf:#ede0ce; --card:#fff8f0; --card2:#f8eed8;
+  --bdr:rgba(160,80,20,.15); --bdr-hi:rgba(160,80,20,.4);
+  --gold:#a06820; --gold-hi:#c08830; --gold-lo:rgba(160,100,20,.45); --gold-ghost:rgba(160,100,20,.07);
+  --red:#b8490a; --red-hi:#d05818; --red-lo:rgba(180,70,10,.07);
+  --tx:#2c1008; --tx-mid:#6a3818; --tx-lo:#9a6040; --tx-ghost:#d0b090;
+  --nav-bg:linear-gradient(180deg,#fff8f0,#ede0ce); --nav-bdr:rgba(160,80,20,.12);
+  --modal:rgba(0,0,0,.55); --inp:rgba(0,0,0,.04);
+  --scroll-bg:rgba(245,237,224,.97);
+}
+[data-theme="slate"] {
+  --bg:#1c2330; --surf:#222c3c; --card:#283444; --card2:#2e3c4e;
+  --bdr:rgba(140,170,200,.2); --bdr-hi:rgba(140,170,200,.45);
+  --gold:#7090b0; --gold-hi:#90b0d0; --gold-lo:rgba(110,150,190,.5); --gold-ghost:rgba(110,150,190,.07);
+  --red:#506080; --red-hi:#6080a0; --red-lo:rgba(70,90,120,.1);
+  --tx:#d8e8f8; --tx-mid:#8090a8; --tx-lo:#506070; --tx-ghost:#283040;
+  --nav-bg:linear-gradient(180deg,#283444,#1c2330); --nav-bdr:rgba(140,170,200,.12);
+  --modal:rgba(0,0,0,.8); --inp:rgba(255,255,255,.04);
+  --scroll-bg:rgba(0,0,0,.84);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE — scale cascades from body
+═══════════════════════════════════════════ */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; overflow:hidden; background:var(--bg); }
+body { font-family:'Lato',sans-serif; color:var(--tx); font-size:calc(14px * var(--scale)); }
+a { color:inherit; }
+::-webkit-scrollbar { width:2px; } ::-webkit-scrollbar-thumb { background:var(--gold-lo); border-radius:1px; }
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+#app { position:fixed; inset:0; display:flex; flex-direction:column; }
+#content { flex:1; overflow:hidden; position:relative; }
+#nav {
+  flex-shrink:0; height:calc(var(--nav-h) + var(--safe-b)); padding-bottom:var(--safe-b);
+  background:var(--nav-bg); border-top:1px solid var(--nav-bdr);
+  display:flex; position:relative; z-index:100;
+}
+.nb {
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px; background:none; border:none; cursor:pointer; padding:5px 1px;
+  color:var(--tx-ghost); transition:color .2s; font-family:'Lato';
+}
+.nb.active { color:var(--gold); }
+.nb-ico { font-size:calc(17px * var(--scale)); line-height:1; }
+.nb-lbl { font-size:calc(8.5px * var(--scale)); letter-spacing:.5px; text-transform:uppercase; }
+
+/* ═══════════════════════════════════════════
+   PRACTICE BACKGROUNDS (behind image)
+═══════════════════════════════════════════ */
+.pr-bg-0 { background:#0e1e3a; }
+.pr-bg-1 { background:#3c1406; }
+.pr-bg-2 { background:#160636; }
+.pr-bg-3 { background:#082212; }
+.pr-bg-4 { background:#261602; }
+.pr-bg-5 { background:#060c30; }
+.pr-bg-6 { background:#280414; }
+
+/* ═══════════════════════════════════════════
+   PRACTICE SCROLL SECTION
+═══════════════════════════════════════════ */
+.pr-scroll-section {
+  flex:1; overflow-y:auto; background:var(--scroll-bg);
+}
+/* Text colour overrides inside scroll for light/earth themes */
+:root .pr-scroll-section, [data-theme="earth"] .pr-scroll-section {
+  --pr-tx: var(--tx);
+  --pr-tx-mid: var(--tx-mid);
+  --pr-tx-lo: var(--tx-lo);
+}
+
+/* ═══════════════════════════════════════════
+   MODALS / SHEETS / DIALOGS
+═══════════════════════════════════════════ */
+.veil { position:fixed; inset:0; background:var(--modal); z-index:200; display:flex; align-items:flex-end; }
+.veil.center { align-items:center; justify-content:center; padding:18px; }
+.sheet {
+  background:var(--card); border-top:1px solid var(--bdr); border-radius:22px 22px 0 0;
+  width:100%; max-height:90vh; overflow-y:auto; padding:6px 18px calc(24px + var(--safe-b));
+  animation:slideUp .28s cubic-bezier(.32,.72,0,1);
+}
+.dialog {
+  background:var(--card); border:1px solid var(--bdr); border-radius:20px;
+  padding:22px 18px; width:100%; max-width:360px;
+  animation:popIn .22s cubic-bezier(.34,1.56,.64,1);
+}
+/* Refuge drawer */
+.rf-drawer {
+  position:fixed; bottom:0; left:0; right:0; z-index:210;
+  background:var(--card); border-top:1px solid var(--bdr); border-radius:22px 22px 0 0;
+  max-height:72vh; display:flex; flex-direction:column;
+  transform:translateY(100%); transition:transform .3s cubic-bezier(.32,.72,0,1);
+  padding-bottom:var(--safe-b);
+}
+.rf-drawer.open { transform:translateY(0); }
+.rf-drawer-scroll { flex:1; overflow-y:auto; padding:0 18px calc(16px + var(--safe-b)); }
+.rf-veil {
+  position:fixed; inset:0; z-index:209;
+  background:rgba(0,0,0,0); pointer-events:none;
+  transition:background .3s;
+}
+.rf-veil.open { background:var(--modal); pointer-events:auto; }
+
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+@keyframes popIn { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes rise { 0%{opacity:1;transform:translateY(0) translateX(-50%)} 100%{opacity:0;transform:translateY(-60px) translateX(-50%)} }
+@keyframes ripple { 0%{transform:scale(.2) translate(-50%,-50%);opacity:.5} 100%{transform:scale(9) translate(-50%,-50%);opacity:0} }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,152,10,.4)} 50%{box-shadow:0 0 0 5px rgba(212,152,10,0)} }
+
+.handle { width:36px; height:4px; border-radius:2px; background:rgba(128,100,60,.2); margin:10px auto 16px; }
+.stitle { font-family:'Playfair Display'; font-size:calc(13px * var(--scale)); letter-spacing:1.5px; color:var(--gold); text-align:center; margin-bottom:18px; }
+
+/* ═══════════════════════════════════════════
+   INPUTS & BUTTONS
+═══════════════════════════════════════════ */
+input[type=number],input[type=date],input[type=text] {
+  background:var(--inp); border:1px solid var(--bdr); border-radius:10px;
+  padding:12px 14px; width:100%; color:var(--tx);
+  font-size:calc(16px * var(--scale)); font-family:'Lato'; outline:none;
+  -webkit-appearance:none; appearance:none;
+}
+input:focus { border-color:var(--gold-lo); }
+input::placeholder { color:var(--tx-ghost); }
+.btn {
+  background:linear-gradient(135deg,#c8900a,#7a5808); color:#f8f0d8; border:none;
+  border-radius:11px; padding:calc(14px * var(--scale)) 18px;
+  font-family:'Playfair Display'; font-size:calc(12px * var(--scale)); letter-spacing:1px;
+  cursor:pointer; width:100%; transition:opacity .15s;
+  box-shadow:0 2px 12px rgba(200,140,10,.2);
+}
+.btn:active { opacity:.8; }
+[data-theme="dark"] .btn { background:linear-gradient(135deg,#c8900a,#7a5808); }
+[data-theme="neuro"] .btn { background:linear-gradient(135deg,#2860a0,#14305a); color:#e0f0ff; }
+.btn-o {
+  background:transparent; color:var(--tx-mid); border:1px solid var(--bdr);
+  border-radius:11px; padding:calc(13px * var(--scale)) 18px;
+  font-family:'Lato'; font-size:calc(13px * var(--scale)); cursor:pointer; width:100%;
+  transition:color .2s;
+}
+.btn-o:active { color:var(--gold); }
+.brow { display:flex; gap:10px; } .brow>* { flex:1; }
+hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════ */
+.tib-s { font-size:calc(15px * var(--scale)); color:var(--red-hi); opacity:.85; line-height:1.9; }
+.tib-p { font-family:'Playfair Display'; font-weight:700; font-size:calc(12px * var(--scale)); letter-spacing:1px; color:var(--gold-hi); line-height:2; }
+.tib-e { font-family:'Cormorant Garamond'; font-style:italic; font-size:calc(16px * var(--scale)); color:var(--tx-mid); line-height:1.75; }
+
+/* ═══════════════════════════════════════════
+   CHIP BUTTONS (used in filters, settings, etc.)
+═══════════════════════════════════════════ */
+.a11y-b {
+  background:var(--card); border:1px solid var(--bdr); border-radius:20px;
+  padding:6px 11px; font-size:calc(11px * var(--scale)); color:var(--tx-lo);
+  cursor:pointer; font-family:'Lato'; white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.a11y-b.on { color:var(--gold); border-color:var(--gold-lo); }
+
+/* ═══════════════════════════════════════════
+   REFUGE TREE — numbered markers (zone-coloured, high contrast)
+═══════════════════════════════════════════ */
+.rf-marker {
+  position:absolute; transform:translate(-50%,-50%);
+  width:24px; height:24px; border-radius:50%;
+  border:2px solid rgba(255,255,255,.9);
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-family:'Lato'; font-weight:700; color:#fff;
+  cursor:pointer; z-index:10; transition:all .2s;
+  box-shadow:0 2px 6px rgba(0,0,0,.65), 0 0 0 1px rgba(0,0,0,.3);
+  text-shadow:0 1px 3px rgba(0,0,0,.6);
+}
+.rf-marker:hover, .rf-marker:active { transform:translate(-50%,-50%) scale(1.35); box-shadow:0 3px 12px rgba(0,0,0,.8), 0 0 0 1px rgba(0,0,0,.3); }
+.rf-marker.hidden-marker { display:none; }
+.rf-marker.dim { opacity:.25; }
+.rf-marker.highlighted { box-shadow:0 0 12px rgba(255,255,255,.6), 0 3px 10px rgba(0,0,0,.7); border-color:#fff; transform:translate(-50%,-50%) scale(1.15); }
+
+.rf-legend-item {
+  display:flex; align-items:center; gap:10px; padding:9px 14px;
+  border-bottom:1px solid var(--bdr); cursor:pointer; transition:background .15s;
+}
+.rf-legend-item:active { background:var(--gold-ghost); }
+.rf-legend-item.dim { opacity:.3; }
+.rf-legend-num {
+  width:22px; height:22px; border-radius:50%; flex-shrink:0;
+  background:var(--gold-ghost); border:1px solid var(--bdr-hi);
+  display:flex; align-items:center; justify-content:center;
+  font-size:calc(10px * var(--scale)); font-family:'Lato'; font-weight:700; color:var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   DESKTOP — sidebar nav + wider layout
+═══════════════════════════════════════════ */
+@media (min-width: 768px) {
+  /* Sidebar nav */
+  #app { flex-direction: row; }
+  #nav {
+    flex-direction: column; justify-content: flex-start; align-items: stretch;
+    width: 170px; height: 100%;
+    border-top: none; border-right: 1px solid var(--nav-bdr);
+    flex-shrink: 0; padding-bottom: 0;
+  }
+  .nb {
+    flex-direction: row; justify-content: flex-start;
+    gap: 11px; padding: 15px 20px;
+    flex: none; width: 100%; border-radius: 0;
+    border-left: 3px solid transparent;
+    transition: color .2s, background .2s, border-color .2s;
+  }
+  .nb.active { background: var(--gold-ghost); border-left-color: var(--gold); }
+  .nb-ico { font-size: 18px; }
+  .nb-lbl { font-size: 11px; letter-spacing: .4px; }
+
+  /* Settings button: pinned to bottom of sidebar */
+  .settings-nb { margin-top: auto; border-top: 1px solid var(--nav-bdr); }
+  .settings-nb .nb-lbl { display: block !important; }
+
+  /* Refuge drawer: offset so it doesn't overlap sidebar */
+  .rf-drawer { left: 170px; }
+  .rf-veil { left: 170px; }
+
+  /* Sheets become centred dialogs instead of bottom-sliders */
+  .veil { align-items: center; justify-content: center; padding: 24px; }
+  .sheet {
+    border-radius: 20px; border: 1px solid var(--bdr);
+    max-width: 520px; width: 100%;
+    animation: popIn .22s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  /* Nicer scrollbar on desktop */
+  ::-webkit-scrollbar { width: 5px; }
+
+  /* Hide touch-only hints */
+  .swipe-hint { display: none !important; }
+}
+
+/* Wide desktop — slightly wider sidebar */
+@media (min-width: 1100px) {
+  #nav { width: 200px; }
+  .nb { padding: 16px 24px; }
+  .rf-drawer { left: 200px; }
+  .rf-veil { left: 200px; }
+}
+
+/* Settings nav icon — hide label on mobile (icon-only to save space) */
+.settings-nb .nb-lbl { display: none; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="content"></div>
+  <nav id="nav"></nav>
+  <!-- Refuge tree drawer (persists across filter changes) -->
+  <div id="rf-veil" class="rf-veil" onclick="closeDrawer()"></div>
+  <div id="rf-drawer" class="rf-drawer">
+    <div class="handle" onclick="closeDrawer()" style="cursor:pointer;"></div>
+    <div id="rf-drawer-scroll" class="rf-drawer-scroll"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════════
+// THEME & SIZE (persisted, no floating panel)
+// ═══════════════════════════════════════════════════════════
+function ls(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch{return d;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  lsSet('esm_theme',t);
+}
+function setSize(s){
+  document.documentElement.style.setProperty('--scale',s);
+  lsSet('esm_size',s);
+}
+(function initA11y(){
+  setTheme(ls('esm_theme','light'));
+  setSize(ls('esm_size',1));
+})();
+
+// ═══════════════════════════════════════════════════════════
+// PRACTICES DATA
+// ═══════════════════════════════════════════════════════════
+const PR=[
+  {id:'refuge',   name:'Short Refuge',    sub:'Short refuge formulas',  target:11000,  cv:100,  bg:0, acc:'#5a9ece', img:'refuge-tree.jpg', imgFull:true},
+  {id:'prostr',   name:'Prostrations',    sub:'Full body prostrations', target:111111, cv:1000, bg:1, acc:'#d07850', img:'prostr.jpg'},
+  {id:'diamond',  name:'Diamond Mind',    sub:'Vajrasattva mantras',    target:111111, cv:1000, bg:2, acc:'#9070d8', img:'dm.jpg',         mantra:'OM VAJRASATTVA HUNG'},
+  {id:'mandala',  name:'Mandala Offering',sub:'Mandala offerings',      target:111111, cv:1000, bg:3, acc:'#40a880', img:'mandala.jpg'},
+  {id:'guruyoga', name:'Guru Yoga',       sub:'Guru Yoga mantras',      target:111111, cv:1000, bg:4, acc:'#c89040', img:'guru.jpg',        mantra:'KARMAPA KHENNO'},
+  {id:'phowa',    name:'Phowa Prep.',     sub:'Om Ami Dewa Hrih',       target:500000, cv:5000, bg:5, acc:'#5878d8', img:'phowa.jpg',       mantra:'OM AMI DEWA HRIH'},
+  {id:'loving',   name:'Loving Eyes',     sub:'Om Mani Peme Hung',      target:1000000,cv:10000,bg:6, acc:'#c85880', img:'lovingeyes.jpg',  mantra:'OM MANI PEME HUNG'},
+];
+const COLS=12;
+const PACE_OPTS=[0,21,50,100,108,200,300,500,1000];
+
+// ═══════════════════════════════════════════════════════════
+// PRAYERS
+// ═══════════════════════════════════════════════════════════
+const PRAYERS=[
+  {id:'refuge_bodhi',title:'Refuge & Bodhicitta',sub:'Opening practice — Refuge ×3, then Bodhicitta ×3',couplets:[
+    {sec:'REFUGE — SKYAB \'GRO  (×3)'},
+    {t:'སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ།',p:'SANG GYE CHO DANG TSOK KYI CHOK NAM LA',e:'Until enlightenment I take refuge,'},
+    {t:'བྱང་ཆུབ་བར་དུ་བདག་ནི་སྐྱབས་སུ་མཆི།',p:'JANG CHUB BAR DU DAK NI KYAB SU CHI',e:'in the Buddha, Dharma and the Supreme Assembly.'},
+    {t:'བདག་གིས་སྦྱིན་སོགས་རྒྱས་པའི་བསོད་ནམས་ཀྱིས།',p:'DAK GI JIN SOK GYI PAY SO NAM KYI',e:'May the merits from my generosity and other good deeds'},
+    {t:'འགྲོ་ལ་ཕན་ཕྱིར་སངས་རྒྱས་གྲུབ་པར་ཤོག།',p:'DRO LA PEN CHIR SANG GYE DRUP PAR SHOK',e:'result in Buddhahood for the benefit of all beings.'},
+    {sec:'BODHICITTA — BYANG CHUB SEMS  (×3)'},
+    {t:'བྱང་ཆུབ་སེམས་ནི་རིན་པོ་ཆེ།',p:'CHANG CHUB SEM NI RINPOCHE',e:'May the precious bodhicitta'},
+    {t:'མ་སྐྱེས་པ་རྣམས་སྐྱེ་འགྱུར་ཅིག།',p:'MACHAY PA NAM CHAY JUR CHIK',e:'take birth where it is not yet existing,'},
+    {t:'སྐྱེས་པ་ཉམས་པ་མེད་པ་དང།',p:'CHAYPA NYAMPA MAY PA DANG',e:'where it exists may it never wane,'},
+    {t:'གོང་ནས་གོང་དུ་འཕེལ་བར་ཤོག།',p:'KONGNAY KONGDU PELWAR SHO',e:'but continuously and ever increase.'},
+  ]},
+  {id:'four_imm',title:'Four Immeasurables',sub:'TSHAD MED BZHI',couplets:[
+    {t:'སེམས་ཅན་ཐམས་ཅད་བདེ་བ་དང་བདེ་བའི་རྒྱུ་དང་ལྡན་པར་གྱུར་ཅིག།',p:'SEM CHEN TAM CHE DE WA DANG DE WAY GYU DANG DEN PAR GYUR CHIK',e:'May all beings have happiness and the causes of happiness,'},
+    {t:'སྡུག་བསྔལ་དང་སྡུག་བསྔལ་གྱི་རྒྱུ་དང་བྲལ་བར་གྱུར་ཅིག།',p:'DUK NGAL DANG DUK NGAL GYI GYU DANG DREL WAR GYUR CHIK',e:'May all beings be free from suffering and its causes,'},
+    {t:'སྡུག་བསྔལ་མེད་པའི་བདེ་བ་དམ་པ་དང་མི་འབྲལ་བར་གྱུར་ཅིག།',p:'DUK NGAL ME PAY DE WA DAM PA DANG MI DRAL WAR GYUR CHIK',e:'May all beings never be separate from supreme bliss,'},
+    {t:'ཉེ་རིང་ཆགས་སྡང་གཉིས་དང་བྲལ་བའི་བཏང་སྙོམས་ཆེན་པོ་ལ་གནས་པར་གྱུར་ཅིག།',p:'NYE RING CHAK DANG NYI DANG DREL WAY TANG NYOM CHEN PO LA NAY PAR GYUR CHIK',e:'May all beings rest in the Great Equanimity, free from attachment and aversion.'},
+  ]},
+  {id:'root_lama',title:'Prayer to the Root Lama',sub:'RTSA BA\'I BLA MA\'I GSOL \'DEBS',couplets:[
+    {t:'དཔལ་ལྡན་རྩ་བའི་བླ་མ་རིན་པོ་ཆེ།',p:'PAL DEN TSAWI LAMA RINPOCHE',e:'Wonderful, precious Root Guru,'},
+    {t:'དག་གི་སྤྱི་བོར་པདྨའི་གདན་མཆོག་ལ།',p:'DA KI CHI WOR PE DE DEN CHU LA',e:'seated on a lotus and moon seat above my head,'},
+    {t:'བཀའ་དྲིན་ཆེན་པོས་ཐུགས་རྗེས་འཛིན་གྱུར་ནས།',p:'KA DRIN CHEN PEU GO NAY JAY ZUNG TAY',e:'I pray that you take me into your care with your vast kindness,'},
+    {t:'སྐུ་གསུང་ཐུགས་ཀྱི་དངོས་གྲུབ་སྩལ་དུ་གསོལ།',p:'KU SUNG TUK JI NGO DRUP TSAL DU SOL',e:'and give me the siddhis of body, speech and mind.'},
+  ]},
+  {id:'seven_branch',title:'Seven Branch Prayer',sub:'YAN LAG BDUN PA',couplets:[
+    {t:'ཕྱག་འཚལ་བ་དང་མཆོད་ཅིང་བཤགས་པ་དང།',p:'CHANG TSAL WA TANG CHURSHING SHAG PA DANG',e:'We prostrate, make offerings, and confess,'},
+    {t:'འཕགས་པ་རྣམས་ཀྱི་དགེ་ལ་རྗེས་ཡི་རང།',p:'JESU YIR ANG KULCHI SOL WA YI',e:'and rejoice in the virtues of all beings.'},
+    {t:'དགེ་བ་ཆུང་ཟད་བདག་གིས་ཅི་བསགས་པ།',p:'GEWA CHUNG ZEY DAGI CHI SAGPA',e:'We ask for the wheel of Dharma to be turned,'},
+    {t:'ཐམས་ཅད་རྫོགས་པའི་བྱང་ཆུབ་ཆེན་པོར་བསྔོ།',p:'TAN CHE DZOG PEY CHANG CHUP CHEN POR NGO',e:'and dedicate all merit to enlightenment for all beings.'},
+  ]},
+  {id:'mandala_pr',title:'Mandala Offering',sub:'DKYIL \'KHOR — once with mudra',couplets:[
+    {t:'ས་ཞི་སྤོས་ཀྱིས་བྱུགས་ཤིང་མེ་ཏོག་བཀྲམ།',p:'SA SHI PURCHU JUG SHING ME TOG TRAM',e:'This base perfumed with scent and sprinkled with flowers,'},
+    {t:'རི་རབ་གླིང་བཞི་ཉི་ཟླ་རྒྱན་པ་འདི།',p:'RI RAB LING SHI NYIDA YJEN PA DI',e:'adorned with Mount Meru, the four continents, sun and moon,'},
+    {t:'སངས་རྒྱས་ཞིང་དུ་དམིགས་ཏེ་འབུལ་བར་ཡི།',p:'SANG GYE SHING DU MIG TE PUL WAR YI',e:'I visualize as a Buddha realm and offer to you.'},
+    {t:'འགྲོ་ཀུན་རྣམ་དག་ཞིང་ལ་སྤྱོད་པར་ཤོག།',p:'DROKUN NAM DAG SHING LA CHO PAR SHO',e:'May all beings enjoy a pure realm.'},
+  ]},
+  {id:'dorje_chang',title:'Dorje Chang Tungma',sub:'Kagyu Lineage Supplication',couplets:[
+    {p:'OM',e:''},
+    {t:'རྡོ་རྗེ་འཆང་ཆེན་ཏི་ལོ་ནཱ་རོ་དང།',p:'DORJE CHANG CHEN TELO NARO DANG',e:'Great Vajradhara, Tilopa, Naropa,'},
+    {t:'མར་པ་མི་ལ་ཆོས་རྗེ་སྒམ་པོ་པ།',p:'MARPA MILA CHOJE GAMPOPA',e:'Marpa, Milarepa, Lord of Dharma Gampopa,'},
+    {t:'དུས་གསུམ་ཤེས་བྱ་ཀུན་མཁྱེན་ཀརྨ་པ།',p:'DUSUM SHE JA KUN KHYEN KARMAPA',e:'Knower of the three times, omniscient Karmapa,'},
+    {t:'ཆེ་བཞི་ཆུང་བརྒྱད་རྒྱུད་པ་འཛིན་རྣམས་དང།',p:'CHE ZHI CHUNG GYE GYU PA DZIN NAM DANG',e:'Lineage holders of the four great and eight lesser schools,'},
+    {t:'མཉམ་མེད་འགྲོ་དབང་དྭགས་པོ་བཀའ་བརྒྱུད་ལ།',p:'NYAM ME DRO GON DAKPO KAGUYLA',e:'Unrivalled protectors of beings, the Dakpo Kagyu —'},
+    {t:'གསོལ་བ་འདེབས་སོ་བཀའ་བརྒྱུད་བླ་མ་རྣམས།',p:'SOLWA DEPSO KAGYU LAMA NAM',e:'I pray to you, the Kagyu Lamas.'},
+    {t:'རྒྱུད་པ་འཛིན་ནོ་རྣམ་སྨིན་བྱིན་གྱིས་རློབས།',p:'GYU PA DZIN NO NAM TAR JIN GYI LOB',e:'Grant your blessing that we may follow your example.'},
+    {p:'ZHEN LOK GOM GYI KANGPAR SUNGPA ZHIN\nZE NOR KUN LA CHAK ZHEN ME PA DANG\nNYE KUR ZHEN PA ME PAR JIN GYI LOB',e:'Detachment is the foot of meditation. To the meditator who abandons attachment to wealth and honour — grant your blessing.'},
+    {p:'MO GO GOM GYI NGO WOR SUNG PA ZHIN\nCHO MIN MO GU KYE WAR JIN JI LOB',e:'Devotion is the head of meditation — grant your blessing that genuine devotion be born.'},
+    {p:'YENG ME GOM GYI NGO ZHIR SUNG PA ZHIN\nGOM JA LO DANG DRAL WAR JIN GYI LOB',e:'Unwavering attention is the body of meditation — grant that it be free from intellectualisation.'},
+    {p:'NAM TOK NGOWO CHO KUR SUNG PA ZHIN\nKHOR DE JER ME TOK PAR JIN GYI LOB',e:'The essence of thought is Dharmakāya — grant realisation of the inseparability of samsāra and nirvāṇa.'},
+    {p:'KYE WA KUN TU YANG DAK LAMA DANG\nDRAL ME DORJE CHANG GYI GO PHANG NYUR TOP SHOK',e:'Through all my births may I not be separated from the perfect Lama. May I quickly attain the state of Vajradhara.'},
+  ]},
+  {id:'dedication',title:'Dedication of Merit',sub:'BSNGO BA',couplets:[
+    {t:'བསོད་ནམས་འདི་ཡིས་ཐམས་ཅད་གཟིགས་པ་ཉིད།',p:'SONAM DI YI TAM CHAY ZIK PA NYI',e:'Through this virtue, may omniscience be attained,'},
+    {t:'ཐོབ་ནས་ཉེས་པའི་དགྲ་རྣམས་ཕམ་མཛད་ནས།',p:'THOB NE NYE PAY DRA NAM PAM CHAY NAY',e:'and may every defilement be overcome.'},
+    {t:'སྐྱེ་རྒ་ན་འཆི་བ་ལང་གྲུགས་པ་ཡི།',p:'JAY GA NA JI BA LAP DRUK PA YI',e:'May beings be liberated from the ocean of samsāra,'},
+    {t:'སྲིད་པའི་མཚོ་ལས་འགྲོ་བ་སྒྲོལ་བར་ཤོག།',p:'SI PAY TSO LE DRO WA DROL WAR SHOK',e:'troubled by waves of birth, old age, sickness and death.'},
+    {t:'འཇམ་དཔལ་དཔའ་བོ་ཇི་ལྟར་མཁྱེན་པ་དང།',p:'JAMPAL PAWO JITAR CHEMPO TANG',e:'Following Mañjuśrī and Samantabhadra as examples,'},
+    {t:'དགེ་བ་འདི་དག་ཐམས་ཅད་རབ་ཏུ་བསྔོ།',p:'GAY WA DEDAK TAMCHAY RAPTO NGO',e:'I dedicate all this virtue most sincerely.'},
+  ]},
+  {id:'seven_line',title:'Seven-Line Prayer',sub:'TSHIG BDUN GSOL \'DEBS — to Guru Padmasambhava',couplets:[
+    {p:'HUNG',e:''},
+    {t:'ཨུ་རྒྱན་ཡུལ་གྱི་ནུབ་བྱང་མཚམས།',p:'ORJEN YULJI NUPJANG TAM',e:'At the north-western border of Orgyen,'},
+    {t:'པདྨ་གེ་སར་སྡོང་པོ་ལ།',p:'PEMA GESAR DONGPO LA',e:'upon the heart of a lotus flower,'},
+    {t:'ཡ་མཚན་མཆོག་གི་དངོས་གྲུབ་བརྙེས།',p:'YATSEN CHO GI NGODRUP NYE',e:'endowed with the most marvellous attainments,'},
+    {t:'པདྨ་འབྱུང་གནས་ཞེས་སུ་གྲགས།',p:'PEMA JUNGNEY SHESU DRAG',e:'you are renowned as the Lotus-born,'},
+    {t:'འཁོར་དུ་མཁའ་འགྲོ་མང་པོར་བསྐོར།',p:'KHORDU KHANDRO MANGPUR KOR',e:'surrounded by many hosts of ḍākinīs.'},
+    {t:'ཁྱེད་ཀྱི་རྗེས་སུ་བདག་སྒྲུབ་ཀྱི།',p:'CHERCHI JESU DAGDRUP CHI',e:'Following in your footsteps I practise —'},
+    {t:'བྱིན་གྱིས་རླབས་ཕྱིར་གཤེགས་སུ་གསོལ།',p:'JINJI LABCHIR SHEG SU SOL',e:'please come and bestow your blessing!'},
+    {p:'GURU PEMA SIDDHI HUNG',e:''},
+  ]},
+  {id:'four_dharmas',title:'Four Dharmas of Gampopa',sub:'CHOS BZHI',couplets:[
+    {p:'LO CHÖSU DROWAR JINGI LABTU SOL',e:'Grant your blessings so that my mind may be one with the Dharma.'},
+    {p:'CHÖ LAMDU DROWAR JINGI LABTU SOL',e:'Grant your blessings so that Dharma may progress along the path.'},
+    {p:'LAM TRULPA SELWAR JINGI LABTU SOL',e:'Grant your blessings so that the path may clarify confusion.'},
+    {p:'TRÜLPA YESHE SU CHARWAR JINGI LABTU SOL',e:'Grant your blessings so that confusion may dawn as wisdom.'},
+  ]},
+  {id:'vajrasattva',title:'100-Syllable Vajrasattva Mantra',sub:'OM BENZA SATO — purification',couplets:[
+    {t:'ཨོཾ་བཛྲ་སཏྭ་ས་མ་ཡ།',p:'OM BENZA SATO SAMAYA MANU PALAYA',e:''},
+    {p:'BENZA SATO TENOPA TRITA DRITO MEBHAWA',e:''},
+    {p:'SUTO KAYA MEBHAWA SUPO KAYA MEBHAWA ANU RAKTO MEBHAWA',e:''},
+    {p:'SARWA SIDDHI MENTRA YATSA SARWA KARMA SUTSAME',e:''},
+    {p:'TSITAM SHIRI YAM GURU HUNG HA HA HA HA HO',e:''},
+    {p:'BHAGAWAN SARWA TATHAGATA BENZA MAME MUNTSA BENZA BAWA MAHA SAMAYA SATO AH',e:''},
+  ]},
+  {id:'meal',title:'Meal Prayer',sub:'Recite once before meals',couplets:[
+    {t:'སྟོན་པ་བླ་མེད་སངས་རྒྱས་རིན་པོ་ཆེ།',p:'TONPA LAMEY SANGYE RINPOCHE',e:'The Supreme Teacher, the precious Buddha,'},
+    {t:'སྐྱོབ་པ་བླ་མེད་དམ་ཆོས་རིན་པོ་ཆེ།',p:'KYOPA LAMEY TAMCHO RINPOCHE',e:'The Supreme Protection, the precious Dharma,'},
+    {t:'དྲེང་བ་བླ་མེད་དགེ་འདུན་རིན་པོ་ཆེ།',p:'DRENGPA LAMAY GENDUN RINPOCHE',e:'The Supreme Guide, the precious Sangha —'},
+    {t:'སྐྱབས་གནས་དཀོན་མཆོག་གསུམ་ལ་མཆོད་པ་འབུལ།',p:'KYABNEY KONCHOG SUM LA CHOPA PUL',e:'To these Three Jewels I make this offering.'},
+  ]},
+];
+
+// ═══════════════════════════════════════════════════════════
+// SADHANAS — prayer book first
+// ═══════════════════════════════════════════════════════════
+const SAD=[
+  {name:'Palpung Prayer Book',sub:'Complete Palpung Changchub Dargyeling',sym:'☸',links:[{l:'Full PDF',u:'https://www.palpung.org.uk/s/PALPUNG-CHANGCHUB-DARGYE-LING-PRAYER-BOOK-3j9f.pdf'}]},
+  {name:'Chenrezig',sub:'Bodhisattva of Compassion',sym:'⊙',links:[{l:'A4 Puja Text',u:'https://www.palpung.org.uk/s/Chenrezig-A4-final-online-copy.pdf'},{l:'Pecha Text',u:'https://www.palpung.org.uk/s/Chenrezig-TEXT.pdf'}]},
+  {name:'Medicine Buddha',sub:'Sangye Menla',sym:'⊕',links:[{l:'A4 Puja Text',u:'https://www.palpung.org.uk/s/Medicine-Buddha-A4-online-copy.pdf'},{l:'Pecha Text',u:'https://www.palpung.org.uk/s/Medicine-Buddha-TEXT-cbye.pdf'}]},
+  {name:'Guru Rinpoche — Konchog Chidu',sub:'Jewel Assembly Puja',sym:'◈',links:[{l:'A4 Puja Text',u:'https://www.palpung.org.uk/s/KONCHOG-CHINDU-PUJA-online-copy.pdf'},{l:'Pecha Text',u:'https://www.palpung.org.uk/s/Kunchog-Chidu-TEXT.pdf'}]},
+  {name:'Guru Rinpoche — Shower of Blessings',sub:'Barchey Kunsel',sym:'◈',links:[{l:'Pecha Text',u:'https://www.palpung.org.uk/s/Shower-of-Blessings-TEXT.pdf'}]},
+  {name:'White Tara',sub:'Dolkar — longevity',sym:'✦',links:[{l:'A4 Puja Text',u:'https://www.palpung.org.uk/s/White-Tara-FINAL-online-copy.pdf'},{l:'Pecha Text',u:'https://www.palpung.org.uk/s/White-Tara-TEXT.pdf'}]},
+  {name:'Green Tara',sub:'Drolma — swift liberation',sym:'✦',links:[{l:'Pecha Text',u:'https://www.palpung.org.uk/s/Green-Tara-Puja-TEXT.pdf'}]},
+  {name:'21 Taras',sub:'Atisha\'s complete praises',sym:'✦',links:[{l:'Pecha Text',u:'https://www.palpung.org.uk/s/21-Taras-Prayers-Atisha.pdf'}]},
+  {name:'16th Karmapa Guru Yoga',sub:'Rangjung Rigpai Dorje',sym:'◎',links:[{l:'Pecha Text',u:'https://www.palpung.org.uk/s/16-Karmapa-Guru-Yoga-TEXT.pdf'}]},
+  {name:'Four-Session Guru Yoga',sub:'Tunshi Lama Naljor',sym:'◎',links:[{l:'A4 Text',u:'https://www.palpung.org.uk/s/TunshiLamainaljor-FINAL-wcbl.pdf'}]},
+  {name:'Karma Pakshi Guru Yoga',sub:'2nd Karmapa practice',sym:'◎',links:[{l:'Text with Instructions',u:'https://www.palpung.org.uk/s/PakshiwithInstructions.pdf'}]},
+];
+
+// ═══════════════════════════════════════════════════════════
+// REFUGE TREE FIGURES (numbered 1–N)
+// ═══════════════════════════════════════════════════════════
+const FIGS=[
+  // ═══ MAIN REFUGE TREE — global lineage sequence (1–46) ═══
+  {n:1,  id:'dorje-chang',     name:'Dorje Chang',       sub:'Vajradhara — Primordial Buddha',          tib:'རྡོ་རྗེ་འཆང་', x:49.7,y:4.8, tags:['lineage','buddhas'],
+   role:'Dharmakāya source of the entire Kagyu lineage',
+   bio:'Vajradhara is the primordial Buddha at the heart of the Kagyu refuge field — deep blue, holding vajra and bell in union, representing the dharmakāya itself. He transmitted the complete Mahamudra teachings directly to Tilopa.',
+   teaching:'The nature of mind is originally pure. Recognising it directly — that is Mahamudra.',
+   wiki:'https://en.wikipedia.org/wiki/Vajradhara'},
+  {n:2,  id:'lodro-rinchen',   name:'Lodro Rinchen',     sub:'Indian lineage holder',                   x:49.8,y:9.6, tags:['mahasiddhas','lineage'],
+   role:'Early Indian holder of the Mahamudra transmission'},
+  {n:3,  id:'saraha',          name:'Saraha',            sub:'Mahāsiddha — Dohā master',                tib:'ས་ར་ཧ།', x:42.6,y:9.8, tags:['mahasiddhas','lineage'],
+   role:'Author of the Three Dohās — earliest Mahamudra songs',
+   bio:'Saraha, often considered the fountainhead of the Mahamudra tradition, composed the Three Dohās — spontaneous songs of realization among the earliest and most celebrated Mahamudra teachings.',
+   teaching:'Where the mind goes, there is no Mahamudra. Where mind does not go — that is Mahamudra.',
+   wiki:'https://en.wikipedia.org/wiki/Saraha'},
+  {n:4,  id:'nagarjuna',       name:'Nāgārjuna',         sub:'Madhyamaka master',                       tib:'ཀླུ་སྒྲུབ།', x:57.5,y:9.7, tags:['mahasiddhas','lineage'],
+   role:'Founder of Madhyamaka; honoured as a Mahamudra lineage holder',
+   wiki:'https://en.wikipedia.org/wiki/Nagarjuna'},
+  {n:5,  id:'nagarjuna-2',     name:'Nāgārjuna',         sub:'Lineage holder (labelled as on the map)', x:42,y:15.6, tags:['mahasiddhas','lineage'],
+   role:'Second figure labelled Nāgārjuna on the source map — identity to confirm'},
+  {n:6,  id:'maitripa',        name:'Maitripa',          sub:'Mārpa’s teacher',                    tib:'མཻ་ཏྲི་པ།', x:57.6,y:15.6, tags:['mahasiddhas','lineage'],
+   role:'Transmitted Mahamudra and the Dohās to Mārpa',
+   wiki:'https://en.wikipedia.org/wiki/Maitripa'},
+  {n:7,  id:'tilopa',          name:'Tilopa',            sub:'Indian Mahāsiddha — 1st human holder',    tib:'ཏི་ལོ་པ།', x:30.6,y:6, tags:['mahasiddhas','lineage'],
+   role:'Received the Four Special Transmissions directly from Vajradhara',
+   bio:'Tilopa worked as a sesame pounder by day and practised ceaselessly at night. He received the complete Vajrayāna transmission directly from Vajradhara — Mahamudra, Illusory Body, Dream Yoga and Clear Light — and passed the full lineage to Nāropa.',
+   teaching:'Do not imagine, do not think, do not analyse, do not meditate, do not reflect. Rest in natural awareness.',
+   wiki:'https://en.wikipedia.org/wiki/Tilopa'},
+  {n:8,  id:'naropa',          name:'Nāropa',            sub:'Indian Mahāsiddha — Six Yogas',           tib:'ནཱ་རོ་པ།', x:68.9,y:5.7, tags:['mahasiddhas','lineage'],
+   role:'Transmitted the Six Yogas of Nāropa to Tibet through Mārpa',
+   bio:'A celebrated scholar at Nālandā, Nāropa left everything to find Tilopa. After twelve great ordeals he received the complete transmission. The Six Yogas — tummo, illusory body, dream yoga, clear light, phowa and bardo — remain central to Karma Kagyu practice today.',
+   teaching:'The supreme teacher is one’s own mind resting in its natural state.',
+   wiki:'https://en.wikipedia.org/wiki/Naropa'},
+  {n:9,  id:'marpa',           name:'Mārpa Lotsāwa',     sub:'"The Translator" — 1st Tibetan holder',   tib:'མར་པ།', x:49.7,y:15.2, tags:['teachers','lineage'],
+   role:'Brought the complete Kagyu transmission from India to Tibet',
+   bio:'Mārpa made three journeys to India to receive teachings from Nāropa and Maitripa. A fierce householder-teacher and father of the Tibetan Kagyu, he made Milarepa build and demolish stone towers as purification before granting transmission.',
+   wiki:'https://en.wikipedia.org/wiki/Marpa_Lotsawa'},
+  {n:10, id:'milarepa',        name:'Milarepa',          sub:'Greatest Yogi of Tibet',                  tib:'མི་ལ་རས་པ།', x:50,y:20.5, tags:['teachers','lineage'],
+   role:'Attained full Buddhahood in one lifetime',
+   bio:'After committing grave deeds through black magic, Milarepa purified all karma through years of hardship under Mārpa and attained complete enlightenment in a single lifetime. His songs of realisation are beloved across Tibet.',
+   teaching:'Driven by fear I sought the mountains. Having seen the nature of mind, I no longer fear even death.',
+   wiki:'https://en.wikipedia.org/wiki/Milarepa'},
+  {n:11, id:'gampopa',         name:'Gampopa',           sub:'Founder of Monastic Kagyu — 1079–1153',   tib:'སྒམ་པོ་པ།', x:49.9,y:27.1, tags:['teachers','lineage'],
+   role:'Unified Mahamudra with the graduated path; founded the monastic Kagyu',
+   bio:'A physician and Kadampa monk before becoming Milarepa’s chief student, Gampopa united Mahamudra with the Kadampa Lam Rim. His "Jewel Ornament of Liberation" is a masterpiece; all four Kagyu schools trace through him.',
+   teaching:'The basis is Buddha nature. The path is bodhichitta. The fruition is Buddhahood for all beings.',
+   wiki:'https://en.wikipedia.org/wiki/Gampopa'},
+  {n:12, id:'dusum-khyenpa',   name:'Düsum Khyenpa',     sub:'1st Karmapa — 1110–1193',                 tib:'དུས་གསུམ་མཁྱེན་པ།', x:49.8,y:33, tags:['karmapas','lineage'],
+   role:'First Karmapa; first deliberately recognised tulku in Tibet',
+   bio:'Gampopa’s principal student and the first deliberately recognised reincarnate lama in Tibetan history. He founded Tsurphu Monastery, which remains the seat of the Karmapas.',
+   wiki:'https://en.wikipedia.org/wiki/1st_Karmapa_Lama'},
+  {n:13, id:'drogon-rechen',   name:'Drogön Rechen',     sub:'Lineage holder after the 1st Karmapa',    x:41.4,y:21.7, tags:['lineage','teachers'],
+   role:'Held the transmission between the 1st and 2nd Karmapas'},
+  {n:14, id:'pomdrakpa',       name:'Pomdrakpa',         sub:'Lineage holder',                          x:58.2,y:21.9, tags:['lineage'],
+   role:'Recognised and transmitted the lineage to the 2nd Karmapa'},
+  {n:15, id:'karma-pakshi',    name:'Karma Pakshi',      sub:'2nd Karmapa — 1204–1283',                 tib:'ཀར་མ་པ་ཀྵི།', x:41.7,y:28.3, tags:['karmapas','lineage'],
+   role:'First Karmapa to wear the Black Crown',
+   bio:'Famous for his miraculous powers and travels across Asia, Karma Pakshi was the first Karmapa presented with the Black Crown, which he wore on a cord around his neck.',
+   wiki:'https://en.wikipedia.org/wiki/2nd_Karmapa_Lama'},
+  {n:16, id:'ogyenpa',         name:'Orgyenpa',          sub:'Disciple of the 2nd Karmapa',             x:58.3,y:28.3, tags:['lineage','teachers'],
+   role:'Great traveller; teacher of the 3rd Karmapa',
+   wiki:'https://en.wikipedia.org/wiki/Orgyenpa_Rinchen_Pel'},
+  {n:17, id:'rangjung-dorje',  name:'Rangjung Dorje',    sub:'3rd Karmapa — 1284–1339',                 tib:'རང་བྱུང་རྡོ་རྗེ།', x:41.7,y:34.4, tags:['karmapas','lineage'],
+   role:'Great scholar; synthesised Kālachakra and Mahamudra',
+   bio:'One of the most brilliant Karmapas, Rangjung Dorje synthesised the Kālachakra and Dzogchen with Kagyu Mahamudra and composed fundamental texts still studied today.',
+   wiki:'https://en.wikipedia.org/wiki/3rd_Karmapa_Lama'},
+  {n:18, id:'yungtonpa',       name:'Yungtönpa',         sub:'Disciple of the 3rd Karmapa',             x:58.3,y:34.7, tags:['lineage','teachers'],
+   role:'Principal disciple and lineage holder of the 3rd Karmapa'},
+  {n:19, id:'rolpai-dorje',    name:'Rolpai Dorje',      sub:'4th Karmapa — 1340–1383',                 tib:'རོལ་པའི་རྡོ་རྗེ།', x:34.3,y:18.7, tags:['karmapas','lineage'],
+   role:'Teacher of the 1st Dalai Lama',
+   wiki:'https://en.wikipedia.org/wiki/4th_Karmapa_Lama'},
+  {n:20, id:'khachod-wangpo',  name:'Khachö Wangpo',     sub:'2nd Shamarpa',                            x:65.3,y:18.8, tags:['lineage','teachers'],
+   role:'Shamarpa lineage holder; disciple of the 4th Karmapa'},
+  {n:21, id:'deshin-shekpa',   name:'Deshin Shekpa',     sub:'5th Karmapa — 1384–1415',                 tib:'དེ་བཞིན་གཤེགས་པ།', x:34,y:24.4, tags:['karmapas','lineage'],
+   role:'Visited the Chinese Emperor Yongle',
+   wiki:'https://en.wikipedia.org/wiki/5th_Karmapa_Lama'},
+  {n:22, id:'ratnabhadra',     name:'Ratnabhadra',       sub:'Lineage holder',                          x:66.3,y:24.8, tags:['lineage'],
+   role:'Held the transmission among the early Karmapas'},
+  {n:23, id:'thongwa-dondhen', name:'Thongwa Dönden',    sub:'6th Karmapa — 1416–1453',                 tib:'མཐོང་བ་དོན་ལྡན།', x:33.3,y:31.2, tags:['karmapas','lineage'],
+   role:'Noted for miraculous signs at his recognition',
+   wiki:'https://en.wikipedia.org/wiki/6th_Karmapa_Lama'},
+  {n:24, id:'jampal-zangpo',   name:'Jampal Zangpo',     sub:'Lineage holder',                          x:65.9,y:31.1, tags:['lineage','teachers'],
+   role:'Transmitted the lineage to the 6th Karmapa'},
+  {n:25, id:'paljor-dhondrup', name:'Paljor Döndrup',    sub:'1st Gyaltsab Rinpoche',                   x:34.3,y:37.8, tags:['lineage','teachers'],
+   role:'Gyaltsab lineage holder of the Karma Kagyu'},
+  {n:26, id:'chodrak-jamtso',  name:'Chödrak Gyatso',    sub:'7th Karmapa — 1454–1506',                 tib:'ཆོས་གྲགས་རྒྱ་མཚོ།', x:65,y:37.4, tags:['karmapas','lineage'],
+   role:'Encyclopaedic scholar of grammar, logic and philosophy',
+   wiki:'https://en.wikipedia.org/wiki/7th_Karmapa_Lama'},
+  {n:27, id:'tashi-paljor',    name:'Tashi Paljor',      sub:'Lineage holder',                          x:27.1,y:25.8, tags:['lineage','teachers'],
+   role:'Held the Kagyu transmission among the mid Karmapas'},
+  {n:28, id:'mikyod-dorje',    name:'Mikyö Dorje',       sub:'8th Karmapa — 1507–1554',                 tib:'མི་བསྐྱོད་རྡོ་རྗེ།', x:72.7,y:25.3, tags:['karmapas','lineage'],
+   role:'Prolific scholar; founder of the Karma Gadri painting style',
+   bio:'One of the most brilliant Karmapas, Mikyö Dorje wrote extensive Madhyamaka commentaries and established the Karma Gadri art tradition. His Mahamudra aspiration prayers are still widely recited.',
+   wiki:'https://en.wikipedia.org/wiki/8th_Karmapa_Lama'},
+  {n:29, id:'konchok-yanlak',  name:'Könchok Yenlak',    sub:'5th Shamarpa',                            x:26.2,y:31.6, tags:['lineage','teachers'],
+   role:'Shamarpa lineage holder; teacher of the 9th Karmapa'},
+  {n:30, id:'wangchuk-dorje',  name:'Wangchuk Dorje',    sub:'9th Karmapa — 1556–1603',                 tib:'དབང་ཕྱུག་རྡོ་རྗེ།', x:73.2,y:31.7, tags:['karmapas','lineage'],
+   role:'Author of foundational Mahamudra texts',
+   wiki:'https://en.wikipedia.org/wiki/9th_Karmapa_Lama'},
+  {n:31, id:'choki-wangchuk',  name:'Chökyi Wangchuk',   sub:'6th Shamarpa',                            x:19,y:33.7, tags:['lineage','teachers'],
+   role:'Shamarpa lineage holder and scholar'},
+  {n:32, id:'choying-dorje',   name:'Chöying Dorje',     sub:'10th Karmapa — 1604–1674',                tib:'ཆོས་དབྱིངས་རྡོ་རྗེ།', x:80.8,y:33, tags:['karmapas','lineage'],
+   role:'Renowned for his extraordinary artistic skill',
+   wiki:'https://en.wikipedia.org/wiki/10th_Karmapa_Lama'},
+  {n:33, id:'yeshi-nyingpo',   name:'Yeshe Nyingpo',     sub:'Lineage holder',                          x:25,y:38.3, tags:['lineage','teachers'],
+   role:'Held the transmission to the 11th Karmapa'},
+  {n:34, id:'yeshi-dorje',     name:'Yeshe Dorje',       sub:'11th Karmapa — 1676–1702',                tib:'ཡེ་ཤེས་རྡོ་རྗེ།', x:74,y:37.8, tags:['karmapas','lineage'],
+   role:'Maintained the lineage despite a short life',
+   wiki:'https://en.wikipedia.org/wiki/11th_Karmapa_Lama'},
+  {n:35, id:'chokey-dhondrup', name:'Chökyi Döndrup',    sub:'Lineage holder',                          x:33.5,y:44.7, tags:['lineage','teachers'],
+   role:'Transmitted the lineage to the 12th Karmapa'},
+  {n:36, id:'jangchup-dorje',  name:'Jangchub Dorje',    sub:'12th Karmapa — 1703–1732',                tib:'བྱང་ཆུབ་རྡོ་རྗེ།', x:66,y:43.9, tags:['karmapas','lineage'],
+   role:'Held the lineage through difficult times',
+   wiki:'https://en.wikipedia.org/wiki/12th_Karmapa_Lama'},
+  {n:37, id:'chokey-jungney',  name:'Situ Chökyi Jungne',sub:'8th Tai Situpa',                          x:17.3,y:40.4, tags:['lineage','teachers'],
+   role:'Great Situ master; transmitter to the 14th Karmapa',
+   wiki:'https://en.wikipedia.org/wiki/Situ_Rinpoche'},
+  {n:38, id:'duddul-dorje',    name:'Düddul Dorje',      sub:'13th Karmapa — 1733–1797',                tib:'བདུད་འདུལ་རྡོ་རྗེ།', x:82.7,y:39.7, tags:['karmapas','lineage'],
+   role:'Upheld the full transmission through the 18th century',
+   wiki:'https://en.wikipedia.org/wiki/13th_Karmapa_Lama'},
+  {n:39, id:'chodrup-jamtso',  name:'Chödrup Gyatso',    sub:'Lineage holder',                          x:24.8,y:45.1, tags:['lineage','teachers'],
+   role:'Held the Kagyu transmission among the later Karmapas'},
+  {n:40, id:'pema-nyinjed',    name:'Pema Nyinje',       sub:'9th Tai Situpa',                          x:74.9,y:43.6, tags:['lineage','teachers'],
+   role:'Situ master and lineage holder'},
+  {n:41, id:'thegchok-dorje',  name:'Thekchok Dorje',    sub:'14th Karmapa — 1798–1868',                tib:'ཐེག་མཆོག་རྡོ་རྗེ།', x:17.2,y:48, tags:['karmapas','lineage'],
+   role:'Upheld the lineage through the turbulent 19th century',
+   wiki:'https://en.wikipedia.org/wiki/14th_Karmapa_Lama'},
+  {n:42, id:'lodrey-thaye',    name:'Jamgön Kongtrul',   sub:'Lodrö Thaye — Rime master',               tib:'བློ་གྲོས་མཐའ་ཡས།', x:82.8,y:47.3, tags:['lineage','teachers'],
+   role:'Great 19th-century Rime master and encyclopaedist',
+   bio:'Jamgön Kongtrul Lodrö Thaye was the greatest encyclopaedist of Tibetan Buddhism and a founder of the non-sectarian Rime movement, compiling the enormous Five Treasuries.',
+   wiki:'https://en.wikipedia.org/wiki/Jamg%C3%B6n_Kongtrul'},
+  {n:43, id:'khachap-dorje',   name:'Khakhyab Dorje',    sub:'15th Karmapa — 1871–1922',                tib:'མཁའ་ཁྱབ་རྡོ་རྗེ།', x:23.8,y:51.3, tags:['karmapas','lineage'],
+   role:'Renewed and strengthened the lineage in the early 20th century',
+   wiki:'https://en.wikipedia.org/wiki/15th_Karmapa_Lama'},
+  {n:44, id:'pema-wangchok',   name:'Pema Wangchok',     sub:'Lineage holder',                          x:75.8,y:50, tags:['lineage','teachers'],
+   role:'Transmitted the lineage to the 16th Karmapa'},
+  {n:45, id:'khyentse-ozer',   name:'Khyentse Özer',     sub:'Lineage holder',                          tib:'མཁྱེན་བརྩེའི་འོད་ཟེར།', x:32.4,y:53, tags:['lineage','teachers'],
+   role:'Helped preserve the Kagyu lineage in the early 20th century'},
+  {n:46, id:'rigpai-dorje',    name:'Rigpai Dorje',      sub:'16th Karmapa — 1924–1981',                tib:'རིག་པའི་རྡོ་རྗེ།', x:66.8,y:52.6, tags:['karmapas','lineage'],
+   role:'Brought the Kagyu lineage to the West after 1959',
+   bio:'Rangjung Rigpai Dorje fled Tibet in 1959 and established Rumtek Monastery in Sikkim, sending teachers to Europe and America and inaugurating the Kagyu presence in the West.',
+   teaching:'Watch your mind.',
+   wiki:'https://en.wikipedia.org/wiki/16th_Karmapa'},
+
+  // ═══ CENTRAL ROOT FIGURE ═══
+  {n:47, id:'dorje-chang-root',name:'Dorje Chang',       sub:'Central root figure — Vajradhara',        tib:'རྡོ་རྗེ་འཆང་', x:50,y:47.2, tags:['lineage','buddhas'],
+   role:'The large central Vajradhara at the heart of the refuge field'},
+
+  // ═══ SPECIAL LINEAGES — upper-left medallions ═══
+  {n:48, id:'guru-rinpoche',   name:'Guru Rinpoche',     sub:'Padmasambhava — Second Buddha',           tib:'གུ་རུ་རིན་པོ་ཆེ།', x:18.6,y:4.9, tags:['mahasiddhas','teachers'],
+   role:'Brought Vajrayāna to Tibet in the 8th century',
+   bio:'Padmasambhava brought Vajrayāna to Tibet at the invitation of King Trisong Detsen, bound local spirits as protectors, and concealed terma teachings for future generations.',
+   teaching:'My father is intrinsic awareness. My mother is the vastness of space.',
+   wiki:'https://en.wikipedia.org/wiki/Padmasambhava'},
+  {n:49, id:'atisha',          name:'Atisha',            sub:'Dipankara — Kadampa founder',             tib:'ཨ་ཏི་ཤ།', x:11.8,y:5.9, tags:['teachers','lineage'],
+   role:'Revived Buddhism in Tibet; founded the Kadampa tradition',
+   teaching:'If you cannot practise compassion towards one who makes you angry, who else is there to practise it on?',
+   wiki:'https://en.wikipedia.org/wiki/Atisha'},
+  {n:50, id:'phagmo-drupa',    name:'Phagmo Drupa',      sub:'Gampopa’s disciple — 4 great schools',tib:'ཕག་མོ་གྲུ་པ།', x:5.7,y:5.9, tags:['teachers','lineage'],
+   role:'Principal disciple of Gampopa; source of the Four Greater Kagyu schools',
+   wiki:'https://en.wikipedia.org/wiki/Phagmo_Drupa_Dorje_Gyalpo'},
+  {n:51, id:'zhang-tsalpa',    name:'Zhang Tsalpa',      sub:'Founder of the Tsalpa Kagyu',             x:13.3,y:11.6, tags:['teachers','lineage'],
+   role:'Founder of one of the four greater Kagyu schools'},
+  {n:52, id:'choje-barompa',   name:'Barompa',           sub:'Founder of the Barom Kagyu',              x:6,y:11.6, tags:['teachers','lineage'],
+   role:'Founder of one of the four greater Kagyu schools'},
+  {n:53, id:'machig-labdron',  name:'Machig Labdrön',    sub:'Tibetan ḍākinī — founder of Chöd',         tib:'མ་གཅིག་ལབ་སྒྲོན།', x:5.4,y:17.7, tags:['teachers','female-masters'],
+   role:'Creator of the Chöd practice',
+   bio:'Machig Labdrön created the Chöd practice — cutting through ego by fearlessly offering the body to all beings — one of the few Tibetan traditions to spread back to India.',
+   teaching:'The greatest harm is the fixation on a self. The supreme precept is non-attachment to anything.',
+   wiki:'https://en.wikipedia.org/wiki/Machig_Labdron'},
+
+  // ═══ SHANGPA & RIME — upper-right medallions ═══
+  {n:54, id:'sukhasiddhi',     name:'Sukhasiddhi',       sub:'Ḍākinī — Shangpa lineage',                 tib:'སུ་ཁ་སིདྡྷི།', x:81.2,y:5.2, tags:['dakinis','female-masters'],
+   role:'Indian ḍākinī; co-source of the Shangpa Kagyu',
+   wiki:'https://en.wikipedia.org/wiki/Sukhasiddhi'},
+  {n:55, id:'niguma',          name:'Niguma',            sub:'Ḍākinī — Shangpa lineage',                 tib:'ནི་གུ་མ།', x:88,y:6.1, tags:['dakinis','female-masters'],
+   role:'Enlightened Indian ḍākinī; source of the Six Yogas of Niguma',
+   bio:'Niguma, said to be the sister or consort of Nāropa, transmitted the complete Six Yogas of Niguma to Khyungpo Naljor, founding the Shangpa Kagyu.',
+   wiki:'https://en.wikipedia.org/wiki/Niguma'},
+  {n:56, id:'khyungpo-naljor', name:'Khyungpo Naljor',   sub:'Founder of the Shangpa Kagyu',             tib:'ཁྱུང་པོ་རྣལ་འབྱོར།', x:94.3,y:5.9, tags:['teachers','lineage'],
+   role:'Founded the Shangpa Kagyu from teachings of Niguma and Sukhasiddhi',
+   wiki:'https://en.wikipedia.org/wiki/Khyungpo_Naljor'},
+  {n:57, id:'kunkhen-dolpopa', name:'Kunkhyen Dolpopa',  sub:'Jonang master',                           x:86.7,y:12.4, tags:['teachers','lineage'],
+   role:'Great Jonang master of the Shentong view',
+   wiki:'https://en.wikipedia.org/wiki/Dolpopa'},
+  {n:58, id:'kunga-nyingpo',   name:'Kunga Nyingpo',     sub:'Tāranātha — Jonang/Shangpa',              x:94.2,y:11.6, tags:['teachers','lineage'],
+   role:'Tāranātha; great Jonang and Shangpa lineage holder',
+   wiki:'https://en.wikipedia.org/wiki/T%C4%81ran%C4%81tha'},
+  {n:59, id:'jamyang-khyentse',name:'Jamyang Khyentse Wangpo',sub:'Rime master — 1820–1892',            x:94,y:18.2, tags:['teachers','lineage'],
+   role:'Co-founder of the Rime non-sectarian movement',
+   wiki:'https://en.wikipedia.org/wiki/Jamyang_Khyentse_Wangpo'},
+
+  // ═══ YIDAMS — centre below the root ═══
+  {n:60, id:'khorlo-dechok',   name:'Khorlo Dechok & Dorje Phagmo',sub:'Chakrasamvara & Vajravārāhī',   tib:'འཁོར་ལོ་བདེ་མཆོག', x:50.2,y:61.7, tags:['yidams'],
+   role:'Principal yidam of the Karma Kagyu — bliss-emptiness in union',
+   bio:'Chakrasamvara in union with Vajravārāhī is the principal tantric deity of the Karma Kagyu, representing the inseparability of bliss and emptiness — the very nature of Mahamudra.',
+   wiki:'https://en.wikipedia.org/wiki/Chakrasamvara'},
+  {n:61, id:'gyalwa-gyatsho',  name:'Gyalwa Gyatso',     sub:'Red Chenrezig — yidam',                   tib:'རྒྱལ་བ་རྒྱ་མཚོ།', x:39.2,y:63.7, tags:['yidams'],
+   role:'Tantric form of Avalokiteśvara practised in the Karma Kagyu'},
+  {n:62, id:'sangwa-duepa',    name:'Sangwa Düpa',       sub:'Guhyasamāja',                             x:60.6,y:63, tags:['yidams'],
+   role:'"Secret Assembly" — a principal father tantra yidam',
+   wiki:'https://en.wikipedia.org/wiki/Guhyasamāja_Tantra'},
+  {n:63, id:'tadrin',          name:'Tamdrin',           sub:'Hayagrīva',                               x:36.8,y:72.5, tags:['yidams'],
+   role:'Wrathful horse-headed yidam, a form of Avalokiteśvara',
+   wiki:'https://en.wikipedia.org/wiki/Hayagriva_(Buddhism)'},
+  {n:64, id:'mahamaya',        name:'Mahāmāyā',          sub:'Mother tantra yidam',                     x:45.8,y:72.7, tags:['yidams'],
+   role:'A principal mother tantra deity'},
+  {n:65, id:'hevajra',         name:'Hevajra',           sub:'Kye Dorje — yidam',                        x:54.5,y:72.1, tags:['yidams'],
+   role:'A principal non-dual tantra yidam',
+   wiki:'https://en.wikipedia.org/wiki/Hevajra'},
+  {n:66, id:'dorje-phagmo',    name:'Dorje Phagmo',      sub:'Vajravārāhī — principal ḍākinī',           tib:'རྡོ་རྗེ་ཕག་མོ།', x:62.9,y:71.7, tags:['yidams','dakinis','female-masters'],
+   role:'Principal female tantric deity — pure awareness',
+   wiki:'https://en.wikipedia.org/wiki/Vajravarahi'},
+
+  // ═══ BUDDHAS OF THE TEN DIRECTIONS — left of centre ═══
+  {n:67, id:'ten-directions',  name:'Buddhas of the Ten Directions',sub:'Buddhas of the three times',   x:16.7,y:64.6, tags:['buddhas'],
+   role:'Assembly of all the Buddhas of the ten directions and three times'},
+
+  // ═══ BODHISATTVAS & GREAT DISCIPLES — right of centre ═══
+  {n:68, id:'chenrezig',       name:'Chenrezig',         sub:'Avalokiteśvara — Compassion',             tib:'སྤྱན་རས་གཟིགས།', x:82.6,y:63.9, tags:['bodhisattvas','yidams'],
+   role:'Compassion of all Buddhas — OM MANI PEME HUNG',
+   bio:'Chenrezig embodies the compassion of all Buddhas. His mantra OM MANI PEME HUNG is the most widely recited in the world. The Loving Eyes practice in this app is dedicated to him.',
+   teaching:'May all beings be happy. May they be free from suffering.',
+   wiki:'https://en.wikipedia.org/wiki/Avalokitesvara'},
+  {n:69, id:'kuntu-zangpo',    name:'Kuntu Zangpo',      sub:'Samantabhadra',                           x:72.8,y:69.4, tags:['buddhas','bodhisattvas'],
+   role:'Bodhisattva of aspiration and offering',
+   wiki:'https://en.wikipedia.org/wiki/Samantabhadra_(Bodhisattva)'},
+  {n:70, id:'dripa-namsel',    name:'Dripa Namsel',      sub:'Sarvanīvaraṇaviṣkambhin',                 x:74.4,y:64.4, tags:['bodhisattvas'],
+   role:'Bodhisattva who clears away all obscurations'},
+  {n:71, id:'jampa',           name:'Jampa',             sub:'Maitreya — Future Buddha',                tib:'བྱམས་པ།', x:76.2,y:59.1, tags:['bodhisattvas','buddhas'],
+   role:'The next Buddha to appear in this world',
+   wiki:'https://en.wikipedia.org/wiki/Maitreya'},
+  {n:72, id:'namkhai-nyingpo', name:'Namkhai Nyingpo',   sub:'Ākāśagarbha',                             x:82,y:57.3, tags:['bodhisattvas'],
+   role:'"Essence of Space" bodhisattva'},
+  {n:73, id:'sayi-nyingpo',    name:'Sayi Nyingpo',      sub:'Kṣitigarbha',                             x:88.5,y:58, tags:['bodhisattvas'],
+   role:'"Essence of Earth" bodhisattva'},
+  {n:74, id:'chagna-dorje',    name:'Chagna Dorje',      sub:'Vajrapāṇi — Power',                       tib:'ཕྱག་ན་རྡོ་རྗེ།', x:90.1,y:63.9, tags:['bodhisattvas'],
+   role:'Power and energy of all Buddhas',
+   wiki:'https://en.wikipedia.org/wiki/Vajrapani'},
+  {n:75, id:'jampal-yang',     name:'Jampal Yang',       sub:'Mañjuśrī — Wisdom',                       tib:'འཇམ་དཔལ་དབྱངས།', x:92.5,y:69.2, tags:['bodhisattvas'],
+   role:'Wisdom of all Buddhas — the flaming sword of insight',
+   wiki:'https://en.wikipedia.org/wiki/Manjushri'},
+  {n:76, id:'kungawo',         name:'Kungawo',           sub:'Ānanda — chief disciple',                 x:82.7,y:71, tags:['teachers'],
+   role:'Foremost in hearing; the Buddha’s attendant',
+   wiki:'https://en.wikipedia.org/wiki/Ananda'},
+  {n:77, id:'mougal-bu',       name:'Mougalbu',          sub:'Maudgalyāyana — disciple',                x:87.2,y:72.6, tags:['teachers'],
+   role:'Chief disciple foremost in miraculous power',
+   wiki:'https://en.wikipedia.org/wiki/Maudgalyayana'},
+  {n:78, id:'shari-bu',        name:'Sharibu',           sub:'Śāriputra — disciple',                    x:77.8,y:72.1, tags:['teachers'],
+   role:'Chief disciple foremost in wisdom',
+   wiki:'https://en.wikipedia.org/wiki/Sariputta'},
+
+  // ═══ PROTECTORS — bottom row ═══
+  {n:79, id:'namse',           name:'Namse',             sub:'Vaiśravaṇa — wealth protector',           x:6,y:78.8, tags:['protectors'],
+   role:'Guardian king of the north; protector of wealth'},
+  {n:80, id:'ngag-dag',        name:'Ngak Dak',          sub:'Dharma protector',                        x:12.6,y:80.1, tags:['protectors'],
+   role:'Protector of the secret mantra teachings'},
+  {n:81, id:'singon',          name:'Si Ngön',           sub:'Dharma protector',                        x:18.5,y:81.4, tags:['protectors'],
+   role:'Guardian of the teachings'},
+  {n:82, id:'zhing-chong',     name:'Zhing Kyong',       sub:'Dharma protector',                        x:25.5,y:81.9, tags:['protectors'],
+   role:'Guardian of the teachings'},
+  {n:83, id:'damchan',         name:'Damchen Dorje Lekpa',sub:'Vajrasādhu — protector',                 tib:'རྡོ་རྗེ་ལེགས་པ།', x:34.5,y:82.1, tags:['protectors'],
+   role:'Oath-bound protector of the Kagyu and Nyingma teachings',
+   wiki:'https://en.wikipedia.org/wiki/Dorje_Legpa'},
+  {n:84, id:'chagdrukpa',      name:'Chakdrukpa',        sub:'Six-armed Mahākāla',                      x:41.7,y:82.6, tags:['protectors'],
+   role:'Six-armed form of Mahākāla, emanation of Avalokiteśvara',
+   wiki:'https://en.wikipedia.org/wiki/Mahakala'},
+  {n:85, id:'bernagchen',      name:'Dorje Bernakchen',  sub:'Black-Cloaked Mahākāla',                  tib:'བེར་ནག་ཅན།', x:49.5,y:83, tags:['protectors'],
+   role:'Principal Dharmapāla of the Karma Kagyu',
+   bio:'The Black-Cloaked Mahākāla is the principal protector of the Karma Kagyu — a fierce emanation of Avalokiteśvara who guards practitioners and the teachings, cloaked in black amid wisdom flames.',
+   wiki:'https://en.wikipedia.org/wiki/Mahakala'},
+  {n:86, id:'chagzhipa',       name:'Chakzhipa',         sub:'Four-armed Mahākāla',                     x:58,y:82.3, tags:['protectors'],
+   role:'Four-armed form of Mahākāla'},
+  {n:87, id:'palden-lhamo',    name:'Palden Lhamo',      sub:'Śrī Devī — Dharmapāla',                   tib:'དཔལ་ལྡན་ལྷ་མོ།', x:65.9,y:81.3, tags:['protectors','female-masters'],
+   role:'Principal female protector of Tibet and the lineages',
+   bio:'Palden Lhamo is the only female among the Eight Great Dharmapālas and special protector of Tibet and both the Karmapa and Dalai Lama lineages.',
+   wiki:'https://en.wikipedia.org/wiki/Palden_Lhamo'},
+  {n:88, id:'ekajati',         name:'Aekadzati',         sub:'Ekajati — protectress',                   tib:'ཨེ་ཀ་ཛཱ་ཊི།', x:72.6,y:80.8, tags:['protectors','female-masters'],
+   role:'Fierce protectress of the highest teachings',
+   wiki:'https://en.wikipedia.org/wiki/Ekajati_(Buddhism)'},
+  {n:89, id:'remati',          name:'Remati',            sub:'Mahākālī — protectress',                  x:80.2,y:80, tags:['protectors','female-masters'],
+   role:'Wrathful protectress; a form of Śrī Devī'},
+  {n:90, id:'tseringma',       name:'Tshering Ma',       sub:'Tseringma — protectress',                 x:86.7,y:78.6, tags:['protectors','female-masters'],
+   role:'Chief of the Five Long-Life Sisters; bound by Milarepa',
+   wiki:'https://en.wikipedia.org/wiki/Tseringma'},
+  {n:91, id:'aachi-chodron',   name:'Achi Chödrön',      sub:'Achi Chökyi Drölma',                      x:94,y:76.9, tags:['protectors','female-masters'],
+   role:'Female protector and enlightened ḍākinī',
+   wiki:'https://en.wikipedia.org/wiki/Achi_Chokyi_Drolma'},
+
+  // ═══ OFFERINGS — margins ═══
+  {n:92, id:'offering-1',      name:'Offering Goddess',  sub:'Outer offering',                          x:12.9,y:26.7, tags:['offerings'],
+   role:'Offering goddess presenting outer offerings to the refuge field'},
+  {n:93, id:'offering-2',      name:'Offering Goddess',  sub:'Outer offering',                          x:6.6,y:37.6, tags:['offerings'],
+   role:'Offering goddess presenting outer offerings to the refuge field'},
+  {n:94, id:'eight-symbols',   name:'Eight Auspicious Symbols',sub:'Tashi Tagye',                       x:5.5,y:50, tags:['offerings'],
+   role:'The eight auspicious symbols offered to the refuge field'},
+  {n:95, id:'offering-3',      name:'Offering Goddess',  sub:'Outer offering',                          x:87.8,y:27.2, tags:['offerings'],
+   role:'Offering goddess presenting outer offerings to the refuge field'},
+  {n:96, id:'offering-4',      name:'Offering Goddess',  sub:'Outer offering',                          x:93,y:37.4, tags:['offerings'],
+   role:'Offering goddess presenting outer offerings to the refuge field'},
+  {n:97, id:'eight-substances',name:'Eight Auspicious Substances',sub:'Tashi Dze',                      x:93.9,y:49.4, tags:['offerings'],
+   role:'The eight auspicious substances offered to the refuge field'},
+];
+
+// ═══════════════════════════════════════════════════════════
+// CORRECTED TIBETAN HAIR-CUTTING DATA
+// Source: FPMT Dharma Dates / traditional Tibetan astrological texts
+// Each day has a predicted result from cutting hair on that day.
+// AVOID days: 1,2,6,7,12,16,17,20,21,24,25,28,29,30
+// GOOD days:  3,4,5,8,9,10,11,13,14,15,18,19,22,23,26,27
+// ═══════════════════════════════════════════════════════════
+const HAIR_DATA={
+  1: {rec:'Avoid', col:'#c05038', result:'Short life'},
+  2: {rec:'Avoid', col:'#c05038', result:'Disease and slander'},
+  3: {rec:'Good',  col:'#50a060', result:'Wealth increases'},
+  4: {rec:'Good',  col:'#50a060', result:'Good complexion'},
+  5: {rec:'Good',  col:'#50a060', result:'Possessions increase'},
+  6: {rec:'Avoid', col:'#c05038', result:'Lawsuits and disputes'},
+  7: {rec:'Avoid', col:'#c05038', result:'Loss of complexion'},
+  8: {rec:'Good',  col:'#50a060', result:'Long life'},
+  9: {rec:'Good',  col:'#50a060', result:'Meet helpful people'},
+  10:{rec:'Good',  col:'#50a060', result:'Great power and influence'},
+  11:{rec:'Good',  col:'#50a060', result:'Sharp intelligence'},
+  12:{rec:'Avoid', col:'#c05038', result:'Danger to life'},
+  13:{rec:'Good',  col:'#50a060', result:'Good for all beings'},
+  14:{rec:'Good',  col:'#50a060', result:'Wealth and comfort'},
+  15:{rec:'Good',  col:'#50a060', result:'All auspicious signs'},
+  16:{rec:'Avoid', col:'#c05038', result:'Obstacles arise'},
+  17:{rec:'Avoid', col:'#c05038', result:'Loss of vitality'},
+  18:{rec:'Good',  col:'#50a060', result:'Receive possessions'},
+  19:{rec:'Good',  col:'#50a060', result:'Longevity and good company'},
+  20:{rec:'Avoid', col:'#c05038', result:'Hunger and thirst'},
+  21:{rec:'Avoid', col:'#c05038', result:'Fear of sickness'},
+  22:{rec:'Good',  col:'#50a060', result:'Clothes and food are secured'},
+  23:{rec:'Good',  col:'#50a060', result:'Longevity'},
+  24:{rec:'Avoid', col:'#c05038', result:'Loss of wealth'},
+  25:{rec:'Avoid', col:'#c05038', result:'Obstacles to activity'},
+  26:{rec:'Good',  col:'#50a060', result:'Good fortune'},
+  27:{rec:'Good',  col:'#50a060', result:'Longevity and ease'},
+  28:{rec:'Avoid', col:'#c05038', result:'Obstacles and difficulties'},
+  29:{rec:'Avoid', col:'#c05038', result:'Inauspicious'},
+  30:{rec:'Avoid', col:'#c05038', result:'Inauspicious'},
+};
+function hairRec(td){return HAIR_DATA[td]||{rec:'Neutral',col:'#80a0b0',result:'No strong indication'};}
+
+// ═══════════════════════════════════════════════════════════
+// AUSPICIOUS DAYS
+// ═══════════════════════════════════════════════════════════
+const AUSP={
+  1: {name:'New Moon',          col:'#7080b0', desc:'A day of new beginnings. All practice is powerfully multiplied. Excellent for taking refuge, making aspirations, and planting positive seeds for the month ahead.'},
+  8: {name:'Medicine Buddha Day',col:'#4080b0',desc:'The day of Sangye Menla. Reciting OM BEKANDZE BEKANDZE MAHA BEKANDZE RADZA SAMUGATE SOHA brings healing, purification, and removal of obstacles. A powerful day for all healing activities.'},
+  10:{name:'Guru Rinpoche Day', col:'#a07830', desc:'Padmasambhava bestows special blessings today. Excellent for Guru Yoga, the Seven-Line Prayer, and all Vajrayāna practice. Observed across all Tibetan Buddhist schools.'},
+  15:{name:'Full Moon — Amitābha',col:'#c0a840',desc:'The full moon greatly multiplies all merit. Buddha Amitābha is particularly accessible today. Excellent for all practice, Dewachen aspiration prayers, and making offerings.'},
+  25:{name:'Ḍākinī Day',        col:'#b06080', desc:'The day of the wisdom ḍākinīs. Particularly auspicious for inner tantric practice, feast offerings, and Vajravārāhī practice. A day when transmission is especially available.'},
+  29:{name:'Dharmapāla Day',    col:'#706098', desc:'The day of the Dharma protectors. Auspicious for smoke offerings, torma offerings, and requesting the protectors to remove obstacles from the path of practitioners.'},
+  30:{name:'Dark Moon',         col:'#504870', desc:'A powerful day for purification. The Vajrasattva hundred-syllable mantra is especially effective for clearing negative karma. Good for retreat and introspection.'},
+};
+
+// ═══════════════════════════════════════════════════════════
+// QUOTES (rotates by day of year)
+// ═══════════════════════════════════════════════════════════
+const QUOTES=[
+  {t:'Do not imagine, do not think, do not analyse, do not meditate, do not reflect. Rest in natural awareness.',a:'Tilopa'},
+  {t:'The nature of mind is originally pure. It is simply a matter of recognising it.',a:'Milarepa'},
+  {t:'The basis is Buddha nature. The path is bodhichitta. The fruition is Buddhahood for all beings.',a:'Gampopa'},
+  {t:'Watch your mind.',a:'16th Karmapa'},
+  {t:'Driven by fear I sought the mountains. Having seen the nature of mind, I no longer fear even death.',a:'Milarepa'},
+  {t:'The view is Mahamudra. Meditation is of one taste. Action is to abandon all grasping.',a:'Mārpa Lotsāwa'},
+  {t:'May all beings have happiness and its causes, and be free from suffering and its causes.',a:'Four Immeasurables'},
+  {t:'The greatest harm is the fixation on a self. The supreme precept is non-attachment to anything.',a:'Machig Labdrön'},
+  {t:'My father is intrinsic awareness. My mother is the vastness of space.',a:'Guru Rinpoche'},
+  {t:'All phenomena arise from mind and are purified in mind. Mind itself is beyond arising and cessation.',a:'3rd Karmapa'},
+  {t:'May the precious bodhicitta take birth where it does not exist, and where it exists, may it never wane.',a:'Aspiration for Bodhicitta'},
+  {t:'Work out your own liberation with diligence.',a:'Śākyamuni Buddha'},
+  {t:'Detachment is the foot of meditation. Devotion is the head. Unwavering attention is the body.',a:'Dorje Chang Tungma'},
+  {t:'Grant your blessings so that confusion may dawn as wisdom.',a:'Four Dharmas of Gampopa'},
+  {t:'The essence of thought is Dharmakāya — nothing whatsoever, yet everything arises.',a:'Dorje Chang Tungma'},
+  {t:'Compassion without wisdom becomes sentimentality. Wisdom without compassion becomes cold.',a:'Tibetan teaching'},
+  {t:'OM MANI PEME HUNG — the jewel in the lotus of the heart.',a:'Chenrezig mantra'},
+  {t:'Where the mind goes, there is no Mahamudra. Where mind does not go — that is Mahamudra.',a:'Saraha'},
+  {t:'Recognising the nature of mind, there is nothing to fear. Not recognising it, there is nothing safe.',a:'1st Karmapa'},
+  {t:'In meditation, rest without agenda. In daily life, act without grasping.',a:'Gampopa\'s pith instructions'},
+  {t:'KARMAPA KHENNO — Karmapa, hear me!',a:'Guru Yoga invocation'},
+  {t:'SONAM DI YI TAM CHAY ZIK PA NYI — Through this virtue, may omniscience be attained.',a:'Dedication of Merit'},
+  {t:'You are already what you seek. Practice is recognising what has always been present.',a:'Mahamudra pointing-out instruction'},
+  {t:'Whatever arises is the fresh nature of thought. Rest there, in its naturalness.',a:'Dorje Chang Tungma'},
+];
+
+// ═══════════════════════════════════════════════════════════
+// LUNAR CALENDAR
+// ═══════════════════════════════════════════════════════════
+const SYN=29.530588853;
+const REF_NM=new Date(2025,0,29,12,36,0);
+function moonAge(d){const el=(d-REF_NM)/86400000;return((el%SYN)+SYN)%SYN;}
+function tibDay(d){return Math.max(1,Math.min(30,Math.round(moonAge(d))+1));}
+function moonPhase(age){
+  if(age<1.5)return'New Moon';if(age<7.4)return'Waxing Crescent';
+  if(age<10.4)return'First Quarter';if(age<13.5)return'Waxing Gibbous';
+  if(age<16.5)return'Full Moon';if(age<19.5)return'Waning Gibbous';
+  if(age<22.5)return'Last Quarter';return'Waning Crescent';}
+function moonIllum(age){return(1-Math.cos((age/SYN)*2*Math.PI))/2;}
+function moonSVG(age,sz){
+  sz=sz||30;const il=moonIllum(age),wax=age<SYN/2,cx=sz/2,cy=sz/2,r=sz/2-1;
+  const dark='#1a1828',lit='#f0e8c0';
+  let inner='';
+  if(il<0.02){inner=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark}"/>`;}
+  else if(il>0.98){inner=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${lit}"/>`;}
+  else{
+    const ecc=Math.abs(2*il-1),rx=r*ecc;
+    if(wax){inner=`<path d="M${cx} ${cy-r}A${r} ${r} 0 0 1 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?0:1} ${cx} ${cy-r}Z" fill="${lit}"/>
+      <path d="M${cx} ${cy-r}A${r} ${r} 0 0 0 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?0:1} ${cx} ${cy-r}Z" fill="${dark}"/>`;}
+    else{inner=`<path d="M${cx} ${cy-r}A${r} ${r} 0 0 0 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?1:0} ${cx} ${cy-r}Z" fill="${lit}"/>
+      <path d="M${cx} ${cy-r}A${r} ${r} 0 0 1 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?1:0} ${cx} ${cy-r}Z" fill="${dark}"/>`;}
+  }
+  return`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" xmlns="http://www.w3.org/2000/svg"><circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark}"/>${inner}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(240,220,160,0.2)" stroke-width="0.8"/></svg>`;}
+
+function nextAusp(from,n){
+  const out=[];let d=new Date(from);d.setHours(12,0,0,0);
+  for(let i=0;i<90&&out.length<n;i++){
+    d=new Date(d.getTime()+86400000);const td=tibDay(d);
+    if(AUSP[td])out.push({date:new Date(d),td,a:AUSP[td]});}
+  return out;}
+function doy(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+function ls(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch{return d;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+let ST={
+  tab:ls('esm_tab','practice'),
+  prIdx:ls('esm_pr_idx',1),            // default Prostrations
+  prData:ls('esm_pr_data',{}),
+  prPanelOpen:true,
+  tap:ls('esm_tap',{count:0,ci:0}),
+  tapShown:false, tapReset:false, tapProg:0, tapPinned:ls('esm_tap_pinned',false),
+  prayerSub:ls('esm_prayer_sub','prayers'),
+  prayer:null,
+  modal:null,
+  aboutSub:'Calendar',
+};
+let feedT=null;
+function getPD(id){return ST.prData[id]||{counter:0,pace:100,lastDate:null,undo:[]};}
+function setPD(id,d){const nd={...ST.prData,[id]:d};lsSet('esm_pr_data',nd);set({prData:nd});}
+function fmt(n){return Number(n).toLocaleString();}
+function fmtD(iso){if(!iso)return'';return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+function set(p){Object.assign(ST,p);render();}
+function switchTab(t){lsSet('esm_tab',t);set({tab:t,prayer:null,modal:null});}
+function proj(c,pace,tgt){if(pace<=0||c>=tgt)return null;const d=new Date();d.setDate(d.getDate()+Math.ceil((tgt-c)/pace)+1);return d;}
+function paceFromDate(c,ds,tgt){const rem=tgt-c;if(rem<=0)return 0;const days=Math.max(1,Math.round((new Date(ds)-new Date())/86400000));const p=Math.ceil(rem/days);return p+(p%100>0?100-(p%100):0);}
+function bell(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();[[0,528,.32],[.15,396,.22],[.3,264,.18]].forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,ac.currentTime+dl);o.frequency.exponentialRampToValueAtTime(fr*.5,ac.currentTime+dl+3);gn.gain.setValueAtTime(0,ac.currentTime+dl);gn.gain.linearRampToValueAtTime(g,ac.currentTime+dl+.04);gn.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dl+5);o.start(ac.currentTime+dl);o.stop(ac.currentTime+dl+6);});}catch(e){}}
+
+// ═══════════════════════════════════════════════════════════
+// DOM HELPERS
+// ═══════════════════════════════════════════════════════════
+function h(tag,at,...kids){
+  const el=document.createElement(tag);
+  if(at)for(const[k,v]of Object.entries(at)){
+    if(v==null)continue;
+    if(k==='cls')el.className=v;
+    else if(k==='sty')Object.assign(el.style,v);
+    else if(k.startsWith('on'))el.addEventListener(k.slice(2).toLowerCase(),v);
+    else if(k==='html')el.innerHTML=v;
+    else el.setAttribute(k,v);
+  }
+  for(const c of kids.flat(Infinity)){if(c==null||c===false)continue;el.appendChild(typeof c==='string'?document.createTextNode(c):c);}
+  return el;}
+function svgDiv(html,sty){const d=document.createElement('div');if(sty)Object.assign(d.style,sty);d.innerHTML=html;return d;}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER ENGINE
+// ═══════════════════════════════════════════════════════════
+const TABS=[
+  {id:'practice', lbl:'Track',   lblFull:'Track Practice',  ico:'☸'},
+  {id:'tap',      lbl:'Tap',     lblFull:'Tap Counter',     ico:'◉'},
+  {id:'prayers',  lbl:'Prayers', lblFull:'Prayers & Texts', ico:'𑀘'},
+  {id:'refuge',   lbl:'Learn',   lblFull:'Learn',           ico:'✾'},
+  {id:'about',    lbl:'More',    lblFull:'More',            ico:'◯'},
+];
+function render(){
+  const content=document.getElementById('content');
+  content.innerHTML='';
+  const nav=document.getElementById('nav');
+  nav.innerHTML='';
+  const isDesktop=window.innerWidth>=768;
+  TABS.forEach(t=>{
+    nav.appendChild(h('button',{cls:'nb'+(ST.tab===t.id?' active':''),onClick:()=>switchTab(t.id)},
+      h('span',{cls:'nb-ico'},t.ico),
+      h('span',{cls:'nb-lbl'},isDesktop?t.lblFull:t.lbl)));
+  });
+  // Settings button — last on mobile, pinned to bottom on desktop via CSS margin-top:auto
+  nav.appendChild(h('button',{cls:'nb settings-nb'+(ST.tab==='settings'?' active':''),onClick:()=>switchTab('settings')},
+    h('span',{cls:'nb-ico'},'⚙'),
+    h('span',{cls:'nb-lbl'},isDesktop?'Settings':'')));
+  if(ST.tab==='practice')content.appendChild(renderPractice());
+  else if(ST.tab==='tap')content.appendChild(renderTap());
+  else if(ST.tab==='prayers')content.appendChild(renderPrayersTab());
+  else if(ST.tab==='refuge')renderRefuge(content);
+  else if(ST.tab==='about')content.appendChild(renderAbout());
+  else if(ST.tab==='settings')content.appendChild(renderSettings());
+}
+
+// ═══════════════════════════════════════════════════════════
+// GRID
+// ═══════════════════════════════════════════════════════════
+function renderGrid(pr,counter){
+  const{target,cv}=pr,total=Math.ceil(target/cv),rows=Math.ceil(total/COLS);
+  const filled=Math.floor(counter/cv),partial=(counter%cv)/cv;
+  const contentW=(document.getElementById('content')||{clientWidth:window.innerWidth}).clientWidth;
+  const cS=Math.min(14,(contentW-24)/COLS),r=cS*.36;
+  const acc='#9b1c2a'; // crimson for all practices
+  const NS='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(NS,'svg');
+  svg.setAttribute('viewBox',`0 0 ${COLS*cS} ${rows*cS}`);
+  svg.style.cssText='width:100%;display:block;';
+  for(let i=0;i<total;i++){
+    const cx=(i%COLS)*cS+cS/2,cy=Math.floor(i/COLS)*cS+cS/2;
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);
+    if(i<filled){c.setAttribute('fill',acc);c.setAttribute('opacity','0.88');}
+    else if(i===filled&&partial>0.04){
+      const cid=`p${pr.id}${i}`,defs=document.createElementNS(NS,'defs'),cp=document.createElementNS(NS,'clipPath');
+      cp.setAttribute('id',cid);const rect=document.createElementNS(NS,'rect');
+      rect.setAttribute('x',cx-r-1);rect.setAttribute('y',cy+r-partial*2*r-1);
+      rect.setAttribute('width',r*2+2);rect.setAttribute('height',partial*2*r+2);
+      cp.appendChild(rect);defs.appendChild(cp);svg.appendChild(defs);
+      const bg=document.createElementNS(NS,'circle');bg.setAttribute('cx',cx);bg.setAttribute('cy',cy);bg.setAttribute('r',r);
+      bg.setAttribute('fill','none');bg.setAttribute('stroke',acc+'50');bg.setAttribute('stroke-width','0.8');svg.appendChild(bg);
+      c.setAttribute('fill',acc);c.setAttribute('opacity','0.55');c.setAttribute('clip-path',`url(#${cid})`);
+    }else{c.setAttribute('fill','none');c.setAttribute('stroke','rgba(155,28,42,.32)');c.setAttribute('stroke-width','0.8');}
+    svg.appendChild(c);}
+  return svg;}
+
+// ═══════════════════════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════════════════════
+function closeModal(){set({modal:null});}
+function renderModal(){
+  const m=ST.modal;if(!m)return null;
+  const pr=PR.find(p=>p.id===m.prid),pd=pr?getPD(m.prid):{};
+  const veil=h('div',{cls:'veil',onClick:e=>{if(e.target===veil)closeModal();}});
+  if(m.type==='pace'){
+    const pace=pd.pace!==undefined?pd.pace:100;
+    const sheet=h('div',{cls:'sheet'});sheet.appendChild(h('div',{cls:'handle'}));
+    sheet.appendChild(h('p',{cls:'stitle'},'REPETITIONS PER SESSION'));
+    const grid=h('div',{sty:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'8px',marginBottom:'10px'}});
+    PACE_OPTS.forEach(v=>{const on=pace===v;grid.appendChild(h('button',{sty:{background:on?'var(--gold-ghost)':'var(--inp)',border:`1px solid ${on?'var(--bdr-hi)':'var(--bdr)'}`,borderRadius:'10px',padding:'13px 4px',color:on?'var(--gold)':'var(--tx)',fontSize:'15px',cursor:'pointer',fontFamily:'Lato'},onClick:()=>{setPD(m.prid,{...pd,pace:v});closeModal();}},v===0?'None':fmt(v)));});
+    sheet.appendChild(grid);
+    const cr=h('div',{sty:{display:'flex',gap:'8px',marginBottom:'8px'}});
+    const ci=h('input',{'type':'number','placeholder':'Custom…'});cr.appendChild(ci);
+    cr.appendChild(h('button',{cls:'btn',sty:{width:'80px',flexShrink:0},onClick:()=>{const v=parseInt(ci.value);if(v>0){setPD(m.prid,{...pd,pace:v});closeModal();}}},'Set'));
+    sheet.appendChild(cr);sheet.appendChild(h('button',{cls:'btn-o',onClick:closeModal},'Cancel'));
+    veil.appendChild(sheet);return veil;
+  }
+  if(m.type==='edit'){
+    veil.classList.add('center');const d=h('div',{cls:'dialog'});
+    d.appendChild(h('p',{cls:'stitle'},'EDIT COUNTER'));
+    d.appendChild(h('p',{sty:{color:'var(--tx-lo)',fontSize:'12px',textAlign:'center',marginBottom:'14px'}},`${pr.name} — target: ${fmt(pr.target)}`));
+    const inp=h('input',{'type':'number',sty:{marginBottom:'14px'}});inp.value=pd.counter||0;d.appendChild(inp);
+    d.appendChild(h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:()=>{const v=Math.min(pr.target,Math.max(0,parseInt(inp.value)||0));setPD(m.prid,{...pd,counter:v});closeModal();}},'Save')));
+    veil.appendChild(d);return veil;
+  }
+  if(m.type==='add'){
+    veil.classList.add('center');const d=h('div',{cls:'dialog'});
+    d.appendChild(h('p',{cls:'stitle'},'ADD REPETITIONS'));
+    const inp=h('input',{'type':'number','placeholder':'Number to add',sty:{marginBottom:'14px'}});d.appendChild(inp);
+    d.appendChild(h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:()=>{const v=parseInt(inp.value);if(v>0){doAdd(pr,getPD(m.prid),v);closeModal();}}},'Add')));
+    veil.appendChild(d);return veil;
+  }
+  if(m.type==='date'){
+    veil.classList.add('center');const d=h('div',{cls:'dialog'});
+    d.appendChild(h('p',{cls:'stitle'},'SET TARGET DATE'));
+    d.appendChild(h('p',{sty:{color:'var(--tx-lo)',fontSize:'12px',textAlign:'center',marginBottom:'14px'}},'Daily pace will be calculated automatically.'));
+    const def=(()=>{const dt=new Date();dt.setMonth(dt.getMonth()+3);return dt.toISOString().split('T')[0];})();
+    const inp=h('input',{'type':'date',sty:{marginBottom:'14px'}});inp.value=def;d.appendChild(inp);
+    d.appendChild(h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:()=>{setPD(m.prid,{...pd,pace:paceFromDate(pd.counter||0,inp.value,pr.target)});closeModal();}},'Set')));
+    veil.appendChild(d);return veil;
+  }
+  if(m.type==='figlog'){
+    const sheet=h('div',{cls:'sheet'});sheet.appendChild(h('div',{cls:'handle'}));
+    sheet.appendChild(h('p',{cls:'stitle'},'LOG TO PRACTICE'));
+    sheet.appendChild(h('p',{sty:{color:'var(--tx-lo)',fontSize:'13px',textAlign:'center',marginBottom:'16px'}},`Add ${fmt(m.count)} to:`));
+    PR.forEach(p=>{const pd2=getPD(p.id),pct=Math.round(((pd2.counter||0)/p.target)*100);
+      sheet.appendChild(h('button',{sty:{width:'100%',background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'11px',padding:'12px 14px',marginBottom:'8px',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center'},onClick:()=>{const nc=Math.min(p.target,(pd2.counter||0)+m.count);setPD(p.id,{...pd2,counter:nc,lastDate:new Date().toISOString()});lsSet('esm_tap',{count:0,ci:0});set({tap:{count:0,ci:0},tapShown:false,modal:null});}},
+        h('span',{sty:{color:'var(--tx)',fontSize:'13px'}},p.name),h('span',{sty:{color:'var(--tx-lo)',fontSize:'12px'}},`${pct}% of ${fmt(p.target)}`)));});
+    sheet.appendChild(h('button',{cls:'btn-o',sty:{marginTop:'4px'},onClick:closeModal},'Cancel'));
+    veil.appendChild(sheet);return veil;
+  }
+  return null;}
+
+// ═══════════════════════════════════════════════════════════
+// PRACTICE — full-screen image, collapsible bottom panel
+// ═══════════════════════════════════════════════════════════
+function doAdd(pr,pd,pace){
+  const c=pd.counter||0,nc=Math.min(pr.target,c+pace);
+  const undo=[...(pd.undo||[]).slice(-19),{counter:c,lastDate:pd.lastDate}];
+  setPD(pr.id,{...pd,counter:nc,pace,lastDate:new Date().toISOString(),undo});
+  // Floating feedback — no popup
+  const fb=document.getElementById('fbb');if(fb)fb.remove();
+  const b=document.createElement('div');b.id='fbb';
+  b.style.cssText=`position:fixed;bottom:200px;left:50%;transform:translateX(-50%);color:#f0b830;font-size:24px;font-family:Lato;font-weight:300;pointer-events:none;z-index:500;animation:rise 1.2s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,.5);`;
+  b.textContent=`+${fmt(pace)}`;document.getElementById('content').appendChild(b);
+}
+
+function renderPractice(){
+  const pr=PR[ST.prIdx],pd=getPD(pr.id);
+  const counter=pd.counter||0,pace=pd.pace!==undefined?pd.pace:100,done=counter>=pr.target;
+  const pct=Math.round((counter/pr.target)*100);
+  const pd2=proj(counter,pace,pr.target);
+
+  // Detect whether current theme is light (scroll section has light bg)
+  const curThm=document.documentElement.getAttribute('data-theme')||'light';
+  const isLight=curThm==='light'||curThm==='earth';
+  const sc=isLight?{
+    tx:'var(--tx)',txMid:'var(--tx-mid)',txLo:'var(--tx-lo)',txGhost:'var(--tx-ghost)',
+    bdr:'var(--bdr)',bdr2:'var(--bdr-hi)',sectionBdr:'1px solid var(--bdr)',
+    nameTx:'var(--gold)',subTx:'var(--tx-lo)',
+    btnBg:'var(--inp)',btnBdr:'var(--bdr)',btnTx:'var(--tx-mid)',
+  }:{
+    tx:'rgba(255,255,255,.95)',txMid:'rgba(255,255,255,.6)',txLo:'rgba(255,255,255,.35)',txGhost:'rgba(255,255,255,.15)',
+    bdr:'rgba(255,255,255,.07)',bdr2:'rgba(255,255,255,.2)',sectionBdr:'1px solid rgba(255,255,255,.07)',
+    nameTx:'rgba(255,255,255,.6)',subTx:'rgba(255,255,255,.35)',
+    btnBg:'rgba(255,255,255,.07)',btnBdr:'rgba(255,255,255,.15)',btnTx:'rgba(255,255,255,.45)',
+  };
+
+  const outer=h('div',{cls:`pr-bg-${pr.bg}`,sty:{height:'100%',display:'flex',flexDirection:'column',position:'relative',overflow:'hidden'}});
+
+  // ── IMAGE SECTION — refuge: full contain; others: cover to crop plain sky/bg ──
+  const imgSec=h('div',{sty:{position:'relative',flexShrink:0,width:'100%',overflow:'hidden',height:pr.imgFull?'auto':'44vh'}});
+  const prImg=h('img',{src:pr.img,sty:{width:'100%',height:pr.imgFull?'auto':'100%',display:'block',objectFit:pr.imgFull?'contain':'cover',objectPosition:pr.imgFull?'center top':'center 18%'}});
+  imgSec.appendChild(prImg);
+  // Subtle gradient at bottom for readability of top bar
+  imgSec.appendChild(h('div',{sty:{position:'absolute',top:0,left:0,right:0,height:'70px',background:'linear-gradient(to bottom,rgba(0,0,0,.45) 0%,transparent 100%)',zIndex:1,pointerEvents:'none'}}));
+
+  // Top bar
+  const topBar=h('div',{sty:{position:'absolute',top:0,left:0,right:0,zIndex:10,display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 12px 6px'}});
+  const dots=h('div',{sty:{display:'flex',gap:'5px',alignItems:'center'}});
+  PR.forEach((p,i)=>{dots.appendChild(h('button',{sty:{background:'none',border:'none',padding:'4px 3px',cursor:'pointer'},onClick:()=>{lsSet('esm_pr_idx',i);set({prIdx:i});}},
+    h('div',{sty:{height:'4px',width:i===ST.prIdx?'18px':'4px',borderRadius:'2px',background:i===ST.prIdx?'rgba(255,255,255,.9)':'rgba(255,255,255,.3)',transition:'all .25s'}})));});
+  topBar.appendChild(dots);
+  const rc=h('div',{sty:{display:'flex',gap:'6px'}});
+  const undo=pd.undo||[];
+  rc.appendChild(h('button',{sty:{background:'rgba(0,0,0,.4)',border:'1px solid rgba(255,255,255,.15)',borderRadius:'8px',padding:'6px 12px',color:undo.length?'rgba(255,255,255,.7)':'rgba(255,255,255,.2)',cursor:'pointer',fontSize:'15px',backdropFilter:'blur(4px)'},onClick:()=>{if(!undo.length)return;const prev=undo[undo.length-1];setPD(pr.id,{...pd,counter:prev.counter,lastDate:prev.lastDate,undo:undo.slice(0,-1)});}},'↩'));
+  rc.appendChild(h('button',{sty:{background:'rgba(0,0,0,.4)',border:'1px solid rgba(255,255,255,.15)',borderRadius:'8px',padding:'6px 11px',color:'rgba(255,255,255,.7)',cursor:'pointer',fontSize:'12px',fontFamily:'Lato',backdropFilter:'blur(4px)'},onClick:()=>set({modal:{type:'add',prid:pr.id}})},'+ Bulk'));
+  rc.appendChild(h('button',{sty:{background:'rgba(0,0,0,.4)',border:'1px solid rgba(255,255,255,.15)',borderRadius:'8px',padding:'6px 11px',color:'rgba(255,255,255,.7)',cursor:'pointer',fontSize:'13px',backdropFilter:'blur(4px)'},onClick:()=>set({modal:{type:'edit',prid:pr.id}})},'✎'));
+  topBar.appendChild(rc);
+  imgSec.appendChild(topBar);
+  imgSec.appendChild(h('div',{cls:'swipe-hint',sty:{position:'absolute',top:'46px',left:0,right:0,zIndex:10,textAlign:'center',pointerEvents:'none'}},
+    h('span',{sty:{fontSize:'calc(9px * var(--scale))',color:'rgba(255,255,255,.22)',fontFamily:'Lato',letterSpacing:'2px'}},'← swipe to change practice →')));
+  outer.appendChild(imgSec);
+
+  // ── SCROLL SECTION (counter + grid scrolls naturally below) ──
+  const scroll=h('div',{cls:'pr-scroll-section'});
+
+  // Practice name row
+  const nameSec=h('div',{sty:{padding:'12px 14px 10px',borderBottom:sc.sectionBdr}});
+  nameSec.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(14px * var(--scale))',letterSpacing:'1px',color:sc.nameTx,marginBottom:'2px'}},pr.name));
+  nameSec.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:sc.subTx}},pr.sub));
+  scroll.appendChild(nameSec);
+
+  // Counter + add button
+  const crow=h('div',{sty:{display:'flex',alignItems:'center',padding:'14px 14px 6px',gap:'12px'}});
+  const ct=h('div',{sty:{flex:1}});
+  ct.appendChild(h('div',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:done?'calc(32px * var(--scale))':'calc(52px * var(--scale))',color:done?'#f0b830':sc.tx,letterSpacing:'.5px',lineHeight:1,textShadow:isLight?'none':'0 2px 12px rgba(0,0,0,.5)'}},(done?'✓ ':'')+fmt(counter)));
+  if(pct>0&&!done)ct.appendChild(h('div',{sty:{color:sc.txLo,fontSize:'calc(10px * var(--scale))',marginTop:'4px',fontFamily:'Lato'}},`${pct}% of ${fmt(pr.target)}`));
+  crow.appendChild(ct);
+  if(!done){
+    const ab=h('button',{sty:{width:'66px',height:'66px',borderRadius:'50%',border:'1.5px solid rgba(155,28,42,.75)',background:'radial-gradient(circle,rgba(155,28,42,.5),rgba(100,10,18,.3))',cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'1px',flexShrink:0,boxShadow:'0 0 22px rgba(155,28,42,.4)',transition:'transform .1s',backdropFilter:'blur(4px)'},onClick:()=>doAdd(pr,pd,pace)});
+    ab.innerHTML=`<span style="color:rgba(255,255,255,.4);font-size:9px;line-height:1">+</span><span style="color:rgba(255,255,255,.92);font-size:calc(13px * var(--scale));font-weight:500;line-height:1;font-family:Lato">${fmt(pace)}</span>`;
+    ['touchstart','mousedown'].forEach(e=>ab.addEventListener(e,()=>ab.style.transform='scale(0.92)',{passive:true}));
+    ['touchend','mouseup'].forEach(e=>ab.addEventListener(e,()=>ab.style.transform='scale(1)',{passive:true}));
+    crow.appendChild(ab);}
+  scroll.appendChild(crow);
+  if(done)scroll.appendChild(h('div',{sty:{textAlign:'center',padding:'4px 0 8px'}},h('span',{sty:{fontFamily:'Playfair Display',fontSize:'calc(11px * var(--scale))',letterSpacing:'3px',color:'#f0b830'}},'✦  NGÖNDRO COMPLETE  ✦')));
+
+  // Info row
+  const ir=h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0 14px 12px',borderBottom:sc.sectionBdr}});
+  ir.appendChild(h('button',{sty:{background:sc.btnBg,border:`1px solid ${sc.btnBdr}`,borderRadius:'8px',padding:'5px 10px',color:sc.btnTx,fontSize:'calc(11px * var(--scale))',cursor:'pointer',fontFamily:'Lato',display:'flex',alignItems:'center',gap:'5px'},onClick:()=>set({modal:{type:'pace',prid:pr.id}})},`${fmt(pace)} / session`,h('span',{sty:{fontSize:'calc(10px * var(--scale))',opacity:.55}},'✎')));
+  const ri=h('div',{sty:{textAlign:'right'}});
+  if(pd.lastDate)ri.appendChild(h('div',{sty:{color:sc.txGhost,fontSize:'calc(10px * var(--scale))',fontFamily:'Lato'}},`Last: ${fmtD(pd.lastDate)}`));
+  if(pd2&&!done)ri.appendChild(h('button',{sty:{background:'none',border:'none',color:sc.txGhost,fontSize:'calc(10px * var(--scale))',cursor:'pointer',fontFamily:'Lato',padding:0,display:'flex',alignItems:'center',gap:'4px'},onClick:()=>set({modal:{type:'date',prid:pr.id}})},`Finish → ${fmtD(pd2)}`,h('span',{sty:{fontSize:'calc(9px * var(--scale))',opacity:.55}},'✎')));
+  ir.appendChild(ri);scroll.appendChild(ir);
+
+  if(pr.mantra)scroll.appendChild(h('div',{sty:{textAlign:'center',padding:'10px 0 8px',borderBottom:sc.sectionBdr}},
+    h('span',{sty:{fontFamily:'Playfair Display',fontWeight:700,fontSize:'calc(10px * var(--scale))',letterSpacing:'3.5px',color:isLight?'var(--red)':'rgba(155,28,42,.75)'}},pr.mantra)));
+
+  // Grid — always visible, scrolls naturally
+  const gridSec=h('div',{sty:{padding:'12px 12px 4px'}});
+  gridSec.appendChild(renderGrid(pr,counter));
+  gridSec.appendChild(h('div',{sty:{textAlign:'right',paddingRight:'2px',marginTop:'3px',paddingBottom:'4px'}},
+    h('span',{sty:{fontSize:'calc(10px * var(--scale))',color:isLight?'var(--red-hi)':'rgba(155,28,42,.5)',fontFamily:'Lato'}},'One Full Circle ⬤ = '+fmt(pr.cv))));
+  scroll.appendChild(gridSec);
+  scroll.appendChild(h('div',{sty:{height:'calc(16px + var(--safe-b))'}}));
+
+  outer.appendChild(scroll);
+
+  // Swipe gesture on image area
+  let tSX=null,tO=0;
+  imgSec.addEventListener('touchstart',e=>{tSX=e.touches[0].clientX;},{passive:true});
+  imgSec.addEventListener('touchmove',e=>{if(tSX!==null)tO=e.touches[0].clientX-tSX;},{passive:true});
+  imgSec.addEventListener('touchend',()=>{if(Math.abs(tO)>55){const ni=tO<0?Math.min(ST.prIdx+1,PR.length-1):Math.max(ST.prIdx-1,0);lsSet('esm_pr_idx',ni);set({prIdx:ni});}tSX=null;tO=0;});
+
+  if(ST.modal)outer.appendChild(renderModal());
+  return outer;}
+
+// ═══════════════════════════════════════════════════════════
+// TAP (timer removed)
+// ═══════════════════════════════════════════════════════════
+const TC=['#4a1f2d','#1f4a2a','#1f335c','#4a3a12','#3d2461','#144444','#4a3816','#4a2416'];
+const TR=['#ff6f91','#5be37a','#6fa8ff','#ffd54a','#b388ff','#4de1e1','#ffbf5a','#ff8a65'];
+// Reset-hold timer lives at module scope so it survives re-renders and any
+// release (mouse or touch) can clear it. See startR/stopR below.
+let tapResetTimer=null, tapResetProg=0;
+function renderTap(){
+  const{tap,tapShown,tapReset,tapProg,tapPinned}=ST;
+  const ci=tap.ci%TC.length,bg=TC[ci],ring=TR[ci];
+  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',background:tapShown?'var(--bg)':bg,transition:'background .4s',position:'relative',overflow:'hidden'}});
+
+  // ── Hint strip (always visible above tap area, hidden on shown/reset) ──
+  if(!tapShown&&!tapReset){
+    outer.appendChild(h('div',{sty:{padding:'8px 16px 6px',textAlign:'center',flexShrink:0,zIndex:4}},
+      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:`${ring}88`,letterSpacing:'.5px',lineHeight:'1.4'}},'Colour change confirms each tap — practise freely')
+    ));
+  }
+
+  // ── Pinned mini-total (shown when tapPinned is on and tapping) ──
+  if(tapPinned&&!tapShown&&!tapReset&&tap.count>0){
+    outer.appendChild(h('div',{sty:{padding:'4px 16px 8px',textAlign:'center',flexShrink:0,zIndex:4}},
+      h('div',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:'calc(36px * var(--scale))',color:`${ring}dd`,lineHeight:1,textShadow:`0 2px 12px ${ring}44`}},fmt(tap.count))
+    ));
+  }
+
+  const ta=h('div',{sty:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',cursor:'pointer',position:'relative',overflow:'hidden',zIndex:2}});
+  function doTap(e){if(tapShown||tapReset)return;e.preventDefault();
+    const rect=ta.getBoundingClientRect(),src=e.touches?e.touches[0]:e;
+    const rip=document.createElement('div');
+    rip.style.cssText=`position:absolute;left:${src.clientX-rect.left}px;top:${src.clientY-rect.top}px;width:40px;height:40px;border-radius:50%;background:${ring}AA;transform:translate(-50%,-50%);pointer-events:none;animation:ripple .8s ease-out forwards;`;
+    ta.appendChild(rip);setTimeout(()=>rip.remove(),900);
+    const nt={count:tap.count+1,ci:(tap.ci+1)%TC.length};lsSet('esm_tap',nt);set({tap:nt});}
+  ta.addEventListener('click',doTap);ta.addEventListener('touchstart',doTap,{passive:false});
+  if(tapReset){
+    ta.appendChild(h('div',{sty:{textAlign:'center',pointerEvents:'none',padding:'0 32px'}},
+      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'rgba(255,255,255,.5)',lineHeight:'1.5',maxWidth:'260px',margin:'0 auto 18px'}},'This is about to reset your session total to zero — release to stop'),
+      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(40px * var(--scale))',color:'rgba(255,255,255,.35)',marginBottom:'20px'}},fmt(tap.count)),
+      h('div',{sty:{background:'rgba(255,255,255,.1)',borderRadius:'4px',height:'7px',width:'240px',maxWidth:'80vw',overflow:'hidden',marginBottom:'10px'}},
+        h('div',{id:'tap-reset-bar',sty:{height:'100%',width:`${Math.round(tapProg*100)}%`,background:'#c05038',borderRadius:'4px',transition:'width .15s'}})),
+      h('p',{id:'tap-reset-sec',sty:{fontSize:'calc(11px * var(--scale))',color:'rgba(255,255,255,.92)',fontFamily:'Lato',letterSpacing:'1px'}},`${Math.ceil(5-tapProg*5)}s — release to cancel`)
+    ));
+  }else if(!tapShown){
+    // Elegant concentric-ring tap indicator
+    const tapIco=h('div',{sty:{position:'relative',width:'140px',height:'140px',margin:'0 auto',flexShrink:0}});
+    tapIco.appendChild(h('div',{sty:{position:'absolute',inset:0,borderRadius:'50%',border:`1.5px solid ${ring}40`}}));
+    tapIco.appendChild(h('div',{sty:{position:'absolute',inset:'20px',borderRadius:'50%',border:`1.5px solid ${ring}70`}}));
+    tapIco.appendChild(h('div',{sty:{position:'absolute',inset:'42px',borderRadius:'50%',background:`radial-gradient(circle,${ring}55,${ring}20)`,border:`1.5px solid ${ring}aa`,boxShadow:`0 0 30px ${ring}50`}}));
+    ta.appendChild(h('div',{sty:{textAlign:'center',pointerEvents:'none'}},
+      tapIco,
+      h('p',{sty:{color:`${ring}cc`,marginTop:'22px',fontSize:'calc(11px * var(--scale))',fontFamily:'Lato',letterSpacing:'3px',textShadow:'0 2px 6px rgba(0,0,0,.6)'}},'TAP TO COUNT')
+    ));
+  }else{
+    // ── Revealed total view — LOG TO PRACTICE at very top ──
+    ta.appendChild(h('div',{sty:{textAlign:'center',animation:'fadeIn .4s ease-out',pointerEvents:'none',width:'100%',display:'flex',flexDirection:'column',alignItems:'center',padding:'0 20px'}},
+      h('button',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',borderRadius:'12px',padding:'13px 28px',color:'var(--gold)',fontFamily:'Playfair Display',fontSize:'calc(13px * var(--scale))',letterSpacing:'1px',cursor:'pointer',display:'inline-block',pointerEvents:'auto',marginBottom:'20px'},onClick:e=>{e.stopPropagation();set({modal:{type:'figlog',count:tap.count}});}}, 'LOG TO PRACTICE  ↗'),
+      h('p',{sty:{fontFamily:'Playfair Display',color:'var(--tx-lo)',fontSize:'calc(11px * var(--scale))',letterSpacing:'3px',marginBottom:'10px'}},'SESSION TOTAL'),
+      h('div',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:'calc(80px * var(--scale))',color:'var(--tx)',lineHeight:1,marginBottom:'40px'}},fmt(tap.count)),
+      h('button',{sty:{display:'inline-block',background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'12px',color:'var(--tx-lo)',fontSize:'calc(13px * var(--scale))',cursor:'pointer',fontFamily:'Lato',pointerEvents:'auto',padding:'12px 28px',marginTop:'4px'},onClick:e=>{e.stopPropagation();set({tapShown:false});}}, 'Continue tapping')
+    ));
+  }
+  outer.appendChild(ta);
+  const bar=h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 18px calc(12px + var(--safe-b))',background:'rgba(0,0,0,.08)',borderTop:`1px solid ${ring}18`,zIndex:3,gap:'8px'}});
+  bar.appendChild(h('button',{sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',minWidth:'52px',minHeight:'52px',color:'var(--tx-mid)',cursor:'pointer',fontSize:'18px'},onClick:()=>{const nt={...tap,count:Math.max(0,tap.count-1)};lsSet('esm_tap',nt);set({tap:nt});}},'−'));
+  if(!tapShown&&!tapReset){
+    // Middle: Reveal + Keep-total toggle
+    const midBar=h('div',{sty:{display:'flex',flexDirection:'column',alignItems:'center',gap:'6px',flex:1}});
+    midBar.appendChild(h('button',{sty:{background:`${ring}12`,border:`1px solid ${ring}30`,borderRadius:'10px',padding:'13px 20px',color:`${ring}cc`,fontFamily:'Playfair Display',fontSize:'calc(11px * var(--scale))',letterSpacing:'1.5px',cursor:'pointer'},onClick:()=>set({tapShown:true})},'REVEAL TOTAL'));
+    midBar.appendChild(h('button',{sty:{background:tapPinned?`${ring}22`:'none',border:`1px solid ${tapPinned?ring+'60':'transparent'}`,borderRadius:'8px',padding:'3px 10px',color:tapPinned?`${ring}ee`:`${ring}55`,fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',letterSpacing:'.5px',cursor:'pointer'},onClick:()=>{const v=!ST.tapPinned;lsSet('esm_tap_pinned',v);set({tapPinned:v});}},tapPinned?'⊙ Total pinned':'○ Keep total on screen'));
+    bar.appendChild(midBar);
+  } else bar.appendChild(h('div',{}));
+  // 5s hold reset
+  const rb=h('button',{sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',minWidth:'110px',minHeight:'52px',color:tapReset?'#c05038':'var(--tx-lo)',cursor:'pointer',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',padding:'8px 14px',lineHeight:'1.3'}});
+  rb.innerHTML=tapReset?'<span>Resetting…</span><br><span style="font-size:0.75em">Release to cancel</span>':'<span>Reset Counter</span><br><span style="font-size:0.75em;opacity:.5">Hold 5 seconds</span>';
+  function startR(){
+    if(tapResetTimer)return;            // already holding
+    tapResetProg=0;
+    set({tapReset:true,tapProg:0});     // render the reset overlay once
+    tapResetTimer=setInterval(()=>{
+      const bar=document.getElementById('tap-reset-bar');
+      // Overlay gone (released, or tab switched mid-hold) — stop and bail.
+      if(!bar){clearInterval(tapResetTimer);tapResetTimer=null;return;}
+      tapResetProg+=0.04;
+      if(tapResetProg>=1){
+        clearInterval(tapResetTimer);tapResetTimer=null;
+        lsSet('esm_tap',{count:0,ci:0});
+        set({tap:{count:0,ci:0},tapShown:false,tapReset:false,tapProg:0});
+      }else{
+        bar.style.width=Math.round(tapResetProg*100)+'%';
+        const sec=document.getElementById('tap-reset-sec');
+        if(sec)sec.textContent=Math.ceil(5-tapResetProg*5)+'s — release to cancel';
+      }
+    },200);
+  }
+  function stopR(){
+    if(tapResetTimer){clearInterval(tapResetTimer);tapResetTimer=null;}
+    tapResetProg=0;
+    if(ST.tapReset)set({tapReset:false,tapProg:0});
+  }
+  rb.addEventListener('mousedown',startR);rb.addEventListener('touchstart',e=>{e.preventDefault();startR();},{passive:false});
+  rb.addEventListener('mouseup',stopR);rb.addEventListener('mouseleave',stopR);rb.addEventListener('touchend',stopR);
+  bar.appendChild(rb);
+  outer.appendChild(bar);
+  if(ST.modal)outer.appendChild(renderModal());
+  return outer;}
+
+// ═══════════════════════════════════════════════════════════
+// PRAYERS TAB — merged with Texts (sub-tabs: Prayers | Practice Texts)
+// ═══════════════════════════════════════════════════════════
+function renderPrayersTab(){
+  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
+  // Sub-tab bar
+  const sb=h('div',{sty:{display:'flex',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}});
+  [['prayers','Prayers'],['texts','Practice Texts']].forEach(([id,lbl])=>{
+    const on=ST.prayerSub===id;
+    sb.appendChild(h('button',{sty:{flex:1,padding:'13px 4px',background:'none',border:'none',borderBottom:`2px solid ${on?'var(--gold)':'transparent'}`,color:on?'var(--gold)':'var(--tx-lo)',fontSize:'calc(13px * var(--scale))',fontFamily:'Lato',letterSpacing:'.3px',cursor:'pointer',marginBottom:'-1px',transition:'color .2s'},onClick:()=>{lsSet('esm_prayer_sub',id);set({prayerSub:id,prayer:null});}},(on?'':'')+lbl));
+  });
+  outer.appendChild(sb);
+  const body=h('div',{sty:{flex:1,overflow:'hidden',display:'flex',flexDirection:'column'}});
+  if(ST.prayerSub==='prayers')body.appendChild(renderPrayersList());
+  else body.appendChild(renderTextsList());
+  outer.appendChild(body);
+  return outer;}
+
+function renderPrayersList(){
+  if(ST.prayer){
+    const pr=PRAYERS.find(p=>p.id===ST.prayer);
+    const wrap=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
+    const scrl=h('div',{sty:{flex:1,overflowY:'auto',padding:'0 16px 60px'}});
+    const bb=h('div',{sty:{position:'sticky',top:0,background:'var(--bg)',padding:'12px 0 10px',zIndex:10,borderBottom:'1px solid var(--bdr)',marginBottom:'16px',display:'flex',alignItems:'center'}});
+    bb.appendChild(h('button',{sty:{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',fontSize:'calc(14px * var(--scale))',fontFamily:'Lato'},onClick:()=>set({prayer:null})},'← Prayers'));
+    scrl.appendChild(bb);
+    scrl.appendChild(h('div',{sty:{marginBottom:'22px'}},
+      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(18px * var(--scale))',color:'var(--tx)',marginBottom:'5px'}},pr.title),
+      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-lo)',marginBottom:'12px'}},pr.sub),
+      h('div',{sty:{width:'50px',height:'1px',background:'linear-gradient(90deg,var(--gold-lo),transparent)'}})));
+    pr.couplets.forEach(c=>{
+      if(c.sec){scrl.appendChild(h('div',{sty:{margin:'20px 0 12px',padding:'8px 12px',background:'var(--gold-ghost)',borderLeft:'2px solid var(--gold-lo)',borderRadius:'0 8px 8px 0'}},
+        h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(11px * var(--scale))',letterSpacing:'1.5px',color:'var(--gold)'}},'— '+c.sec)));return;}
+      const block=h('div',{sty:{marginBottom:'18px',paddingBottom:'18px',borderBottom:'1px solid var(--bdr)'}});
+      if(c.t&&c.t.trim())block.appendChild(h('p',{cls:'tib-s',sty:{marginBottom:'4px'}},c.t));
+      if(c.p&&c.p.trim())c.p.split('\n').forEach(line=>{if(line.trim())block.appendChild(h('p',{cls:'tib-p'},line));});
+      if(c.e&&c.e.trim())block.appendChild(h('p',{cls:'tib-e',sty:{marginTop:'4px'}},c.e));
+      if(c.t||c.p||c.e)scrl.appendChild(block);
+    });
+    wrap.appendChild(scrl);return wrap;}
+  const wrap=h('div',{sty:{height:'100%',overflow:'hidden',display:'flex',flexDirection:'column',background:'var(--bg)'}});
+  const list=h('div',{sty:{flex:1,overflowY:'auto'}});
+  PRAYERS.forEach(pr=>{
+    const item=h('div',{sty:{padding:'14px 16px',borderBottom:'1px solid var(--bdr)',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',transition:'background .15s'},onClick:()=>set({prayer:pr.id})});
+    item.addEventListener('touchstart',()=>item.style.background='var(--gold-ghost)',{passive:true});
+    item.addEventListener('touchend',()=>item.style.background='',{passive:true});
+    const info=h('div',{sty:{flex:1,minWidth:0}});
+    info.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(18px * var(--scale))',color:'var(--tx)'}},' '+pr.title));
+    info.appendChild(h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',marginTop:'3px'}},pr.sub));
+    item.appendChild(info);item.appendChild(h('span',{sty:{color:'var(--tx-lo)',fontSize:'20px',marginLeft:'10px',flexShrink:0}},'›'));
+    list.appendChild(item);});
+  wrap.appendChild(list);return wrap;}
+
+function renderTextsList(){
+  const wrap=h('div',{sty:{height:'100%',overflow:'hidden',display:'flex',flexDirection:'column'}});
+  wrap.appendChild(h('div',{sty:{padding:'10px 16px 8px',flexShrink:0,background:'var(--red-lo)',borderBottom:'1px solid var(--bdr)'}},
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.65'}},'It is recommended to receive reading transmission from a qualified teacher. Some practices require empowerment.')));
+  const list=h('div',{sty:{flex:1,overflowY:'auto',padding:'10px 0 30px'}});
+  SAD.forEach(s=>{
+    const card=h('div',{sty:{margin:'0 14px 10px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'14px',padding:'14px 14px 10px'}});
+    const top=h('div',{sty:{display:'flex',alignItems:'center',gap:'10px',marginBottom:'10px'}});
+    top.appendChild(h('span',{sty:{fontSize:'calc(20px * var(--scale))',color:'var(--gold)',flexShrink:0}},s.sym));
+    const inf=h('div',{});
+    inf.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.2'}},s.name));
+    inf.appendChild(h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},s.sub));
+    top.appendChild(inf);card.appendChild(top);
+    const lr=h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'6px'}});
+    s.links.forEach(({l,u})=>lr.appendChild(h('a',{href:u,target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'7px 12px',color:'var(--gold)',fontSize:'calc(11px * var(--scale))',fontFamily:'Lato',textDecoration:'none'}},l+' ↗')));
+    card.appendChild(lr);list.appendChild(card);});
+  wrap.appendChild(list);return wrap;}
+
+// ═══════════════════════════════════════════════════════════
+// REFUGE TREE — zone colours, marker toggle, bottom drawer
+// In-place filtering (no re-render on search, keyboard stays open)
+// ═══════════════════════════════════════════════════════════
+let rfFilter='';
+let rfDrawerFig=null;
+let rfMarkersVisible=false;
+// One-time marker-placement editor (see the under-construction banner button).
+let rfEditMode=false;
+let rfEditIdx=0;
+
+// Zone colour for each category (used on marker backgrounds)
+const ZONE_COLORS={
+  karmapas:'#c09010',lineage:'#b07820',mahasiddhas:'#7040b0',
+  teachers:'#1870a8',buddhas:'#3060c0',bodhisattvas:'#1888b8',
+  yidams:'#8b1c2a',dakinis:'#b83068',protectors:'#504070','female-masters':'#8840a8',
+  offerings:'#9a8050',
+};
+
+function getZoneColor(tags){
+  const order=['karmapas','yidams','dakinis','mahasiddhas','lineage','teachers','buddhas','bodhisattvas','protectors','female-masters','offerings'];
+  for(const z of order){if((tags||[]).includes(z))return ZONE_COLORS[z];}
+  return '#706050';
+}
+
+function openDrawer(figId){
+  rfDrawerFig=figId;
+  const fig=FIGS.find(f=>f.id===figId);
+  const scrl=document.getElementById('rf-drawer-scroll');
+  scrl.innerHTML='';
+  if(!fig)return;
+  // Header
+  const hdr=h('div',{sty:{marginBottom:'16px'}});
+  hdr.appendChild(h('div',{sty:{display:'flex',alignItems:'center',gap:'10px',marginBottom:'6px'}},
+    h('div',{sty:{width:'28px',height:'28px',borderRadius:'50%',background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:'calc(11px * var(--scale))',fontFamily:'Lato',fontWeight:700,color:'var(--gold)'}},String(fig.n)),
+    h('div',{},
+      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(18px * var(--scale))',color:'var(--tx)',lineHeight:'1.1'}},fig.name),
+      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--gold-lo)'}},(fig.sub||''))
+    )
+  ));
+  if(fig.tib)hdr.appendChild(h('p',{sty:{fontSize:'calc(15px * var(--scale))',color:'var(--red-hi)',opacity:.8,marginBottom:'8px'}},fig.tib));
+  hdr.appendChild(h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'5px'}},
+    ...(fig.tags||[]).map(t=>h('span',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'4px',padding:'2px 7px',fontSize:'calc(9px * var(--scale))',color:'var(--tx-lo)',fontFamily:'Lato'}},t))
+  ));
+  scrl.appendChild(hdr);
+  if(fig.role){
+    scrl.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'5px'}},'ROLE'));
+    scrl.appendChild(h('p',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)',marginBottom:'14px',lineHeight:'1.65'}},fig.role));}
+  if(fig.bio){
+    scrl.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'6px'}},'BIOGRAPHY'));
+    scrl.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.85',marginBottom:'14px'}},fig.bio));}
+  if(fig.teaching){
+    scrl.appendChild(h('blockquote',{sty:{margin:'0 0 16px',padding:'12px 14px',borderLeft:'2px solid var(--bdr-hi)',background:'var(--gold-ghost)',borderRadius:'0 10px 10px 0'}},
+      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.8'}},'"'+fig.teaching+'"')));}
+  // Rigpa Wiki link
+  const haUrl=`https://www.rigpawiki.org/index.php?search=${encodeURIComponent(fig.name)}`;
+  scrl.appendChild(h('div',{sty:{marginBottom:'14px'}},
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'8px'}},'RIGPA WIKI'),
+    h('a',{href:haUrl,target:'_blank',rel:'noopener',sty:{display:'flex',alignItems:'center',gap:'10px',background:'var(--card2)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'12px 14px',textDecoration:'none',color:'var(--tx)'}},
+      h('div',{sty:{width:'36px',height:'36px',borderRadius:'8px',background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:'18px'}}, '📖'),
+      h('div',{},
+        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(13px * var(--scale))',color:'var(--tx)',marginBottom:'2px'}},`Search: ${fig.name}`),
+        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--gold)'}}, 'rigpawiki.org ↗')
+      )
+    )
+  ));
+  if(fig.wiki){
+    scrl.appendChild(h('div',{sty:{display:'flex',gap:'8px',flexWrap:'wrap'}},
+      h('a',{href:fig.wiki,target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px 14px',color:'var(--gold)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',textDecoration:'none'}},'Wikipedia ↗'),
+      h('a',{href:`https://duckduckgo.com/?q=${encodeURIComponent(fig.name+' thangka')}&iax=images&ia=images`,target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px 14px',color:'var(--gold)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',textDecoration:'none'}},'Thangka images ↗')
+    ));}
+  document.getElementById('rf-drawer').classList.add('open');
+  document.getElementById('rf-veil').classList.add('open');}
+
+function closeDrawer(){
+  rfDrawerFig=null;
+  document.getElementById('rf-drawer').classList.remove('open');
+  document.getElementById('rf-veil').classList.remove('open');}
+
+function applyRfFilter(val){
+  rfFilter=val;
+  const f=val.trim().toLowerCase();
+  const searchActive=!!f;
+  // When searching, force markers visible; when cleared, revert to toggle state
+  document.querySelectorAll('.rf-marker').forEach(el=>{
+    const fig=FIGS.find(fg=>fg.id===el.dataset.figid);
+    if(!fig)return;
+    const match=!f||fig.name.toLowerCase().includes(f)||(fig.sub||'').toLowerCase().includes(f)||(fig.tags||[]).some(t=>t.includes(f));
+    // Visibility: show if toggle is on OR search is active
+    const visible=rfMarkersVisible||searchActive;
+    el.classList.toggle('hidden-marker',!visible);
+    el.classList.toggle('dim',searchActive&&!match);
+    el.classList.toggle('highlighted',searchActive&&match);
+  });
+  // Update legend items
+  document.querySelectorAll('.rf-legend-item').forEach(el=>{
+    const fig=FIGS.find(fg=>fg.id===el.dataset.figid);
+    if(!fig)return;
+    const match=!f||fig.name.toLowerCase().includes(f)||(fig.sub||'').toLowerCase().includes(f)||(fig.tags||[]).some(t=>t.includes(f));
+    el.classList.toggle('dim',!!f&&!match);
+  });}
+
+function setRfTag(tag){
+  const inp=document.getElementById('rf-search-input');
+  const val=tag==='all'?'':tag;
+  if(inp){inp.value=val;}
+  applyRfFilter(val);
+  // Update tag button active states
+  document.querySelectorAll('.rf-tag-btn').forEach(b=>{
+    b.classList.toggle('on',b.dataset.tag===tag||(tag==='all'&&b.dataset.tag==='all'));});}
+
+// Generated figure-map schematic (replaces the old refuge-map.jpg). Each figure
+// is a tombstone outline + zone-coloured number badge + name, positioned from the
+// same FIGS data as the markers, so the numbering can never drift. Tap → drawer.
+function renderRefMap(){
+  const W=1080,H=1400,esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#f3ecdc;border-radius:6px">`;
+  FIGS.forEach(f=>{
+    const cx=f.x/100*W, cy=f.y/100*H, w=66, ht=44, r=8, x=cx-w/2, y=cy-ht/2, col=getZoneColor(f.tags);
+    const path=`M${x} ${y+r} Q${x} ${y} ${x+r} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${y+ht} H${x} Z`;
+    svg+=`<g data-figid="${f.id}" style="cursor:pointer">`
+      +`<path d="${path}" fill="#fffdf7" stroke="${col}" stroke-width="1.5"/>`
+      +`<circle cx="${cx}" cy="${y}" r="11" fill="${col}"/>`
+      +`<text x="${cx}" y="${y+4.5}" text-anchor="middle" font-family="Lato,sans-serif" font-size="13" font-weight="700" fill="#fff">${f.n}</text>`
+      +`<text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="Lato,sans-serif" font-size="9.5" fill="#2a1c10">${esc(f.name)}</text>`
+      +`</g>`;
+  });
+  svg+=`</svg>`;
+  const wrap=h('div',{sty:{width:'100%',marginBottom:'40px'}});
+  wrap.innerHTML=svg;
+  wrap.addEventListener('click',e=>{const g=e.target.closest('[data-figid]');if(g)openDrawer(g.dataset.figid);});
+  return wrap;
+}
+
+function renderRefuge(container){
+  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
+
+  // Header with marker toggle
+  const hdrRow=h('div',{sty:{padding:'10px 14px 8px',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)',display:'flex',justifyContent:'space-between',alignItems:'center'}});
+  const hdrText=h('div',{});
+  hdrText.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',letterSpacing:'.5px',color:'var(--gold)'}},'Karma Kagyu Refuge Field'));
+  hdrText.appendChild(h('p',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',fontFamily:'Lato',marginTop:'2px'}},'Tap numbered markers to learn about each figure'));
+  hdrRow.appendChild(hdrText);
+  // Marker visibility toggle button
+  const toggleBtn=h('button',{
+    id:'rf-marker-toggle',
+    sty:{
+      background:rfMarkersVisible?'var(--gold-ghost)':'var(--inp)',
+      border:`1px solid ${rfMarkersVisible?'var(--bdr-hi)':'var(--bdr)'}`,
+      borderRadius:'10px',padding:'7px 12px',cursor:'pointer',
+      display:'flex',flexDirection:'column',alignItems:'center',gap:'2px',
+      color:rfMarkersVisible?'var(--gold)':'var(--tx-lo)',
+      fontSize:'calc(10px * var(--scale))',fontFamily:'Lato',flexShrink:0,
+      transition:'all .2s'
+    },
+    onClick:()=>{
+      rfMarkersVisible=!rfMarkersVisible;
+      document.querySelectorAll('.rf-marker').forEach(el=>el.classList.toggle('hidden-marker',!rfMarkersVisible));
+      const btn=document.getElementById('rf-marker-toggle');
+      if(btn){
+        btn.style.background=rfMarkersVisible?'var(--gold-ghost)':'var(--inp)';
+        btn.style.border=`1px solid ${rfMarkersVisible?'var(--bdr-hi)':'var(--bdr)'}`;
+        btn.style.color=rfMarkersVisible?'var(--gold)':'var(--tx-lo)';
+        btn.querySelector('.toggle-ico').textContent=rfMarkersVisible?'◉':'○';
+        btn.querySelector('.toggle-lbl').textContent=rfMarkersVisible?'Hide':'Show';
+      }
+    }
+  });
+  toggleBtn.appendChild(h('span',{cls:'toggle-ico',sty:{fontSize:'16px',lineHeight:1}},rfMarkersVisible?'◉':'○'));
+  toggleBtn.appendChild(h('span',{cls:'toggle-lbl'},rfMarkersVisible?'Hide':'Show'));
+  toggleBtn.appendChild(h('span',{sty:{fontSize:'calc(9px * var(--scale))',opacity:'.7'}},'markers'));
+  // Header controls: markers toggle (position editor hidden to avoid confusing
+  // users — re-enable the '✎' button below to fine-tune marker positions).
+  const hdrCtl=h('div',{sty:{display:'flex',alignItems:'center',gap:'8px',flexShrink:0}},
+    // h('button',{title:'Edit marker positions',sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'7px 10px',cursor:'pointer',color:'var(--tx-lo)',fontSize:'13px',lineHeight:1},
+    //   onClick:()=>{rfEditMode=true;rfEditIdx=0;render();}},'✎'),
+    toggleBtn);
+  hdrRow.appendChild(hdrCtl);
+  outer.appendChild(hdrRow);
+
+  // Search bar
+  const sw=h('div',{sty:{padding:'8px 14px',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--bg)'}});
+  const sinp=h('input',{id:'rf-search-input','type':'text','placeholder':'Search by name or category…'});
+  sinp.value=rfFilter;
+  sinp.addEventListener('input',e=>applyRfFilter(e.target.value));
+  sw.appendChild(sinp);outer.appendChild(sw);
+
+  // Category chips (new categories)
+  const cats=['all','karmapas','lineage','mahasiddhas','teachers','yidams','dakinis','buddhas','bodhisattvas','protectors','female-masters','offerings'];
+  const tr=h('div',{sty:{padding:'6px 14px 8px',borderBottom:'1px solid var(--bdr)',display:'flex',flexWrap:'wrap',gap:'5px',flexShrink:0}});
+  cats.forEach(t=>{
+    const isActive=(rfFilter===t)||(t==='all'&&!rfFilter);
+    const col=ZONE_COLORS[t];
+    const btn=h('button',{
+      cls:'rf-tag-btn a11y-b'+(isActive?' on':''),
+      'data-tag':t,
+      sty:{fontSize:'calc(10px * var(--scale))',borderLeftColor:col&&isActive?col:'transparent',borderLeftWidth:'3px',borderLeftStyle:'solid'},
+      onClick:()=>setRfTag(t)
+    },t==='all'?'All':t);
+    tr.appendChild(btn);});
+  outer.appendChild(tr);
+
+  // Scrollable main body
+  const scroll=h('div',{sty:{flex:1,overflowY:'auto'}});
+
+  // Thangka image with zone-coloured markers
+  // aspect-ratio locks the coordinate space to the image's true proportions (1080×1359)
+  // so that left/top % on .rf-marker always map correctly regardless of viewport width
+  const imgWrap=h('div',{sty:{position:'relative',display:'block',width:'100%',aspectRatio:'1080/1359',overflow:'hidden',touchAction:'pan-y'}});
+  // Inner stage holds the image + markers and is what zoom/pan transforms.
+  const stage=h('div',{sty:{position:'absolute',inset:0,transformOrigin:'0 0',willChange:'transform'}});
+  const img=h('img',{src:'refuge-tree.jpg',sty:{position:'absolute',inset:0,width:'100%',height:'100%',display:'block',objectFit:'fill'}});
+  img.addEventListener('error',()=>{
+    img.style.display='none';
+    stage.appendChild(h('div',{sty:{padding:'48px 20px',textAlign:'center',background:'linear-gradient(180deg,#0d1e35,#0a2818 40%,#1a0c08)'}},
+      h('div',{sty:{fontSize:'38px',marginBottom:'12px',opacity:.5}},'✾'),
+      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(13px * var(--scale))',color:'var(--gold-lo)',marginBottom:'8px'}},'REFUGE FIELD'),
+      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-lo)',lineHeight:'1.7'}},'Place refuge-tree.jpg alongside this file to display the thangka.')
+    ));});
+  stage.appendChild(img);
+
+  // Zone-coloured markers
+  FIGS.forEach(fig=>{
+    const zColor=getZoneColor(fig.tags);
+    const marker=h('div',{
+      cls:'rf-marker'+((rfMarkersVisible||rfEditMode)?' ':' hidden-marker'),
+      'data-figid':fig.id,
+      sty:{left:`${fig.x}%`,top:`${fig.y}%`,background:zColor,
+        // In edit mode markers must not swallow the tap — the image handles placement.
+        pointerEvents:rfEditMode?'none':'auto'},
+      title:`${fig.n}. ${fig.name}`,
+      onClick:()=>{if(!rfEditMode)openDrawer(fig.id);}
+    },String(fig.n));
+    stage.appendChild(marker);
+  });
+  imgWrap.appendChild(stage);
+
+  // ── PINCH / DOUBLE-TAP ZOOM + DRAG-PAN (view mode only) ──────
+  // Transforms `stage`; imgWrap stays the clipping viewport. Disabled while
+  // editing so placement coordinates stay in base (untransformed) space.
+  if(!rfEditMode){
+    let sc=1,tx=0,ty=0;
+    const pts=new Map();            // active pointers
+    let moved=0,panStart=null,pinch=null,lastTap=0;
+    const apply=()=>{stage.style.transform=`translate(${tx}px,${ty}px) scale(${sc})`;
+      // When zoomed, capture all touch so drags pan; at 1× let the page scroll.
+      imgWrap.style.touchAction=sc>1?'none':'pan-y';};
+    const clamp=()=>{const W=imgWrap.clientWidth,H=imgWrap.clientHeight;
+      sc=Math.max(1,Math.min(5,sc));
+      tx=Math.min(0,Math.max(W*(1-sc),tx));
+      ty=Math.min(0,Math.max(H*(1-sc),ty));};
+    const zoomAt=(px,py,ns)=>{ns=Math.max(1,Math.min(5,ns));
+      tx=px-(px-tx)*(ns/sc); ty=py-(py-ty)*(ns/sc); sc=ns; clamp(); apply();};
+    const rel=e=>{const r=imgWrap.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];};
+    imgWrap.addEventListener('wheel',e=>{e.preventDefault();const[px,py]=rel(e);zoomAt(px,py,sc*(e.deltaY<0?1.15:0.87));},{passive:false});
+    imgWrap.addEventListener('pointerdown',e=>{
+      pts.set(e.pointerId,[e.clientX,e.clientY]);moved=0;
+      // Capture only when interacting (zoomed pan, or second finger for pinch)
+      // so a plain swipe at 1× still scrolls the page.
+      if(sc>1||pts.size===2){try{imgWrap.setPointerCapture(e.pointerId);}catch{}}
+      if(pts.size===1){const[px,py]=rel(e);panStart=[px,py,tx,ty];
+        const now=Date.now();
+        if(now-lastTap<300){zoomAt(px,py,sc>1.5?1:2.6);lastTap=0;}else lastTap=now;
+      } else if(pts.size===2){const p=[...pts.values()];
+        pinch={d:Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]),sc};}
+    });
+    imgWrap.addEventListener('pointermove',e=>{
+      if(!pts.has(e.pointerId))return;
+      pts.set(e.pointerId,[e.clientX,e.clientY]);
+      if(pts.size>=2&&pinch){const p=[...pts.values()];
+        const d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);
+        const r=imgWrap.getBoundingClientRect();
+        const mx=(p[0][0]+p[1][0])/2-r.left,my=(p[0][1]+p[1][1])/2-r.top;
+        zoomAt(mx,my,pinch.sc*(d/pinch.d));moved=99;
+      } else if(pts.size===1&&panStart&&sc>1){
+        const[px,py]=rel(e);moved+=Math.abs(px-panStart[0])+Math.abs(py-panStart[1]);
+        tx=panStart[2]+(px-panStart[0]);ty=panStart[3]+(py-panStart[1]);clamp();apply();
+      }
+    });
+    const up=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch=null;if(pts.size===0)panStart=null;};
+    imgWrap.addEventListener('pointerup',up);
+    imgWrap.addEventListener('pointercancel',up);
+    // Suppress marker taps that were actually drags.
+    imgWrap.addEventListener('click',e=>{if(moved>8){e.stopPropagation();e.preventDefault();moved=0;}},true);
+    // Zoom buttons (desktop discoverability)
+    const zb=(lbl,fn)=>h('button',{sty:{width:'30px',height:'30px',borderRadius:'8px',border:'1px solid rgba(255,255,255,.25)',background:'rgba(0,0,0,.45)',color:'#fff',fontSize:'17px',lineHeight:1,cursor:'pointer',backdropFilter:'blur(4px)'},onClick:fn},lbl);
+    imgWrap.appendChild(h('div',{sty:{position:'absolute',right:'8px',bottom:'8px',zIndex:20,display:'flex',flexDirection:'column',gap:'6px'}},
+      zb('+',()=>{const W=imgWrap.clientWidth,H=imgWrap.clientHeight;zoomAt(W/2,H/2,sc*1.4);}),
+      zb('−',()=>{const W=imgWrap.clientWidth,H=imgWrap.clientHeight;zoomAt(W/2,H/2,sc/1.4);}),
+      zb('⤢',()=>{sc=1;tx=0;ty=0;apply();})
+    ));
+  }
+
+  // Touch/press to temporarily reveal markers (disabled while placing).
+  function showMarkersTemp(){
+    if(!rfMarkersVisible&&!rfEditMode&&!rfFilter.trim()){
+      document.querySelectorAll('.rf-marker').forEach(el=>el.classList.remove('hidden-marker'));
+    }
+  }
+  function hideMarkersTemp(){
+    if(!rfMarkersVisible&&!rfEditMode&&!rfFilter.trim()){
+      document.querySelectorAll('.rf-marker').forEach(el=>el.classList.add('hidden-marker'));
+    }
+  }
+  imgWrap.addEventListener('touchstart',showMarkersTemp,{passive:true});
+  imgWrap.addEventListener('touchend',hideMarkersTemp,{passive:true});
+  imgWrap.addEventListener('touchcancel',hideMarkersTemp,{passive:true});
+  imgWrap.addEventListener('mousedown',showMarkersTemp);
+  imgWrap.addEventListener('mouseup',hideMarkersTemp);
+  imgWrap.addEventListener('mouseleave',hideMarkersTemp);
+
+  // ── MARKER-PLACEMENT EDITOR ──────────────────────────────────
+  // Tap the thangka to drop the selected figure's pin, then auto-advance.
+  // "Copy" yields a JSON id→[x,y] map to paste back into FIGS.
+  if(rfEditMode){
+    imgWrap.style.cursor='crosshair';
+    const edBar=h('p',{sty:{fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',color:'var(--tx)',lineHeight:'1.5'}});
+    const edOut=h('textarea',{readonly:'',sty:{width:'100%',height:'56px',marginTop:'8px',fontSize:'11px',fontFamily:'monospace',background:'var(--inp)',color:'var(--tx)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px'}});
+    function syncEd(){
+      const fig=FIGS[rfEditIdx];
+      edBar.innerHTML=`Placing <b>#${fig.n} ${fig.name}</b> — tap the thangka &nbsp;<span style="color:var(--tx-lo)">(${rfEditIdx+1}/${FIGS.length}, now ${fig.x},${fig.y})</span>`;
+      imgWrap.querySelectorAll('.rf-marker').forEach(m=>m.classList.toggle('highlighted',m.dataset.figid===fig.id));
+    }
+    function syncOut(){const map={};FIGS.forEach(f=>map[f.id]=[f.x,f.y]);edOut.value=JSON.stringify(map);}
+    imgWrap.addEventListener('click',e=>{
+      const rect=imgWrap.getBoundingClientRect();
+      const x=Math.round(((e.clientX-rect.left)/rect.width)*1000)/10;
+      const y=Math.round(((e.clientY-rect.top)/rect.height)*1000)/10;
+      const fig=FIGS[rfEditIdx];fig.x=x;fig.y=y;
+      const mk=imgWrap.querySelector(`.rf-marker[data-figid="${fig.id}"]`);
+      if(mk){mk.style.left=x+'%';mk.style.top=y+'%';}
+      if(rfEditIdx<FIGS.length-1)rfEditIdx++;
+      syncEd();syncOut();
+    });
+    const panel=h('div',{sty:{position:'sticky',top:0,zIndex:30,background:'var(--card)',borderBottom:'2px solid var(--gold)',padding:'10px 14px'}},
+      edBar,
+      h('div',{sty:{display:'flex',gap:'6px',marginTop:'8px'}},
+        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{if(rfEditIdx>0)rfEditIdx--;syncEd();}},'‹ Prev'),
+        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{if(rfEditIdx<FIGS.length-1)rfEditIdx++;syncEd();}},'Next ›'),
+        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{const t=FIGS[rfEditIdx];window.open(t.wiki||`https://duckduckgo.com/?q=${encodeURIComponent(t.name)}`,'_blank','noopener');}},'Who?'),
+        h('button',{cls:'btn',sty:{padding:'8px'},onClick:()=>{syncOut();edOut.select();navigator.clipboard&&navigator.clipboard.writeText(edOut.value);}},'Copy'),
+        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{rfEditMode=false;render();}},'Done')
+      ),
+      edOut
+    );
+    scroll.appendChild(panel);
+    setTimeout(()=>{syncEd();syncOut();},0);
+  }
+
+  scroll.appendChild(imgWrap);
+
+  // Zone colour legend key
+  const zoneKeys=Object.entries(ZONE_COLORS).filter(([k])=>FIGS.some(f=>(f.tags||[]).includes(k)));
+  const keyRow=h('div',{sty:{padding:'8px 14px',display:'flex',flexWrap:'wrap',gap:'6px',background:'var(--surf)',borderTop:'1px solid var(--bdr)',borderBottom:'1px solid var(--bdr)'}});
+  zoneKeys.forEach(([zone,col])=>{
+    keyRow.appendChild(h('div',{sty:{display:'flex',alignItems:'center',gap:'4px'}},
+      h('div',{sty:{width:'10px',height:'10px',borderRadius:'50%',background:col,border:'1.5px solid rgba(255,255,255,.7)',flexShrink:0}}),
+      h('span',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-lo)'}},zone)
+    ));
+  });
+  scroll.appendChild(keyRow);
+
+  // Figure Index — collapsible
+  let figIndexOpen=false;
+  const figIndexHdr=h('div',{
+    sty:{padding:'12px 14px',borderTop:'1px solid var(--bdr)',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',background:'var(--surf)'},
+    onClick:()=>{
+      figIndexOpen=!figIndexOpen;
+      figIndexBody.style.display=figIndexOpen?'block':'none';
+      figIndexChevron.textContent=figIndexOpen?'▲':'▼';
+    }
+  },
+    h('div',{},
+      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)'}},'FIGURE INDEX'),
+      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-ghost)',marginTop:'2px'}},`${FIGS.length} figures — tap to read biography`)
+    ),
+    h('span',{id:'rf-fig-chevron',sty:{color:'var(--tx-ghost)',fontSize:'12px',flexShrink:0}},'▼')
+  );
+  const figIndexChevron=figIndexHdr.querySelector('#rf-fig-chevron');
+  scroll.appendChild(figIndexHdr);
+
+  const figIndexBody=h('div',{sty:{display:'none',paddingBottom:'16px'}});
+  FIGS.forEach(fig=>{
+    const zColor=getZoneColor(fig.tags);
+    const item=h('div',{cls:'rf-legend-item','data-figid':fig.id,onClick:()=>openDrawer(fig.id)},
+      h('div',{cls:'rf-legend-num',sty:{background:zColor+'22',borderColor:zColor+'88',color:zColor}},String(fig.n)),
+      h('div',{sty:{flex:1,minWidth:0}},
+        h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',color:'var(--tx)',lineHeight:'1.2'}},' '+fig.name),
+        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}},fig.sub||'')
+      ),
+      h('span',{sty:{color:'var(--tx-ghost)',fontSize:'18px',flexShrink:0}},'›')
+    );
+    figIndexBody.appendChild(item);
+  });
+  scroll.appendChild(figIndexBody);
+
+  // Figure map — generated from FIGS so numbers always match the markers above
+  scroll.appendChild(h('div',{sty:{padding:'12px 14px 6px',borderTop:'1px solid var(--bdr)'}},
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'4px'}},'FIGURE MAP — numbers match the markers above'),
+    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-ghost)',marginBottom:'8px'}},'Tap any figure to read about it.')));
+  scroll.appendChild(renderRefMap());
+
+  outer.appendChild(scroll);
+  container.appendChild(outer);
+  if(rfFilter)setTimeout(()=>applyRfFilter(rfFilter),50);}
+
+// ═══════════════════════════════════════════════════════════
+// ABOUT
+// ═══════════════════════════════════════════════════════════
+function renderAbout(){
+  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
+  const subs=['Calendar','Events','Info'];
+  const sb=h('div',{sty:{display:'flex',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}});
+  subs.forEach(t=>{const on=ST.aboutSub===t;sb.appendChild(h('button',{sty:{flex:1,padding:'12px 4px',background:'none',border:'none',borderBottom:`2px solid ${on?'var(--gold)':'transparent'}`,color:on?'var(--gold)':'var(--tx-lo)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',letterSpacing:'.5px',cursor:'pointer',marginBottom:'-1px'},onClick:()=>{ST.aboutSub=t;render();}},t));});
+  outer.appendChild(sb);
+  const body=h('div',{sty:{flex:1,overflowY:'auto'}});
+  if(ST.aboutSub==='Calendar')body.appendChild(renderCal());
+  else if(ST.aboutSub==='Events')body.appendChild(renderEvents());
+  else body.appendChild(renderInfo());
+  outer.appendChild(body);return outer;}
+
+function renderCal(){
+  const now=new Date(),age=moonAge(now),td=tibDay(now),ausp=AUSP[td];
+  const hr=hairRec(td);
+  const quote=QUOTES[doy(now)%QUOTES.length];
+  const upcoming=nextAusp(now,5);
+  const w=h('div',{sty:{padding:'16px 16px 60px'}});
+  w.appendChild(h('div',{sty:{textAlign:'center',padding:'16px 0 14px',borderBottom:'1px solid var(--bdr)',marginBottom:'20px'}},
+    h('div',{sty:{display:'flex',justifyContent:'center',marginBottom:'12px'},html:moonSVG(age,56)}),
+    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',letterSpacing:'2px',marginBottom:'6px'}},now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase()),
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(22px * var(--scale))',color:'var(--tx)',marginBottom:'4px'}},'Tibetan Day '+td),
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',color:'var(--tx-mid)',marginBottom:'4px'}},moonPhase(age)+' — '+Math.round(moonIllum(age)*100)+'% illuminated'),
+    ausp&&h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(14px * var(--scale))',color:'var(--gold)',marginTop:'10px',letterSpacing:'.5px'}},'✦ '+ausp.name+' ✦'),
+    ausp&&h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-lo)',lineHeight:'1.7',marginTop:'8px',padding:'0 8px'}},ausp.desc)
+  ));
+  // Hair cutting — corrected data with day-specific result
+  w.appendChild(h('div',{sty:{background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'14px 16px',marginBottom:'16px'}},
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)',marginBottom:'8px'}},'HAIR CUTTING TODAY — Tibetan astrological tradition'),
+    h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center'}},
+      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(18px * var(--scale))',color:hr.col,fontWeight:400}},hr.rec),
+      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(15px * var(--scale))',color:'var(--tx-lo)',textAlign:'right',maxWidth:'55%'}},hr.result)
+    )
+  ));
+  // Quote
+  w.appendChild(h('div',{sty:{background:'var(--red-lo)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'16px',marginBottom:'20px'}},
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'10px'}},'TEACHING OF THE DAY'),
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.85',marginBottom:'10px'}},'"'+quote.t+'"'),
+    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(11px * var(--scale))',color:'var(--tx-lo)',textAlign:'right'}},quote.a)
+  ));
+  w.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)',marginBottom:'12px'}},'NEXT AUSPICIOUS DAYS'));
+  upcoming.forEach(({date,td:tday,a})=>{
+    const diff=Math.round((date-now)/86400000);
+    const hr2=hairRec(tday);
+    w.appendChild(h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'10px 14px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'10px',marginBottom:'7px'}},
+      h('div',{},h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',color:a.col}},a.name),h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},`Tib Day ${tday} — Hair: ${hr2.rec}`)),
+      h('div',{sty:{textAlign:'right'}},h('p',{sty:{fontFamily:'Lato',fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)'}},diff===0?'Today':diff===1?'Tomorrow':`In ${diff} days`),h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},date.toLocaleDateString('en-GB',{day:'numeric',month:'short'})))
+    ));});
+  w.appendChild(h('div',{sty:{marginTop:'20px',textAlign:'center'}},
+    h('a',{href:'https://tibetanbuddhistcalendar.org/day',target:'_blank',rel:'noopener',sty:{display:'inline-block',background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'11px 20px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Full Tibetan Buddhist Calendar ↗')));
+  return w;}
+
+function renderEvents(){
+  const w=h('div',{sty:{padding:'16px 16px 60px'}});
+  w.appendChild(h('div',{sty:{background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'16px',padding:'20px',marginBottom:'16px'}},
+    h('div',{sty:{display:'flex',alignItems:'center',gap:'12px',marginBottom:'14px'}},
+      h('span',{sty:{fontSize:'28px',flexShrink:0}},'☸'),
+      h('div',{},
+        h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(17px * var(--scale))',color:'var(--tx)'}},'Palpung Events'),
+        h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-lo)',marginTop:'3px'}},'Palpung Changchub Dargyeling, Wales')
+      )
+    ),
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(15px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.75',marginBottom:'16px'}},'Teachings, pujas, and retreats at the centre in Llangynog, Wales — under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident lama Lama Rabsang. Open to all.'),
+    h('a',{href:'https://www.palpung.org.uk/upcoming',target:'_blank',rel:'noopener',sty:{display:'block',background:'linear-gradient(135deg,var(--gold),var(--gold-lo))',color:'var(--bg)',borderRadius:'11px',padding:'14px 20px',fontFamily:'Playfair Display',fontSize:'calc(12px * var(--scale))',letterSpacing:'1px',textDecoration:'none',textAlign:'center',fontWeight:500}},'Open Events Page  ↗')
+  ));
+  w.appendChild(h('div',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'14px 16px',display:'flex',gap:'10px',alignItems:'flex-start'}},
+    h('span',{sty:{fontSize:'16px',flexShrink:0,marginTop:'2px'}},'ℹ'),
+    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',color:'var(--tx-lo)',lineHeight:'1.7'}},'Palpung\'s events page cannot be shown in-app due to security restrictions on their server. Tap above to open it directly in your browser.')
+  ));
+  return w;}
+
+function renderInfo(){
+  const w=h('div',{sty:{padding:'16px 16px 60px'}});
+  function sec(title,el){const d=h('div',{sty:{marginBottom:'24px'}});d.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2.5px',color:'var(--gold-lo)',marginBottom:'10px'}},title));d.appendChild(el);return d;}
+  w.appendChild(sec('ABOUT THIS APP',h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',lineHeight:'1.85',color:'var(--tx-mid)'}},'This is an unofficial companion app for the Karma Kagyu Ngöndro practice, inspired by the dedicated sangha at East Side Mandala, Poland. It is not affiliated with or endorsed by Palpung Changchub Dargyeling or any Buddhist organisation. Prayer texts are reproduced from the Palpung Changchub Dargyeling Prayer Book for personal practice use only.')));
+  w.appendChild(h('hr',{cls:'rule'}));
+  w.appendChild(sec('PALPUNG CHANGCHUB DARGYELING',h('div',{},
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',lineHeight:'1.85',color:'var(--tx-mid)',marginBottom:'16px'}},'Palpung Changchub Dargyeling is a Karma Kagyu Buddhist centre in Wales, UK, under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident teacher Lama Rabsang. They offer teachings, retreats, and an extensive library of free practice texts. Please offer them as much support as you can.'),
+    h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'8px'}},
+      h('a',{href:'https://www.palpung.org.uk/',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Website ↗'),
+      h('a',{href:'https://www.palpung.org.uk/resources',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Free Texts ↗'),
+      h('a',{href:'https://www.palpung.org.uk/donate',target:'_blank',rel:'noopener',sty:{background:'linear-gradient(135deg,var(--red),#4a0808)',color:'#f8f0d8',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none',borderRadius:'9px',padding:'10px 16px',border:'none'}},'Donate ↗')
+    ))));
+  w.appendChild(h('hr',{cls:'rule'}));
+  w.appendChild(sec('PROJECT LINKS',h('div',{},
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(15px * var(--scale))',color:'var(--tx-lo)',marginBottom:'12px',lineHeight:'1.7'}},'Original Android app by jwaga.'),
+    h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'8px'}},
+      h('a',{href:'https://github.com/jwaga/esmnyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'GitHub ↗'),
+      h('a',{href:'https://play.google.com/store/apps/details?id=pl.eastsidemandala.nyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Android App ↗'),
+      h('a',{href:'https://slicedharma.com/wp-content/uploads/2026/01/Ngondro_Daily_Practice_Karma_Kagyu-22-01-26-1.pdf',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Practice Notes ↗')
+    ))));
+  w.appendChild(h('hr',{cls:'rule'}));
+  w.appendChild(h('div',{sty:{background:'var(--red-lo)',border:'1px solid var(--bdr)',borderRadius:'14px',padding:'20px',marginBottom:'24px',textAlign:'center'}},
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'12px'}},'WITH GRATITUDE'),
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.9',marginBottom:'12px'}},'This app was inspired by the dedicated sangha of East Side Mandala, Lublin, Poland. May they swiftly attain enlightenment for the benefit of all beings without exception.'),
+    h('a',{href:'https://lublin.buddyzm.pl/',target:'_blank',rel:'noopener',sty:{display:'inline-block',background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 20px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'East Side Mandala ↗')
+  ));
+  w.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',color:'var(--tx-lo)',textAlign:'center',lineHeight:'2'}},'SARWA MANGALAM'));
+  return w;}
+
+// ═══════════════════════════════════════════════════════════
+// SETTINGS PAGE
+// ═══════════════════════════════════════════════════════════
+function renderSettings(){
+  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
+  outer.appendChild(h('div',{sty:{padding:'14px 14px 10px',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}},
+    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',letterSpacing:'.5px',color:'var(--gold)'}},'Settings'),
+    h('p',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',fontFamily:'Lato',marginTop:'3px'}},'Appearance and display options')));
+  const scroll=h('div',{sty:{flex:1,overflowY:'auto',padding:'16px 14px 60px'}});
+
+  // ── THEME ──
+  scroll.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2.5px',color:'var(--gold-lo)',marginBottom:'12px'}},'THEME'));
+  const curTheme=document.documentElement.getAttribute('data-theme')||'light';
+  const THEMES=[
+    {id:'light', name:'Light',  bg:'#fdf8f0',fg:'#1a0804',acc:'#7a4e00',desc:'Warm parchment'},
+    {id:'dark',  name:'Dark',   bg:'#0e0804',fg:'#f0e4c8',acc:'#d4980a',desc:'Deep amber'},
+    {id:'neuro', name:'Focus',  bg:'#08101c',fg:'#e0eaf8',acc:'#5898c8',desc:'Blue-steel'},
+    {id:'temple',name:'Temple', bg:'#1a0608',fg:'#f5e8d0',acc:'#e09020',desc:'Saffron & burgundy'},
+    {id:'night', name:'Night',  bg:'#080c1e',fg:'#f0e8ff',acc:'#c0a060',desc:'Candlelit indigo'},
+    {id:'earth', name:'Earth',  bg:'#f5ede0',fg:'#2c1008',acc:'#a06820',desc:'Terracotta & ochre'},
+    {id:'slate', name:'Slate',  bg:'#1c2330',fg:'#d8e8f8',acc:'#7090b0',desc:'Cool grey-blue'},
+  ];
+  const themeGrid=h('div',{sty:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'9px',marginBottom:'26px'}});
+  THEMES.forEach(t=>{
+    const on=curTheme===t.id;
+    const btn=h('button',{
+      sty:{
+        background:t.bg,border:`2px solid ${on?t.acc:'rgba(128,100,60,.15)'}`,
+        borderRadius:'13px',padding:'13px 12px',cursor:'pointer',
+        display:'flex',flexDirection:'column',alignItems:'flex-start',gap:'4px',
+        boxShadow:on?`0 0 0 1px ${t.acc}, 0 2px 10px rgba(0,0,0,.2)`:'0 1px 4px rgba(0,0,0,.15)',
+        transition:'all .2s',textAlign:'left'
+      },
+      onClick:()=>{setTheme(t.id);render();}
+    });
+    btn.appendChild(h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center',width:'100%'}},
+      h('span',{sty:{fontFamily:'Lato',fontWeight:700,fontSize:'13px',color:t.fg}},t.name),
+      on?h('span',{sty:{color:t.acc,fontSize:'13px',lineHeight:1}},'✓'):h('span',{})));
+    btn.appendChild(h('span',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'12px',color:t.acc,opacity:.9}},t.desc));
+    btn.appendChild(h('div',{sty:{display:'flex',gap:'4px',marginTop:'5px'}},
+      h('div',{sty:{width:'13px',height:'13px',borderRadius:'50%',background:t.acc}}),
+      h('div',{sty:{width:'13px',height:'13px',borderRadius:'50%',background:t.fg,opacity:'.4'}}),
+      h('div',{sty:{width:'13px',height:'13px',borderRadius:'50%',background:t.bg,border:`1.5px solid ${t.fg}30`}})
+    ));
+    themeGrid.appendChild(btn);
+  });
+  scroll.appendChild(themeGrid);
+
+  // ── TEXT SIZE ──
+  scroll.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2.5px',color:'var(--gold-lo)',marginBottom:'12px'}},'TEXT SIZE'));
+  const curScale=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale'))||1;
+  const sizeRow=h('div',{sty:{display:'flex',gap:'9px',marginBottom:'24px'}});
+  [[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].forEach(([v,lbl,name])=>{
+    const on=Math.abs(curScale-v)<0.05;
+    sizeRow.appendChild(h('button',{
+      sty:{
+        flex:1,background:on?'var(--gold-ghost)':'var(--inp)',
+        border:`1px solid ${on?'var(--bdr-hi)':'var(--bdr)'}`,
+        borderRadius:'12px',padding:'14px 8px',cursor:'pointer',
+        display:'flex',flexDirection:'column',alignItems:'center',gap:'5px',transition:'all .2s'
+      },
+      onClick:()=>{setSize(v);render();}
+    },
+      h('span',{sty:{fontFamily:'Playfair Display',fontSize:`${Math.round(14*v)}px`,color:on?'var(--gold)':'var(--tx)',fontWeight:on?700:400,lineHeight:1}},lbl),
+      h('span',{sty:{fontFamily:'Lato',fontSize:'10px',color:'var(--tx-lo)'}},name)
+    ));
+  });
+  scroll.appendChild(sizeRow);
+
+  outer.appendChild(scroll);
+  return outer;
+}
+
+// ═══════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════
+render();
+
+// Re-render on width change only (desktop resize / device rotation) so the nav
+// switches between bar/sidebar and the grid recomputes its cell size. Vertical
+// resizes from the mobile URL bar showing/hiding are ignored to avoid churn.
+let lastW=window.innerWidth, rzT;
+window.addEventListener('resize',()=>{
+  clearTimeout(rzT);
+  rzT=setTimeout(()=>{if(window.innerWidth!==lastW){lastW=window.innerWidth;render();}},150);
+});
+
+// ═══════════════════════════════════════════════════════════
+// PWA — SERVICE WORKER REGISTRATION
+// ═══════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
