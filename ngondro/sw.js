@@ -1,4 +1,4 @@
-const CACHE = 'esm-ngondro-v9';
+const CACHE = 'esm-ngondro-v9-3';
 const ASSETS = [
   './',
   './index.html',
@@ -11,11 +11,17 @@ const ASSETS = [
   './guru.jpg',
   './phowa.jpg',
   './lovingeyes.jpg',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-512-maskable.png',
+  './ngondro-full.pdf',   // full practice text (~24MB) — precached for offline
 ];
 
 self.addEventListener('install', e => {
+  // ponytail: add each asset independently so one 404 can't fail the whole
+  // install (the classic "PWA never caches" bug). allSettled ignores misses.
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS.filter(Boolean)))
+    caches.open(CACHE).then(c => Promise.allSettled(ASSETS.map(a => c.add(a))))
   );
   self.skipWaiting();
 });
