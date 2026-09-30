@@ -198,6 +198,40 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .week i.t { border-color:var(--accent); border-style:dashed; }
 .week i.y.t { border-style:solid; }
 /* Quote carousel — native horizontal swipe with scroll-snap */
+/* Practice diary: each day's circle fills with the colours of what was ticked. */
+.wd { display:flex; flex-direction:column; align-items:center; gap:4px; padding:4px 0; border-radius:12px; min-height:var(--tap); }
+.wd span { font-size:13px; color:var(--ink-3); font-weight:700; }
+.wd i { display:block; width:32px; height:32px; border-radius:50%; border:2px solid var(--line); background:transparent; transition:transform .2s; }
+.wd.today span { color:var(--accent-ink); }
+.wd.sel { background:var(--glow); }
+.wd.sel i { box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--accent); }
+.wd:disabled { opacity:.35; }
+.jchips { display:flex; flex-wrap:wrap; gap:8px; }
+.jchip { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px 14px; border-radius:22px; border:2px solid var(--line); background:var(--bg); font-weight:700; font-size:var(--fs-sm); }
+.jchip i { width:14px; height:14px; border-radius:50%; background:var(--c); flex-shrink:0; }
+.jchip.on { border-color:var(--c); background:color-mix(in srgb,var(--c) 18%,var(--bg)); }
+.jchip.add { color:var(--ink-2); border-style:dashed; }
+.jchip.add svg { width:16px; height:16px; }
+.jchip.pop { animation:pop .35s ease-out; }
+@keyframes pop { 0% { transform:scale(1); } 40% { transform:scale(1.12); } 100% { transform:scale(1); } }
+.jcal .jd { gap:4px; }
+.jcal .jd i { width:18px; height:18px; border-radius:50%; border:1.5px solid var(--line); display:block; }
+.jcal .jd:disabled { opacity:.35; }
+.swatches { display:flex; flex-wrap:wrap; gap:10px; }
+.swatch { width:40px; height:40px; border-radius:50%; background:var(--c); border:3px solid transparent; box-shadow:0 0 0 1px var(--line); }
+.swatch.on { border-color:var(--bg); box-shadow:0 0 0 3px var(--ink); }
+details summary { cursor:pointer; min-height:44px; display:flex; align-items:center; font-weight:700; color:var(--accent-ink); }
+/* Words for today: a single quote, sized to its text; swipe sideways to change. */
+.qcard { touch-action:pan-y; user-select:none; -webkit-user-select:none; display:flex; flex-direction:column; gap:12px; }
+.qcard .quote { min-height:0; flex:none; }
+.quote.from-right { animation:qin-r .28s ease-out; }
+.quote.from-left { animation:qin-l .28s ease-out; }
+@keyframes qin-r { from { opacity:0; transform:translateX(28px); } to { opacity:1; transform:none; } }
+@keyframes qin-l { from { opacity:0; transform:translateX(-28px); } to { opacity:1; transform:none; } }
+.qcard .qnav { margin-top:0; }
+.switchbtn { min-height:44px; padding:6px 12px; font-size:var(--fs-sm); flex-shrink:0; }
+.switchbtn svg { width:18px; height:18px; }
+.tibdate { font-family:var(--f-tib); color:var(--accent-ink); font-size:calc(17px * var(--scale)); }
 /* The card takes the height of the quote showing (set in updQ), so short
    sayings don't sit in a box sized for the longest verse. */
 .quotes { display:flex; align-items:flex-start; overflow-x:auto; scroll-snap-type:x mandatory; gap:12px; scrollbar-width:none; overscroll-behavior-x:contain; transition:height .25s; }
@@ -235,11 +269,19 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .ovtop .title { flex:1; font-weight:700; font-size:var(--fs-lg); text-align:center; line-height:1.25; }
 .ovbody { flex:1; overflow-y:auto; }
 .ovbody > .col { padding-top:6px; }
-.veil { position:absolute; inset:0; background:var(--veil); display:flex; align-items:flex-end; justify-content:center; z-index:40; animation:fade .2s; }
-.sheet { width:100%; max-width:560px; background:var(--surface); border-radius:26px 26px 0 0; padding:10px 20px calc(22px + var(--safe-b)); display:flex; flex-direction:column; gap:14px; max-height:92%; overflow-y:auto; animation:up .28s cubic-bezier(.32,.72,0,1); }
+.veil { position:absolute; inset:0; background:var(--veil); display:flex; align-items:flex-end; justify-content:center; z-index:40; }
+.veil.enter { animation:fade .2s; }
+.sheet { width:100%; max-width:560px; background:var(--surface); border-radius:26px 26px 0 0; padding:0 20px calc(22px + var(--safe-b)); display:flex; flex-direction:column; gap:14px; max-height:92%; overflow-y:auto; }
+.sheet.enter { animation:up .28s cubic-bezier(.32,.72,0,1); }
+/* Top bar of every sheet: drag handle (centre) + Close button (right), stays visible while scrolling */
+.sheetbar { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:center; min-height:52px; margin:0 -20px; padding:6px 12px 0; background:var(--surface); touch-action:none; cursor:grab; }
+.sheetbar .grab { margin:0; }
+.xclose { position:absolute; right:10px; top:8px; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--sunk); color:var(--ink-2); border:1px solid var(--line); }
+.xclose svg { width:20px; height:20px; }
 .sheet .h1 { font-size:calc(25px * var(--scale)); }
 .grab { width:44px; height:5px; border-radius:3px; background:var(--line); margin:4px auto 2px; flex-shrink:0; }
-.toast { position:absolute; left:14px; right:14px; bottom:14px; max-width:520px; margin:0 auto; background:var(--ink); color:var(--bg); border-radius:var(--r); padding:10px 14px; display:flex; align-items:center; gap:10px; z-index:50; font-weight:700; animation:up .25s; }
+.toast { position:absolute; left:14px; right:14px; bottom:14px; max-width:520px; margin:0 auto; background:var(--ink); color:var(--bg); border-radius:var(--r); padding:10px 14px; display:flex; align-items:center; gap:10px; z-index:50; font-weight:700; }
+.toast.enter { animation:up .25s; }
 .toast button { margin-left:auto; text-decoration:underline; font-weight:700; min-height:40px; padding:0 6px; color:inherit; }
 @keyframes up { from { transform:translateY(40px); opacity:0; } to { transform:none; opacity:1; } }
 @keyframes fade { from { opacity:0; } to { opacity:1; } }
@@ -275,6 +317,8 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .vt { font-family:var(--f-tib); font-size:calc(24px * var(--scale)); line-height:1.9; color:var(--maroon); }
 .vp { font-size:calc(24px * var(--scale)); font-weight:700; line-height:1.35; letter-spacing:.01em; }
 .ve { font-size:var(--fs-lg); color:var(--ink-2); line-height:1.55; }
+.vt, .ve { white-space:pre-line; }
+.vins { font-size:var(--fs-sm); color:var(--ink-2); font-style:normal; border-left:3px solid var(--line); padding-left:10px; }
 .vx { font-size:calc(20px * var(--scale)); line-height:1.6; white-space:pre-line; max-width:62ch; }
 .whole .vblock { padding:14px 0; border-bottom:1px solid var(--line); display:flex; flex-direction:column; gap:6px; }
 .whole .vp { font-size:calc(21px * var(--scale)); }
@@ -451,23 +495,18 @@ const PACE_OPTS=[0,21,50,100,108,200,300,500,1000];
 // PRAYERS
 // ═══════════════════════════════════════════════════════════
 const PRAYERS=[
-  {id:'refuge_bodhi',title:'Refuge & Bodhicitta',sub:'Opening practice — Refuge ×3, then Bodhicitta ×3',couplets:[
-    {sec:'REFUGE — SKYAB \'GRO  (×3)'},
+  // Order and English follow the Palpung Changchub Dargyeling Prayer Book, p.2.
+  {id:'refuge_bodhi',title:'Refuge & Bodhicitta',sub:'Refuge ×3, then the Four Immeasurables ×3',couplets:[
+    {sec:'REFUGE AND BODHICITTA  (×3)'},
     {t:'སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ།',p:'SANG GYE CHO DANG TSOK KYI CHOK NAM LA',e:'Until enlightenment I take refuge,'},
     {t:'བྱང་ཆུབ་བར་དུ་བདག་ནི་སྐྱབས་སུ་མཆི།',p:'JANG CHUB BAR DU DAK NI KYAB SU CHI',e:'in the Buddha, Dharma and the Supreme Assembly.'},
     {t:'བདག་གིས་སྦྱིན་སོགས་རྒྱས་པའི་བསོད་ནམས་ཀྱིས།',p:'DAK GI JIN SOK GYI PAY SO NAM KYI',e:'May the merits from my generosity and other good deeds'},
     {t:'འགྲོ་ལ་ཕན་ཕྱིར་སངས་རྒྱས་གྲུབ་པར་ཤོག།',p:'DRO LA PEN CHIR SANG GYE DRUP PAR SHOK',e:'result in Buddhahood for the benefit of all beings.'},
-    {sec:'BODHICITTA — BYANG CHUB SEMS  (×3)'},
-    {t:'བྱང་ཆུབ་སེམས་ནི་རིན་པོ་ཆེ།',p:'CHANG CHUB SEM NI RINPOCHE',e:'May the precious bodhicitta'},
-    {t:'མ་སྐྱེས་པ་རྣམས་སྐྱེ་འགྱུར་ཅིག།',p:'MACHAY PA NAM CHAY JUR CHIK',e:'take birth where it is not yet existing,'},
-    {t:'སྐྱེས་པ་ཉམས་པ་མེད་པ་དང།',p:'CHAYPA NYAMPA MAY PA DANG',e:'where it exists may it never wane,'},
-    {t:'གོང་ནས་གོང་དུ་འཕེལ་བར་ཤོག།',p:'KONGNAY KONGDU PELWAR SHO',e:'but continuously and ever increase.'},
-  ]},
-  {id:'four_imm',title:'Four Immeasurables',sub:'TSHAD MED BZHI',couplets:[
+    {sec:'THE FOUR IMMEASURABLES  (×3)'},
     {t:'སེམས་ཅན་ཐམས་ཅད་བདེ་བ་དང་བདེ་བའི་རྒྱུ་དང་ལྡན་པར་གྱུར་ཅིག།',p:'SEM CHEN TAM CHE DE WA DANG DE WAY GYU DANG DEN PAR GYUR CHIK',e:'May all beings have happiness and the causes of happiness,'},
-    {t:'སྡུག་བསྔལ་དང་སྡུག་བསྔལ་གྱི་རྒྱུ་དང་བྲལ་བར་གྱུར་ཅིག།',p:'DUK NGAL DANG DUK NGAL GYI GYU DANG DREL WAR GYUR CHIK',e:'May all beings be free from suffering and its causes,'},
-    {t:'སྡུག་བསྔལ་མེད་པའི་བདེ་བ་དམ་པ་དང་མི་འབྲལ་བར་གྱུར་ཅིག།',p:'DUK NGAL ME PAY DE WA DAM PA DANG MI DRAL WAR GYUR CHIK',e:'May all beings never be separate from supreme bliss,'},
-    {t:'ཉེ་རིང་ཆགས་སྡང་གཉིས་དང་བྲལ་བའི་བཏང་སྙོམས་ཆེན་པོ་ལ་གནས་པར་གྱུར་ཅིག།',p:'NYE RING CHAK DANG NYI DANG DREL WAY TANG NYOM CHEN PO LA NAY PAR GYUR CHIK',e:'May all beings rest in the Great Equanimity, free from attachment and aversion.'},
+    {t:'སྡུག་བསྔལ་དང་སྡུག་བསྔལ་གྱི་རྒྱུ་དང་བྲལ་བར་གྱུར་ཅིག།',p:'DUK NGAL DANG DUK NGAL GYI GYU DANG DREL WAR GYUR CHIK',e:'May all beings be free from suffering and the causes of suffering,'},
+    {t:'སྡུག་བསྔལ་མེད་པའི་བདེ་བ་དམ་པ་དང་མི་འབྲལ་བར་གྱུར་ཅིག།',p:'DUK NGAL ME PAY DE WA DAM PA DANG MI DRAL WAR GYUR CHIK',e:'May all beings never be separate from the supreme bliss which is free from all suffering,'},
+    {t:'ཉེ་རིང་ཆགས་སྡང་གཉིས་དང་བྲལ་བའི་བཏང་སྙོམས་ཆེན་པོ་ལ་གནས་པར་གྱུར་ཅིག།',p:'NYE RING CHAK DANG NYI DANG DREL WAY TANG NYOM CHEN PO LA NAY PAR GYUR CHIK',e:'May all beings live in the Great Equanimity free from all attachment and aversion.'},
   ]},
   {id:'root_lama',title:'Prayer to the Root Lama',sub:'RTSA BA\'I BLA MA\'I GSOL \'DEBS',couplets:[
     {t:'དཔལ་ལྡན་རྩ་བའི་བླ་མ་རིན་པོ་ཆེ།',p:'PAL DEN TSAWI LAMA RINPOCHE',e:'Wonderful, precious Root Guru,'},
@@ -502,13 +541,25 @@ const PRAYERS=[
     {p:'NAM TOK NGOWO CHO KUR SUNG PA ZHIN\nKHOR DE JER ME TOK PAR JIN GYI LOB',e:'The essence of thought is Dharmakāya — grant realisation of the inseparability of samsāra and nirvāṇa.'},
     {p:'KYE WA KUN TU YANG DAK LAMA DANG\nDRAL ME DORJE CHANG GYI GO PHANG NYUR TOP SHOK',e:'Through all my births may I not be separated from the perfect Lama. May I quickly attain the state of Vajradhara.'},
   ]},
-  {id:'dedication',title:'Dedication of Merit',sub:'BSNGO BA',couplets:[
+  // Order and English follow the Palpung Prayer Book, pp.6-7: the first dedication
+  // verse, the Aspiration for Bodhicitta, then the Dedication Prayer (as Gareth practises it).
+  {id:'dedication',title:'Dedication of Merit',sub:'Dedication, aspiration for bodhicitta, and the dedication prayer',couplets:[
+    {sec:'DEDICATION OF MERIT'},
     {t:'བསོད་ནམས་འདི་ཡིས་ཐམས་ཅད་གཟིགས་པ་ཉིད།',p:'SONAM DI YI TAM CHAY ZIK PA NYI',e:'Through this virtue, may omniscience be attained,'},
-    {t:'ཐོབ་ནས་ཉེས་པའི་དགྲ་རྣམས་ཕམ་མཛད་ནས།',p:'THOB NE NYE PAY DRA NAM PAM CHAY NAY',e:'and may every defilement be overcome.'},
+    {t:'ཐོབ་ནས་ཉེས་པའི་དགྲ་རྣམས་ཕམ་མཛད་ནས།',p:'THOB NE NYE PAY DRA NAM PAM CHAY NAY',e:'and thereby may every enemy (mental defilement) be overcome.'},
     {t:'སྐྱེ་རྒ་ན་འཆི་བ་ལང་གྲུགས་པ་ཡི།',p:'JAY GA NA JI BA LAP DRUK PA YI',e:'May beings be liberated from the ocean of samsāra,'},
-    {t:'སྲིད་པའི་མཚོ་ལས་འགྲོ་བ་སྒྲོལ་བར་ཤོག།',p:'SI PAY TSO LE DRO WA DROL WAR SHOK',e:'troubled by waves of birth, old age, sickness and death.'},
-    {t:'འཇམ་དཔལ་དཔའ་བོ་ཇི་ལྟར་མཁྱེན་པ་དང།',p:'JAMPAL PAWO JITAR CHEMPO TANG',e:'Following Mañjuśrī and Samantabhadra as examples,'},
-    {t:'དགེ་བ་འདི་དག་ཐམས་ཅད་རབ་ཏུ་བསྔོ།',p:'GAY WA DEDAK TAMCHAY RAPTO NGO',e:'I dedicate all this virtue most sincerely.'},
+    {t:'སྲིད་པའི་མཚོ་ལས་འགྲོ་བ་སྒྲོལ་བར་ཤོག།',p:'SI PAY TSO LE DRO WA DROL WAR SHOK',e:'which is troubled by waves of birth, old age, sickness and death.'},
+    {sec:'ASPIRATION FOR BODHICITTA'},
+    {t:'བྱང་ཆུབ་སེམས་ནི་རིན་པོ་ཆེ།',p:'CHANG CHUB SEM NI RINPOCHE',e:'May the precious bodhicitta'},
+    {t:'མ་སྐྱེས་པ་རྣམས་སྐྱེ་འགྱུར་ཅིག།',p:'MACHAY PA NAM CHAY JUR CHIK',e:'take birth where it is not existing,'},
+    {t:'སྐྱེས་པ་ཉམས་པ་མེད་པ་དང།',p:'CHAYPA NYAMPA MAY PA DANG',e:'where it exists may it never wane,'},
+    {t:'གོང་ནས་གོང་དུ་འཕེལ་བར་ཤོག།',p:'KONGNAY KONGDU PELWAR SHO',e:'but continuously increase.'},
+    {sec:'DEDICATION PRAYER'},
+    // Tibetan script for this verse isn't in the prayer book, so it is left out rather than guessed.
+    {p:'KYI NA DEWA THOK SU NGO',e:'When I am happy, may my merit flow to others.'},
+    {p:'PHEN DEY NAM KHA KHAB PAR SHOK',e:'May its blessings fill the sky.'},
+    {p:'DUK NA DUK NYAL DAK GYI KHUR',e:'When I am unhappy, may the sorrows of all beings be mine.'},
+    {p:'KHOR WA DUK NYAL GYI GYA TSO TONG PAR SHOK',e:'May the ocean of suffering run dry.'},
   ]},
   {id:'seven_line',title:'Seven-Line Prayer',sub:'TSHIG BDUN GSOL \'DEBS — to Guru Padmasambhava',couplets:[
     {p:'HUNG',e:''},
@@ -1051,8 +1102,8 @@ const ABOUT_PR={
 // Only words that can be traced to a text: the practice liturgy used in
 // this app, the Dhammapada (tr. F. Max Müller, 1881, public domain), the
 // Mahāparinibbāna Sutta (tr. T. W. Rhys Davids, 1881), Atiśa's mind-training
-// slogans, and well-known lines of the lineage. The four thoughts are
-// contemplations written for this app, and labelled as such.
+// and well-known lines of the lineage. Only clear sayings of named teachers
+// or well-known texts (cryptic slogans and app-written lines were removed).
 // (Removed 2026-09-30: sayings whose source couldn't be traced.)
 // ═══════════════════════════════════════════════════════════
 const QUOTES=[
@@ -1064,7 +1115,6 @@ const QUOTES=[
   {t:'Grant your blessings so that Dharma may progress along the path.',a:'The Four Dharmas of Gampopa'},
   {t:'Grant your blessings so that the path may clarify confusion.',a:'The Four Dharmas of Gampopa'},
   {t:'Grant your blessings so that confusion may dawn as wisdom.',a:'The Four Dharmas of Gampopa'},
-  {t:'KARMAPA KHENNO: Karmapa, hear me.',a:'Guru yoga invocation'},
   {t:'Through this virtue may omniscience be attained, and may every defilement be overcome.',a:'Dedication of merit'},
   // Lineage
   {t:'Don’t recall. Don’t imagine. Don’t think. Don’t examine. Don’t control. Rest.',a:'Tilopa’s six words of advice'},
@@ -1083,11 +1133,6 @@ const QUOTES=[
   {t:'While the arrow of hate is in the heart, none can have a peaceful mind in equipoise, or feel the joy of kindliness, none can win sleep or calm.',a:'Śāntideva, The Path of Light, ch. 6'},
   {t:'Form is emptiness, emptiness is form.',a:'The Heart Sūtra'},
   {t:'Decay is inherent in all component things. Work out your salvation with diligence.',a:'The Buddha’s last words'},
-  // The four thoughts that turn the mind (contemplations)
-  {t:'This free and well-favoured human life is rare and easily lost. Use it well.',a:'The four thoughts · precious human life'},
-  {t:'Everything that is born will die, and the time of death is uncertain. Let this bring your practice into today.',a:'The four thoughts · impermanence'},
-  {t:'Actions have results. What we do, say and think now shapes what we meet later.',a:'The four thoughts · karma'},
-  {t:'Wherever we are born in samsāra, suffering follows. Seeing this clearly turns the mind towards freedom.',a:'The four thoughts · samsāra'},
   // The Dhammapada, tr. F. Max Müller (1881)
   {t:'All that we are is the result of what we have thought: it is founded on our thoughts, it is made up of our thoughts.',a:'Dhammapada 1'},
   {t:'If a man speaks or acts with a pure thought, happiness follows him, like a shadow that never leaves him.',a:'Dhammapada 2'},
@@ -1112,33 +1157,18 @@ const QUOTES=[
   {t:'The fault of others is easily perceived, but that of oneself is difficult to perceive.',a:'Dhammapada 252'},
   {t:'You yourself must make an effort. The Tathāgatas are only preachers.',a:'Dhammapada 276'},
   {t:'Through zeal knowledge is gotten, through lack of zeal knowledge is lost.',a:'Dhammapada 282'},
-  // Mind training (lojong): Atiśa's slogans, set down by Geshe Chekawa
-  {t:'Regard all dharmas as dreams.',a:'Mind training slogan'},
-  {t:'In post-meditation, be a child of illusion.',a:'Mind training slogan'},
-  {t:'Begin the sequence of sending and taking with yourself.',a:'Mind training slogan'},
-  {t:'When the world is filled with evil, transform all mishaps into the path of bodhi.',a:'Mind training slogan'},
-  {t:'Drive all blames into one.',a:'Mind training slogan'},
-  {t:'Be grateful to everyone.',a:'Mind training slogan'},
-  {t:'Whatever you meet unexpectedly, join with meditation.',a:'Mind training slogan'},
-  {t:'All dharma agrees at one point.',a:'Mind training slogan'},
-  {t:'Of the two witnesses, hold the principal one.',a:'Mind training slogan'},
-  {t:'Always maintain only a joyful mind.',a:'Mind training slogan'},
-  {t:'If you can practise even when distracted, you are well trained.',a:'Mind training slogan'},
-  {t:'Train in the three difficulties.',a:'Mind training slogan'},
-  {t:'Don’t be swayed by external circumstances.',a:'Mind training slogan'},
-  {t:'Don’t talk about injured limbs.',a:'Mind training slogan'},
-  {t:'Don’t ponder others.',a:'Mind training slogan'},
-  {t:'Don’t bring things to a painful point.',a:'Mind training slogan'},
-  {t:'Don’t be jealous.',a:'Mind training slogan'},
-  {t:'Abandon any hope of fruition.',a:'Mind training slogan'},
-  {t:'Don’t expect applause.',a:'Mind training slogan'},
 ];
 
 // The Thirty-Seven Practices of All the Bodhisattvas, by Gyalsé Tokmé Zangpo.
 // Translated by Adam Pearcey, 2006 (Lotsawa House, v1.6). Licensed CC BY-NC 4.0:
 // https://www.lotsawahouse.org/tibetan-masters/gyalse-thogme-zangpo/37-practices-all-bodhisattvas
-const THIRTY_SEVEN={id:"thirty_seven",title:"The Thirty-Seven Practices of Bodhisattvas",sub:"Gyalsé Tokmé Zangpo · tr. Adam Pearcey (Lotsawa House, CC BY-NC 4.0)",couplets:[{"sec": "Homage"}, {"x": "Namo Lokeśvarāya!"}, {"x": "You see that all things are beyond coming and going,\nYet still you strive solely for the sake of living beings—\nTo you, my precious guru inseparable from Lord Avalokita,\nI offer perpetual homage, respectfully, with body, speech and mind."}, {"x": "The perfect buddhas, who are the source of all benefit and joy,\nCome into being through accomplishing the sacred Dharma.\nAnd since this in turn depends on knowing how to practise,\nI shall now describe the practices of all the buddhas’ heirs."}, {"sec": "The thirty-seven practices"}, {"x": "The practice of all the bodhisattvas is to study, reflect and meditate,\nTirelessly, both day and night, without ever straying into idleness,\nIn order to free oneself and others from this ocean of saṃsāra,\nHaving gained this supreme vessel—a free, well-favoured human life, so difficult to find.", "n": 1}, {"x": "The practice of all the bodhisattvas is to leave behind one’s homeland,\nWhere our attachment to family and friends overwhelms us like a torrent,\nWhile our aversion towards enemies rages inside us like a blazing fire,\nAnd delusion’s darkness obscures what must be adopted and abandoned.", "n": 2}, {"x": "The practice of all the bodhisattvas is to take to solitary places,\nAvoiding the unwholesome, so that destructive emotions gradually fade away,\nAnd, in the absence of distraction, virtuous practice naturally gains strength;\nWhilst, with awareness clearly focused, we gain conviction in the teachings.", "n": 3}, {"x": "The practice of all the bodhisattvas is to renounce this life’s concerns,\nFor friends and relatives, long acquainted, must all go their separate ways;\nWealth and prized possessions, painstakingly acquired, must all be left behind;\nAnd consciousness, the guest who lodges in the body, must in time depart.", "n": 4}, {"x": "The practice of all the bodhisattvas is to avoid destructive friends,\nIn whose company the three poisons of the mind grow stronger,\nAnd we engage less and less in study, reflection and meditation,\nSo that love and compassion fade away until they are no more.", "n": 5}, {"x": "The practice of all the bodhisattvas is to cherish spiritual friends,\nBy regarding them as even more precious than one’s own body,\nSince they are the ones who will help to rid us of all our faults,\nAnd make our virtues grow ever greater just like the waxing moon.", "n": 6}, {"x": "The practice of all the bodhisattvas is to take refuge in the Three Jewels,\nSince they will never fail to provide protection for all who call upon them,\nFor whom are the ordinary gods of this world ever capable of helping,\nAs long as they themselves are trapped within saṃsāra’s vicious cycle?", "n": 7}, {"x": "The practice of all the bodhisattvas is never to commit a harmful act,\nEven though not to do so might put one’s very life at risk,\nFor the Sage himself has taught how negative actions will ripen\nInto the manifold miseries of the lower realms, so difficult to endure.", "n": 8}, {"x": "The practice of all the bodhisattvas is to strive towards the goal,\nWhich is the supreme state of changeless, everlasting liberation,\nSince all the happiness of the three realms lasts but a moment,\nAnd then is quickly gone, just like dewdrops on blades of grass.", "n": 9}, {"x": "The practice of all the bodhisattvas is to arouse bodhicitta,\nSo as to bring freedom to all sentient beings, infinite in number.\nFor how can true happiness ever be found while our mothers,\nWho have cared for us throughout the ages, endure such pain?", "n": 10}, {"x": "The practice of all the bodhisattvas is to make a genuine exchange\nOf one’s own happiness and well-being for all the sufferings of others.\nSince all misery comes from seeking happiness for oneself alone,\nWhilst perfect buddhahood is born from the wish for others’ good.", "n": 11}, {"x": "Even if others, in the grips of great desire, should steal,\nOr encourage others to take away, all the wealth that I possess,\nTo dedicate to them entirely my body, possessions and all my merits\nFrom the past, present and future— this is the practice of all the bodhisattvas.", "n": 12}, {"x": "Even if others should seek to cut off my head,\nThough I’ve done them not the slightest wrong,\nTo take upon myself, out of compassion,\nAll the harms they have amassed—this is the practice of all the bodhisattvas.", "n": 13}, {"x": "Even if others should declare before the world\nAll manner of unpleasant things about me,\nTo speak only of their qualities in return,\nWith a mind that’s filled with love—this is the practice of all the bodhisattvas.", "n": 14}, {"x": "Even if others should expose my hidden faults or deride me\nWhen speaking amidst great gatherings of many people,\nTo conceive of them as spiritual friends and to bow\nBefore them in respect—this is the practice of all the bodhisattvas.", "n": 15}, {"x": "Even if others whom I have cared for like children of my own\nShould turn upon me and treat me as an enemy,\nTo regard them only with special fondness and affection,\nAs a mother would her ailing child—this is the practice of all the bodhisattvas.", "n": 16}, {"x": "Even if others, equal or inferior to me in status,\nShould, out of arrogance, disparage me,\nTo honour them, as I would my teacher,\nBy bowing down my head before them—this is the practice of all the bodhisattvas.", "n": 17}, {"x": "Even though I may be destitute and despised by all,\nBeset with terrible illness and plagued by evil spirits,\nStill to take upon myself all beings’ ills and harmful actions,\nWithout ever losing heart—this is the practice of all the bodhisattvas.", "n": 18}, {"x": "Even though I may be famous and revered by all,\nAnd as rich as Vaiśravaṇa, the god of wealth himself,\nTo see the futility of all the glory and riches of this world\nAnd to remain without conceit—this is the practice of all the bodhisattvas.", "n": 19}, {"x": "The practice of all the bodhisattvas is to subdue the mind\nWith the forces of loving kindness and compassion.\nFor unless the real adversary—my own anger—is defeated,\nOuter enemies, though I may conquer them, will continue to appear.", "n": 20}, {"x": "The practice of all the bodhisattvas is to turn away immediately\nFrom those things which bring desire and attachment.\nFor the pleasures of the senses are just like salty water:\nThe more we taste of them, the more our thirst increases.", "n": 21}, {"x": "The practice of all the bodhisattvas is never to entertain concepts,\nWhich revolve around dualistic notions of perceiver and perceived,\nIn the knowledge that all these appearances are but the mind itself,\nWhilst mind’s own nature is forever beyond the limitations of ideas.", "n": 22}, {"x": "The practice of all the bodhisattvas is to let go of grasping\nWhen encountering things one finds pleasant or attractive,\nConsidering them to be like rainbows in the summer skies—\nBeautiful in appearance, yet in truth devoid of any substance.", "n": 23}, {"x": "The practice of all the bodhisattvas is to recognize delusion\nWhenever one is confronted by adversity or misfortune.\nFor these sufferings are just like the death of a child in a dream,\nAnd it’s so exhausting to cling to delusory perceptions as real.", "n": 24}, {"x": "The practice of all the bodhisattvas is to give out of generosity,\nWith no hopes of karmic recompense or expectation of reward.\nFor if those who seek awakening must give even their own bodies,\nWhat need is there to mention mere outer objects and possessions?", "n": 25}, {"x": "The practice of all the bodhisattvas is to observe ethical restraint,\nWithout the slightest intention of continuing in saṃsāric existence.\nFor lacking discipline one will never secure even one’s own well-being,\nAnd so any thought of bringing benefit to others would be absurd.", "n": 26}, {"x": "The practice of all the bodhisattvas is to cultivate patience,\nFree from any trace of animosity towards anyone at all,\nSince any potential source of harm is like a priceless treasure\nTo the bodhisattva who is eager to enjoy a wealth of virtue.", "n": 27}, {"x": "The practice of all the bodhisattvas is to strive with enthusiastic diligence—\nThe source of all good qualities—when working for the sake of all who live;\nSeeing that even śrāvakas and pratyekabuddhas, who labour for themselves alone,\nExert themselves as if urgently trying to extinguish fires upon their heads.", "n": 28}, {"x": "The practice of all the bodhisattvas is to cultivate concentration,\nWhich utterly transcends the four formless absorptions,\nIn the knowledge that mental afflictions are overcome entirely\nThrough penetrating insight suffused with stable calm.", "n": 29}, {"x": "The practice of all the bodhisattvas is to cultivate wisdom,\nBeyond the three conceptual spheres, alongside skilful means,\nSince it is not possible to attain the perfect level of awakening\nThrough the other five pāramitās alone, in wisdom’s absence.", "n": 30}, {"x": "The practice of all the bodhisattvas is to scrutinize oneself\nContinually and to rid oneself of faults whenever they appear.\nFor unless one checks carefully to find one’s own confusion,\nOne might appear to be practising Dharma, but act against it.", "n": 31}, {"x": "The practice of all the bodhisattvas is never to speak ill\nOf others who have embarked upon the greater vehicle,\nFor if, under the influence of destructive emotions,\nI speak of other bodhisattvas’ failings, it is I who am at fault.", "n": 32}, {"x": "The practice of all the bodhisattvas is to let go of attachment\nTo the households of benefactors and of family and friends,\nSince one’s study, reflection and meditation will all diminish\nWhen one quarrels and competes for honours and rewards.", "n": 33}, {"x": "The practice of all the bodhisattvas is to avoid harsh words,\nWhich others might find unpleasant or distasteful,\nSince abusive language upsets the minds of others,\nAnd thereby undermines a bodhisattva’s conduct.", "n": 34}, {"x": "The practice of all the bodhisattvas is to slay attachment\nAnd the rest—mind’s afflictions—at once, the very moment they arise,\nTaking as weapons the remedies held with mindfulness and vigilance.\nFor once the kleshas have become familiar, they’ll be harder to avert.", "n": 35}, {"x": "In short, no matter what one might be doing,\nBy examining always the status of one’s mind,\nWith continuous mindfulness and alertness,\nTo bring about the good of others—this is the practice of all the bodhisattvas.", "n": 36}, {"x": "The practice of all the bodhisattvas is to dedicate towards enlightenment\nAll the virtue to be gained through making effort in these ways,\nWith wisdom that is purified entirely of the three conceptual spheres,\nSo as to dispel the sufferings of the infinity of beings.", "n": 37}, {"sec": "Conclusion"}, {"x": "Here I have set down for those who wish to follow the bodhisattva path,\nThirty-seven practices to be adopted by all the buddhas’ heirs,\nBased on what is taught in the sūtras, tantras and treatises,\nAnd following the instructions of the great masters of the past."}, {"x": "Since my intellect is only feeble and I have studied but a little,\nThis is not a composition likely to delight the connoisseurs,\nYet since I’ve relied upon the sūtras and what the saints have taught\nI feel these are indeed the genuine trainings of the buddhas’ heirs."}, {"x": "Still, the tremendous waves of activity of the bodhisattvas\nAre difficult for simple-minded folk like me to comprehend,\nAnd I must therefore beg the indulgence of all the perfect saints\nFor any contradictions, irrelevancies or other flaws this may contain."}, {"x": "Through whatever merit has here been gained, may all beings\nGenerate sublime bodhicitta, both relative and absolute,\nAnd through this, come to equal Lord Avalokiteśvara,\nTranscending the extremes of existence and quiescence."}, {"x": "This was composed in Jewel Cave (Rinchen Puk) in Ngulchu by the monk Tokme, a teacher of scripture and reasoning, for his own and others’ benefit."}]};
+const THIRTY_SEVEN={id:"thirty_seven",group:"other",title:"The Thirty-Seven Practices of Bodhisattvas",sub:"Gyalsé Tokmé Zangpo · tr. Adam Pearcey (Lotsawa House, CC BY-NC 4.0)",couplets:[{"sec": "Homage"}, {"x": "Namo Lokeśvarāya!"}, {"x": "You see that all things are beyond coming and going,\nYet still you strive solely for the sake of living beings—\nTo you, my precious guru inseparable from Lord Avalokita,\nI offer perpetual homage, respectfully, with body, speech and mind."}, {"x": "The perfect buddhas, who are the source of all benefit and joy,\nCome into being through accomplishing the sacred Dharma.\nAnd since this in turn depends on knowing how to practise,\nI shall now describe the practices of all the buddhas’ heirs."}, {"sec": "The thirty-seven practices"}, {"x": "The practice of all the bodhisattvas is to study, reflect and meditate,\nTirelessly, both day and night, without ever straying into idleness,\nIn order to free oneself and others from this ocean of saṃsāra,\nHaving gained this supreme vessel—a free, well-favoured human life, so difficult to find.", "n": 1}, {"x": "The practice of all the bodhisattvas is to leave behind one’s homeland,\nWhere our attachment to family and friends overwhelms us like a torrent,\nWhile our aversion towards enemies rages inside us like a blazing fire,\nAnd delusion’s darkness obscures what must be adopted and abandoned.", "n": 2}, {"x": "The practice of all the bodhisattvas is to take to solitary places,\nAvoiding the unwholesome, so that destructive emotions gradually fade away,\nAnd, in the absence of distraction, virtuous practice naturally gains strength;\nWhilst, with awareness clearly focused, we gain conviction in the teachings.", "n": 3}, {"x": "The practice of all the bodhisattvas is to renounce this life’s concerns,\nFor friends and relatives, long acquainted, must all go their separate ways;\nWealth and prized possessions, painstakingly acquired, must all be left behind;\nAnd consciousness, the guest who lodges in the body, must in time depart.", "n": 4}, {"x": "The practice of all the bodhisattvas is to avoid destructive friends,\nIn whose company the three poisons of the mind grow stronger,\nAnd we engage less and less in study, reflection and meditation,\nSo that love and compassion fade away until they are no more.", "n": 5}, {"x": "The practice of all the bodhisattvas is to cherish spiritual friends,\nBy regarding them as even more precious than one’s own body,\nSince they are the ones who will help to rid us of all our faults,\nAnd make our virtues grow ever greater just like the waxing moon.", "n": 6}, {"x": "The practice of all the bodhisattvas is to take refuge in the Three Jewels,\nSince they will never fail to provide protection for all who call upon them,\nFor whom are the ordinary gods of this world ever capable of helping,\nAs long as they themselves are trapped within saṃsāra’s vicious cycle?", "n": 7}, {"x": "The practice of all the bodhisattvas is never to commit a harmful act,\nEven though not to do so might put one’s very life at risk,\nFor the Sage himself has taught how negative actions will ripen\nInto the manifold miseries of the lower realms, so difficult to endure.", "n": 8}, {"x": "The practice of all the bodhisattvas is to strive towards the goal,\nWhich is the supreme state of changeless, everlasting liberation,\nSince all the happiness of the three realms lasts but a moment,\nAnd then is quickly gone, just like dewdrops on blades of grass.", "n": 9}, {"x": "The practice of all the bodhisattvas is to arouse bodhicitta,\nSo as to bring freedom to all sentient beings, infinite in number.\nFor how can true happiness ever be found while our mothers,\nWho have cared for us throughout the ages, endure such pain?", "n": 10}, {"x": "The practice of all the bodhisattvas is to make a genuine exchange\nOf one’s own happiness and well-being for all the sufferings of others.\nSince all misery comes from seeking happiness for oneself alone,\nWhilst perfect buddhahood is born from the wish for others’ good.", "n": 11}, {"x": "Even if others, in the grips of great desire, should steal,\nOr encourage others to take away, all the wealth that I possess,\nTo dedicate to them entirely my body, possessions and all my merits\nFrom the past, present and future— this is the practice of all the bodhisattvas.", "n": 12}, {"x": "Even if others should seek to cut off my head,\nThough I’ve done them not the slightest wrong,\nTo take upon myself, out of compassion,\nAll the harms they have amassed—this is the practice of all the bodhisattvas.", "n": 13}, {"x": "Even if others should declare before the world\nAll manner of unpleasant things about me,\nTo speak only of their qualities in return,\nWith a mind that’s filled with love—this is the practice of all the bodhisattvas.", "n": 14}, {"x": "Even if others should expose my hidden faults or deride me\nWhen speaking amidst great gatherings of many people,\nTo conceive of them as spiritual friends and to bow\nBefore them in respect—this is the practice of all the bodhisattvas.", "n": 15}, {"x": "Even if others whom I have cared for like children of my own\nShould turn upon me and treat me as an enemy,\nTo regard them only with special fondness and affection,\nAs a mother would her ailing child—this is the practice of all the bodhisattvas.", "n": 16}, {"x": "Even if others, equal or inferior to me in status,\nShould, out of arrogance, disparage me,\nTo honour them, as I would my teacher,\nBy bowing down my head before them—this is the practice of all the bodhisattvas.", "n": 17}, {"x": "Even though I may be destitute and despised by all,\nBeset with terrible illness and plagued by evil spirits,\nStill to take upon myself all beings’ ills and harmful actions,\nWithout ever losing heart—this is the practice of all the bodhisattvas.", "n": 18}, {"x": "Even though I may be famous and revered by all,\nAnd as rich as Vaiśravaṇa, the god of wealth himself,\nTo see the futility of all the glory and riches of this world\nAnd to remain without conceit—this is the practice of all the bodhisattvas.", "n": 19}, {"x": "The practice of all the bodhisattvas is to subdue the mind\nWith the forces of loving kindness and compassion.\nFor unless the real adversary—my own anger—is defeated,\nOuter enemies, though I may conquer them, will continue to appear.", "n": 20}, {"x": "The practice of all the bodhisattvas is to turn away immediately\nFrom those things which bring desire and attachment.\nFor the pleasures of the senses are just like salty water:\nThe more we taste of them, the more our thirst increases.", "n": 21}, {"x": "The practice of all the bodhisattvas is never to entertain concepts,\nWhich revolve around dualistic notions of perceiver and perceived,\nIn the knowledge that all these appearances are but the mind itself,\nWhilst mind’s own nature is forever beyond the limitations of ideas.", "n": 22}, {"x": "The practice of all the bodhisattvas is to let go of grasping\nWhen encountering things one finds pleasant or attractive,\nConsidering them to be like rainbows in the summer skies—\nBeautiful in appearance, yet in truth devoid of any substance.", "n": 23}, {"x": "The practice of all the bodhisattvas is to recognize delusion\nWhenever one is confronted by adversity or misfortune.\nFor these sufferings are just like the death of a child in a dream,\nAnd it’s so exhausting to cling to delusory perceptions as real.", "n": 24}, {"x": "The practice of all the bodhisattvas is to give out of generosity,\nWith no hopes of karmic recompense or expectation of reward.\nFor if those who seek awakening must give even their own bodies,\nWhat need is there to mention mere outer objects and possessions?", "n": 25}, {"x": "The practice of all the bodhisattvas is to observe ethical restraint,\nWithout the slightest intention of continuing in saṃsāric existence.\nFor lacking discipline one will never secure even one’s own well-being,\nAnd so any thought of bringing benefit to others would be absurd.", "n": 26}, {"x": "The practice of all the bodhisattvas is to cultivate patience,\nFree from any trace of animosity towards anyone at all,\nSince any potential source of harm is like a priceless treasure\nTo the bodhisattva who is eager to enjoy a wealth of virtue.", "n": 27}, {"x": "The practice of all the bodhisattvas is to strive with enthusiastic diligence—\nThe source of all good qualities—when working for the sake of all who live;\nSeeing that even śrāvakas and pratyekabuddhas, who labour for themselves alone,\nExert themselves as if urgently trying to extinguish fires upon their heads.", "n": 28}, {"x": "The practice of all the bodhisattvas is to cultivate concentration,\nWhich utterly transcends the four formless absorptions,\nIn the knowledge that mental afflictions are overcome entirely\nThrough penetrating insight suffused with stable calm.", "n": 29}, {"x": "The practice of all the bodhisattvas is to cultivate wisdom,\nBeyond the three conceptual spheres, alongside skilful means,\nSince it is not possible to attain the perfect level of awakening\nThrough the other five pāramitās alone, in wisdom’s absence.", "n": 30}, {"x": "The practice of all the bodhisattvas is to scrutinize oneself\nContinually and to rid oneself of faults whenever they appear.\nFor unless one checks carefully to find one’s own confusion,\nOne might appear to be practising Dharma, but act against it.", "n": 31}, {"x": "The practice of all the bodhisattvas is never to speak ill\nOf others who have embarked upon the greater vehicle,\nFor if, under the influence of destructive emotions,\nI speak of other bodhisattvas’ failings, it is I who am at fault.", "n": 32}, {"x": "The practice of all the bodhisattvas is to let go of attachment\nTo the households of benefactors and of family and friends,\nSince one’s study, reflection and meditation will all diminish\nWhen one quarrels and competes for honours and rewards.", "n": 33}, {"x": "The practice of all the bodhisattvas is to avoid harsh words,\nWhich others might find unpleasant or distasteful,\nSince abusive language upsets the minds of others,\nAnd thereby undermines a bodhisattva’s conduct.", "n": 34}, {"x": "The practice of all the bodhisattvas is to slay attachment\nAnd the rest—mind’s afflictions—at once, the very moment they arise,\nTaking as weapons the remedies held with mindfulness and vigilance.\nFor once the kleshas have become familiar, they’ll be harder to avert.", "n": 35}, {"x": "In short, no matter what one might be doing,\nBy examining always the status of one’s mind,\nWith continuous mindfulness and alertness,\nTo bring about the good of others—this is the practice of all the bodhisattvas.", "n": 36}, {"x": "The practice of all the bodhisattvas is to dedicate towards enlightenment\nAll the virtue to be gained through making effort in these ways,\nWith wisdom that is purified entirely of the three conceptual spheres,\nSo as to dispel the sufferings of the infinity of beings.", "n": 37}, {"sec": "Conclusion"}, {"x": "Here I have set down for those who wish to follow the bodhisattva path,\nThirty-seven practices to be adopted by all the buddhas’ heirs,\nBased on what is taught in the sūtras, tantras and treatises,\nAnd following the instructions of the great masters of the past."}, {"x": "Since my intellect is only feeble and I have studied but a little,\nThis is not a composition likely to delight the connoisseurs,\nYet since I’ve relied upon the sūtras and what the saints have taught\nI feel these are indeed the genuine trainings of the buddhas’ heirs."}, {"x": "Still, the tremendous waves of activity of the bodhisattvas\nAre difficult for simple-minded folk like me to comprehend,\nAnd I must therefore beg the indulgence of all the perfect saints\nFor any contradictions, irrelevancies or other flaws this may contain."}, {"x": "Through whatever merit has here been gained, may all beings\nGenerate sublime bodhicitta, both relative and absolute,\nAnd through this, come to equal Lord Avalokiteśvara,\nTranscending the extremes of existence and quiescence."}, {"x": "This was composed in Jewel Cave (Rinchen Puk) in Ngulchu by the monk Tokme, a teacher of scripture and reasoning, for his own and others’ benefit."}]};
 PRAYERS.push(THIRTY_SEVEN);
+// Smoke offerings (sang). Both from Lotsawa House, CC BY-NC 4.0:
+// Mipham Rinpoche, Brief Sang Offering, tr. Adam Pearcey 2019 — https://www.lotsawahouse.org/tibetan-masters/mipham/brief-sang-offering
+// Riwo Sangchö arranged by Dudjom Rinpoche, Rigpa Translations rev. 2016 — https://www.lotsawahouse.org/tibetan-masters/lhatsun-namkha-jigme/riwo-sangcho
+PRAYERS.push({id:"sang_brief",group:"sang",title:"Brief Sang Offering",sub:"Mipham Rinpoche · tr. Adam Pearcey (Lotsawa House, CC BY-NC 4.0)",couplets:[{"t": "ཧོ། བསང་མཆོད་ཀུན་བཟང་མཆོད་པའི་སྤྲིན་ཆེན་པོས། །\nབླ་མ་ཡི་དམ་སངས་རྒྱས་བྱང་སེམས་བསང་། །\nདཔའ་བོ་མཁའ་འགྲོ་ཆོས་སྐྱོང་ནོར་ལྷ་བསང་། །\nདགྲ་བླ་ཝེར་མ་གནས་གཞི་གཏེར་བདག་བསང་། །", "p": "ho, sang chö kunzang chöpé trin chenpö\nlama yidam sangye changsem sang\npawo khandro chökyong norlha sang\ndrala werma né zhi terdak sang", "e": "Ho! With this smoke offering, in great clouds like those of Samantabhadra,\nWe sanctify the guru, yidam deity, buddhas and bodhisattvas,\nWe sanctify the vīras, ḍākinīs, dharma protectors and wealth deities,\nWe sanctify the warrior spirits, wermas, regional deities and treasure-keepers,"}, {"t": "འགོ་བའི་ལྷ་མགོན་གཉན་པོ་ཐམས་ཅད་བསང་། །\nཕྱི་སྣོད་ནང་བཅུད་དག་པ་ཆེན་པོར་བསང་། །\nའདོད་ཡོན་མི་ཟད་ནམ་མཁའ་མཛོད་ཀྱིས་མཆོད། །\nགེགས་ཞི་བསམ་དོན་ལྷུན་གྲུབ་བཀྲ་ཤིས་ཤོག །", "p": "gowé lha gön nyenpo tamché sang\nchi nö nangchü dakpa chenpor sang\ndöyön mizé namkha dzö kyi chö\ngek zhi samdön lhündrub tashi shok", "e": "We sanctify all the personal gods and powerful guardians,\nWe sanctify the outer environment and its inhabitants into vast purity.\nAnd we offer a sky-treasury of inexhaustible sensory delights.\nLet everything be auspicious so that hindrances are pacified and all our wishes spontaneously fulfilled!"}, {"t": "ཨོཾ་ཨཱཿ་ཧཱུྃ་ཞེས་བཟླ།", "p": "om ah hung", "e": "Recite “Oṃ āḥ hūṃ!”"}, {"ins": "The one called Mipham composed this in Thrangu hermitage on the fourth day of the seventh month of the Wood Snake year (1905). May virtue abound!"}]});
+PRAYERS.push({id:"riwo_sangcho",group:"sang",title:"Riwo Sangchö · Mountain Smoke Offering",sub:"Arranged by Dudjom Rinpoche · Rigpa Translations (Lotsawa House, CC BY-NC 4.0)",couplets:[{"t": "ཨོཾ་སྭ་སྟི།", "e": "Oṃ svasti."}, {"ins": "For the practice of Riwo Sangchö, the mengak, ‘secret instruction’, from Lhatsün Namkha Jikmé’s Rigdzin Sokdrub, having made an auspicious fire in a clean vessel or burner, burn aromatic woods, resins, medicinal plants, the three white and three sweet substances (yogurt, milk and butter; sugar, molasses and honey), and all kinds of incense and powder—whatever you have available, and sprinkle it with pure water."}, {"sec": "1. Taking Refuge"}, {"t": "ཨོཾ་ཨཱཿཧཱུྂ༔ མཁའ་མཉམ་སྲིད་ཞིའི་སྐྱབས་ཀུན་སྙིང་པོའི་བཅུད༔\nདབང་དྲག་རིག་འཛིན་པདྨ་ཐོད་ཕྲེང་རྩལ༔\nཁྱེད་སྐུར་སྣང་སྲིད་རྒྱལ་བའི་དཀྱིལ་འཁོར་རྫོགས༔\nའགྲོ་ཀུན་སྲིད་ལས་བསྒྲལ་ཕྱིར་སྐྱབས་སུ་མཆི༔", "p": "om ah hung, kha nyam sizhi kyab kün nyingpö chü\nwang drak rigdzin pema tötreng tsal\nkhyé kur nangsi gyalwé kyilkhor dzok\ndro kün si lé dral chir kyab su chi", "e": "Oṃ āḥ hūṃ. The heart essence of all sources of refuge of saṃsāra and nirvāṇa, who are as vast as space,\nPowerful and wrathful vidyādhara, Padma Tötreng Tsal;\nWithin your body, all that appears and exists is the perfect buddha maṇḍala:\nIn order to liberate all beings from saṃsāra, I take refuge in you!"}, {"ins": "Three times"}, {"sec": "2. Generating Bodhicitta"}, {"t": "གསང་མཆོག་ཡེ་ཤེས་འོད་གསལ་ཐིག་ལེའི་གཞིར༔\nའགྲོ་ཀུན་སྒྲིབ་གསུམ་དག་ནས་སྐུ་དང་གསུང༌༔\nཐུགས་ཀྱི་ཐིག་ལེར་ལྷུན་གྲུབ་སྣང་བཞིའི་ངང༌༔\nགཞོན་ནུ་བུམ་སྐུར་གྲོལ་བར་སེམས་བསྐྱེད་དོ༔", "p": "sang chok yeshe ösal tiklé zhir\ndro kün drib sum dak né ku dang sung\ntuk kyi tikler lhündrub nang zhi ngang\nzhönnu bumkur drolwar semkyé do", "e": "In the ground of the luminous tiklé of supremely secret wisdom,\nMay the three obscurations of all beings be purified, and\nWith the four visions spontaneously perfected in the tiklé of the wisdom body, speech and mind,\nMay all beings be liberated into the youthful vase body! For this, I generate the heart and mind of bodhicitta."}, {"ins": "Three times"}, {"sec": "3. The Seven Branches"}, {"t": "གཤིས་རིག་མ་བཅོས་གཉུག་མར་ཕྱག་འཚལ་ཞིང༌༔\nགཏིང་མཐའ་བྲལ་བའི་འོད་གསལ་མཆོད་པ་འབུལ༔\nའཁོར་བ་མྱང་འདས་མཉམ་ཉིད་ཀློང་དུ་བཤགས༔\nབློ་བྲལ་ཆོས་ཟད་ཆེན་པོར་རྗེས་ཡི་རང༌༔", "p": "shi rik machö nyukmar chaktsal zhing\nting ta dralwé ösal chöpa bul\nkhorwa nyangdé nyamnyi long du shak\nlodral chö zé chenpor jé yi rang", "e": "To the primordial, unaltered nature of rigpa, I pay homage!\nThe luminosity, transcending limits and dimensions, I offer!\nIn the expanse of sameness of saṃsāra and nirvāṇa, I confess!\nIn the great exhaustion of all dharmas, beyond the ordinary mind, I rejoice!"}, {"t": "ལྷུན་གྲུབ་རྫོགས་པ་ཆེན་པོའི་ཆོས་འཁོར་བསྐོར༔\nའཁོར་བ་དོང་ནས་སྤྲུགས་པར་གསོལ་བ་འདེབས༔\nའཁོར་གསུམ་དམིགས་མཐའ་བྲལ་བའི་ཕ་མཐའ་བསྔོ༔", "p": "lhündrub dzogpachenpö chökhor kor\nkhorwa dong né trukpar solwa deb\nkhor sum mik ta dralwé pata ngo", "e": "Turn the wheel of the teachings of the spontaneously perfect Dzogpachenpo!\nStir the depths of saṃsāra, I pray!\nIn the absolute state, free of subject, object or activity, I dedicate!"}, {"sec": "4. Self-Visualization"}, {"t": "ཀ་དག་ཆོས་སྐུའི་དབྱིངས་ལས་འགགས་མེད་རྩལ། །\nཔདྨ་ཐོད་ཕྲེང་དཀར་དམར་གཞོན་ཚུལ་མཛེས། །\nམཚན་དཔེའི་གཟི་འབར་རྡོ་རྗེ་ཐོད་པ་བསྣམས། །\nམཛེས་བརྗིད་རྒྱན་དང་ཆ་བྱད་ཡོངས་སུ་རྫོགས། །", "p": "kadak chökü ying lé gakmé tsal\npema tötreng kar mar zhön tsul dzé\ntsenpé zibar dorjé töpa nam\ndzé ji gyen dang chajé yongsu dzok", "e": "From the dharmakāya space of primordial purity, arising as its unobstructed play, is\nPadma Tötreng Tsal, white with a tinge of red, in the full beauty of youth,\nIn dazzling splendour, with the major and minor marks, holding a vajra and skull cup,\nMajestic, complete with all ornaments and robes,"}, {"t": "དམ་ཡེ་གཉིས་མེད་རྒྱལ་ཀུན་འདུས་པའི་གཟུགས། །\nའཁོར་འདས་ཀུན་གྱི་སྤྱི་དཔལ་ཆེན་པོར་གྱུར། །\nཨོཾ་ཨཱཿཧཱུྂ་བཛྲ་གུ་རུ་པདྨ་སིདྡྷི་ཧཱུྂ༔", "p": "damyé nyimé gyal kün düpé zuk\nkhordé kün gyi chi pal chenpor gyur\nom ah hung benza guru pema siddhi hung", "e": "Samayasattva and jñānasattva indivisible, his form is all the buddhas in one\nThe great embodiment of all saṃsāra and nirvāṇa.\noṃ āḥ hūṃ vajra guru padma siddhi hūṃ"}, {"ins": "108 times"}, {"sec": "5. Purification and Blessing of the Sang Offering"}, {"ins": "Purify the ingredients of the sang offering with:"}, {"t": "དེ་ནས་བསང་རྫས་རྣམས་རཾ་ཡཾ་ཁཾ་གིས་བསང་སྦྱང༌།\nསྟོང་པའི་ངང་ལས་བསང་རྫས་ཟག་པ་མེད་པའི་ཡེ་ཤེས་ཀྱི་བདུད་རྩི་འདོད་ཡོན་རྒྱ་མཚོའི་སྤྲིན་ཕུང་མཁའ་ཁྱབ་ཏུ་འཕྲོ་བར་གྱུར།", "p": "ram yam kham\ntongpé ngang lé sangdzé zakpa mepé yeshe kyi dütsi döyön gyatsö trinpung khakhyab tu trowar gyur", "e": "raṃ yaṃ khaṃ\nOut of emptiness appear the ingredients of the sang offering, transformed into the wisdom nectar free of any impurity, from which arises an ocean-like cloud of sensual stimulants, spreading out to fill the whole of space."}, {"ins": "Bless the sang offering with the three syllables oṃ āḥ hūṃ and the sky-treasury mantra:"}, {"t": "ཨོཾ་ཨཱཿཧཱུྂ།", "p": "om ah hung", "e": "oṃ āḥ hūṃ"}, {"ins": "Three times"}, {"t": "ན་མཿསརྦ་ཏ་ཐཱ་ག་ཏེ་བྷྱོ་བི་ཤྭ་མུ་ཁེ་བྷྱཿསརྦ་ཐཱ་ཁཾ་ཨུདྒ་ཏེ་སྥ་ར་ཎ་ཨི་མཾ་ག་ག་ན་ཁཾ་སྭཱ་ཧཱ།", "p": "nama sarva tatagaté bayo bisho mukhebé sarva takham udgaté saparana imam gagana kham soha", "e": "namaḥ sarva tathāgatebhayo viśva mukhebhyaḥ sarvathākhaṃ udgate spharaṇa imaṃ gagana khaṃ svāhā"}, {"ins": "Three times"}, {"sec": "6. The Sang Offering"}, {"t": "བྷྲཱུྃ༔ རིན་ཆེན་སྣ་ཚོགས་དྭངས་མའི་སྣོད་ཡངས་སུ༔\nའཇིག་རྟེན་སྲིད་པའི་འདོད་རྒུ་དམ་ཚིག་རྫས༔\nའབྲུ་གསུམ་ཡེ་ཤེས་བདུད་རྩིར་བྱིན་བརླབས་པས༔\nསྣང་སྲིད་མཆོད་པའི་འདོད་རྒུར་འཁྲིགས་པ་འདི༔", "p": "droom, rinchen natsok dangmé nö yang su\njikten sipé dögu damtsik dzé\ndru sum yeshe dütsir jinlabpé\nnangsi chöpé dögur trikpa di", "e": "Bhrūṃ. In the vast lustrous vessel, made of the essence of various jewels,\nThe samaya substances, all the desirable objects in worldly existence, are\nTransformed into the nectar of wisdom through the blessing of the three seed-syllables oṃ āḥ hūṃ,\nSo that all that appears and exists becomes an offering of all that is desirable."}, {"t": "བླ་མ་ཡི་དམ་ཌཱ་ཀི་ཆོས་སྲུང་དང༌༔\nཕྱོགས་བཅུ་རྒྱལ་བའི་དཀྱིལ་འཁོར་ཇི་སྙེད་དང༌༔\nའཛམ་གླིང་གཞི་བདག་རིགས་དྲུག་ལན་ཆགས་མགྲོན༔\nཁྱད་པར་བདག་གི་ཚེ་འཕྲོག་སྲོག་རྐུ་ཞིང༌༔", "p": "lama yidam daki chösung dang\nchok chu gyalwé kyilkhor jinyé dang\ndzamling zhidak rik druk lenchak drön\nkhyepar dak gi tsé trok sok ku zhing", "e": "This I offer to the lamas, yidams, ḍākinīs, dharmapālas and\nAll the mandalas of the buddhas of the ten directions,\nTo the local deities of this world, beings of the six realms and the guests to whom I owe karmic debts,\nAnd especially to those who would steal my life and deplete my life force,"}, {"t": "ནད་གཏོང་བར་ཆད་རྩོམ་པའི་འབྱུང་པོ་དང༌༔\nརྨི་ལམ་རྟགས་མཚན་ངན་དང་ལྟས་ངན་རིགས༔\nསྡེ་བརྒྱད་མ་རུང་ཆོ་འཕྲུལ་བདག་པོ་དང༌༔\nཟས་དང་གནས་དང་ནོར་གྱི་ལན་ཆགས་ཅན༔", "p": "né tong barché tsompé jungpo dang\nmilam taktsen ngen dang té ngen rik\ndé gyé marung chotrul dakpo dang\nzé dang né dang nor gyi lenchak chen", "e": "To the malicious jungpo demons who inflict sickness and obstacles,\nBad signs in dreams and all types of evil omens,\nThe eight classes of negative spirits, the masters of magical illusions,\nAnd those to whom I owe karmic debts of food, place and wealth,"}, {"t": "གྲིབ་བདག་སྨྱོ་འདྲེ་ཕོ་གཤིན་མོ་གཤིན་དང༌༔\nགྲི་བོ་ཐེ་རང་གྲོང་སྲིན་འདྲེ་མོ་བཅས༔\nལན་ཆགས་དམར་པོའི་མེ་ལ་འཇལ་ཏེ་བསྲེག༔\nརང་རང་ཡིད་ལ་གང་འདོད་འདོད་རྒུའི་ཆར༔", "p": "drib dak nyodré poshin moshin dang\ndriwo terang drong sin dremo ché\nlenchak marpö mé la jal té sek\nrang rang yi la gang dö dögü char", "e": "To forces that bring obscuration and madness, to the shades of men and women dead,\nTo all the spirits, terangs, ghouls and female ghosts!\nNow all my karmic debts are paid, burnt in the scarlet flames.\nWhatever each one desires, may the objects of their desires rain down:"}, {"t": "ཇི་སྲིད་ནམ་མཁའ་གནས་ཀྱི་བར་ཉིད་དུ༔\nའདོད་པའི་ཡོན་ཏན་ཟད་པ་མེད་པར་བསྔོ༔\nབདག་གི་དུས་གསུམ་བསགས་པའི་སྡིག་སྒྲིབ་དང༌༔\nདཀོན་མཆོག་དད་གཤིན་དཀོར་ལ་སྤྱད་པ་རྣམས༔", "p": "jisi namkha né kyi bar nyi du\ndöpé yönten zepa mepar ngo\ndak gi dü sum sakpé dikdrib dang\nkönchok dé shinkor la chepa nam", "e": "For as far and as long as space exists,\nI dedicate an inexhaustible amount of sensual stimulants!\nMay my negative actions and obscurations accumulated in past, present and future,\nAnd misuse of the offerings made to the Three Jewels, in devotion and for the dead,"}, {"t": "སྦྱིན་སྲེག་མེ་མཆོད་འདི་ཡིས་དག་གྱུར་ཅིག༔\nམེ་ལྕེ་སྣང་སྲིད་གང་བའི་རྡུལ་ཕྲན་རེས༔\nཀུན་བཟང་མཆོད་པའི་སྤྲིན་ཕུང་མི་ཟད་པ༔\nརྒྱལ་བའི་ཞིང་ཁམས་ཡོངས་ལ་ཁྱབ་གྱུར་ཅིག༔", "p": "jinsek mechö di yi dak gyur chik\nmeché nangsi gangwé dultren ré\nkunzang chöpé trinpung mizepa\ngyalwé zhingkham yong la khyab gyur chik", "e": "Be purified in the fire of this sang offering!\nLet its flames fill the entire universe and every minute particle of flame\nBecome an inexhaustible cloud of offerings like Samantabhadra’s\nPervading throughout all the buddha realms!"}, {"t": "མེ་ལྕེ་ཡེ་ཤེས་འོད་ལྔའི་མཆོད་སྦྱིན་ཟེར༔\nརིགས་དྲུག་མནར་མེད་གནས་སུ་ཁྱབ་གྱུར་པས༔\nཁམས་གསུམ་འཁོར་བ་འཇའ་ལུས་འོད་སྐུར་གྲོལ༔\nའགྲོ་ཀུན་བྱང་ཆུབ་སྙིང་པོར་སངས་རྒྱས་ཤོག༔", "p": "meché yeshe ö ngé chöjin zer\nrik druk narmé né su khyab gyurpé\nkham sum khorwa jalü ökur drol\ndro kün changchub nyingpor sangye shok", "e": "May these flames, offering-rays of five-coloured lights of wisdom,\nPervade throughout the six classes of beings, down to the Avīci Hells,\nThe three realms of saṃsāra be liberated into the rainbow body,\nAnd all sentient beings awaken into the heart of enlightenment!"}, {"t": "ཨོཾ་ཨཱཿཧཱུྂ༔", "p": "om ah hung", "e": "oṃ āḥ hūṃ"}, {"ins": "100 times, 1000 times, or more—as many as you can"}, {"sec": "7. Conclusion"}, {"t": "སྐུ་གསུམ་དག་པ་སྣོད་ཀྱི་གཞལ་ཡས་སུ༔\nཆོས་ལོངས་སྤྲུལ་གསུམ་སྣང་སྲིད་གཟུགས་ཕུང་རྣམས༔\nབདུད་རྩིར་ཞུ་བས་འཇའ་འོད་བར་སྣང་གང༌༔\nའཁོར་བ་མྱང་འདས་ཟག་མེད་བདུད་རྩིའི་བཅུད༔", "p": "ku sum dakpa nö kyi zhalyé su\nchö long trul sum nangsi zukpung nam\ndütsir zhuwé ja ö barnang gang\nkhorwa nyangdé zakmé dütsi chü", "e": "All is purified into the three kāyas: the environment, a heavenly palace where\nDharmakāya, saṃbhogakāya and nirmāṇakāya—the forms and aggregates of phenomenal existence,\nMelt into nectar, flooding the whole expanse of the sky with rainbow light.\nSaṃsāra is liberated into nirvāṇa; this essence of immaculate nectar"}, {"t": "ཐོག་མེད་དུས་ནས་ད་ལྟ་ཡན་ཆད་དུ༔\nསྣང་སྲིད་མགྲོན་དུ་གྱུར་པ་ཡོངས་ལ་བསྔོ༔\nས་ལམ་འབྲས་བུའི་ཡོན་ཏན་མཐར་ཕྱིན་ཞིང༌༔\nལྟ་སྒོམ་སྤྱོད་པའི་བར་ཆད་ཀུན་བསལ་ནས༔", "p": "tokmé dü né danta yenché du\nnangsi drön du gyurpa yong la ngo\nsa lam drebü yönten tarchin zhing\nta gom chöpé barché kün sal né", "e": "I share with all those who, from beginningless time until now,\nHave been guests in worldly existence.\nHaving attained all the noble qualities of the stages, paths and fruition,\nAnd dispelled all obstacles in view, meditation and action,"}, {"t": "རྨད་བྱུང་ཀུན་བཟང་ཐུགས་ཀྱི་མཁའ་དབྱིངས་སུ༔\nགཞོན་ནུ་བུམ་སྐུར་གཏན་སྲིད་ཟིན་པར་ཤོག༔\nའཁོར་བའི་རྒྱ་མཚོ་ཆེན་པོ་སྟོངས་པའི་མཐར༔\nའོག་མིན་པདྨ་དྲྭ་བར་སངས་རྒྱས་ཤོག༔", "p": "mejung kunzang tuk kyi khaying su\nzhönnu bumkur tensi zinpar shok\nkhorwé gyatso chenpo tongpé tar\nwomin pema drawar sangye shok", "e": "Within the sky-like space of Samantabhadra’s wondrous wisdom mind,\nMay we seize the stronghold of the youthful vase body!\nAnd when at last the great ocean of saṃsāra is emptied;\nMay all beings attain buddhahood in the Lotus Net of Akaniṣṭha!"}, {"t": "ཕུང་ཁམས་བསྲེག་རྫས་བཀྲག་མདངས་གཟི་བརྗིད་འབར༔\nདཀར་དམར་བྱང་སེམས་བསྲེག་རྫས་བདེ་སྟོང་འབར༔\nསྟོང་ཉིད་སྙིང་རྗེའི་བསྲེག་རྫས་ཆོས་དབྱིངས་གང༌༔\nསྣང་སྲིད་འཁོར་འདས་རྡོ་རྗེའི་འོད་ལྔའི་གཞིར༔", "p": "pung kham sekdzé trakdang ziji bar\nkar mar changsem sekdzé detong bar\ntongnyi nyingjé sekdzé chöying gang\nnangsi khordé dorjé ö ngé zhir", "e": "The sang offerings of the aggregates and elements blaze in vivid, brilliant splendour!\nThe sang offerings of red and white bodhicitta blaze in bliss and emptiness!\nThe sang offerings of emptiness and compassion fill the dharmadhātu!\nUpon the ground of five-coloured vajra light of phenomenal existence, saṃsāra and nirvāṇa,"}, {"t": "ལྷུན་གྲུབ་རྫོགས་སངས་རྒྱས་པའི་བསྲེག་རྫས་འབུལ༔\nསྔོན་གྱི་ལན་ཆགས་ཐམས་ཅད་བྱང་གྱུར་ཅིག༔\nད་ལྟ་རྒྱུད་ལ་མི་གནས་མཐོལ་ལོ་བཤགས༔\nམ་འོངས་སྒྲིབ་པའི་འཁོར་ལོར་མ་གྱུར་ཅིག༔", "p": "lhündrub dzok sangyepé sekdzé bul\nngön gyi lenchak tamché jang gyur chik\ndanta gyü la miné tol lo shak\nma ong dribpé khorlor magyur chik", "e": "I offer the sang offering of spontaneously accomplished perfect buddhahood.\nMay all my karmic debts from the past be purified!\nIn the present so they do not remain in my mindstream, I confess them!\nAnd in the future, may I never be drawn into the wheel of obscuration!"}, {"t": "སོ་ཐར་བྱང་སེམས་རིག་པ་འཛིན་པ་ཡི༔\nསྡོམ་བཅས་བསླབ་པ་གསང་སྔགས་དམ་ཚིག་རིགས༔\nཚོར་དང་མ་ཚོར་ཉམས་པ་མཐོལ་ལོ་བཤགས༔\nནད་གདོན་གྲིབ་དང་མི་གཙང་དག་གྱུར་ཅིག༔", "p": "sotar changsem rigpa dzinpa yi\ndom ché labpa sang ngak damtsik rik\ntsor dang matsor nyampa tol lo shak\nne dön drib dang mitsang dak gyur chik", "e": "All impairments of the vows of individual liberation, bodhisattva precepts,\nAnd samayas of the vidyādharas,\nConscious or unwitting, I openly admit.\nMay illness, harmful influence, obscurations and impurities be purified!"}, {"t": "ནད་མུག་མཚོན་གྱི་བསྐལ་པ་ཞི་གྱུར་ཅིག༔\nམཐའ་མི་དབུས་སུ་འོང་བའི་བསུན་མ་ཟློག༔\nཆོས་མཛད་བླ་མ་གདན་འདྲེན་བར་ཆད་ཟློག༔\nབོད་ཡུལ་བཀྲ་མི་ཤིས་པའི་ལྟས་ངན་ཟློག༔", "p": "né muk tsön gyi kalpa zhi gyur chik\ntami ü su ongwé sünma dok\nchödzé lama dendren barché dok\nböyul trami shipé te ngen dok", "e": "May this age of plague, famine and warfare be pacified!\nMay the attacks of invaders be repelled!\nMay obstructing forces that cause the spiritual teacher to depart be averted!\nMay inauspicious bad omens for the whole world and the land of Tibet be averted!"}, {"t": "གཟའ་ཀླུ་རྒྱལ་པོས་སྲོག་དབུགས་སྡུད་པ་ཟློག༔\nའཇིགས་པ་ཆེན་པོ་བརྒྱད་དང་བཅུ་དྲུག་ཟློག༔\nབདག་ཅག་འཁོར་བཅས་བཀྲ་མི་ཤིས་པ་ཟློག༔\nདམ་སྲི་འགོང་པོའི་མཐུ་སྟོབས་ནུས་པ་ཟློག༔", "p": "za lu gyalpö sok uk düpa dok\njikpa chenpo gyé dang chudruk dok\ndakchak khor ché trami shipa dok\ndamsi gongpö tutob nüpa dok", "e": "May the planetary forces, nāgas and arrogant king-like spirits, who cut short the breath of life, be repelled!\nMay the eight great fears and sixteen lesser fears be overcome!\nFor me and all those round me, may all that is inauspicious be averted!\nMay the powers and strength of samaya-breakers and gongpo demons be averted!"}, {"ins": "Samaya!"}, {"t": "གྲངས་གསོག་ཚེ་སླར་ཡང༌། བྷྲཱུྃ༔ རིན་ཆེན་སྣ་ཚོགས་སོགས་ནས། འབྲུ་གསུམ་གང་མང་དང༌། སྐུ་གསུམ་དག་པ་སོགས་ཅི་རིགས་མཐར།", "e": "When counting the number of recitations of Riwo Sangchö, return to “droom, rinchen natsok...”, then say the three syllables “oṃ āḥ hūṃ” as much as possible, then “ku sum dakpa...” and so on."}, {"sec": "8. Dedication"}, {"t": "རྒྱལ་བ་མཆོད་པས་མཉེས་གྱུར་ཅིག །\nདམ་ཅན་ཐུགས་དམ་སྐོང་གྱུར་ཅིག །\nརིགས་དྲུག་འདོད་པ་ཚིམས་གྱུར་ཅིག །\nལན་ཆགས་ཤ་མཁོན་སྦྱང་གྱུར་ཅིག །", "p": "gyalwa chöpé nyé gyur chik\ndamchen tukdam kong gyur chik\nrik druk döpa tsim gyur chik\nlenchak shakhön jang gyur chik", "e": "May all the buddhas be pleased with this offering!\nMay the solemn promise of the protectors be fulfilled!\nMay the wishes of the six classes of beings be satisfied!\nMay the enmity of karmic debtors be assuaged!"}, {"t": "ཚོགས་གཉིས་ཡོངས་སུ་རྫོགས་གྱུར་ཅིག །\nསྒྲིབ་གཉིས་བག་ཆགས་དག་གྱུར་ཅིག །\nདམ་པ་སྐུ་གཉིས་ཐོབ་གྱུར་ཅིག །\nསྦྱིན་པ་རྒྱ་ཆེན་གྱུར་པ་འདི་ཡི་མཐུས། །", "p": "tsok nyi yongsu dzok gyur chik\ndrib nyi bakchak dak gyur chik\ndampa ku nyi tob gyur chik\njinpa gyachen gyurpa di yi tü", "e": "May we complete the accumulation of merit and wisdom!\nMay we purify cognitive and emotional defilements, and karmic traces!\nMay we attain the dharmakāya and rūpakāya, for the benefit of self and others!\nThrough the power of this vast act of generosity"}, {"t": "འགྲོ་བའི་དོན་དུ་རང་བྱུང་སངས་རྒྱས་ཤོག །\nསྔོན་གྱི་རྒྱལ་བ་རྣམས་ཀྱིས་མ་གྲོལ་བའི། །\nསྐྱེ་བོའི་ཚོགས་རྣམས་སྦྱིན་པས་གྲོལ་གྱུར་ཅིག །\nའབྱུང་པོ་གང་དག་འདིར་ནི་ལྷགས་གྱུར་ཏམ། །", "p": "drowé döndu rangjung sangye shok\nngön gyi gyalwa nam kyi madrolwé\nkyewö tsok nam jinpé drol gyur chik\njungpo gangdak dir ni lhak gyur tam", "e": "May we spontaneously attain buddhahood for the benefit of beings!\nAll those who were not liberated by the buddhas of the past,\nThrough this act of generosity, may they be liberated!\nMay all the spirits gathered in this place,"}, {"t": "ས་འམ་འོན་ཏེ་བར་སྣང་འཁོད་ཀྱང་རུང་། །\nསྐྱེ་རྒུ་རྣམས་ལ་རྟག་ཏུ་བྱམས་བྱེད་ཅིང་། །\nཉིན་དང་མཚན་དུ་ཆོས་ལ་སྤྱོད་པར་ཤོག །\nདགེ་བ་འདི་ཡིས་སྐྱེ་བོ་ཀུན། །", "p": "sa am önté barnang khö kyang rung\nkyegu nam la taktu jamjé ching\nnyin dang tsen du chö la chöpar shok\ngewa di yi kyewo kün", "e": "Be it on the earth or in the water or in the sky,\nAlways show goodwill and kindness to all beings,\nAnd practise Dharma day and night!\nThrough the positivity and merit of this, may all beings"}, {"t": "བསོད་ནམས་ཡེ་ཤེས་ཚོགས་རྫོགས་ཤིང་། །\nབསོད་ནམས་ཡེ་ཤེས་ལས་བྱུང་བའི། །\nདམ་པ་སྐུ་གཉིས་ཐོབ་པར་ཤོག །\nའབད་དང་རྩོལ་བས་མ་གོས་པ། །", "p": "sönam yeshe tsok dzok shing\nsönam yeshe lé jungwé\ndampa ku nyi tobpar shok\nbé dang tsolwé magöpa", "e": "Complete the accumulation of merit and wisdom,\nAnd from this merit and wisdom,\nMay they attain the dharmakāya and rūpakāya, for the benefit of self and others!\nUntainted by effort and exertion,"}, {"t": "ཡིད་བཞིན་ནོར་བུ་དཔག་བསམ་ལྟར་། །\nསེམས་ཅན་རེ་བ་སྐོང་མཛད་པ། །\nབསམ་པ་འགྲུབ་པའི་བཀྲ་ཤིས་ཤོག །", "p": "yizhin norbu paksam tar\nsemchen rewa kong dzepa\nsampa drubpé tashi shok", "e": "Like a wish-fulfilling jewel, a wish-granting tree,\nMay I fulfil the hopes of sentient beings\nAnd may all be auspicious to accomplish their desires!"}, {"ins": "Make everything positive and well with auspicious prayers such as these."}, {"ins": "From the many ways, elaborate or condensed, of doing this practice, I Jñāna (Dudjom Rinpoche), an old and decrepit village yogin, composed this abbreviated version for daily practice."}]});
 // Each practice as its own quote (full verse), so any day may show, say, practice 9.
 QUOTES.push(...THIRTY_SEVEN.couplets.filter(c=>c.n).map(c=>({t:c.x,a:`The 37 Practices of Bodhisattvas · ${c.n}`})));
 
@@ -1268,14 +1298,20 @@ function currentId(){
 function addTo(id,n,{log=true}={}){
   const p=findPR(id),pd=getPD(id),c=pd.counter||0,nc=Math.max(0,Math.min(p.target,c+n));
   savePD(id,{...pd,counter:nc,lastDate:n>0?new Date().toISOString():pd.lastDate,undo:[...(pd.undo||[]).slice(-19),{counter:c,lastDate:pd.lastDate}]});
-  if(log&&n>0){const L=ls('esm_log',{}),k=dayKey();L[k]=(L[k]||0)+(nc-c);lsSet('esm_log',L);}
+  if(log&&n>0){const L=ls('esm_log',{}),k=dayKey(),got=nc-c;L[k]=(L[k]||0)+got;lsSet('esm_log',L);
+    // Daily amount per practice, and tick its diary activity (if one is linked to this counter).
+    const P=ls('esm_plog',{});P[k]={...(P[k]||{}),[id]:((P[k]||{})[id]||0)+got};lsSet('esm_plog',P);
+    const a=acts().find(x=>x.pr===id);if(a&&got>0)addActAmount(k,a.id,got);
+    keepStorage();}
   return nc-c;
 }
 function setTotal(id,v){const p=findPR(id),pd=getPD(id);
   savePD(id,{...pd,counter:Math.max(0,Math.min(p.target,v)),undo:[...(pd.undo||[]).slice(-19),{counter:pd.counter||0,lastDate:pd.lastDate}]});}
 function undoLast(id){const pd=getPD(id),u=pd.undo||[];if(!u.length)return;const prev=u[u.length-1];
   // Take an undone addition back off today's log too.
-  const diff=(pd.counter||0)-prev.counter;if(diff>0){const L=ls('esm_log',{}),k=dayKey();if(L[k]){L[k]=Math.max(0,L[k]-diff);if(!L[k])delete L[k];lsSet('esm_log',L);}}
+  const diff=(pd.counter||0)-prev.counter;if(diff>0){const L=ls('esm_log',{}),k=dayKey();if(L[k]){L[k]=Math.max(0,L[k]-diff);if(!L[k])delete L[k];lsSet('esm_log',L);}
+    const P=ls('esm_plog',{});if(P[k]&&P[k][id]){P[k][id]=Math.max(0,P[k][id]-diff);if(!P[k][id])delete P[k][id];if(!Object.keys(P[k]).length)delete P[k];lsSet('esm_plog',P);}
+    const a=acts().find(x=>x.pr===id),v=a&&dayActs(k)[a.id];if(typeof v==='number')setAct(k,a.id,v-diff>0?v-diff:null);}
   savePD(id,{...pd,counter:prev.counter,lastDate:prev.lastDate,undo:u.slice(0,-1)});}
 function saveTap(){lsSet('esm_tap',ST.tap);}
 // Projected finish at `pace` a day; today counts unless you've already practised today.
@@ -1302,6 +1338,28 @@ function parseBackup(text){
   return null;}
 function summarise(data){try{const pd=JSON.parse(data.esm_pr_data||'{}');
   return allPR().filter(p=>(pd[p.id]||{}).counter).map(p=>`${p.name}: ${fmt(pd[p.id].counter)}`);}catch{return[];}}
+// ── Keeping data safe, for people who aren't "techy" ──
+// 1) Ask the browser to keep our storage permanently (no prompt on most phones).
+// 2) A gentle reminder on Today when it's been a while since a copy was sent.
+// 3) "Send a copy to myself" opens the phone's share menu (email, WhatsApp,
+//    Drive, Files) with the backup file attached; falls back to a download.
+function hasPracticeData(){return Object.values(ST.prData||{}).some(p=>p&&p.counter>0)||Object.keys(ls('esm_journal',{})).length>0;}
+async function keepStorage(){try{if(navigator.storage&&navigator.storage.persist&&!(await navigator.storage.persisted()))lsSet('esm_persist',await navigator.storage.persist());}catch{}}
+function markBackedUp(){lsSet('esm_last_backup',Date.now());lsSet('esm_backup_snooze',0);}
+const daysSince=t=>t?Math.floor((Date.now()-t)/86400000):Infinity;
+function lastBackupText(){const t=ls('esm_last_backup',0);return t?`You last sent a copy ${daysSince(t)===0?'today':daysSince(t)===1?'yesterday':daysSince(t)+' days ago'} (${fmtD(t)}).`:'You haven’t sent yourself a copy yet.';}
+function backupDue(){const every=ls('esm_backup_every',14),t=ls('esm_last_backup',0),snooze=ls('esm_backup_snooze',0);
+  return every>0&&hasPracticeData()&&daysSince(t)>=every&&Date.now()>snooze;}
+function backupFile(){return new File([backupJSON()],`dharma-backup-${stamp()}.json`,{type:'application/json'});}
+function downloadBackup(){const f=backupFile(),u=URL.createObjectURL(f),a=document.createElement('a');
+  a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);markBackedUp();snapshot('Backup saved');}
+async function shareBackup(){const f=backupFile();
+  if(navigator.canShare&&navigator.canShare({files:[f]})){
+    try{await navigator.share({files:[f],title:`${APP_NAME} backup`,text:`My ${APP_NAME} backup from ${fmtD(Date.now())}. Keep this safe: open it in the app to restore.`});
+      markBackedUp();snapshot('Backup sent');ST.sheet=null;render();toast('Copy sent. Your practice is safe.');}
+    catch(e){if(e&&e.name!=='AbortError'){downloadBackup();ST.sheet=null;render();toast('Saved the copy to your downloads');}}
+    return;}
+  downloadBackup();ST.sheet=null;render();toast('Saved the copy to your downloads. Keep it somewhere safe.');}
 function applyBackup(o){snapshot('Before restoring a backup');
   Object.keys(collectData()).forEach(k=>localStorage.removeItem(k));
   for(const[k,v]of Object.entries(o.data))if(k.startsWith('esm_')&&k!=='esm_snapshots')localStorage.setItem(k,v);
@@ -1350,6 +1408,7 @@ const I={
   tree:'<path d="M12 21v-5"/><circle cx="12" cy="9" r="5.5"/>',star:'<path d="M12 4l2.3 5 5.2.5-3.9 3.5 1.1 5.2L12 15.6 7.3 18.2l1.1-5.2L4.5 9.5 9.7 9z"/>',
   phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/>',link:'<path d="M10 14l4-4M8.5 11.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M15.5 12.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>',
   trash:'<path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/>',
+  swap:'<path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/>',
 };
 const ico=(n,w)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]||''}</svg>`;
 
@@ -1373,34 +1432,40 @@ function pageToday(){
   const now=noonOf(new Date()),t=tibDate(now),obs=observedAusp(now),hr=hairRec(t.day);
   const id=currentId(),p=findPR(id),pd=getPD(id),c=pd.counter||0,pct=Math.floor(c/p.target*100),pace=paceOf(id);
   const out=[`<div class="row"><div class="greet grow">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>`];
+  // Words for today — one quote at a time; swipe or use the arrows.
+  out.push(`<div class="card qcard" id="qcard">${quoteHTML()}
+    <div class="qnav"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><span class="small">Words for today</span><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div></div>`);
   if(!ls('esm_seen'))out.push(`<div class="card glow stack"><b style="font-size:var(--fs-lg)">Welcome to ${APP_NAME}</b>
     <p>An unofficial companion for Ngöndro and daily practice, made to lower the barrier and cut through to the heart of the teachings.</p>
-    <div class="btns even"><button class="btn primary" data-act="seen">Begin</button>${isStandalone()?'':`<button class="btn soft" data-act="install">${ico('phone')} Add to phone</button>`}</div></div>`);
+    <div class="btns even"><button class="btn primary" data-act="seen">Begin</button>${isStandalone()?'':`<button class="btn soft" data-act="install">${ico('phone')} Add to phone</button>`}</div>
+    ${hasPracticeData()?'':`<button class="btn link" data-act="restore" style="align-self:flex-start;padding-left:0">Moving from another phone? Restore your practice</button>`}</div>`);
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
   // The day, in Tibetan terms — hair cutting sits with it as part of the astrological calendar.
   out.push(`<button class="daycard" data-act="cal" aria-label="Open the Tibetan calendar">
     <span class="top">${moonSVG(moonAge(now),48)}<span><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
-      <span class="small">Tibetan day ${t.day} <span class="tibnum">${tibNum(t.day)}</span> · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span><br><span class="small">${phaseText(now)}</span></span>${chev}</span>
+      <span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span><br>
+      <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span><br><span class="small">${phaseText(now)}</span></span>${chev}</span>
     <span class="hairline"><span class="lbl">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></span></button>`);
-  if(obs.length)obs.forEach(o=>out.push(`<div class="card glow special"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}</div>`));
-  else{const ns=nextSpecial(now);if(ns)out.push(`<button class="card" data-act="cal" style="text-align:left"><span class="small">Next special day</span><b style="display:block;font-size:var(--fs-lg)">${ns.o.a.name}</b><span class="small">${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span></button>`);}
+  if(obs.length)obs.forEach(o=>{const w=SPECIAL_WHY[o.td];out.push(`<div class="card glow special"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}
+    ${w?`<a class="btn link" href="${w.u}" target="_blank" rel="noopener" style="padding-left:0">Read more on Rigpa Wiki ↗</a>`:''}</div>`);});
+  else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];out.push(`<div class="card stack"><div><span class="small">Next special day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
+    <b style="display:block;font-size:var(--fs-lg)">${ns.o.a.name}</b></div>${w?`<p>${w.t}</p>`:''}
+    <div class="row" style="justify-content:space-between;flex-wrap:wrap">${w?`<a class="btn link" href="${w.u}" target="_blank" rel="noopener">Read more on Rigpa Wiki ↗</a>`:''}<button class="btn link" data-act="cal">See the month</button></div></div>`);}}
   if(doubledToday(now)&&AUSP[t.day])out.push(`<p class="note">Day ${t.day} falls twice this month, so ${AUSP[t.day].name} is kept tomorrow.</p>`);
   out.push(`<p class="h2">YOUR PRACTICE</p>
-  <div class="card stack" style="--acc:${p.acc}"><div class="row"><div class="grow"><div class="pname">${esc(p.name)}</div><div class="pnum"><b>${fmt(c)}</b> of ${fmt(p.target)} · ${pct}%</div></div><button class="btn link" data-act="pick">Change</button></div>
+  <div class="card stack" style="--acc:${p.acc}"><div class="row"><div class="grow"><div class="pname">${esc(p.name)}</div><div class="pnum"><b>${fmt(c)}</b> of ${fmt(p.target)} · ${pct}%</div></div><button class="btn soft switchbtn" data-act="pick" aria-label="Switch to a different practice">${ico('swap')}<span>Switch</span></button></div>
     <div class="bar"><i style="width:${Math.max(pct,c?1:0)}%"></i></div>
     ${c>=p.target?`<p class="done-line">✦ Complete ✦</p>`:`<div class="btns"><button class="btn primary" data-act="start" data-id="${id}">${ico('mala')} Start session</button><button class="btn soft" data-act="quick" data-id="${id}">+ ${fmt(pace)}</button></div>
     <div class="row" style="justify-content:space-between"><button class="btn link" data-act="pace" data-id="${id}">Change the + amount</button><button class="btn link" data-act="practice" data-id="${id}">Edit total</button></div>`}</div>`);
-  // This week — gentle, no streaks.
-  const L=ls('esm_log',{}),di=(now.getDay()+6)%7,mon=plusDays(now,-di);
-  const wk=[...Array(7)].map((_,i)=>{const d=plusDays(mon,i);return{d,y:!!L[dayKey(d)],t:i===di};});
-  const nDays=wk.filter(w=>w.y).length;
-  out.push(`<p class="h2">THIS WEEK</p><div class="card"><div class="week">${wk.map((w,i)=>`<div><span>${'MTWTFSS'[i]}</span><i class="${w.y?'y':''}${w.t?' t':''}" title="${w.d.toDateString()}"></i></div>`).join('')}</div>
-    <p class="small" style="margin-top:10px">${nDays?`You practised on ${nDays} day${nDays>1?'s':''} this week.`:'Days you practise will show here.'}</p></div>`);
-  // Quotes — swipe, or use the arrows.
-  out.push(`<p class="h2">WORDS FOR TODAY</p><div class="card"><div class="quotes" id="quotes">${QUOTES.map(q=>`<figure class="quote"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`).join('')}</div>
-    <div class="qnav"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><span class="small" id="qpos"></span><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div></div>`);
+  // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
+  if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
+    <p>Your counts live only on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
+    <p class="small">${lastBackupText()}</p></div>
+    <div class="btns"><button class="btn primary" data-act="sharebackup">${ico('save')} Send a copy</button><button class="btn soft" data-act="bklater">Later</button></div></div>`);
+  // This week — the practice diary (gentle: no streaks, just colour).
+  out.push(weekCard(now));
   return`<div class="page"><div class="col">${out.join('')}</div></div>`;
 }
 
@@ -1482,10 +1547,12 @@ function ovSession(){const c=ST.tap.count,p=findPR(ST.tap.pid),hide=ST.hideCount
   <div class="sessbar"><button class="btn soft" data-act="minus" aria-label="Take one off">− 1</button>
     <button class="btn soft holdbtn" id="holdreset"><span class="fillbar" id="fillbar"></span><span id="holdlbl">Reset<small>hold 5 seconds</small></span></button>
     <button class="btn primary" data-act="finish">Finish</button></div>`;}
-function ovDedicate(){const d=PRAYERS.find(p=>p.id==='dedication'),v=d.couplets;
+// End of a session: the first dedication verse (Sonam di yi), with the full prayers a tap away.
+function ovDedicate(){const v=versesOf(PRAYERS.find(p=>p.id==='dedication')).filter(c=>c.sec==='DEDICATION OF MERIT');
   return`<div class="ovtop"><span style="width:48px"></span><div class="title">Dedication</div><span style="width:48px"></span></div>
   <div class="verse"><div class="col"><p class="vsec">DEDICATE THE MERIT</p>
-    ${v.slice(0,2).map(c=>`${ST.showTib&&c.t?`<p class="vt">${c.t}</p>`:''}<p class="vp">${esc(c.p)}</p><p class="ve">${esc(c.e)}</p>`).join('')}</div></div>
+    ${v.map(c=>`${ST.showTib&&c.t?`<p class="vt">${c.t}</p>`:''}<p class="vp">${esc(c.p)}</p><p class="ve">${esc(c.e)}</p>`).join('')}
+    <button class="btn link" data-act="prayer" data-id="dedication" style="align-self:flex-start">The full dedication prayers</button></div></div>
   <div class="vnav" style="grid-template-columns:1fr"><button class="btn primary" data-act="closeov">Done</button></div>`;}
 // Counting: pointerdown for instant response, updated in place (no re-render) so taps never lag.
 let wakeLock=null;
@@ -1518,10 +1585,107 @@ function openSession(pid){ST.tap.pid=pid||ST.tap.pid||'';saveTap();ST.ov='sessio
 // Verses of a prayer. Couplet fields: t = Tibetan, p = phonetics (the chant
 // line), e = English translation, x = plain reading text (English-only texts),
 // n = verse number, sec = section heading that applies to the verses after it.
-function versesOf(pr){const out=[];let sec='';for(const c of pr.couplets){if(c.sec){sec=c.sec;continue;}if(c.t||c.p||c.e||c.x)out.push({...c,sec});}return out;}
+// ins = an instruction line ("Three times"): it joins the verse before it in the
+// same section, or else leads into the next verse. t/p/e may hold several lines.
+function versesOf(pr){const out=[];let sec='',lead=[];
+  for(const c of pr.couplets){
+    if(c.sec){sec=c.sec;continue;}
+    const text=c.t||c.p||c.e||c.x;
+    if(c.ins&&!text){const last=out[out.length-1];if(last&&last.sec===sec)(last.after=last.after||[]).push(c.ins);else lead.push(c.ins);continue;}
+    if(text){out.push({...c,sec,before:lead.length?lead:null});lead=[];}
+  }
+  return out;}
+const TEXT_GROUPS=[['daily','DAILY PRAYERS'],['sang','SMOKE OFFERINGS'],['other','OTHER TEXTS']];
+// ═══════════════════════════════════════════════════════════
+// PRACTICE DIARY — tick what you practised each day; each activity has a
+// colour, and a day's circle fills with the colours of what was done.
+// esm_activities = [{id,name,color,pr?}] (pr links it to a counter, which ticks it
+// automatically); esm_journal = {'YYYY-MM-DD':{activityId:true|amount}};
+// esm_plog = {'YYYY-MM-DD':{practiceId:count}} (daily amounts per counter).
+// ═══════════════════════════════════════════════════════════
+const ACT_COLORS=['#4a7fd4','#c9713c','#c4903d','#3f9a78','#8a6bd1','#c05b80','#7a2230','#4bb3c4','#9a8050','#e2574c','#8a8f98','#2f7a45'];
+const ACT_SUGGEST=[
+  {id:'meditation',name:'Meditation',color:'#4a7fd4'},
+  {id:'a_prostr',name:'Prostrations',color:'#c9713c',pr:'prostr'},
+  {id:'a_guruyoga',name:'Guru Yoga',color:'#c4903d',pr:'guruyoga'},
+  {id:'sang',name:'Smoke offering',color:'#8a8f98'},
+  {id:'a_diamond',name:'Diamond Mind',color:'#8a6bd1',pr:'diamond'},
+  {id:'a_mandala',name:'Mandala offering',color:'#3f9a78',pr:'mandala'},
+  {id:'a_loving',name:'Loving Eyes',color:'#c05b80',pr:'loving'},
+  {id:'prayers',name:'Prayers',color:'#7a2230'},
+  {id:'study',name:'Study',color:'#9a8050'},
+];
+const acts=()=>ls('esm_activities',null)||ACT_SUGGEST.slice(0,4);
+const journal=()=>ls('esm_journal',{});
+const dayActs=k=>journal()[k]||{};
+function setAct(k,id,v){const j=journal(),d={...(j[k]||{})};if(v==null||v===false)delete d[id];else d[id]=v;
+  if(Object.keys(d).length)j[k]=d;else delete j[k];lsSet('esm_journal',j);}
+function addActAmount(k,id,n){const cur=dayActs(k)[id];setAct(k,id,(typeof cur==='number'?cur:0)+n);}
+// A day's ring: equal slices of each ticked activity's colour.
+function dayRing(k){const d=dayActs(k),A=acts().filter(a=>d[a.id]);if(!A.length)return'';const s=360/A.length;
+  return A.length===1?`background:${A[0].color}`:`background:conic-gradient(${A.map((a,i)=>`${a.color} ${i*s}deg ${(i+1)*s}deg`).join(',')})`;}
+function chime(){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
+  [[0,1046.5,.1],[.08,1568,.07]].forEach(([dl,f,g])=>{const o=ac.createOscillator(),gn=ac.createGain();o.type='sine';o.frequency.value=f;o.connect(gn);gn.connect(ac.destination);
+    gn.gain.setValueAtTime(0,t+dl);gn.gain.linearRampToValueAtTime(g,t+dl+.01);gn.gain.exponentialRampToValueAtTime(.001,t+dl+.7);o.start(t+dl);o.stop(t+dl+.8);});}catch{}}
+const actAmount=v=>typeof v==='number'?fmt(v):'';
+// The tick-chips for one day (used on Today and in the month view).
+function jChips(k){const d=dayActs(k);
+  return`<div class="jchips">${acts().map(a=>`<button class="jchip${d[a.id]?' on':''}${ST.popAct===a.id?' pop':''}" data-act="jtick" data-k="${k}" data-v="${a.id}" style="--c:${a.color}" aria-pressed="${!!d[a.id]}"><i></i>${esc(a.name)}${d[a.id]?` ✓${typeof d[a.id]==='number'?' '+actAmount(d[a.id]):''}`:''}</button>`).join('')}
+    <button class="jchip add" data-act="acts" aria-label="Change the activities">${ico('edit')} Edit</button></div>`;}
+function sheetJDay(){const k=ST.sarg,dt=new Date(k+'T12:00');
+  return`<div class="grab"></div><h2 class="h1">${dt.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
+  <p class="small">Tap what you practised that day.</p>${jChips(k)}<button class="btn primary wide" data-act="closesheet">Done</button>`;}
+function weekCard(now){
+  const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),d=dayActs(sel),A=acts();
+  const days=[...Array(7)].map((_,i)=>plusDays(mon,i)),selDate=noonOf(new Date(sel+'T12:00'));
+  const label=sel===dayKey(now)?'today':selDate.toLocaleDateString('en-GB',{weekday:'long'});
+  const n=days.filter(x=>Object.keys(dayActs(dayKey(x))).length).length;
+  return`<p class="h2">THIS WEEK</p><div class="card stack">
+    <div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
+    <p class="small">Tap what you practised ${label}:</p>
+    ${jChips(sel)}
+    <div class="row" style="justify-content:space-between;flex-wrap:wrap"><span class="small">${n?`${n} day${n>1?'s':''} of practice this week.`:'Your practice days will show here.'}</span><button class="btn link" data-act="journal">See the month</button></div></div>`;}
+function ovJournal(){
+  const base=new Date();base.setDate(1);base.setMonth(base.getMonth()+(ST.jmon||0));const y=base.getFullYear(),m=base.getMonth();
+  const first=new Date(y,m,1,12),dim=new Date(y,m+1,0).getDate(),lead=(first.getDay()+6)%7,todayK=dayKey(),A=acts();
+  const cells=[...Array(lead).fill(null),...[...Array(dim)].map((_,i)=>new Date(y,m,i+1,12))];
+  const counts={};cells.forEach(x=>{if(!x)return;const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
+  return`${topbar('Practice diary')}<div class="ovbody"><div class="col">
+    <div class="row" style="justify-content:space-between"><button class="iconbtn" data-act="jprev" aria-label="Previous month">${ico('back')}</button>
+      <b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b>
+      <button class="iconbtn" data-act="jnext" aria-label="Next month" ${ST.jmon>=0?'disabled style="opacity:.4"':''}>${ico('chev')}</button></div>
+    <div class="cal jcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
+      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),fut=k>todayK;
+        return`<button class="cday jd${k===todayK?' today':''}" data-act="jpick" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><b>${x.getDate()}</b><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
+    <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
+    <p class="small">Tap a day to change what you ticked. Counts you add to a practice tick it here automatically.</p>
+    <button class="btn soft wide" data-act="acts">${ico('edit')} Change the activities</button>
+    <button class="btn soft wide" data-act="exportcsv">${ico('save')} Export as a spreadsheet</button>
+    <p class="small">The spreadsheet has one row for each day, with what you ticked and how many of each practice you counted. Your normal backup already includes this diary.</p>
+  </div></div>`;}
+function sheetActs(){const A=acts(),have=new Set(A.map(a=>a.id)),sugg=ACT_SUGGEST.filter(s=>!have.has(s.id)),pick=ST.newColor||ACT_COLORS[A.length%ACT_COLORS.length];
+  return`<div class="grab"></div><h2 class="h1">Your activities</h2>
+  <div class="list">${A.map(a=>`<div class="item" style="cursor:default"><span class="dot" style="--acc:${a.color}"></span><span class="grow"><span class="t">${esc(a.name)}</span>${a.pr?'<span class="s">Ticked automatically when you count</span>':''}</span>
+    <button class="iconbtn" data-act="actdel" data-v="${a.id}" aria-label="Remove ${esc(a.name)}">${ico('trash')}</button></div>`).join('')||'<p class="small" style="padding:14px">No activities yet.</p>'}</div>
+  ${sugg.length?`<p class="h2" style="margin:0">SUGGESTIONS</p><div class="jchips">${sugg.map(s=>`<button class="jchip" data-act="actadd" data-v="${s.id}" style="--c:${s.color}"><i></i>+ ${esc(s.name)}</button>`).join('')}</div>`:''}
+  <p class="h2" style="margin:0">ADD YOUR OWN</p>
+  <input id="actname" type="text" maxlength="30" placeholder="e.g. Chenrezig, Tara, Walking meditation" aria-label="Name of the activity">
+  <div class="swatches" role="radiogroup" aria-label="Colour">${ACT_COLORS.map(c=>`<button class="swatch${c===pick?' on':''}" data-act="actcolor" data-v="${c}" style="--c:${c}" role="radio" aria-checked="${c===pick}" aria-label="Colour ${c}"></button>`).join('')}</div>
+  <button class="btn primary wide" data-act="actnew">Add</button>`;}
+function journalCSV(){const j=journal(),P=ls('esm_plog',{}),A=acts(),prs=allPR();
+  const days=[...new Set([...Object.keys(j),...Object.keys(P)])].sort();
+  const q=s=>`"${String(s).replace(/"/g,'""')}"`;
+  const head=['Date',...A.map(a=>a.name),...prs.map(p=>`${p.name} (count)`)];
+  const rows=days.map(d=>[d,...A.map(a=>{const v=(j[d]||{})[a.id];return v===true?'yes':v??'';}),...prs.map(p=>(P[d]||{})[p.id]??'')]);
+  return[head,...rows].map(r=>r.map(q).join(',')).join('\r\n');}
+async function exportCSV(){const f=new File([journalCSV()],`dharma-practice-diary-${dayKey()}.csv`,{type:'text/csv'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Practice diary'});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+  const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Spreadsheet saved to your downloads');}
+
 function pageTexts(){
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
-  <div class="list">${PRAYERS.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>
+  ${TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?`<p class="h2">${label}</p>
+  <div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`:'';}).join('')}
   <p class="h2">PRACTICE TEXTS</p>
   <div class="list"><a class="item" href="./ngondro-full.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">The complete Ngöndro</span>
     <span class="s">Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
@@ -1533,7 +1697,8 @@ function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar
   const vs=versesOf(pr),n=vs.length,i=Math.min(ST.verse,n-1),v=vs[i],last=i===n-1;
   const right=`<button class="iconbtn" data-act="tib" aria-label="${ST.showTib?'Hide':'Show'} Tibetan script" aria-pressed="${ST.showTib}" style="font-family:var(--f-tib);font-size:20px">ཀ</button>`;
   const hasTib=vs.some(c=>c.t);
-  const block=c=>`${ST.showTib&&c.t?`<p class="vt">${c.t}</p>`:''}${(c.p||'').split('\n').filter(Boolean).map(l=>`<p class="vp">${esc(l)}</p>`).join('')}${c.e?`<p class="ve">${esc(c.e)}</p>`:''}${c.x?`<p class="vx">${esc(c.x)}</p>`:''}`;
+  const ins=a=>(a||[]).map(x=>`<p class="vins">${esc(x)}</p>`).join('');
+  const block=c=>`${ins(c.before)}${ST.showTib&&c.t?`<p class="vt">${esc(c.t)}</p>`:''}${(c.p||'').split('\n').filter(Boolean).map(l=>`<p class="vp">${esc(l)}</p>`).join('')}${c.e?`<p class="ve">${esc(c.e)}</p>`:''}${c.x?`<p class="vx">${esc(c.x)}</p>`:''}${ins(c.after)}`;
   const secOf=c=>c.n?`${c.sec} · ${c.n}`:c.sec;
   const mode=`<div class="seg" style="grid-template-columns:1fr 1fr;max-width:var(--col-w);margin:0 auto;padding:0 14px;width:100%"><button class="opt${ST.whole?'':' on'}" data-act="whole" data-v="0">One verse</button><button class="opt${ST.whole?' on':''}" data-act="whole" data-v="1">Whole prayer</button></div>`;
   if(ST.whole)return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="ovbody whole"><div class="col"><p class="sub">${esc(pr.sub)}</p>
@@ -1610,7 +1775,7 @@ function ovCalendar(){
   </div></div>`;}
 function sheetDay(){const d=noonOf(new Date(ST.sarg+'T12:00')),t=tibDate(d),obs=observedAusp(d),hr=hairRec(t.day);
   return`<div class="grab"></div><h2 class="h1">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
-  <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day} <span class="tibnum">${tibNum(t.day)}</span></b><div class="small">${ordinal(t.month)} month · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
+  <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
   ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}</div>`).join('')}
   ${doubledToday(d)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice, so ${AUSP[t.day].name} is kept the next day.</p>`:''}
   <div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>
@@ -1645,7 +1810,10 @@ const mmss=s=>`${Math.floor(s/60)}:${pad2(s%60)}`;
 const sitLeft=()=>ST.sit?Math.max(0,ST.sit.len-Math.floor((Date.now()-ST.sit.start)/1000)):0;
 function sitStart(min){sitStop();ST.sit={len:min*60,start:Date.now(),done:false};sitT=setInterval(sitTick,1000);bell();}
 function sitTick(){if(!ST.sit){sitStop();return;}const left=sitLeft(),el=document.getElementById('sitleft');
-  if(left<=0){clearInterval(sitT);sitT=null;ST.sit.done=true;bell();buzz([60,80,60]);render();return;}
+  if(left<=0){clearInterval(sitT);sitT=null;ST.sit.done=true;bell();buzz([60,80,60]);
+    // A finished sitting counts as meditation in the diary (minutes), if that activity is used.
+    if(acts().some(a=>a.id==='meditation'))addActAmount(dayKey(),'meditation',Math.round(ST.sit.len/60));
+    render();return;}
   if(el)el.textContent=mmss(left);}
 function sitStop(){if(sitT)clearInterval(sitT);sitT=null;ST.sit=null;}
 function sitBox(choices,doneMsg,doneExtra=''){
@@ -1746,9 +1914,13 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   <button class="item" data-act="morethemes" style="border:1px solid var(--line);border-radius:var(--r)"><span class="grow"><span class="t">More colour themes</span><span class="s">${others.map(o=>o[1]).join(', ')}</span></span><span class="chev" style="transform:rotate(${open?90:0}deg)">${ico('chev')}</span></button>
   ${open?`<div class="themes">${others.map(([k,l])=>`<button class="theme-card${cur===k?' on':''}" data-theme="${k}" data-act="theme" data-v="${k}"><b>${l}</b><span class="sw"><i></i><i></i><i></i></span></button>`).join('')}</div>`:''}
   <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">YOUR COUNTS</p>
-  <p class="small">They are kept only on this phone. Save a backup now and then, and keep the file somewhere safe, like your email or cloud storage.</p>
-  <div class="btns even"><button class="btn soft" data-act="backup">${ico('save')} Save a backup</button><button class="btn soft" data-act="restore">${ico('restore')} Restore</button></div>
+  <p class="h2" style="margin:0">SOUNDS</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">KEEP YOUR PRACTICE SAFE</p>
+  <p class="small">Your counts and practice diary are kept only on this phone. ${lastBackupText()}</p>
+  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>
+  <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
+  <p class="small" style="margin:0">Remind me to send a copy</p>
+  <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add this app to your phone</button>`}
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
@@ -1794,31 +1966,33 @@ function sheetDelPr(){const p=findPR(ST.sarg);return`<div class="grab"></div><h2
   <button class="btn danger wide" data-act="delprgo">Delete it</button><button class="btn soft wide" data-act="closesheet">Keep it</button>`;}
 function sheetImage(){const p=findPR(ST.sarg);return`<div class="grab"></div><img src="${p.img}" alt="${esc(p.name)}" style="width:100%;border-radius:var(--r);display:block">
   ${p.id==='refuge'||p.id==='prostr'?`<button class="btn primary wide" data-act="tree">Learn about the figures</button>`:''}<button class="btn soft wide" data-act="closesheet">Close</button>`;}
-function sheetBackup(){const name=`dharma-backup-${stamp()}.json`;
-  return`<div class="grab"></div><h2 class="h1">Save a backup</h2>
-  <p>This saves all your counts and settings in one small file, <b>${name}</b>. Keep it somewhere safe: email it to yourself, or put it in cloud storage.</p>
-  <button class="btn primary wide" data-act="download">${ico('save')} Save the file</button>
-  <p class="small">If saving a file doesn't work on your phone, copy the backup as text instead and paste it into an email or note to yourself.</p>
-  <button class="btn soft wide" data-act="copybackup">Copy as text</button>
-  <button class="btn soft wide" data-act="closesheet">Done</button>`;}
+function sheetBackup(){
+  return`<div class="grab"></div><h2 class="h1">Send a copy to yourself</h2>
+  <p>This makes one small file with all your counts, your practice diary and your settings. Send it somewhere safe, like your email, WhatsApp or Google Drive, and you can always get your practice back, even on a new phone.</p>
+  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>
+  <button class="btn soft wide" data-act="download">Save the file to this device instead</button>
+  <details class="small"><summary>Other ways</summary><p style="margin-top:8px">If neither works on your phone, copy the backup as text and paste it into an email or a note to yourself.</p>
+    <button class="btn soft wide" data-act="copybackup" style="margin-top:8px">Copy as text</button></details>`;}
 function sheetRestore(){const R=ST.restore||{step:0};
   if(R.step===0){const snaps=ls('esm_snapshots',[]).slice().reverse();
-    return`<div class="grab"></div><h2 class="h1">Restore a backup</h2>
-    <p>Choose a backup file you saved before, or paste the backup text.</p>
-    <label class="btn soft wide" for="restorefile">${ico('restore')} Choose a backup file</label><input id="restorefile" type="file" accept=".json,application/json,text/plain" hidden>
-    <label class="small" for="restoretext">Or paste the backup text here</label><textarea id="restoretext" class="backup" placeholder='{"app":"dharma-practice", …'></textarea>
-    <button class="btn primary wide" data-act="restorecheck">Check this backup</button>
-    ${snaps.length?`<p class="h2" style="margin:0">COPIES SAVED ON THIS PHONE</p><div class="list">${snaps.map((s,i)=>item('restoresnap',new Date(s.at).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}),esc(s.reason),{attrs:`data-i="${snaps.length-1-i}"`})).join('')}</div>`:''}
+    return`<div class="grab"></div><h2 class="h1">Restore my practice</h2>
+    <p>Find the copy you sent yourself. If it is in your email, save the attachment to your phone first, then choose it here.</p>
+    <label class="btn primary wide" for="restorefile">${ico('restore')} Choose my backup file</label><input id="restorefile" type="file" accept=".json,application/json,text/plain" hidden>
     ${R.err?`<p class="note" style="border-color:var(--bad)">${R.err}</p>`:''}
-    <button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
+    ${snaps.length?`<p class="h2" style="margin:0">COPIES THIS PHONE MADE AUTOMATICALLY</p><div class="list">${snaps.map((s,i)=>item('restoresnap',new Date(s.at).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}),esc(s.reason),{attrs:`data-i="${snaps.length-1-i}"`})).join('')}</div>`:''}
+    <details class="small"><summary>I copied it as text</summary><label class="small" for="restoretext" style="display:block;margin-top:8px">Paste the text here</label><textarea id="restoretext" class="backup" placeholder='{"app":"dharma-practice", …'></textarea>
+      <button class="btn soft wide" data-act="restorecheck" style="margin-top:8px">Check this text</button></details>`;}
   const lines=summarise(R.o.data),when_=R.o.created?new Date(R.o.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}):'an unknown date';
-  if(R.step===1)return`<div class="grab"></div><h2 class="h1">Restore this backup?</h2>
-    <div class="card"><b>Backup from ${when_}</b>${lines.length?`<ul style="padding-left:1.2em;margin-top:6px">${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="small">No counts in this backup.</p>'}</div>
-    <p class="note" style="border-color:var(--bad)"><b>Everything in the app now will be replaced</b> by this backup: all counts and settings. A copy of what you have now is kept on this phone first, just in case.</p>
-    <button class="btn primary wide" data-act="restorenext">Continue</button><button class="btn soft wide" data-act="closesheet">Cancel</button>`;
+  const nothingToLose=!hasPracticeData();
+  if(R.step===1)return`<div class="grab"></div><h2 class="h1">Put this copy back?</h2>
+    <div class="card"><b>Your copy from ${when_}</b>${lines.length?`<ul style="padding-left:1.2em;margin-top:6px">${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="small">There are no counts in this copy.</p>'}</div>
+    ${nothingToLose?`<p>There's nothing in the app yet, so nothing will be lost.</p><button class="btn primary wide" data-act="restorego">Yes, put it back</button>`
+    :`<p class="note" style="border-color:var(--bad)">This <b>replaces</b> what is in the app now. Just in case, the app keeps a copy of what you have now first, which you can go back to.</p>
+    <button class="btn primary wide" data-act="restorenext">Continue</button>`}
+    <button class="btn soft wide" data-act="closesheet">Cancel</button>`;
   return`<div class="grab"></div><h2 class="h1">Are you sure?</h2>
-    <p>Your current counts will be replaced with the backup from ${when_}.</p>
-    <button class="btn danger wide" data-act="restorego">Yes, replace my data</button><button class="btn soft wide" data-act="closesheet">No, keep what I have</button>`;}
+    <p>Your counts now will be replaced with your copy from ${when_}.</p>
+    <button class="btn danger wide" data-act="restorego">Yes, replace them</button><button class="btn soft wide" data-act="closesheet">No, keep what I have</button>`;}
 function sheetInstall(){
   const body=isStandalone()?'<p>This app is already installed. Open it from your home screen.</p>'
    :installPrompt?`<p>Add ${APP_NAME} to your home screen. It then opens like any other app and works without internet.</p><button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button>`
@@ -1831,26 +2005,42 @@ function sheetInstall(){
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
 const OVERLAYS={session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,
-  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,practices:ovPractices,about:ovAbout,tree:()=>''};
+  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovJournal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs,jday:sheetJDay};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
-let lastView='';
+let lastView='',lastSheet=null,lastToast=null;
+// Drag a sheet down by its top bar to close it.
+function initSheetDrag(){const bar=document.getElementById('sheetbar');if(!bar)return;const sh=bar.parentElement;let y0=null,dy=0;
+  bar.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;y0=e.clientY;dy=0;try{bar.setPointerCapture(e.pointerId);}catch{}sh.style.transition='none';});
+  bar.addEventListener('pointermove',e=>{if(y0==null)return;dy=Math.max(0,e.clientY-y0);sh.style.transform=`translateY(${dy}px)`;});
+  const end=()=>{if(y0==null)return;y0=null;sh.style.transition='transform .2s';
+    if(dy>90){ST.sheet=null;ST.restore=null;render();}else sh.style.transform='';};
+  bar.addEventListener('pointerup',end);bar.addEventListener('pointercancel',end);}
 function render(){
   const content=document.getElementById('content'),nav=document.getElementById('nav');
   // Keep scroll positions when re-rendering the same view (e.g. after a quick add).
   const view=ST.tab+'|'+ST.ov+'|'+ST.arg,pg=content.querySelector('.page'),ob=content.querySelector('.ovbody');
   const keep=view===lastView?{p:pg&&pg.scrollTop,o:ob&&ob.scrollTop}:{};lastView=view;
+  const shEl=content.querySelector('.sheet'),keepSheet=shEl&&ST.sheet===lastSheet?shEl.scrollTop:0;
   nav.innerHTML=TABS.map(([k,l])=>`<button class="tab${ST.tab===k?' on':''}" data-act="tab" data-v="${k}" ${ST.tab===k?'aria-current="page"':''}>${ico(k)}<span>${l}</span></button>`).join('');
   let html=PAGES[ST.tab]();
   if(ST.ov)html+=`<div class="overlay${ST.ov==='session'?' session':''}" id="ov">${OVERLAYS[ST.ov]()}</div>`;
-  if(ST.sheet)html+=`<div class="veil" data-act="veil"><div class="sheet" role="dialog" aria-modal="true">${SHEETS[ST.sheet]()}</div></div>`;
-  if(ST.toast)html+=`<div class="toast" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
+  // Sheets slide in only when they first open (re-renders inside a sheet mustn't
+  // replay the animation, which looked like a flicker). Every sheet gets the same
+  // top bar: a handle you can drag down, and a clear Close (×) button.
+  const opening=ST.sheet&&ST.sheet!==lastSheet;lastSheet=ST.sheet;
+  if(ST.sheet)html+=`<div class="veil${opening?' enter':''}" data-act="veil"><div class="sheet${opening?' enter':''}" role="dialog" aria-modal="true">
+    <div class="sheetbar" id="sheetbar"><span class="grab"></span><button class="xclose" data-act="closesheet" aria-label="Close">${ico('close')}</button></div>
+    ${SHEETS[ST.sheet]().replace('<div class="grab"></div>','')}</div></div>`;
+  const toastNew=ST.toast&&ST.toast!==lastToast;lastToast=ST.toast;
+  if(ST.toast)html+=`<div class="toast${toastNew?' enter':''}" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
   content.innerHTML=html;
   if(keep.p!=null){const p=content.querySelector('.page');if(p)p.scrollTop=keep.p;}
   if(keep.o!=null){const o=content.querySelector('.ovbody');if(o)o.scrollTop=keep.o;}
   // Post-render hooks
   if(ST.tab==='today')initQuotes();
+  if(ST.sheet){initSheetDrag();const s=content.querySelector('.sheet');if(s&&!opening&&keepSheet)s.scrollTop=keepSheet;}
   if(ST.ov==='practice'){const g=document.getElementById('beadgrid'),p=findPR(ST.arg);if(g&&p)g.appendChild(renderGrid(p,getPD(p.id).counter||0));}
   if(ST.ov==='tree')mountRefuge(document.getElementById('ov'));
   if(ST.ov==='breath')runBreath();
@@ -1859,14 +2049,32 @@ function render(){
   const rf=document.getElementById('restorefile');if(rf)rf.addEventListener('change',readRestoreFile);
   document.querySelector('meta[name="theme-color"]').content=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()||'#f7f2e6';
 }
-function initQuotes(){const q=document.getElementById('quotes');if(!q)return;
-  if(ST.qi==null)ST.qi=doy(new Date())%QUOTES.length;
-  q.scrollLeft=ST.qi*(q.clientWidth+12);updQ();
-  let t;q.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(()=>{ST.qi=Math.round(q.scrollLeft/(q.clientWidth+12));updQ();},80);},{passive:true});}
-function updQ(){const e=document.getElementById('qpos');if(e)e.textContent=`${ST.qi+1} of ${QUOTES.length}`;
-  const q=document.getElementById('quotes'),f=q&&q.children[ST.qi];if(f)q.style.height=f.offsetHeight+'px';}
-function goQuote(dir){const q=document.getElementById('quotes');if(!q)return;ST.qi=(ST.qi+dir+QUOTES.length)%QUOTES.length;
-  q.scrollTo({left:ST.qi*(q.clientWidth+12),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});updQ();}
+// Quotes: one card that fits its text. A fixed shuffle mixes the teachers as you
+// browse; the date decides where each day starts.
+let qOrder=null;
+function quoteOrder(){if(qOrder&&qOrder.length===QUOTES.length)return qOrder;
+  const a=QUOTES.map((_,i)=>i);let s=20260930;const r=()=>(s=(s*1103515245+12345)%2147483648)/2147483648;
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return qOrder=a;}
+function quoteHTML(anim=''){if(ST.qi==null)ST.qi=doy(new Date())%QUOTES.length;const q=QUOTES[quoteOrder()[ST.qi]];
+  return`<figure class="quote${anim}" id="quote" aria-live="polite"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`;}
+function goQuote(dir){ST.qi=(ST.qi+dir+QUOTES.length)%QUOTES.length;const f=document.getElementById('quote');if(f)f.outerHTML=quoteHTML(dir>0?' from-right':' from-left');}
+function initQuotes(){const c=document.getElementById('qcard');if(!c)return;let x0=null,y0=0;
+  c.addEventListener('pointerdown',e=>{if(!e.target.closest('button')){x0=e.clientX;y0=e.clientY;}});
+  c.addEventListener('pointerup',e=>{if(x0==null)return;const dx=e.clientX-x0,dy=e.clientY-y0;x0=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3)goQuote(dx<0?1:-1);});
+  c.addEventListener('pointercancel',()=>{x0=null;});}
+// Special days: a sentence on what the day is, and a real page to read more.
+const RW=t=>`https://www.rigpawiki.org/index.php?title=${t}`;
+const SPECIAL_WHY={
+  8:{t:'The day of the Medicine Buddha, Sangye Menla: a day for healing prayers and his mantra.',u:RW('Buddha_of_Medicine')},
+  10:{t:'Guru Rinpoche (Padmasambhava) day: a day for his practice, the Seven-Line Prayer, and feast offerings (tsok).',u:RW('Padmasambhava')},
+  15:{t:'The full moon, the day of Buddha Amitābha, when the merit of practice is said to be greatly multiplied.',u:RW('Amitabha')},
+  25:{t:'Ḍākinī day: a day for feast offerings (tsok) and the practice of the wisdom ḍākinīs.',u:RW('Dakini')},
+  29:{t:'Dharmapāla day: prayers and offerings, such as smoke offerings, to the Dharma protectors.',u:RW('Dharma_Protectors')},
+  30:{t:'The new moon: a powerful day for purification, such as Vajrasattva practice and renewing vows (sojong).',u:RW('Sojong')},
+};
+// The date as a Tibetan calendar writes it: ཚེས་ + Tibetan numerals, and the weekday (གཟའ་…).
+const TIB_WEEKDAY=['གཟའ་ཉི་མ།','གཟའ་ཟླ་བ།','གཟའ་མིག་དམར།','གཟའ་ལྷག་པ།','གཟའ་ཕུར་བུ།','གཟའ་པ་སངས།','གཟའ་སྤེན་པ།'];
+const tibDateScript=(d,day)=>`ཚེས་${tibNum(day)} · ${TIB_WEEKDAY[d.getDay()]}`;
 let toastT;
 function toast(msg,undo){ST.toast={msg,undo};clearTimeout(toastT);toastT=setTimeout(()=>{ST.toast=null;const t=document.querySelector('.toast');if(t)t.remove();},undo?6000:3500);render();}
 const val=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
@@ -1968,9 +2176,28 @@ document.getElementById('app').addEventListener('click',e=>{
     case'toast':toast(el.dataset.msg);return;
     // backup, restore, install
     case'backup':sheet('backup');break;
-    case'download':{snapshot('Backup saved');const blob=new Blob([backupJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),ln=document.createElement('a');
+    // practice diary
+    case'jday':ST.jday=el.dataset.v;break;
+    case'jtick':{const k=el.dataset.k,id=el.dataset.v,on=!dayActs(k)[id];setAct(k,id,on?true:null);
+      if(on){chime();buzz(15);ST.popAct=id;setTimeout(()=>{ST.popAct=null;},400);}keepStorage();break;}
+    case'journal':ST.ov='journal';ST.jmon=0;break;
+    case'jprev':ST.jmon=(ST.jmon||0)-1;break;
+    case'jnext':ST.jmon=Math.min(0,(ST.jmon||0)+1);break;
+    case'jpick':sheet('jday',el.dataset.v);break;
+    case'acts':ST.sheet='acts';ST.newColor=null;break;
+    case'actdel':lsSet('esm_activities',acts().filter(a=>a.id!==el.dataset.v));break;
+    case'actadd':{const s=ACT_SUGGEST.find(x=>x.id===el.dataset.v);if(s)lsSet('esm_activities',[...acts(),s]);break;}
+    case'actcolor':ST.newColor=el.dataset.v;{const nm=val('actname');render();const i=document.getElementById('actname');if(i)i.value=nm;}return;
+    case'actnew':{const name=val('actname');if(!name)return;const color=ST.newColor||ACT_COLORS[acts().length%ACT_COLORS.length];
+      lsSet('esm_activities',[...acts(),{id:'u'+Date.now().toString(36),name,color}]);ST.newColor=null;break;}
+    case'exportcsv':exportCSV();return;
+    case'sound':lsSet('esm_sound',el.dataset.v==='1');break;
+    case'sharebackup':shareBackup();return;
+    case'bkevery':lsSet('esm_backup_every',+el.dataset.v);break;
+    case'bklater':lsSet('esm_backup_snooze',Date.now()+3*86400000);toast('I’ll remind you in a few days');return;
+    case'download':{markBackedUp();snapshot('Backup saved');const blob=new Blob([backupJSON()],{type:'application/json'}),u=URL.createObjectURL(blob),ln=document.createElement('a');
       ln.href=u;ln.download=`dharma-backup-${stamp()}.json`;document.body.appendChild(ln);ln.click();ln.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Backup saved to your downloads');return;}
-    case'copybackup':{const txt=backupJSON();(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('Backup copied. Paste it into an email or note.'),()=>{
+    case'copybackup':{const txt=backupJSON();(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{markBackedUp();toast('Backup copied. Paste it into an email or note.');},()=>{
       ST.sheet=null;render();const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('Backup copied');}catch{toast('Copying is not allowed here');}t.remove();});return;}
     case'restore':ST.restore={step:0};sheet('restore');break;
     case'restorecheck':checkRestore(val('restoretext'));return;
@@ -2107,6 +2334,7 @@ function mountRefuge(ov){
 // BOOT
 // ═══════════════════════════════════════════════════════════
 dailySnapshot();
+if(hasPracticeData())keepStorage();
 render();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(document.documentElement.getAttribute('data-theme')==='auto')render();});
 let lastW=innerWidth,rzT;
