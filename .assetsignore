@@ -1,0 +1,8 @@
+# Files kept in the repo but NOT served on the website (Cloudflare Workers static assets).
+# Drafts and working notes:
+content/
+design/
+# Repo housekeeping:
+README.md
+.gitignore
+.assetsignore
