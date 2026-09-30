@@ -310,7 +310,29 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 /* White A: a white Tibetan A in a sphere ringed with the five colours;
    it brightens while you sound A, then opens into clear sky. */
 .aring { width:min(58vw,220px); aspect-ratio:1; border-radius:50%; padding:9px; transition:transform 3s ease-out, opacity 3s ease-out;
-  background:conic-gradient(#f4f1ea,#f2c94c,#e2574c,#4caf6e,#4a7fd4,#f4f1ea); }
+  /* the five colours as James Low lists them: white, red, blue, green, yellow */
+  background:conic-gradient(#f4f1ea,#e2574c,#4a7fd4,#4caf6e,#f2c94c,#f4f1ea);
+  box-shadow:0 0 36px rgba(242,201,76,.25),0 0 60px rgba(74,127,212,.18); }
+.aorb b.lat { font-family:var(--f-display); font-weight:600; font-size:calc(min(58vw,220px) * .42); transform:none; }
+/* Sitting timer */
+.sitbox { display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; max-width:420px; margin:0 auto; text-align:center; }
+.sitopts { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
+.sitopts .opt { min-width:74px; padding:0 12px; }
+.sitleft { font-size:calc(34px * var(--scale)); font-weight:600; font-variant-numeric:tabular-nums; }
+/* Vajra breathing: OM (white), AH (red), HUM (blue) glow as your breath moves */
+.vjpad { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:10px 24px; text-align:center;
+  cursor:pointer; user-select:none; -webkit-user-select:none; touch-action:none; }
+/* The syllables sit on a night-sky panel so white OM shows in every theme. */
+.syls { display:flex; gap:clamp(10px,5vw,26px); align-items:flex-end; background:radial-gradient(circle at 50% 40%,#2a3458,#12172a 75%); padding:28px 26px 14px; border-radius:24px; }
+.syl { display:flex; flex-direction:column; align-items:center; gap:4px; opacity:.35; transition:opacity .5s, transform .5s; }
+.syl b { font-family:var(--f-tib); font-weight:400; font-size:calc(46px * var(--scale)); line-height:1.8; color:var(--sc); text-shadow:0 0 0 transparent; transition:text-shadow .5s; }
+.syl small { font-weight:700; font-size:14px; letter-spacing:.1em; color:#d6dcea; }
+.syl.on { opacity:1; transform:scale(1.12); }
+.syl.on b { text-shadow:0 0 22px var(--sc); }
+.flame { width:12px; height:18px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; background:radial-gradient(circle at 50% 70%,#fff3c4,#f2a33a 55%,#d4502a); opacity:.35; transform:scale(.8); transition:opacity .6s, transform .6s, box-shadow .6s; }
+.flame.on { opacity:1; transform:scale(1.35); box-shadow:0 0 18px 6px rgba(242,163,58,.55); }
+/* Counting the breath */
+.bigcount { font-family:var(--f-display); font-weight:600; font-size:calc(110px * var(--scale)); line-height:1; color:var(--accent-ink); min-height:1.1em; font-variant-numeric:tabular-nums; }
 .aorb { width:100%; height:100%; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 50% 42%,#33406a,#141a2e 72%);
   box-shadow:0 0 0 0 rgba(255,255,255,0); transition:box-shadow 6s ease-out; }
 .aorb b { font-family:var(--f-tib); font-weight:400; font-size:calc(min(58vw,220px) * .46); line-height:1; color:#fff; text-shadow:0 0 16px rgba(255,255,255,.75); transform:translateY(8%); }
@@ -1149,22 +1171,57 @@ const NINE_ROUND=(()=>{const s=[
   s.push({k:'rest',t:'Rest',d:'Rest in stillness, body and mind purified and light, letting go of all thoughts and images.'});
   return s;})();
 
-// White A guru yoga — DRAFT for Gareth's review (see content/white-a-draft.md).
-// Tap-first: nothing listens to the microphone; you tap when each sound ends.
-const WHITE_A_INFO=[
-  'The guru yoga of the White A comes from the Dzogchen teachings. It traces back to Garab Dorje, the first human teacher of Dzogchen, and has travelled through many teachers and places, adapted along the way while keeping the same essence.',
-  'It was taught widely by Chögyal Namkhai Norbu. James Low and the Simply Being sangha teach a simple form: sounding A three times, then resting.',
-  'In guru yoga we unite our own mind with the mind of the teacher, which is our own open, aware nature. The white A stands for that nature.',
-  'This guide is only a reminder of the steps. Please learn the practice from a qualified teacher.',
+// ═══════════════════════════════════════════════════════════
+// MEDITATION TEXTS — written in plain words for this app from the teachers'
+// instructions (see the links in each "About"). Breath practices follow YOUR
+// breath: nothing here sets a pace you have to keep up with.
+// ═══════════════════════════════════════════════════════════
+
+// Three Aa guru yoga — after James Low (Simply Being, "The Happy Twins"
+// retreat, 2019). DRAFT until Gareth signs it off (content/three-aa-draft.md).
+const THREE_AA_INFO=[
+  'The Three Aa is a guru yoga from the Dzogchen teachings, which trace back to Garab Dorje. This guide follows James Low’s instructions, given at his 2019 retreat “The Happy Twins”. The guru yoga of the white A was also taught widely by Chögyal Namkhai Norbu.',
+  'The white Aa stands for emptiness: the open ground of everything. The five-coloured light streaming from it is everything that can arise from that ground. Guru yoga is also about trust: the guru is the one awake to that ground, and so is inseparable from your own nature.',
+  'Sounding Aa lets everything dissolve back into its source. It is not an antidote to thoughts, and it is not a formal ritual that has to be done perfectly. It simply helps you slip out of holding on.',
+  'If you practise on your own, James Low suggests doing the Three Aa, sitting for about five minutes, taking a short break, and then doing it again.',
 ];
-const WHITE_A=[
-  {k:'prep',t:'Sit comfortably',d:'Sit upright and relaxed, on a cushion or a chair. Let the breath settle by itself.'},
-  {k:'see',t:'The white A',d:'In the space in front of you, imagine a white Tibetan letter A, clear and shining, inside a sphere of five-coloured rainbow light.',
-    teacher:'Imagine your teacher in the space in front of you, with a white letter A shining at their heart. Their mind and your own true nature are not two.'},
+const THREE_AA=[
+  {k:'prep',t:'Sit comfortably',d:'Sit upright and relaxed. Let the breath come and go by itself, from low in the belly.'},
+  {k:'see',t:'The white Aa',d:'About two arms’ length in front of you, imagine a white Aa. It stands for emptiness, the open ground of everything. Streaming from it is light of five colours (white, red, blue, green and yellow): everything that can arise.'},
   {k:'sound',r:1},{k:'sound',r:2},{k:'sound',r:3},
-  {k:'rest',t:'Rest in openness',d:'The A dissolves into clear, open space, like a cloudless sky. Simply remain relaxed and present, without adding or changing anything. If you get lost in thoughts, sound A again.'},
+  {k:'rest',t:'Sky to sky',d:'The Aa dissolves. Inner space and outer space: just sit, sky to sky. Thoughts, feelings and sensations come and go like clouds and rainbows. Don’t follow them, don’t wait for them, don’t push them away. If you get lost, sound Aa again.'},
 ];
-const WHITE_A_SOUND={t:'Sound A',d:'Sound a long, relaxed “Aaah”, aloud or silently. The white A shines brighter, and your mind and the A become one. Tap when the sound has finished.'};
+const THREE_AA_SOUND={t:'Sound Aa',d:'Let a long, open “Aaa” rise from low in the belly, aloud or silently. With the sound, let memories, plans, thoughts and fixations dissolve back into their source. Tap when the sound has finished.'};
+
+// Vajra recitation (OM AH HUM) — as taught by H.E. Garchen Rinpoche.
+const VAJRA_INFO=[
+  'The vajra recitation joins the three syllables with the breath, so that mind and breath come together. It is taught often by His Eminence Garchen Rinpoche.',
+  'Breathing in, think OM. As the breath rests for a moment at the navel, think AH. Breathing out, think HUM. Rinpoche stresses that this is gentle: the breath rests easily and comfortably, never forcefully held.',
+  'OM is enlightened body: all forms, empty by nature. AH is enlightened speech: all sound, empty by nature. HUM is enlightened mind: empty awareness.',
+  'Once it is familiar, it goes with your ordinary breath all through the day, and even as you fall asleep. Some teachings add a small flame at the navel, or a gentle holding of the breath (vase breathing). Please learn those from a teacher.',
+];
+const SYL={om:{tib:'ཨོཾ',lat:'OM',c:'#f4f1ea'},ah:{tib:'ཨཱཿ',lat:'AH',c:'#e2574c'},hum:{tib:'ཧཱུྃ',lat:'HUM',c:'#4a7fd4'}};
+
+// The beautiful breath — after Ajahn Brahm, "The Basic Method of Meditation".
+const BRAHM_INFO=[
+  'Ajahn Brahm teaches meditation as a series of stages, each resting on the one before. Build them slowly: in his words, careful patience is the fastest way.',
+  'Throughout, let the breath breathe itself. You are a passenger, not the driver: just watch, without controlling it.',
+  'Beyond the beautiful breath he describes the nimitta and jhāna. His short book The Basic Method of Meditation explains every stage, and is free from the Buddhist Society of Western Australia.',
+];
+const BRAHM=[
+  {t:'Present moment awareness',d:'Let go of the past and the future. No plans and no memories: just this moment, here and now.',sign:'You lose track of the day and the time.'},
+  {t:'Silent present moment awareness',d:'Let the inner commentary fall quiet. Know things directly, without describing them to yourself, like watching a match with the commentary turned off.',sign:'Thoughts only come when they are needed.'},
+  {t:'Silent awareness of the breath',d:'Now let that silent awareness rest on just one thing: the breath. Simply know the breath coming in and going out, moment to moment. Don’t control it.',sign:'You can follow around a hundred breaths in a row without missing one.'},
+  {t:'Full attention on the breath',d:'Know every moment of the breath: the very start of the in-breath, all the way through, the little gaps, and the whole out-breath. No forcing and no effort; attention simply stays.',sign:'The breath is followed easily, without effort, for a long time.'},
+  {t:'The beautiful breath',d:'The breath calms by itself and becomes smooth and peaceful, and the mind enjoys it. Do nothing at all. Just let the breath be beautiful.',sign:'The peace and beauty carry on by themselves.'},
+];
+
+// Counting the breath — a traditional way to settle the mind, found in many schools.
+const COUNT_INFO=[
+  'Counting the breath is one of the oldest ways to settle the mind, taught in many schools of Buddhism.',
+  'Breathe naturally. At the end of each out-breath, count one, then two, up to ten, and then begin again at one.',
+  'If you lose count, or find you have gone past ten, just start again at one. Noticing that you drifted is the practice working, not failing.',
+];
 
 // ═══════════════════════════════════════════════════════════
 // STATE & STORAGE
@@ -1180,6 +1237,9 @@ let ST={
   hideCount:ls('esm_tap_hide',false), showImg:ls('esm_sess_img',false),
   showTib:ls('esm_tib',true), whole:ls('esm_whole',false),
   verse:0, calOff:0, br:0, moreThemes:false, qi:null, toast:null, discardArm:false, restore:null,
+  // meditation: Three Aa step + letter form, vajra breathing, Ajahn Brahm stage, breath count, sitting timer
+  wa:0, aForm:ls('esm_a_form','tib'), vj:{mode:ls('esm_vj_mode','hold'),phase:'',count:0,lastHold:0},
+  bb:ls('esm_bb',0), cnt:{n:0,rounds:0}, sit:null,
 };
 const pad2=n=>String(n).padStart(2,'0');
 const dayKey=(d=new Date())=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
@@ -1356,9 +1416,13 @@ function pagePractice(){const all=allPR();
   <p class="h2">NGÖNDRO</p><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div>
   <p class="h2">OTHER PRACTICES</p><div class="list">${all.filter(p=>p.group!=='ngondro').map(prRow).join('')}
     ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
-  <p class="h2">GUIDED</p><div class="list">
-    ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}
-    <button class="item" data-act="whitea"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">White A</span><span class="s">Guru yoga · a few minutes · draft</span></span>${chev}</button></div>
+  <p class="h2">BREATH</p><div class="list">
+    <button class="item" data-act="vajra"><span class="ico" style="font-family:var(--f-tib);font-size:17px">ཨོཾ</span><span class="grow"><span class="t">Vajra breathing · OM AH HUM</span><span class="s">As taught by Garchen Rinpoche · follows your own breath</span></span>${chev}</button>
+    ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
+    ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
+    ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>
+  <p class="h2">GURU YOGA</p><div class="list">
+    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">After James Low · a few minutes · draft</span></span>${chev}</button></div>
   </div></div>`;}
 
 function ovPractice(){
@@ -1516,8 +1580,10 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/tibetan-masters/gyalse-thogme-zangpo/37-practices-all-bodhisattvas')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
-  <p class="h2" style="margin-top:18px">WHITE A</p>
-  <p>From the Dzogchen teachings of Garab Dorje, as taught by Chögyal Namkhai Norbu, and in the spirit of the teachings transmitted by James Low and his lineage.</p>
+  <p class="h2" style="margin-top:18px">MEDITATION GUIDES</p>
+  <p>These guides are written in plain words for this app from the teachers’ own instructions. They are reminders, not replacements for a teacher.</p>
+  <p><b>The Three Aa</b> follows James Low’s instructions (Simply Being, “The Happy Twins” retreat, 2019), in the Dzogchen tradition of Garab Dorje, also taught widely by Chögyal Namkhai Norbu. <b>Vajra breathing</b> follows the OM AH HUM vajra recitation as taught by His Eminence Garchen Rinpoche. <b>The beautiful breath</b> follows Ajahn Brahm’s The Basic Method of Meditation (Buddhist Society of Western Australia).</p>
+  <div class="links">${L('James Low · Simply Being','https://simplybeing.co.uk/')}${L('Garchen Buddhist Institute','https://garchen.net/')}${L('Ajahn Brahm · BSWA','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/')}</div>
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -1567,21 +1633,103 @@ function runBreath(){clearTimeout(brTimer);const st=NINE_ROUND[ST.br],orb=docume
   if(st.k==='in'){swap('out','in');brTimer=setTimeout(()=>{if(ST.ov==='breath'){ST.br++;render();}},5200);}
   if(st.k==='out'){swap('in','out');brTimer=setTimeout(()=>{if(ST.ov==='breath'){ST.br++;render();}},6200);}}
 // ═══════════════════════════════════════════════════════════
-// WHITE A (draft) — see the A, sound it three times, rest in openness
+// MEDITATION — shared soft bell + sitting timer
 // ═══════════════════════════════════════════════════════════
-function ovWhiteA(){const st=WHITE_A[ST.wa],s=st.k==='sound'?{...st,...WHITE_A_SOUND}:st,teacher=ST.waTeacher;
-  const desc=st.k==='see'&&teacher?st.teacher:s.d;
-  return`<div class="ovtop"><button class="iconbtn" data-act="closewa" aria-label="Close">${ico('close')}</button><div class="title">White A <span class="tag">Draft</span></div><button class="iconbtn" data-act="wainfo" aria-label="About this practice">${ico('info')}</button></div>
-  <div class="breath wa${st.k==='rest'?' sky':''}" data-act="${st.k==='rest'?'':'wanext'}">
-    <p class="small">${st.r?`Sound ${st.r} of 3`:st.k==='rest'?'Resting':'Getting ready'}</p>
-    <div class="aring${st.k==='sound'?' sound':''}${st.k==='rest'?' open':''}" id="aring"><div class="aorb"><b lang="bo">ཨ</b></div></div>
-    ${st.k==='see'?`<div class="seg" style="grid-template-columns:1fr 1fr;width:100%;max-width:340px"><button class="opt${teacher?'':' on'}" data-act="wateacher" data-v="0">The white A</button><button class="opt${teacher?' on':''}" data-act="wateacher" data-v="1">With my teacher</button></div>`:''}
-    <p class="bstep">${s.t}</p><p class="bdesc">${desc}</p>
-    ${st.k==='rest'||st.k==='sound'?'':'<p class="small">Tap anywhere when you are ready</p>'}</div>
-  <div class="vnav">${st.k==='rest'?`<button class="btn soft" data-act="waagain">Sound A again</button><button class="btn primary" data-act="wafinish">Finish</button>`
-    :`<button class="btn soft" data-act="waback">Back</button><button class="btn primary" data-act="wanext">${st.k==='sound'?'Sound finished':'Next'}</button>`}</div>`;}
-function sheetWA(){return`<div class="grab"></div><h2 class="h1">About the White A</h2>${WHITE_A_INFO.map(p=>`<p>${p}</p>`).join('')}
-  <p class="note">This guide is a draft, waiting to be checked.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;}
+let audioCtx=null;
+function bell(){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx;
+  [[0,528,.3],[.12,396,.2],[.26,264,.16]].forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
+    o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,t);o.frequency.exponentialRampToValueAtTime(fr*.5,t+3);
+    gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+.04);gn.gain.exponentialRampToValueAtTime(.001,t+5);o.start(t);o.stop(t+6);});}catch{}}
+let sitT=null;
+const mmss=s=>`${Math.floor(s/60)}:${pad2(s%60)}`;
+const sitLeft=()=>ST.sit?Math.max(0,ST.sit.len-Math.floor((Date.now()-ST.sit.start)/1000)):0;
+function sitStart(min){sitStop();ST.sit={len:min*60,start:Date.now(),done:false};sitT=setInterval(sitTick,1000);bell();}
+function sitTick(){if(!ST.sit){sitStop();return;}const left=sitLeft(),el=document.getElementById('sitleft');
+  if(left<=0){clearInterval(sitT);sitT=null;ST.sit.done=true;bell();buzz([60,80,60]);render();return;}
+  if(el)el.textContent=mmss(left);}
+function sitStop(){if(sitT)clearInterval(sitT);sitT=null;ST.sit=null;}
+function sitBox(choices,doneMsg,doneExtra=''){
+  if(ST.sit&&ST.sit.done)return`<div class="sitbox"><b>${doneMsg||'Time is up.'}</b><div class="sitopts">${doneExtra}<button class="opt" data-act="sitclear">OK</button></div></div>`;
+  if(ST.sit)return`<div class="sitbox"><span class="small">Time left</span><b id="sitleft" class="sitleft">${mmss(sitLeft())}</b><button class="btn link" data-act="sitclear">Stop the timer</button></div>`;
+  return`<div class="sitbox"><span class="small">Timer with a soft bell (optional)</span><div class="sitopts">${choices.map(m=>`<button class="opt" data-act="sit" data-v="${m}">${m} min</button>`).join('')}</div></div>`;}
+const MED_INFO={
+  threeaa:{t:'About the Three Aa',p:()=>THREE_AA_INFO,links:[['James Low · Simply Being','https://simplybeing.co.uk/audio-records/year/audio2019/autumn-2019-the-happy-twins/']],draft:true},
+  vajra:{t:'About vajra breathing',p:()=>VAJRA_INFO,links:[['Garchen Rinpoche on OM AH HUM','https://drikungdharmasurya.org/2014/04/vajra-recitation/']]},
+  brahm:{t:'About the beautiful breath',p:()=>BRAHM_INFO,links:[['The Basic Method of Meditation (free book)','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/']]},
+  count:{t:'About counting the breath',p:()=>COUNT_INFO,links:[]},
+};
+function sheetInfo(){const m=MED_INFO[ST.sarg];return`<div class="grab"></div><h2 class="h1">${m.t}</h2>${m.p().map(p=>`<p>${p}</p>`).join('')}
+  ${m.links.length?`<div class="links">${m.links.map(([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div>`:''}
+  ${m.draft?'<p class="note">This guide is a draft, waiting to be checked.</p>':''}<button class="btn soft wide" data-act="closesheet">Close</button>`;}
+const medTop=(title,key,tag='')=>`<div class="ovtop"><button class="iconbtn" data-act="closemed" aria-label="Close">${ico('close')}</button><div class="title">${title}${tag}</div><button class="iconbtn" data-act="medinfo" data-v="${key}" aria-label="About this practice">${ico('info')}</button></div>`;
+function openMed(ov){sitStop();ST.ov=ov;keepAwake(true);}
+function closeMed(){sitStop();vjReset();keepAwake(false);}
+
+// ── Three Aa (draft) ──
+function ovThreeAa(){const st=THREE_AA[ST.wa],s=st.k==='sound'?{...st,...THREE_AA_SOUND}:st,lat=ST.aForm==='latin',rest=st.k==='rest';
+  return`${medTop('Three Aa','threeaa',' <span class="tag">Draft</span>')}
+  <div class="breath wa${rest?' sky':''}" data-act="${rest?'':'wanext'}">
+    <p class="small">${st.r?`Aa ${st.r} of 3`:rest?'Resting':'Getting ready'}</p>
+    <div class="aring${st.k==='sound'?' sound':''}${rest?' open':''}"><div class="aorb"><b class="${lat?'lat':''}"${lat?'':' lang="bo"'}>${lat?'A':'ཨ'}</b></div></div>
+    ${st.k==='see'?`<div class="seg" style="grid-template-columns:1fr 1fr;width:100%;max-width:300px" aria-label="Show the letter as"><button class="opt${lat?'':' on'}" data-act="aform" data-v="tib" style="font-family:var(--f-tib);font-size:22px" aria-label="Tibetan A">ཨ</button><button class="opt${lat?' on':''}" data-act="aform" data-v="latin" style="font-family:var(--f-display);font-size:22px" aria-label="Capital A">A</button></div>`:''}
+    <p class="bstep">${s.t}</p><p class="bdesc">${s.d}</p>
+    ${rest?sitBox([5,10,20],'Time for a short break. Then, if you like, the Three Aa again.','<button class="opt" data-act="wathree">Three Aa again</button>'):st.k==='sound'?'':'<p class="small">Tap anywhere when you are ready</p>'}
+  </div>
+  <div class="vnav">${rest?`<button class="btn soft" data-act="waagain">Aa again</button><button class="btn primary" data-act="medfinish">Finish</button>`
+    :`<button class="btn soft" data-act="waback">Back</button><button class="btn primary" data-act="wanext">${st.k==='sound'?'Aa finished':'Next'}</button>`}</div>`;}
+
+// ── Vajra breathing (OM AH HUM): hold while breathing in and resting, let go to breathe out ──
+let vjAhT=null,vjDownAt=0;
+function vjReset(){clearTimeout(vjAhT);if(ST.vj)ST.vj.phase='';}
+function ovVajra(){const V=ST.vj,still=V.mode==='still';
+  const syl=k=>`<span class="syl${V.phase===k?' on':''}" data-syl="${k}" style="--sc:${SYL[k].c}"><b lang="bo">${SYL[k].tib}</b><small>${SYL[k].lat}</small></span>`;
+  const syls=`<div class="syls">${syl('om')}${syl('ah')}${syl('hum')}</div>`;
+  return`${medTop('Vajra breathing','vajra')}
+  <div class="seg" style="grid-template-columns:1fr 1fr;max-width:420px;margin:0 auto;padding:0 14px;width:100%">
+    <button class="opt${still?'':' on'}" data-act="vjmode" data-v="hold">Follow my breath</button><button class="opt${still?' on':''}" data-act="vjmode" data-v="still">Just the syllables</button></div>
+  ${still?`<div class="breath">${syls}<div class="flame on"></div>
+      <p class="bdesc">Breathing in, OM. As the breath rests at the navel, AH. Breathing out, HUM. Let the breath be just as it is.</p>${sitBox([5,10,20])}</div>`
+  :`<div class="vjpad" id="vjpad" role="button" aria-label="Hold while you breathe in, let go as you breathe out">${syls}
+      <div class="flame${V.phase==='ah'?' on':''}" id="vjflame"></div>
+      <p class="bstep" id="vjword">${vjWord(V.phase)}</p>
+      <p class="bdesc">Keep holding while the breath rests. Let go as you breathe out. Go at your own pace; the screen follows you.</p>
+      <p class="small" id="vjcount">${V.count?`${V.count} breath${V.count>1?'s':''}`:''}</p></div>`}
+  <div class="vnav" style="grid-template-columns:1fr"><button class="btn primary" data-act="medfinish">Finish</button></div>`;}
+const vjWord=p=>p==='om'?'Breathing in · OM':p==='ah'?'Resting · AH':p==='hum'?'Breathing out · HUM':'Press and hold as you breathe in';
+function vjPaint(){const V=ST.vj;document.querySelectorAll('.syl').forEach(s=>s.classList.toggle('on',s.dataset.syl===V.phase));
+  const w=document.getElementById('vjword');if(w)w.textContent=vjWord(V.phase);
+  const f=document.getElementById('vjflame');if(f)f.classList.toggle('on',V.phase==='ah');
+  const c=document.getElementById('vjcount');if(c)c.textContent=V.count?`${V.count} breath${V.count>1?'s':''}`:'';}
+function vjDown(){const V=ST.vj;if(V.phase==='om'||V.phase==='ah')return;vjDownAt=Date.now();V.phase='om';vjPaint();
+  // AH arrives as the in-breath settles: a little over half way through your usual hold.
+  clearTimeout(vjAhT);vjAhT=setTimeout(()=>{if(ST.vj.phase==='om'){ST.vj.phase='ah';vjPaint();}},V.lastHold?Math.max(700,V.lastHold*0.6):1800);}
+function vjUp(){const V=ST.vj;if(V.phase!=='om'&&V.phase!=='ah')return;clearTimeout(vjAhT);
+  const held=Date.now()-vjDownAt;if(held>400){V.lastHold=V.lastHold?V.lastHold*0.6+held*0.4:held;V.count++;}
+  V.phase='hum';vjPaint();}
+
+// ── The beautiful breath (Ajahn Brahm): stages, no pressure ──
+function ovBrahm(){const i=ST.bb,s=BRAHM[i],last=i===BRAHM.length-1;
+  return`${medTop('The beautiful breath','brahm')}<div class="ovbody"><div class="col">
+    <p class="small">Stage ${i+1} of ${BRAHM.length} · after Ajahn Brahm</p>
+    <h2 class="h1" style="font-size:var(--fs-xl)">${s.t}</h2><p style="font-size:var(--fs-lg)">${s.d}</p>
+    <p class="note">Move on when: ${s.sign}</p>
+    ${sitBox([10,20,30,45])}
+    <p class="h2">ALL STAGES</p>
+    <div class="list">${BRAHM.map((b,k)=>item('bbgo',`${k+1}. ${b.t}`,'',{attrs:`data-v="${k}"`,right:k===i?'<span class="tag ok">Now</span>':''})).join('')}</div>
+  </div></div>
+  <div class="vnav"><button class="btn soft" data-act="bbprev" ${i?'':'disabled style="opacity:.4"'}>Earlier stage</button><button class="btn primary" data-act="${last?'medfinish':'bbnext'}">${last?'Finish':'Next stage'}</button></div>`;}
+
+// ── Counting the breath: tap at the end of each out-breath, 1 to 10 ──
+function ovCount(){const C=ST.cnt;
+  return`${medTop('Counting the breath','count')}
+  <div class="tapzone" id="cntzone" role="button" aria-label="Tap at the end of each out-breath">
+    <div class="bigcount" id="bigcount">${C.n||'·'}</div>
+    <p class="sess-hint">Tap anywhere at the end of each out-breath. After ten, begin again at one.</p>
+    <p class="small" id="cntrounds">${C.rounds?`${C.rounds} round${C.rounds>1?'s':''} of ten`:''}</p></div>
+  <div class="vnav"><button class="btn soft" data-act="cntlost">Lost count: back to 1</button><button class="btn primary" data-act="medfinish">Finish</button></div>`;}
+function countBreath(){const C=ST.cnt;if(C.n===10){C.n=1;C.rounds++;}else C.n++;buzz(C.n===10?[30,50,30]:10);
+  const b=document.getElementById('bigcount');if(b){b.textContent=C.n;b.classList.remove('pulse');void b.offsetWidth;b.classList.add('pulse');}
+  const r=document.getElementById('cntrounds');if(r)r.textContent=C.rounds?`${C.rounds} round${C.rounds>1?'s':''} of ten`:'';}
 function sheetNR(){return`<div class="grab"></div><h2 class="h1">Nine-Round Breathing</h2>
   <p class="small">As taught in the Dzogchen Community of Chögyal Namkhai Norbu.</p>
   <ol style="padding-left:1.3em;display:flex;flex-direction:column;gap:10px">${NINE_ROUND_TEXT.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
@@ -1682,9 +1830,10 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,whitea:ovWhiteA,practices:ovPractices,about:ovAbout,tree:()=>''};
+const OVERLAYS={session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,
+  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,wa:sheetWA};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='';
 function render(){
@@ -1735,7 +1884,8 @@ document.getElementById('app').addEventListener('click',e=>{
   if(a!=='discard')ST.discardArm=false;
   const sheet=(s,arg)=>{ST.sheet=s;ST.sarg=arg;};
   switch(a){
-    case'tab':if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}ST.tab=el.dataset.v;ST.ov=null;ST.sheet=null;break;
+    case'tab':if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
+      if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.tab=el.dataset.v;ST.ov=null;ST.sheet=null;break;
     case'veil':case'closesheet':ST.sheet=null;ST.restore=null;break;
     case'closeov':if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
     case'seen':lsSet('esm_seen',true);break;
@@ -1795,14 +1945,24 @@ document.getElementById('app').addEventListener('click',e=>{
     case'brback':ST.br=Math.max(0,ST.br-1);break;
     case'closebr':clearTimeout(brTimer);ST.ov=null;keepAwake(false);break;
     case'nrtext':clearTimeout(brTimer);sheet('nr');break;
-    case'whitea':ST.wa=0;ST.waTeacher=ls('esm_wa_teacher',false);ST.ov='whitea';keepAwake(true);break;
-    case'wanext':if(WHITE_A[ST.wa].k==='rest')return;ST.wa++;break;
+    // meditation
+    case'threeaa':case'vajra':case'brahm':case'count':
+      if(a==='threeaa')ST.wa=0;if(a==='vajra')Object.assign(ST.vj,{phase:'',count:0});if(a==='count')ST.cnt={n:0,rounds:0};openMed(a);break;
+    case'medinfo':sheet('info',el.dataset.v);break;
+    case'closemed':closeMed();ST.ov=null;break;
+    case'medfinish':closeMed();ST.ov='dedicate';break;
+    case'sit':sitStart(+el.dataset.v);break;
+    case'sitclear':sitStop();break;
+    case'wanext':if(THREE_AA[ST.wa].k==='rest')return;ST.wa++;break;
     case'waback':ST.wa=Math.max(0,ST.wa-1);break;
-    case'waagain':ST.wa=WHITE_A.findIndex(s=>s.k==='sound')+2;break;       // one more sound (the third slot), then rest
-    case'wateacher':ST.waTeacher=el.dataset.v==='1';lsSet('esm_wa_teacher',ST.waTeacher);break;
-    case'wainfo':sheet('wa');break;
-    case'closewa':ST.ov=null;keepAwake(false);break;
-    case'wafinish':ST.ov='dedicate';keepAwake(false);break;
+    case'waagain':sitStop();ST.wa=THREE_AA.findIndex(s=>s.k==='sound')+2;break;   // one more Aa, then rest again
+    case'wathree':sitStop();ST.wa=THREE_AA.findIndex(s=>s.k==='sound');break;     // the Three Aa again
+    case'aform':ST.aForm=el.dataset.v;lsSet('esm_a_form',ST.aForm);break;
+    case'vjmode':vjReset();ST.vj.mode=el.dataset.v;lsSet('esm_vj_mode',ST.vj.mode);sitStop();break;
+    case'bbgo':ST.bb=+el.dataset.v;lsSet('esm_bb',ST.bb);break;
+    case'bbnext':ST.bb=Math.min(BRAHM.length-1,ST.bb+1);lsSet('esm_bb',ST.bb);break;
+    case'bbprev':ST.bb=Math.max(0,ST.bb-1);lsSet('esm_bb',ST.bb);break;
+    case'cntlost':ST.cnt.n=0;break;
     case'qprev':goQuote(-1);return;
     case'qnext':goQuote(1);return;
     case'toast':toast(el.dataset.msg);return;
@@ -1825,11 +1985,21 @@ document.getElementById('app').addEventListener('click',e=>{
 });
 // Counting taps: pointerdown on the tap zone (instant, and works for fast repeated taps).
 document.getElementById('app').addEventListener('pointerdown',e=>{
-  if(ST.ov!=='session'||ST.sheet)return;
-  if(e.target.closest('#tapzone')){e.preventDefault();countTap();}
+  if(ST.sheet)return;
+  if(ST.ov==='session'&&e.target.closest('#tapzone')){e.preventDefault();countTap();}
+  else if(ST.ov==='count'&&e.target.closest('#cntzone')){e.preventDefault();countBreath();}
+  else if(ST.ov==='vajra'&&e.target.closest('#vjpad')){e.preventDefault();vjDown();}
 });
-// Keyboard: space/enter counts on desktop while a session is open.
-document.addEventListener('keydown',e=>{if(ST.ov==='session'&&!ST.sheet&&(e.code==='Space'||e.code==='Enter')&&!e.target.closest('button')){e.preventDefault();countTap();}});
+// Vajra breathing: letting go anywhere (or the finger sliding off) starts the out-breath.
+['pointerup','pointercancel'].forEach(t=>document.addEventListener(t,()=>{if(ST.ov==='vajra')vjUp();}));
+document.getElementById('app').addEventListener('contextmenu',e=>{if(e.target.closest('#vjpad,#tapzone,#cntzone'))e.preventDefault();});
+// Keyboard on a computer: space/enter counts; for vajra breathing, hold space while breathing in.
+document.addEventListener('keydown',e=>{if(ST.sheet||e.target.closest('button,input,textarea'))return;
+  if(e.code!=='Space'&&e.code!=='Enter')return;
+  if(ST.ov==='session'){e.preventDefault();countTap();}
+  else if(ST.ov==='count'){e.preventDefault();countBreath();}
+  else if(ST.ov==='vajra'&&ST.vj.mode==='hold'&&!e.repeat){e.preventDefault();vjDown();}});
+document.addEventListener('keyup',e=>{if(ST.ov==='vajra'&&(e.code==='Space'||e.code==='Enter'))vjUp();});
 
 // ═══════════════════════════════════════════════════════════
 // REFUGE TREE — thangka with numbered markers, search, groups, drawer
