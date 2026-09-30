@@ -1,10 +1,15 @@
-const CACHE = 'dp-v10-1';
-// Small app shell, precached so the app opens offline. The ~24MB practice PDF
-// is deliberately NOT here: it gets cached the first time someone opens it.
+const CACHE = 'dp-v10-2';
+// Small app shell, precached so the app opens offline. Not precached, but
+// cached the first time they're used: the ~24MB practice PDF and the ~0.7MB
+// Tibetan font (fonts/noto-serif-tibetan.woff2).
 const SHELL = [
   './',
   './index.html',
   './manifest.json',
+  './fonts/atkinson-latin.woff2',
+  './fonts/atkinson-latin-ext.woff2',
+  './fonts/fraunces-latin.woff2',
+  './fonts/fraunces-latin-ext.woff2',
   './refuge-tree.jpg',
   './dm.jpg',
   './mandala.jpg',
