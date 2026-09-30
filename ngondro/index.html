@@ -238,6 +238,7 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .quotes::-webkit-scrollbar { display:none; }
 .quote { flex:0 0 100%; scroll-snap-align:center; display:flex; flex-direction:column; justify-content:center; gap:10px; min-height:120px; }
 .quote p { font-family:var(--f-display); font-size:calc(20px * var(--scale)); line-height:1.45; text-wrap:pretty; white-space:pre-line; }
+.quote.long p { font-size:calc(17px * var(--scale)); }
 .quote cite { font-style:normal; color:var(--ink-2); font-size:var(--fs-sm); }
 .qnav { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:4px; }
 .qnav .small { text-align:center; }
@@ -1101,8 +1102,8 @@ const ABOUT_PR={
 // QUOTES — swipe through them on Today. Add more here: one line each.
 // Only words that can be traced to a text: the practice liturgy used in
 // this app, the Dhammapada (tr. F. Max Müller, 1881, public domain), the
-// Mahāparinibbāna Sutta (tr. T. W. Rhys Davids, 1881), Atiśa's mind-training
-// and well-known lines of the lineage. Only clear sayings of named teachers
+// Mahāparinibbāna Sutta (tr. T. W. Rhys Davids, 1881), Śāntideva (tr. Barnett 1909)
+// and Lotsawa House translations (CC BY-NC 4.0, credited in About). Only clear sayings of named teachers
 // or well-known texts (cryptic slogans and app-written lines were removed).
 // (Removed 2026-09-30: sayings whose source couldn't be traced.)
 // ═══════════════════════════════════════════════════════════
@@ -1118,8 +1119,8 @@ const QUOTES=[
   {t:'Through this virtue may omniscience be attained, and may every defilement be overcome.',a:'Dedication of merit'},
   // Lineage
   {t:'Don’t recall. Don’t imagine. Don’t think. Don’t examine. Don’t control. Rest.',a:'Tilopa’s six words of advice'},
-  {t:'It is not appearances that bind you, but your clinging to them.',a:'Tilopa to Nāropa'},
-  {t:'Though my view is as spacious as the sky, my attention to actions is as fine as barley flour.',a:'Guru Rinpoche'},
+  {t:'Son, it is not appearances that bind you; it is grasping.\nCut through your attachment, Nāropa.',a:'Tilopa'},
+  {t:'My view is higher than the sky,\nMy attention to the karmic process finer than grains of flour.',a:'Guru Rinpoche'},
   {t:'For as long as space endures, and for as long as living beings remain, until then may I too abide to dispel the misery of the world.',a:'Śāntideva, The Way of the Bodhisattva 10.55'},
   // Śāntideva, Bodhicaryāvatāra, tr. L. D. Barnett, "The Path of Light" (1909, public domain)
   {t:'As in the night, amidst the gross darkness of the clouds, the lightning shews for an instant its radiance, so by the grace of the Enlightened it may hap that the mind of man turn for an instant to holy works.',a:'Śāntideva, The Path of Light, ch. 1'},
@@ -1157,6 +1158,78 @@ const QUOTES=[
   {t:'The fault of others is easily perceived, but that of oneself is difficult to perceive.',a:'Dhammapada 252'},
   {t:'You yourself must make an effort. The Tathāgatas are only preachers.',a:'Dhammapada 276'},
   {t:'Through zeal knowledge is gotten, through lack of zeal knowledge is lost.',a:'Dhammapada 282'},
+
+  // ── From Lotsawa House (lotsawahouse.org), licensed CC BY-NC 4.0, quoted word for word.
+  // Translators are named in each comment and credited in About. Tilopa and Guru Rinpoche above
+  // are also Lotsawa House (tr. Adam Pearcey 2004, rev. 2025).
+  // Patrul Rinpoche, Advice from Me to Myself, tr. Constance Wilkinson
+  {t:'If you let go of everything—\nEverything, everything—\nThat’s the real point!',a:'Patrul Rinpoche, Advice from Me to Myself'},
+  {t:'Thinking about the hundred plans you want to accomplish,\nWith never enough time to finish them,\nJust weighs down your mind.',a:'Patrul Rinpoche, Advice from Me to Myself'},
+  {t:'Don’t be a fool: for once, just sit tight.',a:'Patrul Rinpoche, Advice from Me to Myself'},
+  {t:'Giving teachings on meditation texts\nWithout yourself having\nGained actual experience through practice,\nIs like reciting a dance-manual out loud\nAnd thinking that’s the same as actually dancing.',a:'Patrul Rinpoche, Advice from Me to Myself'},
+  {t:'Even though you don’t know how to practice, just let go of everything—that’s what I really want to say.',a:'Patrul Rinpoche, Advice from Me to Myself'},
+  // Patrul Rinpoche, Advice in Sets of Three, tr. Adam Pearcey 2021
+  {t:'Three things must not be forgotten:\nThe gracious guru,\nThe compassionate Buddha,\nAnd mindfulness and vigilance.',a:'Patrul Rinpoche, Advice in Sets of Three'},
+  {t:'Three things must be present:\nThe mind in the body,\nThe body on its seat,\nAnd the mind in relaxation.',a:'Patrul Rinpoche, Advice in Sets of Three'},
+  {t:'Three things are best kept under control:\nYour mouth when at gatherings,\nYour hands when alone,\nAnd your mind at all times.',a:'Patrul Rinpoche, Advice in Sets of Three'},
+  {t:'Three things must be kept secret:\nYour own virtues,\nThe faults of others,\nAnd plans for the future.',a:'Patrul Rinpoche, Advice in Sets of Three'},
+  {t:'Always examine yourself. Don’t forget this.',a:'Patrul Rinpoche, Advice in Sets of Three'},
+  // Dilgo Khyentse Rinpoche, Heart Advice in Four Lines, Rigpa Translations
+  {t:'Do not forget the guru;\nPray to him at all times.',a:'Dilgo Khyentse Rinpoche, Heart Advice in Four Lines'},
+  {t:'Do not let your mind be distracted;\nLook into its very essence.',a:'Dilgo Khyentse Rinpoche, Heart Advice in Four Lines'},
+  {t:'Do not forget death;\nLet it spur you on to Dharma.',a:'Dilgo Khyentse Rinpoche, Heart Advice in Four Lines'},
+  {t:'Do not forget sentient beings;\nWith compassion dedicate your merit to them and make prayers of aspiration.',a:'Dilgo Khyentse Rinpoche, Heart Advice in Four Lines'},
+  // Dilgo Khyentse Rinpoche, Advice to three-year retreatants, tr. Adam Pearcey 2007
+  {t:'In Dharma practice, the most important thing is motivation. If it is motivated by the wish to benefit all beings, then even a single prostration or a single recitation of the hundred-syllable mantra will yield inexhaustible merit.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'Even if you were to practise day and night with unflagging diligence for a full twelve years and still fail to have even one good dream, you must never lose heart.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'Understand this: it is more important to take to heart the key instructions than to receive a great many teachings.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'Without genuine compassion there is simply no possibility of reaching buddhahood.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'To recite even a single maṇi mantra is of inconceivable benefit, so dedicate it for the sake of all who live.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'When looking into the nature of mind, don’t expect to gain some exceptionally high or profound realization, or to see anything new. Nor should you hesitate or doubt your ability to meditate.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'When you are approaching the end of the Dharma\nContinue ceaselessly, without any highs or lows,\nAnd without hopes for signs of swift attainment,\nEnsure your practice endures as long as you do!',a:'Milarepa, quoted by Dilgo Khyentse Rinpoche'},
+  // 3rd Karmapa Rangjung Dorje, Aspiration of the Mahāmudrā of Definitive Meaning, tr. Adam Pearcey 2020
+  {t:'Having found supreme freedom and advantage, with faith, diligence, and wisdom,\nMay I rely upon excellent spiritual friends, receive the elixir of instruction,\nAnd accomplish it in the proper way without any impediment,\nPutting the genuine Dharma into practice throughout all my lives.',a:'The 3rd Karmapa, Mahāmudrā Aspiration'},
+  {t:'All phenomena are but apparitions of the mind;\nMind itself is without mind, empty of mind’s essence—\nEmpty yet unrestricted, appearing in any way at all.\nHaving examined it well, may I determine the basis.',a:'The 3rd Karmapa, Mahāmudrā Aspiration'},
+  {t:'Not realizing this, I drift about in saṃsāra’s ocean.\nWhen I do realize it, buddhahood lies nowhere else.\nEverything is this; there is nothing else besides.',a:'The 3rd Karmapa, Mahāmudrā Aspiration'},
+  {t:'Appearances are mind; emptiness is also the mind.\nRealization is mind; delusion too is one’s own mind.\nWhat’s arisen is mind; what’s ceased is also mind.\nMay I eliminate all misconceptions within the mind.',a:'The 3rd Karmapa, Mahāmudrā Aspiration'},
+  {t:'Unspoilt by deliberate, mind-fabricated meditation,\nAnd unswayed by the winds of ordinary preoccupation,\nMay I learn how to settle naturally without contrivance.',a:'The 3rd Karmapa, Mahāmudrā Aspiration'},
+  {t:'Looking at objects, I see them as objectless mind;\nLooking at mind, mind is absent, empty of essence;\nLooking at both, duality is liberated there and then—\nMay I realize mind’s true nature, which is clear light.',a:'The 3rd Karmapa, Mahāmudrā Aspiration'},
+  // 15th Karmapa Khakhyab Dorje, Advice for Orgyen Tsomo, tr. Abraham Ta-Quan 2020 (the four thoughts)
+  {t:'Think of the future and turn your back on this world.\nThink of the effects of actions and keep vows and samaya.\nThink of the advantages and apply yourself to the sacred Dharma.\nThink of impermanence and develop perseverance in the practice.\nThink of its flaws and avoid attachment to the ocean of saṃsāra.',a:'The 15th Karmapa, Advice for Orgyen Tsomo'},
+  // Gampopa, tr. Adam Pearcey · Milarepa, Rigpa Translations and tr. Adam Pearcey · Marpa, tr. Sean Ross 2023
+  {t:'Unless you practise Dharma according to the Dharma, Dharma itself will become the cause of lower rebirth.',a:'Gampopa'},
+  {t:'In horror of death, I took to the mountains—\nAgain and again I meditated on the uncertainty of the hour of death,\nCapturing the fortress of the deathless unending nature of mind.\nNow all fear of death is over and done.',a:'Milarepa'},
+  {t:'Between the hermit meditating in a rocky cave\nAnd the sponsor who provides his sustenance\nIs a connection that will bring both to buddhahood.\nThe heart of that connection is dedication of merit.',a:'Milarepa'},
+  {t:'Worldly beings grasp death as their enemy, whereas yogis, on the basis of the guru’s oral instructions, will at the time of death, or in the bardo, take it as a friend.',a:'Marpa, The Nail of Taking Death as a Friend'},
+  // Nāgārjuna, Precious Garland, tr. Adam Pearcey 2004, rev. 2025
+  {t:'As long as the aggregates are conceived,\nThere will be a conception of “I”,\nAnd when there is a conception of “I”,\nThere’s karma, and from that, rebirth.',a:'Nāgārjuna, Precious Garland 1.35'},
+  {t:'If we ourselves and all the world\nWish for unsurpassed enlightenment,\nIts basis is bodhicitta\nStable as the king of mountains,\nCompassion reaching out in all directions,\nAnd wisdom that transcends duality.',a:'Nāgārjuna, Precious Garland 2.73–74'},
+  {t:'Causes of death are numerous,\nWhile causes of life are few indeed,\nAnd even those may cause death;\nSo practise Dharma at all times.',a:'Nāgārjuna, Precious Garland 3.78'},
+  {t:'Offerings of three hundred pots of food\nMade three times each and every day\nCould not match even a portion of the merit\nGained from just a single moment’s loving kindness.',a:'Nāgārjuna, Precious Garland 3.83'},
+  // Śāntideva, Bodhicaryāvatāra ch. 1, tr. Adam Pearcey 2007
+  {t:'This free and well-favoured human form is difficult to obtain.\nNow that we have the chance to realise the full human potential,\nIf we don’t make good use of this opportunity,\nHow could we possibly expect to have such a chance again?',a:'Śāntideva, Bodhicaryāvatāra 1.4'},
+  {t:'Those who long to triumph over life’s distress,\nAnd who wish to put an end to others’ sorrows,\nThose who seek to experience abundant joys—\nLet them never turn their backs on bodhicitta.',a:'Śāntideva, Bodhicaryāvatāra 1.8'},
+  {t:'All other virtues are like the plantain tree:\nThey bear their fruit, and then they are no more.\nYet constantly the marvellous tree of bodhicitta\nYields fruit and, undiminished, grows for evermore.',a:'Śāntideva, Bodhicaryāvatāra 1.12'},
+  // Candragomin, Letter to a Disciple 63, tr. Adam Pearcey
+  {t:'This human life is more valuable even than a wishing-gem—\nWho could let it go to waste and fail to bear its fruit?',a:'Candragomin, Letter to a Disciple'},
+  // Atiśa: tr. Adam Pearcey; The Bodhisattva’s Garland of Jewels, Rigpa Translations 2008
+  {t:'The best spiritual guide is one who attacks your hidden faults.\nThe best instructions are those that directly target such faults.',a:'Atiśa'},
+  {t:'Be done with doubt and indecision,\nAnd embrace your practice with all your heart.',a:'Atiśa, The Bodhisattva’s Garland of Jewels'},
+  {t:'Make plain your own failings,\nBut don’t look for faults in others.\nMake known the good points of others,\nBut keep quiet about your own best qualities.',a:'Atiśa, The Bodhisattva’s Garland of Jewels'},
+  {t:'Whenever you see any sentient beings,\nRegard them as your parents or your children.',a:'Atiśa, The Bodhisattva’s Garland of Jewels'},
+  {t:'Drop any feelings of hostility or ill will,\nAnd be happy, wherever you choose to go.',a:'Atiśa, The Bodhisattva’s Garland of Jewels'},
+  // Indian and Tibetan masters, tr. Adam Pearcey (2004, rev. 2025 unless noted)
+  {t:'As you look and look into the sky-like nature\nThat has always been pure, seeing recedes.',a:'Saraha'},
+  {t:'To believe things are real is to be like cattle;\nBut to believe they are unreal is yet more foolish.',a:'Saraha'},
+  {t:'Mind’s nature is and always has been Buddha.\nIt has neither birth nor cessation, like space.',a:'Garab Dorje'},
+  {t:'Unstained by objects of perception,\nUnspoilt by apprehending thought,\nSustaining naked, empty awareness—\nThis is the wisdom of all the buddhas!',a:'Guru Rinpoche'},
+  {t:'Tightly focused and loosely relaxed:\nTherein lies a key point of the view.',a:'Machik Labdrön'},
+  {t:'Generating bodhicitta at the beginning, having no reference in the main part,\nAnd dedicating merit at the conclusion—these, when fully embraced,\nConstitute three vital principles of progression on the path to liberation.',a:'Longchenpa'},
+  {t:'If you don’t begin with thorough analysis,\nHow will perfect certainty ever arise?',a:'Mipham Rinpoche, Beacon of Certainty'},
+  {t:'Love is the seed of this abundant harvest of buddhahood.\nIt is like the water that causes growth and expansion,\nAnd it ripens into the state of lasting enjoyment.\nTherefore, at the outset, I praise compassion!',a:'Candrakīrti, Introduction to the Middle Way 1.2'},
+  {t:'At first, turn away from non-virtue,\nIn the middle, dispel misconceptions of self,\nFinally, go beyond all philosophical views—\nOne who understands this is wise indeed.',a:'Āryadeva, Four Hundred Verses 8.15'},
+  {t:'Whoever sees the nature of one thing\nIs said to see the nature of everything.',a:'Āryadeva, Four Hundred Verses 8.16'},
+  {t:'Illness must be understood, its causes eliminated;\nWellbeing must be attained, and medicine taken.\nLikewise, suffering, its causes, their cessation and the path\nMust in turn be understood, eliminated, realized and relied upon.',a:'Maitreya, Sublime Continuum 4.55'},
 ];
 
 // The Thirty-Seven Practices of All the Bodhisattvas, by Gyalsé Tokmé Zangpo.
@@ -1741,8 +1814,8 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics (as in the open-source tibetan-date-calculator). Hair-cutting days follow tibetanbuddhistcalendar.org (Edward Henning’s Kālacakra calendar). The moon is calculated astronomically. With gratitude to their authors.</p>
   <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('Tibetan Buddhist calendar','https://tibetanbuddhistcalendar.org/day')}</div>
   <p class="h2" style="margin-top:18px">TEXTS AND TRANSLATIONS</p>
-  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. Quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
-  <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/tibetan-masters/gyalse-thogme-zangpo/37-practices-all-bodhisattvas')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
+  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Abraham Ta-Quan and Sean Ross. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
+  <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
   <p class="h2" style="margin-top:18px">MEDITATION GUIDES</p>
@@ -2056,7 +2129,7 @@ function quoteOrder(){if(qOrder&&qOrder.length===QUOTES.length)return qOrder;
   const a=QUOTES.map((_,i)=>i);let s=20260930;const r=()=>(s=(s*1103515245+12345)%2147483648)/2147483648;
   for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return qOrder=a;}
 function quoteHTML(anim=''){if(ST.qi==null)ST.qi=doy(new Date())%QUOTES.length;const q=QUOTES[quoteOrder()[ST.qi]];
-  return`<figure class="quote${anim}" id="quote" aria-live="polite"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`;}
+  return`<figure class="quote${q.t.length>200?' long':''}${anim}" id="quote" aria-live="polite"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`;}
 function goQuote(dir){ST.qi=(ST.qi+dir+QUOTES.length)%QUOTES.length;const f=document.getElementById('quote');if(f)f.outerHTML=quoteHTML(dir>0?' from-right':' from-left');}
 function initQuotes(){const c=document.getElementById('qcard');if(!c)return;let x0=null,y0=0;
   c.addEventListener('pointerdown',e=>{if(!e.target.closest('button')){x0=e.clientX;y0=e.clientY;}});
@@ -2237,6 +2310,64 @@ const ZONE_COLORS={karmapas:'#c09010',lineage:'#b07820',mahasiddhas:'#7040b0',te
 const ZONE_ORDER=['karmapas','yidams','dakinis','mahasiddhas','lineage','teachers','buddhas','bodhisattvas','protectors','female-masters','offerings'];
 function getZoneColor(tags){const z=ZONE_ORDER.find(z=>(tags||[]).includes(z));return z?ZONE_COLORS[z]:'#706050';}
 const figMatches=(fig,f)=>!f||fig.name.toLowerCase().includes(f)||(fig.sub||'').toLowerCase().includes(f)||(fig.tags||[]).some(t=>t.includes(f));
+// Direct "read more" pages for each figure — checked one by one on 2026-09-30
+// (Rigpa Wiki page text read to confirm it's the same person; Wikipedia titles
+// confirmed to exist). rw/wp = page titles; rl/wl = label when the page is about
+// a related subject (an incarnation line, the school founded, or the deity of
+// which this is a form). No entry = no reliable page found, so no link is shown.
+const FIG_LINKS={
+  'dorje-chang':{rw:'Vajradhara',wp:'Vajradhara'},'dorje-chang-root':{rw:'Vajradhara',wp:'Vajradhara'},
+  saraha:{rw:'Saraha',wp:'Saraha'},nagarjuna:{rw:'Nagarjuna',wp:'Nagarjuna'},'nagarjuna-2':{rw:'Nagarjuna',wp:'Nagarjuna'},
+  maitripa:{rw:'Maitripa',wp:'Maitripada'},tilopa:{rw:'Tilopa',wp:'Tilopa'},naropa:{rw:'Naropa',wp:'Naropa'},
+  marpa:{rw:'Marpa Chökyi Lodrö',wp:'Marpa Lotsawa'},milarepa:{rw:'Milarepa',wp:'Milarepa'},gampopa:{rw:'Gampopa Sönam Rinchen',wp:'Gampopa'},
+  'dusum-khyenpa':{rw:'Düsum Khyenpa',wp:'1st Karmapa, Düsum Khyenpa'},'karma-pakshi':{rw:'Karma Pakshi',wp:'2nd Karmapa, Karma Pakshi'},
+  ogyenpa:{rw:'Orgyenpa Rinchen Pal'},'rangjung-dorje':{rw:'Rangjung Dorje',wp:'3rd Karmapa, Rangjung Dorje'},yungtonpa:{rw:'Yungtön Dorje Pal'},
+  'rolpai-dorje':{rw:'Rolpé Dorje',wp:'4th Karmapa, Rolpe Dorje'},
+  'khachod-wangpo':{rw:'Shamarpa Incarnation Line',rl:'The Shamarpa line',wp:'Shamarpa',wl:'The Shamarpas'},
+  'deshin-shekpa':{wp:'5th Karmapa, Deshin Shekpa'},'thongwa-dondhen':{wp:'6th Karmapa, Thongwa Dönden'},
+  'paljor-dhondrup':{wp:'Goshir Gyaltsab',wl:'The Gyaltsab line'},
+  'chodrak-jamtso':{rw:'Chödrak Gyatso',wp:'7th Karmapa, Chödrak Gyatso'},'mikyod-dorje':{rw:'Mikyö Dorje',wp:'8th Karmapa, Mikyö Dorje'},
+  'konchok-yanlak':{rw:'Shamarpa Incarnation Line',rl:'The Shamarpa line',wp:'Shamarpa',wl:'The Shamarpas'},
+  'wangchuk-dorje':{rw:'Wangchuk Dorje',wp:'9th Karmapa, Wangchuk Dorje'},
+  'choki-wangchuk':{rw:'Shamarpa Incarnation Line',rl:'The Shamarpa line',wp:'Shamarpa',wl:'The Shamarpas'},
+  'choying-dorje':{rw:'Chöying Dorje',wp:'10th Karmapa, Chöying Dorje'},
+  'yeshi-nyingpo':{rw:'Shamarpa Incarnation Line',rl:'The Shamarpa line',wp:'Shamarpa',wl:'The Shamarpas'},
+  'yeshi-dorje':{rw:'Yeshe Dorje',wp:'11th Karmapa, Yeshe Dorje'},
+  'chokey-dhondrup':{rw:'Shamarpa Incarnation Line',rl:'The Shamarpa line',wp:'Shamarpa',wl:'The Shamarpas'},
+  'jangchup-dorje':{rw:'Karmapa Changchub Dorje',wp:'12th Karmapa, Changchub Dorje'},
+  'chokey-jungney':{rw:'Situ Panchen Chökyi Jungné',wp:'Situ Panchen'},'duddul-dorje':{wp:'13th Karmapa, Dudul Dorje'},
+  'chodrup-jamtso':{rw:'Shamarpa Incarnation Line',rl:'The Shamarpa line',wp:'Shamarpa',wl:'The Shamarpas'},
+  'pema-nyinjed':{rw:'Tai Situpa Incarnation Line',rl:'The Tai Situpa line',wp:'Tai Situpa',wl:'The Tai Situpas'},
+  'thegchok-dorje':{wp:'14th Karmapa, Theckchok Dorje'},'lodrey-thaye':{rw:'Jamgön Kongtrul Lodrö Tayé',wp:'Jamgon Kongtrul'},
+  'khachap-dorje':{wp:'15th Karmapa, Khakyab Dorje'},
+  'pema-wangchok':{rw:'Palpung Situ Pema Wangchok Gyalpo',wp:'Tai Situpa',wl:'The Tai Situpas'},
+  'rigpai-dorje':{rw:'Karmapa Rangjung Rigpé Dorje',wp:'16th Karmapa, Rangjung Rigpe Dorje'},
+  'guru-rinpoche':{rw:'Padmasambhava',wp:'Padmasambhava'},atisha:{rw:'Atisha',wp:'Atiśa'},
+  'phagmo-drupa':{rw:'Phagmodrupa Dorje Gyalpo',wp:'Phagmo Drupa Dorje Gyalpo'},
+  'zhang-tsalpa':{rw:'Tsalpa Kagyü',rl:'The Tsalpa Kagyü he founded',wp:'Zhang Yudrakpa Tsöndru Drakpa'},
+  'choje-barompa':{rw:'Barom Darma Wangchuk'},'machig-labdron':{rw:'Machik Labdrön',wp:'Machig Labdrön'},
+  sukhasiddhi:{wp:'Sukhasiddhi'},niguma:{rw:'Niguma',wp:'Niguma'},
+  'khyungpo-naljor':{rw:'Khyungpo Naljor',wp:'Shangpa Kagyu',wl:'The Shangpa Kagyu he founded'},
+  'kunkhen-dolpopa':{rw:'Dolpopa Sherab Gyaltsen',wp:'Dolpopa Sherab Gyaltsen'},'kunga-nyingpo':{rw:'Taranatha',wp:'Taranatha'},
+  'jamyang-khyentse':{rw:'Jamyang Khyentse Wangpo',wp:'Jamyang Khyentse Wangpo'},
+  'khorlo-dechok':{rw:'Chakrasamvara',wp:'Cakrasaṃvara Tantra'},
+  'gyalwa-gyatsho':{rw:'Avalokiteshvara',rl:'Avalokiteśvara (Gyalwa Gyatso is a form of him)',wp:'Avalokiteśvara',wl:'Avalokiteśvara'},
+  'sangwa-duepa':{rw:'Guhyasamaja',wp:'Guhyasamāja Tantra'},tadrin:{rw:'Hayagriva',wp:'Hayagriva (Buddhism)'},
+  mahamaya:{rw:'Mahamaya',wp:'Mahāmāyā Tantra'},hevajra:{rw:'Hevajra',wp:'Hevajra'},'dorje-phagmo':{rw:'Vajravarahi',wp:'Vajravārāhī'},
+  'ten-directions':{rw:'Buddhas of the ten directions'},chenrezig:{rw:'Avalokiteshvara',wp:'Avalokiteśvara'},
+  'kuntu-zangpo':{rw:'Bodhisattva Samantabhadra',wp:'Samantabhadra (Bodhisattva)'},'dripa-namsel':{wp:'Sarvanivāraṇaviṣkambhin'},
+  jampa:{rw:'Maitreya',wp:'Maitreya'},'namkhai-nyingpo':{rw:'Akashagarbha, Bodhisattva',wp:'Ākāśagarbha'},
+  'sayi-nyingpo':{rw:'Kshitigarbha',wp:'Kṣitigarbha'},'chagna-dorje':{rw:'Vajrapani',wp:'Vajrapani'},'jampal-yang':{rw:'Manjushri',wp:'Manjushri'},
+  kungawo:{rw:'Ananda',wp:'Ānanda'},'mougal-bu':{rw:'Maudgalyayana',wp:'Maudgalyayana'},'shari-bu':{rw:'Shariputra',wp:'Śāriputra'},
+  namse:{rw:'Vaishravana',wp:'Vaiśravaṇa'},damchan:{rw:'Dorje Lekpa'},
+  chagdrukpa:{rw:'Six-arm Mahakala',wp:'Mahakala'},bernagchen:{rw:'Bernakchen',wp:'Mahakala'},chagzhipa:{rw:'Mahakala',wp:'Mahakala'},
+  'palden-lhamo':{rw:'Palden Lhamo',wp:'Palden Lhamo'},ekajati:{rw:'Ekadzati',wp:'Ekajati'},
+  remati:{rw:'Palden Lhamo',rl:'Palden Lhamo (Remati is a form of her)',wp:'Palden Lhamo',wl:'Palden Lhamo'},
+  tseringma:{rw:'Tseringma'},'aachi-chodron':{wp:'Achi Chokyi Drolma'},
+  'eight-symbols':{wp:'Ashtamangala'},'eight-substances':{rw:'Eight auspicious substances'},
+};
+const rwURL=t=>'https://www.rigpawiki.org/index.php?title='+encodeURIComponent(t.replace(/ /g,'_'));
+const wpURL=t=>'https://en.wikipedia.org/wiki/'+encodeURIComponent(t.replace(/ /g,'_'));
 function openDrawer(figId){
   const fig=FIGS.find(f=>f.id===figId),scrl=document.getElementById('rf-drawer-scroll');if(!fig||!scrl)return;
   const L=(l,u)=>h('a',{cls:'linkbtn',href:u,target:'_blank',rel:'noopener'},l+' ↗');
@@ -2248,12 +2379,10 @@ function openDrawer(figId){
     fig.role&&h('p',{},h('b',{},'Role: '),fig.role),
     fig.bio&&h('p',{cls:'dr-bio'},fig.bio),
     fig.teaching&&h('blockquote',{cls:'dr-quote'},'“'+fig.teaching+'”'),
-    h('p',{cls:'h2'},'READ MORE'),
-    h('div',{cls:'links'},
-      L('Rigpa Wiki',`https://www.rigpawiki.org/index.php?search=${encodeURIComponent(fig.name)}`),
-      fig.wiki&&L('Wikipedia',fig.wiki),
-      L('Himalayan Art',`https://www.himalayanart.org/googlesearch.cfm?q=${encodeURIComponent(fig.name)}`),
-      L('Thangka images',`https://duckduckgo.com/?q=${encodeURIComponent(fig.name+' thangka')}&iax=images&ia=images`)),
+    ...(()=>{const k=FIG_LINKS[fig.id];if(!k)return[h('p',{cls:'small'},'No reliable page about this figure is online yet.')];
+      return[h('p',{cls:'h2'},'READ MORE'),h('div',{cls:'links'},
+        k.rw&&L(k.rl?`${k.rl} · Rigpa Wiki`:'Rigpa Wiki',rwURL(k.rw)),
+        k.wp&&L(k.wl?`${k.wl} · Wikipedia`:'Wikipedia',wpURL(k.wp)))];})(),
   ].filter(Boolean));
   scrl.scrollTop=0;
   document.getElementById('rf-drawer').classList.add('open');document.getElementById('rf-veil').classList.add('open');}
