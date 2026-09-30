@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Dharma Practice">
@@ -112,7 +112,8 @@
    RESET & BASE — scale cascades from body
 ═══════════════════════════════════════════ */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-html,body { height:100%; overflow:hidden; background:var(--bg); }
+/* touch-action:manipulation stops double-tap zoom (fast tapping) but keeps pinch-zoom */
+html,body { height:100%; overflow:hidden; background:var(--bg); touch-action:manipulation; }
 body { font-family:'Lato',sans-serif; color:var(--tx); font-size:calc(14px * var(--scale)); }
 a { color:inherit; }
 ::-webkit-scrollbar { width:2px; } ::-webkit-scrollbar-thumb { background:var(--gold-lo); border-radius:1px; }
@@ -140,30 +141,6 @@ a { color:inherit; }
 .home-chev svg { width:15px; height:15px; display:block; }
 .more-ico svg { width:20px; height:20px; display:block; }
 .pico svg { width:16px; height:16px; display:block; }
-
-/* ═══════════════════════════════════════════
-   PRACTICE BACKGROUNDS (behind image)
-═══════════════════════════════════════════ */
-.pr-bg-0 { background:#0e1e3a; }
-.pr-bg-1 { background:#3c1406; }
-.pr-bg-2 { background:#160636; }
-.pr-bg-3 { background:#082212; }
-.pr-bg-4 { background:#261602; }
-.pr-bg-5 { background:#060c30; }
-.pr-bg-6 { background:#280414; }
-
-/* ═══════════════════════════════════════════
-   PRACTICE SCROLL SECTION
-═══════════════════════════════════════════ */
-.pr-scroll-section {
-  flex:1; overflow-y:auto; background:var(--scroll-bg);
-}
-/* Text colour overrides inside scroll for light/earth themes */
-:root .pr-scroll-section, [data-theme="earth"] .pr-scroll-section {
-  --pr-tx: var(--tx);
-  --pr-tx-mid: var(--tx-mid);
-  --pr-tx-lo: var(--tx-lo);
-}
 
 /* ═══════════════════════════════════════════
    MODALS / SHEETS / DIALOGS
@@ -294,6 +271,7 @@ hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
   /* Sidebar nav */
   #app { flex-direction: row; }
   #nav {
+    order: -1; /* sidebar on the left (it follows #content in the DOM) */
     flex-direction: column; justify-content: flex-start; align-items: stretch;
     width: 170px; height: 100%;
     border-top: none; border-right: 1px solid var(--nav-bdr);
@@ -328,9 +306,6 @@ hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
 
   /* Nicer scrollbar on desktop */
   ::-webkit-scrollbar { width: 5px; }
-
-  /* Hide touch-only hints */
-  .swipe-hint { display: none !important; }
 }
 
 /* Wide desktop — slightly wider sidebar */
@@ -382,8 +357,8 @@ function setSize(s){
 // PRACTICES DATA
 // ═══════════════════════════════════════════════════════════
 const PR=[
-  {id:'refuge',   name:'Short Refuge',    sub:'Short refuge formulas',  target:11000,  cv:100,  bg:0, acc:'#5a9ece', img:'refuge-tree.jpg', imgFull:true},
-  {id:'prostr',   name:'Prostrations',    sub:'Full body prostrations', target:111111, cv:1000, bg:1, acc:'#d07850', img:'prostr.jpg'},
+  {id:'refuge',   name:'Short Refuge',    sub:'Short refuge formulas',  target:11000,  cv:100,  bg:0, acc:'#5a9ece', img:'refuge-tree.jpg'},
+  {id:'prostr',   name:'Prostrations',    sub:'Full body prostrations', target:111111, cv:1000, bg:1, acc:'#d07850', img:'refuge-tree.jpg'},
   {id:'diamond',  name:'Diamond Mind',    sub:'Vajrasattva mantras',    target:111111, cv:1000, bg:2, acc:'#9070d8', img:'dm.jpg',         mantra:'OM VAJRASATTVA HUNG'},
   {id:'mandala',  name:'Mandala Offering',sub:'Mandala offerings',      target:111111, cv:1000, bg:3, acc:'#40a880', img:'mandala.jpg'},
   {id:'guruyoga', name:'Guru Yoga',       sub:'Guru Yoga mantras',      target:111111, cv:1000, bg:4, acc:'#c89040', img:'guru.jpg',        mantra:'KARMAPA KHENNO'},
@@ -936,15 +911,14 @@ function moonIllum(age){return(1-Math.cos((age/SYN)*2*Math.PI))/2;}
 function moonSVG(age,sz){
   sz=sz||30;const il=moonIllum(age),wax=age<SYN/2,cx=sz/2,cy=sz/2,r=sz/2-1;
   const dark='#1a1828',lit='#f0e8c0';
+  // One lit shape over a dark disc: the lit half-disc (right when waxing, left
+  // when waning) closed by the terminator ellipse, which bulges into the dark
+  // half for a gibbous moon and into the lit half for a crescent.
   let inner='';
-  if(il<0.02){inner=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark}"/>`;}
-  else if(il>0.98){inner=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${lit}"/>`;}
-  else{
-    const ecc=Math.abs(2*il-1),rx=r*ecc;
-    if(wax){inner=`<path d="M${cx} ${cy-r}A${r} ${r} 0 0 1 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?0:1} ${cx} ${cy-r}Z" fill="${lit}"/>
-      <path d="M${cx} ${cy-r}A${r} ${r} 0 0 0 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?0:1} ${cx} ${cy-r}Z" fill="${dark}"/>`;}
-    else{inner=`<path d="M${cx} ${cy-r}A${r} ${r} 0 0 0 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?1:0} ${cx} ${cy-r}Z" fill="${lit}"/>
-      <path d="M${cx} ${cy-r}A${r} ${r} 0 0 1 ${cx} ${cy+r}A${rx} ${r} 0 0 ${il>0.5?1:0} ${cx} ${cy-r}Z" fill="${dark}"/>`;}
+  if(il>0.98)inner=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${lit}"/>`;
+  else if(il>=0.02){
+    const rx=r*Math.abs(2*il-1),gib=il>0.5;
+    inner=`<path d="M${cx} ${cy-r}A${r} ${r} 0 0 ${wax?1:0} ${cx} ${cy+r}A${rx} ${r} 0 0 ${wax===gib?1:0} ${cx} ${cy-r}Z" fill="${lit}"/>`;
   }
   return`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" xmlns="http://www.w3.org/2000/svg"><circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark}"/>${inner}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(240,220,160,0.2)" stroke-width="0.8"/></svg>`;}
 
@@ -959,28 +933,22 @@ function doy(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
 // ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
-function ls(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch{return d;}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 let ST={
-  tab:'home',                          // returning users land on Home
+  tab:'home',                          // everyone lands on Home
   practiseSub:'accumulate', moreOpen:false, prExpanded:null, prImgOpen:null,
-  prIdx:ls('esm_pr_idx',1),            // default Prostrations
   prData:ls('esm_pr_data',{}),
-  prPanelOpen:true,
   tap:ls('esm_tap',{count:0,ci:0}),
   tapShown:false, tapReset:false, tapProg:0, tapPinned:ls('esm_tap_pinned',false),
   prayerSub:ls('esm_prayer_sub','prayers'),
   prayer:null,
   modal:null,
-  aboutSub:'Calendar',
 };
-let feedT=null;
 function getPD(id){return ST.prData[id]||{counter:0,pace:100,lastDate:null,undo:[]};}
 function setPD(id,d){const nd={...ST.prData,[id]:d};lsSet('esm_pr_data',nd);set({prData:nd});}
 function fmt(n){return Number(n).toLocaleString();}
 function fmtD(iso){if(!iso)return'';return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
 function set(p){Object.assign(ST,p);render();}
-function switchTab(t){lsSet('esm_tab',t);set({tab:t,prayer:null,modal:null,moreOpen:false});}
+function switchTab(t){set({tab:t,prayer:null,modal:null,moreOpen:false});}
 function proj(c,pace,tgt){if(pace<=0||c>=tgt)return null;const d=new Date();d.setDate(d.getDate()+Math.ceil((tgt-c)/pace)+1);return d;}
 function paceFromDate(c,ds,tgt){const rem=tgt-c;if(rem<=0)return 0;const days=Math.max(1,Math.round((new Date(ds)-new Date())/86400000));const p=Math.ceil(rem/days);return p+(p%100>0?100-(p%100):0);}
 function bell(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();[[0,528,.32],[.15,396,.22],[.3,264,.18]].forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,ac.currentTime+dl);o.frequency.exponentialRampToValueAtTime(fr*.5,ac.currentTime+dl+3);gn.gain.setValueAtTime(0,ac.currentTime+dl);gn.gain.linearRampToValueAtTime(g,ac.currentTime+dl+.04);gn.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dl+5);o.start(ac.currentTime+dl);o.stop(ac.currentTime+dl+6);});}catch(e){}}
@@ -1067,7 +1035,7 @@ function renderHome(){
   }
   const ex=h('div',{sty:{padding:'16px 14px 2px'}});
   ex.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)',marginBottom:'10px'}},'EXPLORE'));
-  [['practise','practise','Practise','Count your accumulations · guided meditations'],
+  [['practise','practise','Practise','Count your accumulations · tap counter'],
    ['prayers','prayers','Prayers','Liturgies and practice texts to recite'],
    ['learn','learn','Learn','The refuge tree, figures and teachings']].forEach(([tab,icn,title,desc])=>{
     ex.appendChild(h('button',{sty:{width:'100%',display:'flex',alignItems:'center',gap:'13px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'13px',marginBottom:'9px',cursor:'pointer',textAlign:'left'},onClick:()=>switchTab(tab)},
@@ -1232,7 +1200,7 @@ function renderPractice(){
     const done=counter>=pr.target,pct=Math.round((counter/pr.target)*100);
     const open=ST.prExpanded===i;
     const card=h('div',{sty:{background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'13px',marginBottom:'9px',overflow:'hidden'}});
-    const row=h('div',{sty:{display:'flex',alignItems:'center',gap:'11px',padding:'12px 13px',cursor:'pointer'},onClick:()=>set({prExpanded:open?null:i,prIdx:i})});
+    const row=h('div',{sty:{display:'flex',alignItems:'center',gap:'11px',padding:'12px 13px',cursor:'pointer'},onClick:()=>set({prExpanded:open?null:i})});
     row.appendChild(h('span',{sty:{width:'12px',height:'12px',borderRadius:'50%',background:pr.acc,flexShrink:0}}));
     const mid=h('div',{sty:{flex:1,minWidth:0}});
     mid.appendChild(h('div',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',color:'var(--tx)',lineHeight:'1.1'}},pr.name));
@@ -1474,7 +1442,7 @@ function renderTextsList(){
   list.appendChild(h('a',{href:'./ngondro-full.pdf',target:'_blank',rel:'noopener',sty:{display:'block',textDecoration:'none',margin:'0 14px 16px',background:'var(--red-lo)',border:'2px solid var(--gold-lo)',borderRadius:'14px',padding:'16px'}},
     h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'8px'}},'FULL PRACTICE TEXT'),
     h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(19px * var(--scale))',color:'var(--tx)',lineHeight:'1.2',marginBottom:'4px'}},'The complete Ngöndro'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)',marginBottom:'12px',lineHeight:'1.6'}},'The whole practice in one document, laid out to follow along. Available offline.'),
+    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)',marginBottom:'12px',lineHeight:'1.6'}},'The whole practice in one document, laid out to follow along. Saved for offline use once opened.'),
     h('span',{sty:{display:'inline-block',background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px 14px',color:'var(--gold)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato'}},'Open PDF ↗')));
   SAD.forEach(s=>{
     const card=h('div',{sty:{margin:'0 14px 10px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'14px',padding:'14px 14px 10px'}});
@@ -1496,9 +1464,8 @@ function renderTextsList(){
 let rfFilter='';
 let rfDrawerFig=null;
 let rfMarkersVisible=false;
-// One-time marker-placement editor (see the under-construction banner button).
-let rfEditMode=false;
-let rfEditIdx=0;
+// (The one-time marker-placement editor was removed in V10 — see git history
+// before commit "V10 cleanup" if marker coordinates ever need re-tuning.)
 
 // Zone colour for each category (used on marker backgrounds)
 const ZONE_COLORS={
@@ -1660,13 +1627,7 @@ function renderRefuge(container){
   toggleBtn.appendChild(h('span',{cls:'toggle-ico',sty:{fontSize:'16px',lineHeight:1}},rfMarkersVisible?'◉':'○'));
   toggleBtn.appendChild(h('span',{cls:'toggle-lbl'},rfMarkersVisible?'Hide':'Show'));
   toggleBtn.appendChild(h('span',{sty:{fontSize:'calc(9px * var(--scale))',opacity:'.7'}},'markers'));
-  // Header controls: markers toggle (position editor hidden to avoid confusing
-  // users — re-enable the '✎' button below to fine-tune marker positions).
-  const hdrCtl=h('div',{sty:{display:'flex',alignItems:'center',gap:'8px',flexShrink:0}},
-    // h('button',{title:'Edit marker positions',sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'7px 10px',cursor:'pointer',color:'var(--tx-lo)',fontSize:'13px',lineHeight:1},
-    //   onClick:()=>{rfEditMode=true;rfEditIdx=0;render();}},'✎'),
-    toggleBtn);
-  hdrRow.appendChild(hdrCtl);
+  hdrRow.appendChild(toggleBtn);
   outer.appendChild(hdrRow);
 
   // Search bar
@@ -1697,7 +1658,8 @@ function renderRefuge(container){
   // Thangka image with zone-coloured markers
   // aspect-ratio locks the coordinate space to the image's true proportions (1080×1359)
   // so that left/top % on .rf-marker always map correctly regardless of viewport width
-  const imgWrap=h('div',{sty:{position:'relative',display:'block',width:'100%',aspectRatio:'1080/1359',overflow:'hidden',touchAction:'pan-y'}});
+  // Width capped so the whole thangka fits in the viewport height on desktop.
+  const imgWrap=h('div',{sty:{position:'relative',display:'block',width:'100%',maxWidth:'calc((100dvh - 40px) * 1080 / 1359)',margin:'0 auto',aspectRatio:'1080/1359',overflow:'hidden',touchAction:'pan-y'}});
   // Inner stage holds the image + markers and is what zoom/pan transforms.
   const stage=h('div',{sty:{position:'absolute',inset:0,transformOrigin:'0 0',willChange:'transform'}});
   const img=h('img',{src:'refuge-tree.jpg',sty:{position:'absolute',inset:0,width:'100%',height:'100%',display:'block',objectFit:'fill'}});
@@ -1714,22 +1676,19 @@ function renderRefuge(container){
   FIGS.forEach(fig=>{
     const zColor=getZoneColor(fig.tags);
     const marker=h('div',{
-      cls:'rf-marker'+((rfMarkersVisible||rfEditMode)?' ':' hidden-marker'),
+      cls:'rf-marker'+(rfMarkersVisible?'':' hidden-marker'),
       'data-figid':fig.id,
-      sty:{left:`${fig.x}%`,top:`${fig.y}%`,background:zColor,
-        // In edit mode markers must not swallow the tap — the image handles placement.
-        pointerEvents:rfEditMode?'none':'auto'},
+      sty:{left:`${fig.x}%`,top:`${fig.y}%`,background:zColor},
       title:`${fig.n}. ${fig.name}`,
-      onClick:()=>{if(!rfEditMode)openDrawer(fig.id);}
+      onClick:()=>openDrawer(fig.id)
     },String(fig.n));
     stage.appendChild(marker);
   });
   imgWrap.appendChild(stage);
 
-  // ── PINCH / DOUBLE-TAP ZOOM + DRAG-PAN (view mode only) ──────
-  // Transforms `stage`; imgWrap stays the clipping viewport. Disabled while
-  // editing so placement coordinates stay in base (untransformed) space.
-  if(!rfEditMode){
+  // ── PINCH / DOUBLE-TAP ZOOM + DRAG-PAN ──────
+  // Transforms `stage`; imgWrap stays the clipping viewport.
+  {
     let sc=1,tx=0,ty=0;
     const pts=new Map();            // active pointers
     let moved=0,panStart=null,pinch=null,lastTap=0;
@@ -1743,7 +1702,9 @@ function renderRefuge(container){
     const zoomAt=(px,py,ns)=>{ns=Math.max(1,Math.min(5,ns));
       tx=px-(px-tx)*(ns/sc); ty=py-(py-ty)*(ns/sc); sc=ns; clamp(); apply();};
     const rel=e=>{const r=imgWrap.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];};
-    imgWrap.addEventListener('wheel',e=>{e.preventDefault();const[px,py]=rel(e);zoomAt(px,py,sc*(e.deltaY<0?1.15:0.87));},{passive:false});
+    // Plain wheel scrolls the page; ctrl+wheel (and trackpad pinch, which the
+    // browser reports as ctrl+wheel) zooms. Once zoomed, the wheel zooms too.
+    imgWrap.addEventListener('wheel',e=>{if(!e.ctrlKey&&sc===1)return;e.preventDefault();const[px,py]=rel(e);zoomAt(px,py,sc*(e.deltaY<0?1.15:0.87));},{passive:false});
     imgWrap.addEventListener('pointerdown',e=>{
       pts.set(e.pointerId,[e.clientX,e.clientY]);moved=0;
       // Capture only when interacting (zoomed pan, or second finger for pinch)
@@ -1782,14 +1743,14 @@ function renderRefuge(container){
     ));
   }
 
-  // Touch/press to temporarily reveal markers (disabled while placing).
+  // Touch/press to temporarily reveal markers.
   function showMarkersTemp(){
-    if(!rfMarkersVisible&&!rfEditMode&&!rfFilter.trim()){
+    if(!rfMarkersVisible&&!rfFilter.trim()){
       document.querySelectorAll('.rf-marker').forEach(el=>el.classList.remove('hidden-marker'));
     }
   }
   function hideMarkersTemp(){
-    if(!rfMarkersVisible&&!rfEditMode&&!rfFilter.trim()){
+    if(!rfMarkersVisible&&!rfFilter.trim()){
       document.querySelectorAll('.rf-marker').forEach(el=>el.classList.add('hidden-marker'));
     }
   }
@@ -1799,44 +1760,6 @@ function renderRefuge(container){
   imgWrap.addEventListener('mousedown',showMarkersTemp);
   imgWrap.addEventListener('mouseup',hideMarkersTemp);
   imgWrap.addEventListener('mouseleave',hideMarkersTemp);
-
-  // ── MARKER-PLACEMENT EDITOR ──────────────────────────────────
-  // Tap the thangka to drop the selected figure's pin, then auto-advance.
-  // "Copy" yields a JSON id→[x,y] map to paste back into FIGS.
-  if(rfEditMode){
-    imgWrap.style.cursor='crosshair';
-    const edBar=h('p',{sty:{fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',color:'var(--tx)',lineHeight:'1.5'}});
-    const edOut=h('textarea',{readonly:'',sty:{width:'100%',height:'56px',marginTop:'8px',fontSize:'11px',fontFamily:'monospace',background:'var(--inp)',color:'var(--tx)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px'}});
-    function syncEd(){
-      const fig=FIGS[rfEditIdx];
-      edBar.innerHTML=`Placing <b>#${fig.n} ${fig.name}</b> — tap the thangka &nbsp;<span style="color:var(--tx-lo)">(${rfEditIdx+1}/${FIGS.length}, now ${fig.x},${fig.y})</span>`;
-      imgWrap.querySelectorAll('.rf-marker').forEach(m=>m.classList.toggle('highlighted',m.dataset.figid===fig.id));
-    }
-    function syncOut(){const map={};FIGS.forEach(f=>map[f.id]=[f.x,f.y]);edOut.value=JSON.stringify(map);}
-    imgWrap.addEventListener('click',e=>{
-      const rect=imgWrap.getBoundingClientRect();
-      const x=Math.round(((e.clientX-rect.left)/rect.width)*1000)/10;
-      const y=Math.round(((e.clientY-rect.top)/rect.height)*1000)/10;
-      const fig=FIGS[rfEditIdx];fig.x=x;fig.y=y;
-      const mk=imgWrap.querySelector(`.rf-marker[data-figid="${fig.id}"]`);
-      if(mk){mk.style.left=x+'%';mk.style.top=y+'%';}
-      if(rfEditIdx<FIGS.length-1)rfEditIdx++;
-      syncEd();syncOut();
-    });
-    const panel=h('div',{sty:{position:'sticky',top:0,zIndex:30,background:'var(--card)',borderBottom:'2px solid var(--gold)',padding:'10px 14px'}},
-      edBar,
-      h('div',{sty:{display:'flex',gap:'6px',marginTop:'8px'}},
-        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{if(rfEditIdx>0)rfEditIdx--;syncEd();}},'‹ Prev'),
-        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{if(rfEditIdx<FIGS.length-1)rfEditIdx++;syncEd();}},'Next ›'),
-        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{const t=FIGS[rfEditIdx];window.open(t.wiki||`https://duckduckgo.com/?q=${encodeURIComponent(t.name)}`,'_blank','noopener');}},'Who?'),
-        h('button',{cls:'btn',sty:{padding:'8px'},onClick:()=>{syncOut();edOut.select();navigator.clipboard&&navigator.clipboard.writeText(edOut.value);}},'Copy'),
-        h('button',{cls:'btn-o',sty:{padding:'8px'},onClick:()=>{rfEditMode=false;render();}},'Done')
-      ),
-      edOut
-    );
-    scroll.appendChild(panel);
-    setTimeout(()=>{syncEd();syncOut();},0);
-  }
 
   scroll.appendChild(imgWrap);
 
@@ -1898,18 +1821,6 @@ function renderRefuge(container){
 // ═══════════════════════════════════════════════════════════
 // ABOUT
 // ═══════════════════════════════════════════════════════════
-function renderAbout(){
-  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
-  const subs=['Calendar','Events','Info'];
-  const sb=h('div',{sty:{display:'flex',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}});
-  subs.forEach(t=>{const on=ST.aboutSub===t;sb.appendChild(h('button',{sty:{flex:1,padding:'12px 4px',background:'none',border:'none',borderBottom:`2px solid ${on?'var(--gold)':'transparent'}`,color:on?'var(--gold)':'var(--tx-lo)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',letterSpacing:'.5px',cursor:'pointer',marginBottom:'-1px'},onClick:()=>{ST.aboutSub=t;render();}},t));});
-  outer.appendChild(sb);
-  const body=h('div',{sty:{flex:1,overflowY:'auto'}});
-  if(ST.aboutSub==='Calendar')body.appendChild(renderCal());
-  else if(ST.aboutSub==='Events')body.appendChild(renderEvents());
-  else body.appendChild(renderInfo());
-  outer.appendChild(body);return outer;}
-
 function renderCal(){
   ST.calOffset=0;                      // always open on today; nav updates in place
   const wrap=h('div',{sty:{padding:'14px 16px 60px'}});
@@ -2017,8 +1928,7 @@ function renderInfo(){
     h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(15px * var(--scale))',color:'var(--tx-lo)',marginBottom:'12px',lineHeight:'1.7'}},'Original Android app by jwaga.'),
     h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'8px'}},
       h('a',{href:'https://github.com/jwaga/esmnyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'GitHub ↗'),
-      h('a',{href:'https://play.google.com/store/apps/details?id=pl.eastsidemandala.nyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Android App ↗'),
-      h('a',{href:'https://slicedharma.com/wp-content/uploads/2026/01/Ngondro_Daily_Practice_Karma_Kagyu-22-01-26-1.pdf',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Practice Notes ↗')
+      h('a',{href:'https://play.google.com/store/apps/details?id=pl.eastsidemandala.nyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Android App ↗')
     ))));
   w.appendChild(h('hr',{cls:'rule'}));
   w.appendChild(sec('TIBETAN CALENDAR',h('div',{},
