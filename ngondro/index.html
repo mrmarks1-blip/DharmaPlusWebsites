@@ -2464,6 +2464,8 @@ function mountRefuge(ov){
 // ═══════════════════════════════════════════════════════════
 dailySnapshot();
 if(hasPracticeData())keepStorage();
+// Coming from the home page's "Add it to your phone" button: open the install help once.
+if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
 render();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(document.documentElement.getAttribute('data-theme')==='auto')render();});
 let lastW=innerWidth,rzT;
