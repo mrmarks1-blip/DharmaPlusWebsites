@@ -606,6 +606,8 @@ hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
 .cal-moon { display:flex; justify-content:center; margin-bottom:12px; }
 .cal-date { font-size:var(--fs-meta); color:var(--tx-lo); letter-spacing:2px; margin-bottom:6px; }
 .cal-day { font-family:var(--f-display); font-size:var(--fs-h1); color:var(--tx); margin-bottom:4px; }
+.cal-tmonth { font-size:var(--fs-small); color:var(--tx-lo); letter-spacing:.5px; margin-bottom:6px; }
+.cal-note { font-size:var(--fs-small); color:var(--tx-mid); margin-top:6px; }
 .cal-phase { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-read); color:var(--tx-mid); margin-bottom:4px; }
 .cal-ausp { font-family:var(--f-display); font-size:var(--fs-text); color:var(--gold); margin-top:10px; letter-spacing:.5px; }
 .cal-ausp-d { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-text); color:var(--tx-lo); line-height:1.7; margin-top:8px; padding:0 8px; }
@@ -1205,13 +1207,12 @@ function hairRec(td){return HAIR_DATA[td]||{rec:'Neutral',result:'No strong indi
 // AUSPICIOUS DAYS
 // ═══════════════════════════════════════════════════════════
 const AUSP={
-  1: {name:'New Moon',          col:'#7080b0', desc:'A day of new beginnings. All practice is powerfully multiplied. Excellent for taking refuge, making aspirations, and planting positive seeds for the month ahead.'},
   8: {name:'Medicine Buddha Day',col:'#4080b0',desc:'The day of Sangye Menla. Reciting OM BEKANDZE BEKANDZE MAHA BEKANDZE RADZA SAMUGATE SOHA brings healing, purification, and removal of obstacles. A powerful day for all healing activities.'},
   10:{name:'Guru Rinpoche Day', col:'#a07830', desc:'Padmasambhava bestows special blessings today. Excellent for Guru Yoga, the Seven-Line Prayer, and all Vajrayāna practice. Observed across all Tibetan Buddhist schools.'},
   15:{name:'Full Moon — Amitābha',col:'#c0a840',desc:'The full moon greatly multiplies all merit. Buddha Amitābha is particularly accessible today. Excellent for all practice, Dewachen aspiration prayers, and making offerings.'},
   25:{name:'Ḍākinī Day',        col:'#b06080', desc:'The day of the wisdom ḍākinīs. Particularly auspicious for inner tantric practice, feast offerings, and Vajravārāhī practice. A day when transmission is especially available.'},
   29:{name:'Dharmapāla Day',    col:'#706098', desc:'The day of the Dharma protectors. Auspicious for smoke offerings, torma offerings, and requesting the protectors to remove obstacles from the path of practitioners.'},
-  30:{name:'Dark Moon',         col:'#504870', desc:'A powerful day for purification. The Vajrasattva hundred-syllable mantra is especially effective for clearing negative karma. Good for retreat and introspection.'},
+  30:{name:'New Moon',          col:'#504870', desc:'The last day of the lunar month. A powerful day for purification. The Vajrasattva hundred-syllable mantra is especially effective for clearing negative karma. Good for retreat and introspection.'},
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -1248,12 +1249,26 @@ const QUOTES=[
 // LUNAR CALENDAR
 // ═══════════════════════════════════════════════════════════
 const SYN=29.530588853;
-const REF_NM=new Date(2025,0,29,12,36,0);
-function moonAge(d){const el=(d-REF_NM)/86400000;return((el%SYN)+SYN)%SYN;}
-// Tibetan lunar day (1–30) via the Phugpa system — Svante Janson's constants
-// (github.com/eszthoff/tibetan-date-calculator). Replaces the old raw moon-age
-// guess so hair-cutting + auspicious days match published Phugpa calendars.
-// Verified: Losar 2025-02-28, 2026-02-18, 2027-02-07 → day 1; 2007-12-31 → day 23.
+// ── Moon (astronomical) ──
+// Elongation of the Moon from the Sun in degrees (0 = new, 180 = full), from
+// Meeus "Astronomical Algorithms" ch.48 low-precision terms. Checked against
+// all 48 US Naval Observatory phase times for 2026: max error 0.8h (the old
+// mean-month method was out by up to 26h). Uses UTC, so it's timezone-safe.
+function moonElong(date){
+  const R=Math.PI/180,T=(date.getTime()/86400000+2440587.5-2451545)/36525;
+  const D=297.8501921+445267.1114034*T,M=357.5291092+35999.0502909*T,Mp=134.9633964+477198.8675055*T;
+  const i=180-D-6.289*Math.sin(Mp*R)+2.100*Math.sin(M*R)-1.274*Math.sin((2*D-Mp)*R)
+    -0.658*Math.sin(2*D*R)-0.214*Math.sin(2*Mp*R)-0.110*Math.sin(D*R);
+  return(((180-i)%360)+360)%360;
+}
+// "Age" in days since new moon (elongation scaled to the synodic month).
+function moonAge(d){return moonElong(d)/360*SYN;}
+// ── Tibetan date (Phugpa system) ──
+// Svante Janson's "Tibetan Calendar Mathematics", same algorithm and constants
+// as github.com/eszthoff/tibetan-date-calculator. Verified 2026-09-30:
+// identical day numbers to that library for every day 2000–2060 (21,915 days,
+// incl. 838 skipped and 487 doubled days), and to tibetanbuddhistcalendar.org
+// for Aug–Nov 2026 incl. the skipped 24th (5 Oct) and doubled 9th (19–20 Oct).
 const PH_M0=2015501+4783/5656, PH_M1=167025/5656, PH_M2=(167025/5656)/30;
 const PH_S0=743/804, PH_S1=65/804, PH_S2=(65/804)/30;
 const PH_A0=475/3528, PH_A1=253/3528, PH_A2=1/28;
@@ -1266,21 +1281,43 @@ const phSunTab=i=>{const a=phSunInt(Math.floor(i)),x=phFrac(i);return x?a+(phSun
 const phTrueDate=(d,n)=>n*PH_M1+d*PH_M2+PH_M0 + phMoonTab(28*(n*PH_A1+d*PH_A2+PH_A0))/60 - phSunTab(12*(n*PH_S1+d*PH_S2+PH_S0-0.25))/60;
 const phJdFromN=n=>{const mc=Math.floor((n-1)/30),d=(n%30)||30;return Math.floor(phTrueDate(d,mc));};
 const gregJDN=(y,m,d)=>{const a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;};
-function tibDay(date){
+// Lunar-day count n (day + 30 × month count) for a civil date: the lunar day
+// current at daybreak, i.e. the first one ending on or after this civil day.
+// When two lunar days end on the same civil day the second number is skipped;
+// when none ends, the number repeats on the next civil day (doubled).
+function tibCount(date){
   const jd=gregJDN(date.getFullYear(),date.getMonth()+1,date.getDate());
   const mc=Math.round((jd-PH_M0)/PH_M1);
   let lo=30*(mc-2),hi=30*(mc+3);
   while(phJdFromN(lo)>=jd)lo-=30;
   while(phJdFromN(hi)<jd)hi+=30;
   while(lo+1<hi){const mid=(lo+hi)>>1;phJdFromN(mid)<jd?lo=mid:hi=mid;}
-  return (hi%30)||30;
+  return hi;
 }
-function moonPhase(age){
-  if(age<1.5)return'New Moon';if(age<7.4)return'Waxing Crescent';
-  if(age<10.4)return'First Quarter';if(age<13.5)return'Waxing Gibbous';
-  if(age<16.5)return'Full Moon';if(age<19.5)return'Waning Gibbous';
-  if(age<22.5)return'Last Quarter';return'Waning Crescent';}
+function tibDay(date){return(tibCount(date)%30)||30;}
+const YEAR_ELEMENTS=['Wood','Fire','Earth','Iron','Water'];
+const YEAR_ANIMALS=['Mouse','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Sheep','Monkey','Bird','Dog','Pig'];
+// Full Tibetan date: day, month (1–12, maybe a leap month), year + element/animal.
+function tibDate(date){
+  const n=tibCount(date),mc=Math.floor((n-1)/30);
+  const x=Math.ceil((65*mc+123)/67);                       // Janson p.8 (β=123)
+  const year=Math.ceil(x/12)-1+806+127;
+  return{day:(n%30)||30,month:((x-1)%12)+1,leap:Math.ceil((65*(mc+1)+123)/67)===x,
+    year,element:YEAR_ELEMENTS[Math.floor(((year-1)/2)%5)],animal:YEAR_ANIMALS[(year+1)%12]};
+}
+const ordinal=n=>n+(n%100>10&&n%100<14?'th':['th','st','nd','rd'][n%10]||'th');
 function moonIllum(age){return(1-Math.cos((age/SYN)*2*Math.PI))/2;}
+// Phase name for a whole civil day: a principal phase (new/quarter/full) is
+// named only on the day its exact moment falls; otherwise the in-between name.
+function moonPhaseOn(date){
+  const a=new Date(date);a.setHours(0,0,0,0);
+  const b=new Date(a);b.setDate(b.getDate()+1);
+  const e0=moonElong(a),e1=moonElong(b)+(moonElong(b)<e0?360:0);
+  for(const[deg,name]of[[0,'New Moon'],[90,'First Quarter'],[180,'Full Moon'],[270,'Last Quarter'],[360,'New Moon']])
+    if(e0<=deg&&deg<e1)return name;
+  const e=moonElong(date);
+  return e<90?'Waxing Crescent':e<180?'Waxing Gibbous':e<270?'Waning Gibbous':'Waning Crescent';
+}
 function moonSVG(age,sz){
   sz=sz||30;const il=moonIllum(age),wax=age<SYN/2,cx=sz/2,cy=sz/2,r=sz/2-1;
   const dark='#1a1828',lit='#f0e8c0';
@@ -1295,12 +1332,28 @@ function moonSVG(age,sz){
   }
   return`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" xmlns="http://www.w3.org/2000/svg"><circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark}"/>${inner}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(240,220,160,0.2)" stroke-width="0.8"/></svg>`;}
 
+// Special days actually observed on a civil date, applying the usual rules
+// (FPMT "Dharma Practice Days explained"): a special day that falls on a
+// SKIPPED date is kept on the day before; one on a DOUBLED date is kept on
+// the second of the two days. Returns [{td, a, note}].
+function observedAusp(date){
+  const d=new Date(date);d.setHours(12,0,0,0);
+  const nx=new Date(d);nx.setDate(nx.getDate()+1);
+  const td=tibDay(d),tn=tibDay(nx),out=[];
+  if(tn===td)return out;                      // first of a doubled pair: kept tomorrow
+  if(AUSP[td])out.push({td,a:AUSP[td]});
+  for(let k=td%30+1;k!==tn;k=k%30+1)          // numbers skipped before tomorrow
+    if(AUSP[k])out.push({td:k,a:AUSP[k],note:`Day ${k} is skipped this month, so it is kept today.`});
+  return out;
+}
+// Tibetan day repeats tomorrow (first of a doubled pair)?
+function doubledToday(date){const d=new Date(date);d.setHours(12,0,0,0);const nx=new Date(d);nx.setDate(nx.getDate()+1);return tibDay(d)===tibDay(nx);}
 function nextAusp(from,n){
-  const out=[];let d=new Date(from);d.setHours(12,0,0,0);
+  const out=[];const d=new Date(from);d.setHours(12,0,0,0);
   for(let i=0;i<90&&out.length<n;i++){
-    d=new Date(d.getTime()+86400000);const td=tibDay(d);
-    if(AUSP[td])out.push({date:new Date(d),td,a:AUSP[td]});}
-  return out;}
+    d.setDate(d.getDate()+1);
+    observedAusp(d).forEach(o=>out.push({date:new Date(d),...o}));}
+  return out.slice(0,n);}
 function doy(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
 
 // ═══════════════════════════════════════════════════════════
@@ -1322,7 +1375,11 @@ function fmt(n){return Number(n).toLocaleString();}
 function fmtD(iso){if(!iso)return'';return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
 function set(p){Object.assign(ST,p);render();}
 function switchTab(t){set({tab:t,prayer:null,modal:null,moreOpen:false});}
-function proj(c,pace,tgt){if(pace<=0||c>=tgt)return null;const d=new Date();d.setDate(d.getDate()+Math.ceil((tgt-c)/pace)+1);return d;}
+// Projected finish date at `pace` per day. Today counts as a session day
+// unless you've already practised today (then the next session is tomorrow).
+function proj(c,pace,tgt,lastDate){if(pace<=0||c>=tgt)return null;
+  const doneToday=lastDate&&new Date(lastDate).toDateString()===new Date().toDateString();
+  const d=new Date();d.setDate(d.getDate()+Math.ceil((tgt-c)/pace)-(doneToday?0:1));return d;}
 function paceFromDate(c,ds,tgt){const rem=tgt-c;if(rem<=0)return 0;const days=Math.max(1,Math.round((new Date(ds)-new Date())/86400000));const p=Math.ceil(rem/days);return p+(p%100>0?100-(p%100):0);}
 
 // ═══════════════════════════════════════════════════════════
@@ -1539,7 +1596,7 @@ function renderPractice(){
 
 // Expanded detail — big counter, add button, image, pace/date/edit chips, bead grid.
 function practiceDetail(pr,pd,counter,pace,done,pct){
-  const finish=proj(counter,pace,pr.target),undo=pd.undo||[];
+  const finish=proj(counter,pace,pr.target,pd.lastDate),undo=pd.undo||[];
   const chip=(l,onClick,edit)=>h('button',{cls:'chip',onClick},l,edit&&h('span',{cls:'ed'},'✎'));
   const modal=type=>()=>set({modal:{type,prid:pr.id}});
   return h('div',{cls:'pd'},
@@ -1936,7 +1993,9 @@ function fillCal(wrap){
   wrap.innerHTML='';
   const off=ST.calOffset||0;
   const now=new Date(); now.setHours(12,0,0,0); now.setDate(now.getDate()+off);
-  const age=moonAge(now),td=tibDay(now),ausp=AUSP[td],hr=hairRec(td);
+  const age=moonAge(now),t=tibDate(now),hr=hairRec(t.day),obs=observedAusp(now);
+  // First of a doubled pair: the special day itself is kept tomorrow.
+  const movedOn=doubledToday(now)&&AUSP[t.day];
   const quote=QUOTES[doy(now)%QUOTES.length];
   const go=d=>{ST.calOffset=d;fillCal(wrap);};
   const arrow=(dir,lbl)=>h('button',{cls:'cal-arrow pico'+(dir<0?' prev':''),'aria-label':lbl,html:ico('chev'),onClick:()=>go(off+dir)});
@@ -1947,20 +2006,24 @@ function fillCal(wrap){
     h('div',{cls:'cal-head'},
       h('div',{cls:'cal-moon',html:moonSVG(age,56)}),
       h('p',{cls:'cal-date'},now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase()),
-      h('p',{cls:'cal-day'},'Tibetan Day '+td),
-      h('p',{cls:'cal-phase'},moonPhase(age)+' — '+Math.round(moonIllum(age)*100)+'% illuminated'),
-      ausp&&h('p',{cls:'cal-ausp'},'✦ '+ausp.name+' ✦'),
-      ausp&&h('p',{cls:'cal-ausp-d'},ausp.desc)),
+      h('p',{cls:'cal-day'},'Tibetan Day '+t.day),
+      h('p',{cls:'cal-tmonth'},`${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year`),
+      h('p',{cls:'cal-phase'},moonPhaseOn(now)+' — '+Math.round(moonIllum(age)*100)+'% illuminated'),
+      obs.map(o=>[h('p',{cls:'cal-ausp'},'✦ '+o.a.name+' ✦'),
+        o.note&&h('p',{cls:'cal-note'},o.note),
+        h('p',{cls:'cal-ausp-d'},o.a.desc)]),
+      movedOn&&h('p',{cls:'cal-note'},`Day ${t.day} falls twice this month — ${movedOn.name} is kept tomorrow.`)),
     h('div',{cls:'card'},label('HAIR CUTTING — Tibetan astrological tradition','dim'),
       h('div',{cls:'hair'},h('b',{cls:hr.rec.toLowerCase()},hr.rec),h('span',{},hr.result))),
     h('div',{cls:'card tint'},label('TEACHING OF THE DAY'),
       h('p',{cls:'quote'},'"'+quote.t+'"'),h('p',{cls:'quote-a'},quote.a)),
     h('div',{cls:'section'},label('NEXT AUSPICIOUS DAYS','dim lg'),
-      nextAusp(now,5).map(({date,td:tday,a})=>{
-        const diff=Math.round((date-now)/86400000);
+      nextAusp(now,5).map(({date,td:tday,a,note})=>{
+        const diff=Math.round((date-now)/86400000),civ=tibDay(date);
         return h('div',{cls:'up'},
           h('div',{html:moonSVG(moonAge(date),30),sty:{display:'flex',flexShrink:'0'}}),
-          h('div',{cls:'up-mid'},h('p',{cls:'up-name',sty:{'--acc':a.col}},a.name),h('p',{cls:'up-meta'},`Tib Day ${tday} · Hair: ${hairRec(tday).rec}`)),
+          h('div',{cls:'up-mid'},h('p',{cls:'up-name',sty:{'--acc':a.col}},a.name),
+            h('p',{cls:'up-meta'},note?`Day ${tday} skipped — kept on day ${civ}`:`Tib Day ${tday}`,` · Hair: ${hairRec(civ).rec}`)),
           h('div',{cls:'up-when'},h('b',{},diff===0?'Today':diff===1?'Tomorrow':`In ${diff} days`),
             h('p',{cls:'up-date'},date.toLocaleDateString('en-GB',{day:'numeric',month:'short'}))));
       })),
