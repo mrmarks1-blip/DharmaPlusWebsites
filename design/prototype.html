@@ -1,0 +1,613 @@
+<title>Dharma Practice V10</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tibetan:wght@400;600&display=swap">
+<style>
+/* Layout: proposal page = a working phone prototype beside the design notes
+   (stacked on phones). The phone is the product; the notes explain it.
+   Palette: "shrine room" — butter-lamp saffron on rice paper by day,
+   lamp-lit umber at night; lapis for information, robe maroon used sparingly. */
+:root {
+  /* page chrome */
+  --pg-bg:#ebe4d5; --pg-ink:#2a2118; --pg-mid:#65563f; --pg-line:#d6c9b0; --pg-card:#f6f1e6; --pg-accent:#9a4f06;
+  /* app — light ("rice paper") */
+  --bg:#f7f2e6; --surface:#fffbf2; --sunk:#efe7d6; --ink:#211910; --ink-2:#56463a; --ink-3:#7d6b57; --line:#e2d6bf;
+  --saffron:#b35e0b; --on-saffron:#fffaf0; --saffron-ink:#8f4a05; --glow:rgba(214,140,40,.16);
+  --lapis:#2d4c8c; --maroon:#7a2230; --ok:#2f7a45; --bad:#a8402c; --bead:#b35e0b; --bead-off:rgba(120,90,50,.22);
+  --f-ui:'Atkinson Hyperlegible Next','Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --f-tib:'Noto Serif Tibetan','Microsoft Himalaya','Kokonor',serif;
+  --scale:1;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --pg-bg:#100d0a; --pg-ink:#eee4d2; --pg-mid:#b2a28a; --pg-line:#342b21; --pg-card:#1a1612; --pg-accent:#e7a24e;
+  color-scheme:dark;
+} }
+:root[data-theme="dark"] {
+  --pg-bg:#100d0a; --pg-ink:#eee4d2; --pg-mid:#b2a28a; --pg-line:#342b21; --pg-card:#1a1612; --pg-accent:#e7a24e;
+  color-scheme:dark;
+}
+/* The app's own Appearance setting: Automatic follows the viewer; Light/Dark force it. */
+:root[data-theme="dark"] .app:not([data-look="light"]) {
+  --bg:#15110c; --surface:#1f1a13; --sunk:#110e0a; --ink:#f3e9d7; --ink-2:#cbbb9f; --ink-3:#978770; --line:#352d22;
+  --saffron:#e3903a; --on-saffron:#1b1206; --saffron-ink:#f2aa55; --glow:rgba(227,144,58,.13);
+  --lapis:#93b3ee; --maroon:#e0939e; --ok:#79c58f; --bad:#eb8f7b; --bead:#e3903a; --bead-off:rgba(240,220,180,.16);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .app:not([data-look="light"]) {
+  --bg:#15110c; --surface:#1f1a13; --sunk:#110e0a; --ink:#f3e9d7; --ink-2:#cbbb9f; --ink-3:#978770; --line:#352d22;
+  --saffron:#e3903a; --on-saffron:#1b1206; --saffron-ink:#f2aa55; --glow:rgba(227,144,58,.13);
+  --lapis:#93b3ee; --maroon:#e0939e; --ok:#79c58f; --bad:#eb8f7b; --bead:#e3903a; --bead-off:rgba(240,220,180,.16);
+} }
+.app[data-look="dark"] {
+  --bg:#15110c; --surface:#1f1a13; --sunk:#110e0a; --ink:#f3e9d7; --ink-2:#cbbb9f; --ink-3:#978770; --line:#352d22;
+  --saffron:#e3903a; --on-saffron:#1b1206; --saffron-ink:#f2aa55; --glow:rgba(227,144,58,.13);
+  --lapis:#93b3ee; --maroon:#e0939e; --ok:#79c58f; --bad:#eb8f7b; --bead:#e3903a; --bead-off:rgba(240,220,180,.16);
+}
+
+* { box-sizing:border-box; }
+body { margin:0; background:var(--pg-bg); color:var(--pg-ink); font-family:var(--f-ui); font-size:17px; line-height:1.55; }
+button { font:inherit; color:inherit; cursor:pointer; }
+:focus-visible { outline:3px solid var(--pg-accent); outline-offset:2px; }
+
+/* ── Proposal page ── */
+.wrap { max-width:1180px; margin:0 auto; padding-inline:20px; padding-block:28px 60px; }
+.intro { max-width:760px; margin-bottom:26px; }
+.intro .kicker { font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--pg-accent); font-weight:700; }
+.intro h1 { font-family:var(--f-display); font-weight:600; font-size:clamp(30px,5vw,44px); line-height:1.1; margin:6px 0 10px; text-wrap:balance; }
+.intro p { margin:0; color:var(--pg-mid); max-width:62ch; }
+.layout { display:grid; grid-template-columns:minmax(0,420px) minmax(0,1fr); gap:44px; align-items:start; }
+.stage { position:sticky; top:20px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.stage-note { font-size:14px; color:var(--pg-mid); text-align:center; max-width:360px; }
+@media (max-width: 900px) { .layout { grid-template-columns:minmax(0,1fr); } .stage { position:static; } }
+
+.notes { min-width:0; display:flex; flex-direction:column; gap:30px; }
+.notes section { display:flex; flex-direction:column; gap:10px; }
+.notes h2 { font-family:var(--f-display); font-weight:600; font-size:25px; line-height:1.2; margin:0; text-wrap:balance; }
+.notes h3 { font-size:17px; margin:8px 0 0; }
+.notes p, .notes li { max-width:66ch; }
+.notes p { margin:0; }
+.notes ul, .notes ol { margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:6px; }
+.notes .mid { color:var(--pg-mid); }
+.who { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+.who div { background:var(--pg-card); border:1px solid var(--pg-line); border-radius:12px; padding:14px 16px; }
+.who b { display:block; margin-bottom:4px; }
+.freq { list-style:none; padding:0 !important; gap:0 !important; border-top:1px solid var(--pg-line); }
+.freq li { display:grid; grid-template-columns:7.5em 1fr; gap:12px; padding:10px 0; border-bottom:1px solid var(--pg-line); max-width:none; }
+.freq em { font-style:normal; color:var(--pg-accent); font-weight:700; }
+.compare { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+.compare div { border:1px solid var(--pg-line); border-radius:12px; padding:14px 16px; background:var(--pg-card); }
+.compare b { display:block; font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--pg-mid); margin-bottom:6px; }
+.compare .now b { color:var(--pg-accent); }
+.phase { border-left:4px solid var(--pg-accent); padding-left:14px; }
+.phase.later { border-left-color:var(--pg-line); }
+.ask { background:var(--pg-card); border:1px solid var(--pg-line); border-radius:14px; padding:18px 20px; }
+.src { font-size:14px; color:var(--pg-mid); }
+.src a { color:inherit; }
+
+/* ── Phone ── */
+.phone {
+  width:100%; max-width:392px; height:min(800px, calc(100dvh - 90px)); min-height:620px;
+  border-radius:44px; padding:12px; background:#1b1611; box-shadow:0 30px 60px -20px rgba(40,20,0,.45), inset 0 0 0 2px #3a3026;
+}
+@media (max-width: 480px) { .phone { border-radius:30px; padding:8px; height:760px; } }
+.app {
+  height:100%; border-radius:34px; overflow:hidden; position:relative;
+  background:var(--bg); color:var(--ink); font-family:var(--f-ui);
+  font-size:calc(17px * var(--scale)); line-height:1.5; display:flex; flex-direction:column;
+}
+@media (max-width: 480px) { .app { border-radius:24px; } }
+.screen { flex:1; overflow-y:auto; padding:22px 20px 28px; display:flex; flex-direction:column; gap:18px; }
+.tabbar { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); background:var(--surface); padding:6px 4px 10px; }
+.tab { background:none; border:0; display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 2px; color:var(--ink-2); font-size:13px; font-weight:600; min-height:56px; border-radius:12px; }
+.tab svg { width:26px; height:26px; }
+.tab.on { color:var(--saffron-ink); background:var(--glow); }
+
+.row { display:flex; align-items:center; gap:12px; }
+.h1 { font-family:var(--f-display); font-weight:600; font-size:calc(30px * var(--scale)); line-height:1.15; margin:0; }
+.h2 { font-size:calc(15px * var(--scale)); font-weight:700; letter-spacing:.04em; color:var(--ink-2); margin:6px 0 -6px; }
+.sub { color:var(--ink-2); margin:0; }
+.small { font-size:calc(15px * var(--scale)); color:var(--ink-2); }
+.card { background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:16px; }
+.iconbtn { width:48px; height:48px; border-radius:14px; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; color:var(--ink-2); flex-shrink:0; }
+.iconbtn svg { width:24px; height:24px; }
+.btn { min-height:54px; border-radius:14px; border:0; padding:12px 18px; font-weight:700; font-size:calc(17px * var(--scale)); display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+.btn.primary { background:var(--saffron); color:var(--on-saffron); }
+.btn.soft { background:var(--sunk); color:var(--ink); border:1px solid var(--line); }
+.btn.ghost { background:none; color:var(--saffron-ink); text-decoration:underline; text-underline-offset:3px; }
+.btn.wide { width:100%; }
+.btn svg { width:22px; height:22px; }
+
+/* Today */
+.greet { font-family:var(--f-display); font-weight:600; font-size:calc(28px * var(--scale)); line-height:1.2; flex:1; }
+.daycard { width:100%; text-align:left; display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:14px 16px; }
+.daycard b { display:block; font-size:calc(18px * var(--scale)); }
+.daycard .tibnum { font-family:var(--f-tib); font-size:1.05em; color:var(--saffron-ink); }
+.daycard .chev { margin-left:auto; color:var(--ink-3); }
+.special { border-radius:18px; padding:16px; background:var(--glow); border:1px solid color-mix(in srgb,var(--saffron) 35%,transparent); }
+.special b { display:block; font-size:calc(19px * var(--scale)); color:var(--saffron-ink); }
+.special p { margin:4px 0 0; color:var(--ink-2); }
+.pcard { display:flex; flex-direction:column; gap:12px; }
+.pname { font-family:var(--f-display); font-weight:600; font-size:calc(24px * var(--scale)); line-height:1.15; }
+.pnum { font-size:calc(17px * var(--scale)); color:var(--ink-2); }
+.pnum b { color:var(--ink); font-size:calc(22px * var(--scale)); }
+.bar { height:10px; border-radius:6px; background:var(--sunk); overflow:hidden; }
+.bar i { display:block; height:100%; background:var(--saffron); border-radius:6px; }
+.pbtns { display:grid; grid-template-columns:2fr 1fr; gap:10px; }
+.pbtns .btn { white-space:nowrap; padding-inline:12px; }
+.week { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; text-align:center; }
+.week span { font-size:13px; color:var(--ink-3); font-weight:700; }
+.week i { display:block; margin:4px auto 0; width:30px; height:30px; border-radius:50%; border:2px solid var(--line); }
+.week i.y { background:var(--saffron); border-color:var(--saffron); }
+.week i.t { border-color:var(--saffron); border-style:dashed; }
+.quote { font-family:var(--f-display); font-size:calc(20px * var(--scale)); line-height:1.45; margin:0; }
+.quote-a { margin:8px 0 0; color:var(--ink-2); font-size:calc(15px * var(--scale)); }
+.hair b.good { color:var(--ok); } .hair b.avoid { color:var(--bad); }
+
+/* Lists */
+.list { display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden; }
+.item { display:flex; align-items:center; gap:14px; padding:14px 16px; min-height:64px; border:0; border-bottom:1px solid var(--line); background:none; text-align:left; width:100%; }
+.item:last-child { border-bottom:0; }
+.item .t { font-weight:700; font-size:calc(18px * var(--scale)); display:block; }
+.item .s { color:var(--ink-2); font-size:calc(15px * var(--scale)); display:block; }
+.item .grow { flex:1; min-width:0; }
+.item .chev { color:var(--ink-3); }
+.dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+.minibar { height:6px; border-radius:4px; background:var(--sunk); overflow:hidden; margin-top:6px; }
+.minibar i { display:block; height:100%; background:var(--saffron); }
+.tag { font-size:13px; font-weight:700; padding:3px 8px; border-radius:8px; background:var(--sunk); color:var(--ink-2); }
+.tag.ok { color:var(--ok); }
+.bigtile { display:flex; gap:16px; align-items:center; text-align:left; width:100%; border-radius:20px; border:0; padding:20px 18px; background:var(--saffron); color:var(--on-saffron); }
+.bigtile b { display:block; font-size:calc(21px * var(--scale)); }
+.bigtile span { opacity:.92; }
+.bigtile svg { width:40px; height:40px; flex-shrink:0; }
+
+/* Overlays (full-screen within the phone) */
+.overlay { position:absolute; inset:0; background:var(--bg); display:flex; flex-direction:column; z-index:5; }
+.ovtop { display:flex; align-items:center; gap:12px; padding:16px 16px 8px; }
+.ovtop .title { flex:1; font-weight:700; font-size:calc(18px * var(--scale)); text-align:center; }
+.sheetveil { position:absolute; inset:0; background:rgba(10,6,2,.45); display:flex; align-items:flex-end; z-index:8; }
+.sheet { width:100%; background:var(--surface); border-radius:26px 26px 0 0; padding:10px 20px 24px; display:flex; flex-direction:column; gap:14px; max-height:92%; overflow-y:auto; }
+.grab { width:44px; height:5px; border-radius:3px; background:var(--line); margin:4px auto 2px; }
+.seg { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.seg button { min-height:54px; border-radius:14px; border:2px solid var(--line); background:var(--bg); font-weight:700; }
+.seg button.on { border-color:var(--saffron); background:var(--glow); color:var(--saffron-ink); }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chips span { padding:8px 12px; border-radius:12px; background:var(--sunk); font-size:15px; }
+.toast { position:absolute; left:16px; right:16px; bottom:86px; background:var(--ink); color:var(--bg); border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:10px; z-index:9; font-weight:600; }
+.toast button { margin-left:auto; background:none; border:0; color:inherit; text-decoration:underline; font-weight:700; min-height:40px; }
+
+/* Session */
+.tapzone { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; user-select:none; -webkit-user-select:none; touch-action:manipulation; position:relative; }
+.mala { width:min(78%,290px); aspect-ratio:1; position:relative; }
+.mala svg { width:100%; height:100%; display:block; }
+.mala .n { position:absolute; inset:0; display:grid; place-items:center; text-align:center; }
+.mala .n b { display:block; font-size:calc(64px * var(--scale)); font-weight:600; line-height:1; font-variant-numeric:tabular-nums; }
+.mala .n span { color:var(--ink-2); font-size:calc(15px * var(--scale)); }
+.tapzone .hint { color:var(--ink-2); }
+.sessbar { display:grid; grid-template-columns:1fr 2fr; gap:10px; padding:12px 16px 20px; }
+.awake { font-size:13px; color:var(--ink-3); text-align:center; }
+.pulse { animation:pulse .25s ease-out; }
+@keyframes pulse { from { transform:scale(1.035); } to { transform:scale(1); } }
+
+/* Chant view */
+.verse { flex:1; overflow-y:auto; padding:10px 22px 20px; display:flex; flex-direction:column; justify-content:center; gap:16px; }
+.vt { font-family:var(--f-tib); font-size:calc(24px * var(--scale)); line-height:1.8; color:var(--maroon); margin:0; }
+.vp { font-size:calc(25px * var(--scale)); font-weight:700; line-height:1.35; margin:0; letter-spacing:.01em; }
+.ve { font-size:calc(18px * var(--scale)); color:var(--ink-2); margin:0; line-height:1.55; }
+.vsec { font-weight:700; color:var(--saffron-ink); font-size:calc(15px * var(--scale)); letter-spacing:.04em; }
+.vnav { display:grid; grid-template-columns:1fr 1.6fr; gap:10px; padding:10px 16px 20px; }
+.vcount { text-align:center; color:var(--ink-3); font-size:14px; }
+
+/* Calendar */
+.cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.cal .dow { text-align:center; font-size:13px; font-weight:700; color:var(--ink-3); padding-bottom:2px; }
+.cday { border-radius:12px; min-height:52px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); }
+.cday b { font-size:17px; line-height:1.1; }
+.cday span { font-size:11px; color:var(--ink-3); }
+.cday.sp { background:var(--glow); border-color:var(--saffron); }
+.cday.sp b { color:var(--saffron-ink); }
+.cday.today { outline:3px solid var(--lapis); outline-offset:-2px; }
+.cday.blank { background:none; border:0; }
+.legend { display:flex; flex-direction:column; gap:8px; }
+.legend div { display:flex; gap:12px; align-items:baseline; }
+.legend time { min-width:5.6em; font-weight:700; }
+
+/* Breathing */
+.breath { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:10px 22px; text-align:center; }
+.orb { width:190px; height:190px; border-radius:50%; background:radial-gradient(circle at 50% 45%, #fffdf6, #efe3c8 60%, #d9c49a); box-shadow:0 0 60px rgba(255,236,190,.55); transform:scale(.6); transition:transform 5s ease-in-out, filter 1s; }
+.orb.in { transform:scale(1); }
+.orb.hold { transform:scale(1); }
+.orb.out { transform:scale(.6); transition-duration:6s; filter:grayscale(1) brightness(.55); }
+.bstep { font-size:calc(21px * var(--scale)); font-weight:700; margin:0; }
+.bdesc { color:var(--ink-2); margin:0; max-width:30ch; }
+.nost { display:flex; gap:10px; justify-content:center; }
+.nost span { padding:6px 12px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-size:14px; color:var(--ink-3); }
+.nost span.open { border-color:var(--saffron); color:var(--saffron-ink); background:var(--glow); }
+@media (prefers-reduced-motion: reduce) { .orb, .orb.out { transition:none; } .pulse { animation:none; } }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <div class="kicker">Proposal for V10 · 30 Sep 2026</div>
+    <h1>Dharma Practice, rebuilt around the practitioner</h1>
+    <p>A working prototype of the new structure, with the thinking behind it. Tap through it like the real app: count a session, open a prayer, check the calendar, try the breathing guide. The Tibetan date, moon and special days are calculated live with the app's verified calendar. Practice numbers are examples.</p>
+  </header>
+
+  <div class="layout">
+    <div class="stage">
+      <div class="phone"><div class="app" id="app" data-look="auto"></div></div>
+      <p class="stage-note">Everything inside the phone works. On a real phone the session screen stays awake and gives a small buzz on each tap.</p>
+    </div>
+
+    <article class="notes">
+      <section>
+        <h2>Who opens this app</h2>
+        <div class="who">
+          <div><b>The committed practitioner</b>Doing ngöndro, often over years. Mostly 40 to 75. Wants to log today's practice fast and never lose the total.</div>
+          <div><b>The newcomer</b>Just received the teaching. Unsure what the practices are or what "Dorje Sempa" means. Needs a gentle way in.</div>
+          <div><b>The person the pecha shuts out</b>Dyslexia, low vision, or simply not "a tech person". Every extra word, tap or small grey label is a barrier.</div>
+        </div>
+        <p class="mid">Where they are: a shrine room, low light, early morning or late evening. The phone is on the cushion or in the lap, often used one-handed while the other hand holds a mala.</p>
+      </section>
+
+      <section>
+        <h2>What they come to do, most often first</h2>
+        <ul class="freq">
+          <li><em>Every day</em><span>Add today's practice to their total. <span class="mid">Today: 3 taps deep, inside an accordion.</span></span></li>
+          <li><em>Every day</em><span>Count while practising. <span class="mid">Today: a separate "Tap counter" tab that doesn't know which practice it is for.</span></span></li>
+          <li><em>Most days</em><span>See what day it is. Is it a special day? <span class="mid">Today: below three menu tiles on Home.</span></span></li>
+          <li><em>In a session</em><span>Read a prayer while chanting. <span class="mid">Today: one long scroll with small type.</span></span></li>
+          <li><em>Now and then</em><span>Learn about the refuge tree or a practice.</span></li>
+          <li><em>Rarely</em><span>Change the look, back up, read credits. <span class="mid">Today: a whole nav item, and 9 themes on show.</span></span></li>
+        </ul>
+        <p>The current app gives each of these the same weight. The redesign puts the top two behind one tap from opening the app.</p>
+      </section>
+
+      <section>
+        <h2>Six principles</h2>
+        <ol>
+          <li><b>Open to Today.</b> One calm screen answers "what day is it, and what's my practice?" with one big button to begin.</li>
+          <li><b>One job per screen.</b> Each screen has one obvious next step. No accordions, no sub-tabs, no hidden menus.</li>
+          <li><b>Big and plain.</b> 17px text or larger, buttons at least 48px tall, a word under every icon, no small-caps labels, and no italics for reading. This follows the British Dyslexia Association guide and research on apps for older adults.</li>
+          <li><b>Practice, not productivity.</b> A session opens like a practice and closes with dedication of merit. Progress is shown gently ("4 days this week"). There are no streaks to break and no guilt.</li>
+          <li><b>Made for the shrine room.</b> The screen stays awake while counting. The whole screen is the tap area. A small buzz marks each tap and a longer one each full mala. Dark mode is properly dim.</li>
+          <li><b>Your numbers are safe.</b> Years of accumulations live on one phone. Backing up takes one tap and makes a file you can keep anywhere.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>The new structure</h2>
+        <div class="compare">
+          <div><b>Now: 5 places, plus sub-tabs</b>Home · Practise (Accumulate / Tap counter) · Prayers (Prayers / Practice Texts) · Learn · More (Appearance / About)</div>
+          <div class="now"><b>V10: 4 places, nothing nested</b><strong>Today</strong>: date, special day, your practice, this week<br><strong>Practice</strong>: count, your accumulations, guided meditations<br><strong>Texts</strong>: prayers in a verse-by-verse chant view, practice texts<br><strong>Learn</strong>: refuge tree, the practices explained, calendar, about</div>
+        </div>
+        <p>Settings move behind the gear on Today. Light, Dark and Automatic sit up front. Your nine themes stay, one tap further in, under "More colour themes".</p>
+      </section>
+
+      <section>
+        <h2>What makes it feel like home</h2>
+        <ul>
+          <li><b>A session that knows what it's for.</b> Start from your current practice and count on a mala ring of 108 beads. Finish, and the count goes into that practice's total. The separate tap counter and "log to practice" step disappear.</li>
+          <li><b>Dedication at the end.</b> Every session ends with the dedication verse, as it does in the shrine room. Continuing is one tap.</li>
+          <li><b>The day, in Tibetan terms.</b> "Tibetan day 19 ༡༩ · 8th month · Fire Horse year", with the moon as it really is tonight.</li>
+          <li><b>A month at a glance.</b> Tap the date to see the whole Tibetan month, with special days marked, including skipped and doubled days.</li>
+          <li><b>Prayers you can chant from.</b> One verse at a time in large type, with a big Next button at the bottom for your thumb. Tibetan script can be turned on or off.</li>
+          <li><b>Fonts chosen for reading.</b> Atkinson Hyperlegible, designed by the Braille Institute for low-vision readers, for everything you read. A warm serif (Fraunces) only for headings. Noto Serif Tibetan so the script renders properly on every phone.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Features, in order</h2>
+        <div class="phase"><h3>V10: the rebuild</h3>
+          <ul><li>Today screen, session mode with mala counting, buzz and keep-awake, then log and dedicate</li><li>Quick add ("+108") from Today, with Undo</li><li>Tibetan month calendar</li><li>Verse-by-verse chant view</li><li>Backup and restore (a file you keep), with clear warnings before replacing anything</li><li>Add your own practices and counters</li><li>Your existing counts carry over untouched</li></ul></div>
+        <div class="phase"><h3>V10.1: guided practice</h3>
+          <ul><li>Nine-Round Breathing, guided step by step (try it in the prototype), using your exact text</li><li>White A, drafted from Namkhai Norbu and James Low sources, for your sign-off</li><li>A short "what is this practice?" explainer on every practice</li><li>"Add special days to my phone's calendar": one file that gives reminders without accounts or servers</li></ul></div>
+        <div class="phase later"><h3>Later, if wanted</h3>
+          <ul><li>Recordings of the prayers to chant along with</li><li>A history of days practised</li><li>Sangha totals (needs a server and accounts, so it's a bigger step)</li></ul></div>
+      </section>
+
+      <section class="ask">
+        <h2>Three decisions for you</h2>
+        <ol>
+          <li><b>Fonts:</b> switch reading text to Atkinson Hyperlegible, with a serif only for headings?</li>
+          <li><b>First open:</b> ask "What do you practise?" (Karma Kagyu ngöndro, something else, just looking), so Today shows the right practice? Or assume ngöndro?</li>
+          <li><b>Look:</b> is this "shrine room" direction right (saffron on rice paper, lamp-lit dark), or do you want a second direction to compare?</li>
+        </ol>
+      </section>
+
+      <p class="src">Sources: <a href="https://mhealth.jmir.org/2023/1/e43186" target="_blank" rel="noopener">JMIR design guidelines for older adults</a> · <a href="https://cdn.bdadyslexia.org.uk/uploads/documents/Advice/style-guide/BDA-Style-Guide-2023.pdf" target="_blank" rel="noopener">BDA Dyslexia Style Guide</a> · <a href="https://www.ngondro.org/" target="_blank" rel="noopener">Drigung Kagyu Ngöndro app</a> · <a href="https://plumvillage.app/about-the-plum-village-app/" target="_blank" rel="noopener">Plum Village app</a> · <a href="https://gassho.info/blog-page/meditation-apps-habit/" target="_blank" rel="noopener">Meditation app habits without guilt</a> · <a href="https://fpmt.org/media/resources/dharma-dates/dates-explained/" target="_blank" rel="noopener">FPMT on skipped and doubled days</a></p>
+    </article>
+  </div>
+</div>
+
+<script>
+'use strict';
+// ─── Tibetan calendar (same verified maths as the app) ───────────────────
+const SYN=29.530588853;
+function moonElong(date){const R=Math.PI/180,T=(date.getTime()/86400000+2440587.5-2451545)/36525;
+  const D=297.8501921+445267.1114034*T,M=357.5291092+35999.0502909*T,Mp=134.9633964+477198.8675055*T;
+  const i=180-D-6.289*Math.sin(Mp*R)+2.1*Math.sin(M*R)-1.274*Math.sin((2*D-Mp)*R)-0.658*Math.sin(2*D*R)-0.214*Math.sin(2*Mp*R)-0.11*Math.sin(D*R);
+  return(((180-i)%360)+360)%360;}
+const PH_M0=2015501+4783/5656,PH_M1=167025/5656,PH_M2=PH_M1/30,PH_S0=743/804,PH_S1=65/804,PH_S2=PH_S1/30,PH_A0=475/3528,PH_A1=253/3528,PH_A2=1/28;
+const MT=[0,5,10,15,19,22,24,25],ST=[0,6,10,11],fr=x=>x-Math.floor(x);
+const mi=i=>{const m=((i%28)+28)%28;return m<=7?MT[m]:m<=14?MT[14-m]:m<=21?-MT[m-14]:-MT[28-m];};
+const si=i=>{const m=((i%12)+12)%12;return m<=3?ST[m]:m<=6?ST[6-m]:m<=9?-ST[m-6]:-ST[12-m];};
+const mt=i=>{const a=mi(Math.floor(i)),x=fr(i);return x?a+(mi(Math.floor(i)+1)-a)*x:a;};
+const stt=i=>{const a=si(Math.floor(i)),x=fr(i);return x?a+(si(Math.floor(i)+1)-a)*x:a;};
+const trueDate=(d,n)=>n*PH_M1+d*PH_M2+PH_M0+mt(28*(n*PH_A1+d*PH_A2+PH_A0))/60-stt(12*(n*PH_S1+d*PH_S2+PH_S0-0.25))/60;
+const jdN=n=>{const mc=Math.floor((n-1)/30),d=(n%30)||30;return Math.floor(trueDate(d,mc));};
+const gJDN=(y,m,d)=>{const a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;};
+function tibCount(date){const jd=gJDN(date.getFullYear(),date.getMonth()+1,date.getDate()),mc=Math.round((jd-PH_M0)/PH_M1);
+  let lo=30*(mc-2),hi=30*(mc+3);while(jdN(lo)>=jd)lo-=30;while(jdN(hi)<jd)hi+=30;
+  while(lo+1<hi){const m=(lo+hi)>>1;jdN(m)<jd?lo=m:hi=m;}return hi;}
+const ELEM=['Wood','Fire','Earth','Iron','Water'],ANIM=['Mouse','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Sheep','Monkey','Bird','Dog','Pig'];
+function tibDate(date){const n=tibCount(date),mc=Math.floor((n-1)/30),x=Math.ceil((65*mc+123)/67),year=Math.ceil(x/12)-1+933;
+  return{n,day:(n%30)||30,month:((x-1)%12)+1,leap:Math.ceil((65*(mc+1)+123)/67)===x,element:ELEM[Math.floor(((year-1)/2)%5)],animal:ANIM[(year+1)%12]};}
+const tibDay=d=>(tibCount(d)%30)||30;
+const ord=n=>n+(n%100>10&&n%100<14?'th':['th','st','nd','rd'][n%10]||'th');
+const TIBDIG='༠༡༢༣༤༥༦༧༨༩',tibNum=n=>String(n).split('').map(c=>TIBDIG[c]).join('');
+const AUSP={8:'Medicine Buddha Day',10:'Guru Rinpoche Day',15:'Full Moon · Amitābha',25:'Ḍākinī Day',29:'Dharmapāla Day',30:'New Moon'};
+const AUSP_D={8:'Sangye Menla. A day for healing prayers and the Medicine Buddha mantra.',10:'Padmasambhava bestows special blessings. Good for guru yoga and the Seven-Line Prayer.',15:'Merit is greatly multiplied. Good for all practice and aspiration prayers.',25:'The day of the wisdom ḍākinīs. Good for feast offerings.',29:'The day of the Dharma protectors. Good for smoke and torma offerings.',30:'A powerful day for purification, such as the Vajrasattva mantra.'};
+const noon=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x;};
+const addDays=(d,k)=>{const x=noon(d);x.setDate(x.getDate()+k);return x;};
+function observed(date){const td=tibDay(date),tn=tibDay(addDays(date,1)),out=[];if(tn===td)return out;
+  if(AUSP[td])out.push({td});for(let k=td%30+1;k!==tn;k=k%30+1)if(AUSP[k])out.push({td:k,moved:true});return out;}
+function phaseName(date){const a=new Date(date);a.setHours(0,0,0,0);const b=new Date(a);b.setDate(b.getDate()+1);
+  const e0=moonElong(a),e1=moonElong(b)+(moonElong(b)<e0?360:0);
+  for(const[g,n]of[[0,'New moon'],[90,'First quarter'],[180,'Full moon'],[270,'Last quarter'],[360,'New moon']])if(e0<=g&&g<e1)return n;
+  const e=moonElong(date);return e<90?'Waxing crescent':e<180?'Waxing gibbous':e<270?'Waning gibbous':'Waning crescent';}
+const illum=d=>Math.round((1-Math.cos(moonElong(d)*Math.PI/180))/2*100);
+function moonSVG(date,sz){const e=moonElong(date),il=(1-Math.cos(e*Math.PI/180))/2,wax=e<180,c=sz/2,r=c-1;
+  let inner='';if(il>.98)inner=`<circle cx="${c}" cy="${c}" r="${r}" fill="#f4ecd0"/>`;
+  else if(il>=.02){const rx=r*Math.abs(2*il-1),gib=il>.5;inner=`<path d="M${c} ${c-r}A${r} ${r} 0 0 ${wax?1:0} ${c} ${c+r}A${rx} ${r} 0 0 ${wax===gib?1:0} ${c} ${c-r}Z" fill="#f4ecd0"/>`;}
+  return`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${r}" fill="#2a2536"/>${inner}</svg>`;}
+const HAIR={good:[3,4,5,6,8,9,10,11,13,14,15,17,19,20,22,23,24,26,27,30]};
+const hair=td=>HAIR.good.includes(td)?'Good':'Avoid';
+
+// ─── Example content ──────────────────────────────────────────────────────
+const PR=[
+  {id:'refuge',name:'Short Refuge',target:11000,count:11000,col:'#4f86c6',group:'ngondro'},
+  {id:'prostr',name:'Prostrations',target:111111,count:12408,pace:108,col:'#c9713c',group:'ngondro'},
+  {id:'diamond',name:'Diamond Mind',target:111111,count:0,col:'#8a6bd1',group:'ngondro',about:'Vajrasattva (Dorje Sempa) purification: the hundred-syllable mantra.'},
+  {id:'mandala',name:'Mandala Offering',target:111111,count:0,col:'#3f9a78',group:'ngondro'},
+  {id:'guru',name:'Guru Yoga',target:111111,count:0,col:'#c4903d',group:'ngondro'},
+  {id:'loving',name:'Loving Eyes',target:1000000,count:23760,col:'#c05b80',group:'other',sub:'OM MANI PEME HUNG'},
+];
+const PRAYERS=[
+  {id:'refuge',title:'Refuge and Bodhicitta',sub:'Recite three times each',verses:[
+    {sec:'Refuge',t:'སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ། །བྱང་ཆུབ་བར་དུ་བདག་ནི་སྐྱབས་སུ་མཆི།',p:'SANG GYE CHO DANG TSOK KYI CHOK NAM LA\nJANG CHUB BAR DU DAK NI KYAB SU CHI',e:'Until enlightenment I take refuge in the Buddha, Dharma and the Supreme Assembly.'},
+    {sec:'Refuge',t:'བདག་གིས་སྦྱིན་སོགས་རྒྱས་པའི་བསོད་ནམས་ཀྱིས། །འགྲོ་ལ་ཕན་ཕྱིར་སངས་རྒྱས་གྲུབ་པར་ཤོག།',p:'DAK GI JIN SOK GYI PAY SO NAM KYI\nDRO LA PEN CHIR SANG GYE DRUP PAR SHOK',e:'May the merit of my generosity and other good deeds result in Buddhahood for the benefit of all beings.'},
+    {sec:'Bodhicitta',t:'བྱང་ཆུབ་སེམས་ནི་རིན་པོ་ཆེ། །མ་སྐྱེས་པ་རྣམས་སྐྱེ་འགྱུར་ཅིག།',p:'CHANG CHUB SEM NI RINPOCHE\nMACHAY PA NAM CHAY JUR CHIK',e:'May the precious bodhicitta take birth where it is not yet existing,'},
+    {sec:'Bodhicitta',t:'སྐྱེས་པ་ཉམས་པ་མེད་པ་དང། །གོང་ནས་གོང་དུ་འཕེལ་བར་ཤོག།',p:'CHAYPA NYAMPA MAY PA DANG\nKONGNAY KONGDU PELWAR SHO',e:'where it exists may it never wane, but continuously and ever increase.'},
+  ]},
+];
+const DEDICATION={t:'བསོད་ནམས་འདི་ཡིས་ཐམས་ཅད་གཟིགས་པ་ཉིད། །ཐོབ་ནས་ཉེས་པའི་དགྲ་རྣམས་ཕམ་མཛད་ནས།',p:'SONAM DI YI TAM CHAY ZIK PA NYI\nTHOB NE NYE PAY DRA NAM PAM CHAY NAY',e:'Through this virtue may omniscience be attained, and may every defilement be overcome.'};
+const QUOTES=[['Watch your mind.','16th Karmapa'],['Grant your blessings so that confusion may dawn as wisdom.','Four Dharmas of Gampopa'],['Detachment is the foot of meditation. Devotion is the head. Unwavering attention is the body.','Dorje Chang Tungma'],['Driven by fear I sought the mountains. Having seen the nature of mind, I no longer fear even death.','Milarepa']];
+// Nine-Round Breathing, condensed from Gareth's verbatim text (full text shown on request).
+const NR=(()=>{const s=[{k:'prep',t:'Sit comfortably',d:'Cross-legged on a cushion, or on a chair with both feet flat on the floor.'},
+  {k:'prep',t:'Hands',d:'Thumbs rest at the root of the ring fingers, hands in loose fists. The right index finger stays up to close each nostril in turn.'}];
+  const round=(r,inS,outS,both)=>[
+    {k:'in',r,inS,t:both?'Breathe in through both nostrils':`Breathe in through the ${inS} nostril`,d:'Slowly and evenly. Pure white light fills your whole body.'},
+    {k:'hold',r,t:'Hold',d:'Feel the light pervade your body. When it starts to feel a little uncomfortable, tap to breathe out.'},
+    {k:'out',r,outS,t:both?'Breathe out through both nostrils':`Breathe out through the ${outS} nostril`,d:'Negative emotions and thoughts leave as black smoke, which disappears into space.'}];
+  for(let r=1;r<=3;r++)s.push(...round(r,'right','left'));
+  s.push({k:'prep',t:'Change sides',d:'Now close the right nostril. Breathe in on the left, out on the right.'});
+  for(let r=4;r<=6;r++)s.push(...round(r,'left','right'));
+  s.push({k:'prep',t:'Hands in your lap',d:'Right hand resting in the palm of the left, thumbs lightly touching. Breathe through both nostrils.'});
+  for(let r=7;r<=9;r++)s.push(...round(r,'both','both',true));
+  s.push({k:'rest',t:'Rest',d:'Simply rest in stillness, body and mind light and clear, letting all thoughts and images go.'});return s;})();
+
+// ─── State ────────────────────────────────────────────────────────────────
+const S={tab:'today',ov:null,sheet:null,look:'auto',size:1,moreThemes:false,current:'prostr',
+  session:{pid:'prostr',count:0},finishTo:'prostr',prayer:null,verse:0,showTib:true,calOff:0,br:0,brTimer:null,toast:null,week:[1,1,0,1,1,0,0]};
+const $app=document.getElementById('app');
+const fmt=n=>n.toLocaleString('en-GB');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const pr=id=>PR.find(p=>p.id===id);
+const I={
+  today:'<path d="M12 3v2M12 19v2M4.2 7.5l1.7 1M18.1 15.5l1.7 1M3 12h2M19 12h2M4.2 16.5l1.7-1M18.1 8.5l1.7-1"/><circle cx="12" cy="12" r="4"/>',
+  practice:'<circle cx="12" cy="6.5" r="2.4"/><path d="M5 19c1.2-4.3 3.8-6.6 7-6.6s5.8 2.3 7 6.6"/><path d="M3.5 19.5h17"/>',
+  texts:'<path d="M12 6.5C10.3 5.3 8 4.8 5.5 4.8v12.7c2.5 0 4.8.5 6.5 1.7 1.7-1.2 4-1.7 6.5-1.7V4.8C16 4.8 13.7 5.3 12 6.5z"/><path d="M12 6.5v12.7"/>',
+  learn:'<path d="M12 3c-2.6 0-4.4 2-4.4 4.3 0 .5.1 1 .3 1.4C6.6 9.4 6 10.6 6 12c0 2.2 1.9 3.9 4.2 3.9h3.6c2.3 0 4.2-1.7 4.2-3.9 0-1.4-.6-2.6-1.9-3.3.2-.4.3-.9.3-1.4C16.4 5 14.6 3 12 3z"/><path d="M12 15.9V21M9.5 21h5"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2.8 12h2.4M18.8 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7"/>',
+  chev:'<path d="M9 5l7 7-7 7"/>',back:'<path d="M15 5l-7 7 7 7"/>',close:'<path d="M6 6l12 12M18 6L6 18"/>',
+  mala:'<circle cx="12" cy="12" r="7.5" stroke-dasharray="1.6 2.2" stroke-width="2.6"/><circle cx="12" cy="3.6" r="1.6" fill="currentColor"/>',
+  breath:'<path d="M4 9c3 0 3-3 6-3s3 3 6 3 3-3 4-3M4 15c3 0 3-3 6-3s3 3 6 3 3-3 4-3"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',tree:'<path d="M12 21v-6M7 15h10l-5-11z"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5"/><circle cx="12" cy="8" r=".8" fill="currentColor"/>',save:'<path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/>'};
+const ico=(n,w)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
+
+// ─── Screens ──────────────────────────────────────────────────────────────
+function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening';}
+function nextSpecial(from){for(let i=1;i<60;i++){const d=addDays(from,i),o=observed(d);if(o.length)return{d,i,o:o[0]};}}
+function today(){
+  const now=noon(new Date()),t=tibDate(now),obs=observed(now),p=pr(S.current),pct=Math.floor(p.count/p.target*100);
+  const q=QUOTES[Math.floor(now/864e5)%QUOTES.length],ns=nextSpecial(now);
+  const special=obs.length?`<div class="special" role="status"><b>Today is ${AUSP[obs[0].td]}</b><p>${AUSP_D[obs[0].td]}${obs[0].moved?` Day ${obs[0].td} is skipped this month, so it is kept today.`:''}</p></div>`
+    :ns?`<div class="card"><span class="small">Next special day</span><div style="font-weight:700;font-size:calc(19px * var(--scale))">${AUSP[ns.o.td]}</div><span class="small">${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${ns.i===1?'tomorrow':'in '+ns.i+' days'}</span></div>`:'';
+  const days=['M','T','W','T','F','S','S'],di=(now.getDay()+6)%7;
+  return`<div class="row"><div class="greet">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>
+  <button class="daycard" data-act="cal">${moonSVG(now,48)}<span><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
+    <span class="small">Tibetan day ${t.day} <span class="tibnum">${tibNum(t.day)}</span> · ${ord(t.month)} month</span><br><span class="small">${phaseName(now)} · ${illum(now)}% lit</span></span><span class="chev">${ico('chev')}</span></button>
+  ${special}
+  <p class="h2">YOUR PRACTICE</p>
+  <div class="card pcard"><div><div class="pname">${p.name}</div><div class="pnum"><b>${fmt(p.count)}</b> of ${fmt(p.target)} · ${pct}%</div></div>
+    <div class="bar"><i style="width:${Math.max(pct,1)}%"></i></div>
+    <div class="pbtns"><button class="btn primary" data-act="start" data-id="${p.id}">${ico('mala')} Start session</button><button class="btn soft" data-act="quick" data-id="${p.id}">+ ${p.pace||108}</button></div></div>
+  <p class="h2">THIS WEEK</p>
+  <div class="card"><div class="week">${days.map((l,i)=>`<div><span>${l}</span><i class="${i<di?(S.week[i]?'y':''):i===di?(S.week[i]?'y':'t'):''}"></i></div>`).join('')}</div>
+    <p class="small" style="margin:10px 0 0">You practised on ${S.week.slice(0,di+1).filter(Boolean).length} days this week.</p></div>
+  <div class="card"><p class="quote">${esc(q[0])}</p><p class="quote-a">${esc(q[1])}</p></div>
+  <p class="small hair">Hair cutting today: <b class="${hair(t.day).toLowerCase()}">${hair(t.day)}</b></p>`;
+}
+function practice(){
+  const row=p=>{const pct=Math.floor(p.count/p.target*100),done=p.count>=p.target;
+    return`<button class="item" data-act="start" data-id="${p.id}"><span class="dot" style="background:${p.col}"></span><span class="grow"><span class="t">${p.name}</span>
+    <span class="s">${fmt(p.count)} of ${fmt(p.target)}</span>${done?'':`<div class="minibar"><i style="width:${Math.max(pct,1)}%"></i></div>`}</span>${done?'<span class="tag ok">Complete</span>':`<span class="chev">${ico('chev')}</span>`}</button>`;};
+  return`<h1 class="h1">Practice</h1>
+  <button class="bigtile" data-act="start" data-id="">${ico('mala',1.6)}<span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
+  <p class="h2">NGÖNDRO</p><div class="list">${PR.filter(p=>p.group==='ngondro').map(row).join('')}</div>
+  <p class="h2">OTHER PRACTICES</p><div class="list">${PR.filter(p=>p.group==='other').map(row).join('')}
+    <button class="item" data-act="todo" data-msg="Add your own: name, mantra, target."><span class="iconbtn" style="width:36px;height:36px">${ico('plus')}</span><span class="grow"><span class="t">Add your own</span><span class="s">Any mantra or practice, with its own target</span></span></button></div>
+  <p class="h2">GUIDED</p><div class="list">
+    <button class="item" data-act="breath">${'<span class="iconbtn" style="width:36px;height:36px">'+ico('breath')+'</span>'}<span class="grow"><span class="t">Nine-Round Breathing</span><span class="s">About 10 minutes · you set the pace</span></span><span class="chev">${ico('chev')}</span></button>
+    <button class="item" data-act="todo" data-msg="White A arrives in V10.1, after your sign-off on the text."><span class="iconbtn" style="width:36px;height:36px;font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">White A</span><span class="s">Coming next</span></span></button></div>`;
+}
+function texts(){
+  return`<h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it one verse at a time.</p>
+  <div class="list">${[['refuge','Refuge and Bodhicitta','Opening, three times each'],['x','Four Immeasurables','Tshad med bzhi'],['x','Seven Branch Prayer','Yan lag bdun pa'],['x','Dorje Chang Tungma','Kagyu lineage supplication'],['x','Dedication of Merit','Closing']]
+    .map(([id,t,s])=>`<button class="item" data-act="${id==='refuge'?'prayer':'todo'}" data-msg="In the full app, every prayer opens like Refuge and Bodhicitta."><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span><span class="chev">${ico('chev')}</span></button>`).join('')}</div>
+  <p class="h2">PRACTICE TEXTS</p>
+  <div class="list"><button class="item" data-act="todo" data-msg="Opens the bundled PDF. Saved for offline use once opened."><span class="grow"><span class="t">The complete Ngöndro</span><span class="s">Please receive the reading transmission from a qualified teacher before using this text.</span></span><span class="chev">${ico('chev')}</span></button>
+  <button class="item" data-act="todo" data-msg="Links to Palpung's free texts."><span class="grow"><span class="t">Palpung prayer books</span><span class="s">Chenrezig, Medicine Buddha, Tara and more</span></span><span class="chev">${ico('chev')}</span></button></div>`;
+}
+function learn(){
+  return`<h1 class="h1">Learn</h1>
+  <button class="card" data-act="tree" style="padding:0;overflow:hidden;text-align:left;border:1px solid var(--line)"><img src="refuge-tree.jpg" alt="The Karma Kagyu refuge tree thangka" style="display:block;width:100%;height:170px;object-fit:cover;object-position:50% 25%">
+    <div style="padding:14px 16px"><div style="font-weight:700;font-size:calc(19px * var(--scale))">The refuge tree</div><div class="small">97 figures. Tap any number to read who they are.</div></div></button>
+  <div class="list">${[['info','The seven practices','What each one is, and why'],['cal','The Tibetan calendar','Special days, and skipped and doubled days'],['texts','Words you will hear','Bodhicitta, samaya, tsok and more'],['info','About this app','Why it exists, and who to thank']]
+   .map(([i,t,s])=>`<button class="item" data-act="${i==='cal'?'cal':'todo'}" data-msg="A short, plain-English page."><span class="iconbtn" style="width:40px;height:40px">${ico(i)}</span><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span><span class="chev">${ico('chev')}</span></button>`).join('')}</div>`;
+}
+
+// ─── Overlays ─────────────────────────────────────────────────────────────
+function malaSVG(count){const inMala=count%108,N=108,out=[];for(let i=0;i<N;i++){const a=(i/N)*2*Math.PI-Math.PI/2,x=50+44*Math.cos(a),y=50+44*Math.sin(a);
+  out.push(`<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.12" fill="${i<inMala?'var(--bead)':'var(--bead-off)'}"/>`);}
+  return`<svg viewBox="0 0 100 100" aria-hidden="true">${out.join('')}<circle cx="50" cy="3.2" r="2.6" fill="var(--maroon)"/></svg>`;}
+function session(){const c=S.session.count,p=pr(S.session.pid);
+  return`<div class="ovtop"><button class="iconbtn" data-act="closeov" aria-label="Close">${ico('close')}</button><div class="title">${p?p.name:'Counting'}</div><span style="width:48px"></span></div>
+  <div class="tapzone" data-act="tap" id="tapzone"><div class="mala" id="mala">${malaSVG(c)}<div class="n"><div><b id="cnt">${fmt(c)}</b><span id="malas">${c?`Mala ${Math.floor(c/108)+1} · bead ${c%108||108}`:'Tap anywhere to count'}</span></div></div></div>
+    <p class="awake">Screen stays on while you count</p></div>
+  <div class="sessbar"><button class="btn soft" data-act="minus">− 1</button><button class="btn primary" data-act="finish">Finish</button></div>`;}
+function finishSheet(){const c=S.session.count,p=pr(S.finishTo);
+  return`<div class="grab"></div><h2 class="h1" style="font-size:calc(26px * var(--scale))">${fmt(c)} counted</h2>
+  ${c?`<p class="sub">Add them to your total?</p>
+  <button class="btn primary wide" data-act="addlog">Add ${fmt(c)} to ${p?p.name:'…'}</button>
+  <div class="chips">${PR.filter(x=>x.count<x.target).map(x=>`<button class="tag" style="border:2px solid ${x.id===S.finishTo?'var(--saffron)':'transparent'};min-height:44px;padding:8px 12px" data-act="pickto" data-id="${x.id}">${x.name}</button>`).join('')}</div>
+  <button class="btn ghost" data-act="nolog">Don't add, just finish</button>`:`<button class="btn primary wide" data-act="nolog">Finish</button>`}
+  <button class="btn soft wide" data-act="resume">Keep counting</button>`;}
+function dedicate(){return`<div class="ovtop"><span style="width:48px"></span><div class="title">Dedication</div><span style="width:48px"></span></div>
+  <div class="verse"><p class="vsec">DEDICATE THE MERIT</p>${S.showTib?`<p class="vt">${DEDICATION.t}</p>`:''}${DEDICATION.p.split('\n').map(l=>`<p class="vp">${l}</p>`).join('')}<p class="ve">${DEDICATION.e}</p></div>
+  <div class="vnav" style="grid-template-columns:1fr"><button class="btn primary" data-act="closeov">Done</button></div>`;}
+function prayerView(){const pr_=PRAYERS[0],v=pr_.verses[S.verse],last=S.verse===pr_.verses.length-1;
+  return`<div class="ovtop"><button class="iconbtn" data-act="closeov" aria-label="Back to texts">${ico('back')}</button><div class="title">${pr_.title}</div><button class="iconbtn" data-act="tib" aria-label="Show or hide Tibetan script" style="font-family:var(--f-tib)">${S.showTib?'ཀ':'Aa'}</button></div>
+  <div class="verse"><p class="vsec">${v.sec.toUpperCase()}</p>${S.showTib?`<p class="vt">${v.t}</p>`:''}${v.p.split('\n').map(l=>`<p class="vp">${l}</p>`).join('')}<p class="ve">${v.e}</p></div>
+  <p class="vcount">Verse ${S.verse+1} of ${pr_.verses.length}</p>
+  <div class="vnav"><button class="btn soft" data-act="vprev" ${S.verse?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closeov':'vnext'}">${last?'Finish':'Next verse'}</button></div>`;}
+function calendar(){
+  // Walk to the Tibetan month S.calOff months away from today's.
+  let probe=noon(new Date());const t0=tibDate(probe);
+  const target=t0.n-((t0.n%30)||30)+1+S.calOff*30;          // day-1 count of that month
+  let d=addDays(probe,Math.round((target-t0.n)*0.984));
+  while(tibCount(d)>=target)d=addDays(d,-1);while(tibCount(d)<target)d=addDays(d,1);
+  const start=d,days=[];for(let x=start;tibCount(x)<target+30;x=addDays(x,1))days.push(x);
+  const tm=tibDate(start),todayStr=noon(new Date()).toDateString();
+  const lead=(start.getDay()+6)%7,cells=[...Array(lead).fill(null),...days];
+  const specials=days.flatMap(x=>observed(x).map(o=>({x,o})));
+  return`<div class="ovtop"><button class="iconbtn" data-act="closeov" aria-label="Back">${ico('back')}</button><div class="title">${ord(tm.month)} month${tm.leap?' (leap)':''} · ${tm.element} ${tm.animal} year</div><span style="width:48px"></span></div>
+  <div class="screen" style="padding-top:6px">
+    <div class="row" style="justify-content:space-between"><button class="btn soft" data-act="calprev">${ico('back')} Earlier</button><button class="btn soft" data-act="calnext">Later ${ico('chev')}</button></div>
+    <p class="small" style="margin:0;text-align:center">${days[0].toLocaleDateString('en-GB',{day:'numeric',month:'short'})} to ${days[days.length-1].toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}. Big number = Tibetan day.</p>
+    <div class="cal">${['M','T','W','T','F','S','S'].map(x=>`<div class="dow">${x}</div>`).join('')}
+      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const td=tibDay(x),sp=observed(x).length;
+        return`<div class="cday${sp?' sp':''}${x.toDateString()===todayStr?' today':''}" title="${x.toDateString()}"><b>${td}</b><span>${x.getDate()} ${x.toLocaleDateString('en-GB',{month:'short'})}</span></div>`;}).join('')}</div>
+    <p class="h2">SPECIAL DAYS THIS MONTH</p>
+    <div class="card legend">${specials.map(({x,o})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</time><span>${AUSP[o.td]}${o.moved?` <span class="small">(day ${o.td} is skipped, so kept the day before)</span>`:''}</span></div>`).join('')}</div>
+  </div>`;}
+function tree(){return`<div class="ovtop"><button class="iconbtn" data-act="closeov" aria-label="Back">${ico('back')}</button><div class="title">The refuge tree</div><span style="width:48px"></span></div>
+  <div class="screen" style="padding-top:4px"><img src="refuge-tree.jpg" alt="The Karma Kagyu refuge tree thangka" style="width:100%;border-radius:14px;display:block">
+  <p class="sub">In the app: pinch to zoom, tap a number to read about that figure, or browse the list of all 97 figures by group (Karmapas, lineage, yidams, protectors…).</p></div>`;}
+function breath(){const st=NR[S.br],rounds=st.r?`Round ${st.r} of 9`:st.k==='rest'?'Complete':'Getting ready';
+  const nos=st.k==='in'?st.inS:st.k==='out'?st.outS:null;
+  return`<div class="ovtop"><button class="iconbtn" data-act="closebr" aria-label="Close">${ico('close')}</button><div class="title">Nine-Round Breathing</div><span style="width:48px"></span></div>
+  <div class="breath" data-act="brnext"><p class="small" style="margin:0">${rounds}</p>
+   <div class="orb ${st.k==='hold'||st.k==='out'?'in':''}" id="orb"></div>
+   ${nos&&nos!=='both'?`<div class="nost"><span class="${nos==='left'?'open':''}">Left</span><span class="${nos==='right'?'open':''}">Right</span></div>`:''}
+   <p class="bstep">${st.t}</p><p class="bdesc">${st.d}</p>
+   <p class="small" style="margin:0">${st.k==='in'||st.k==='out'?'Moves on by itself, or tap':'Tap anywhere to continue'}</p></div>
+  <div class="vnav" style="grid-template-columns:1fr 1.6fr"><button class="btn soft" data-act="brback">Back</button><button class="btn primary" data-act="${st.k==='rest'?'closebr':'brnext'}">${st.k==='rest'?'Finish':st.k==='hold'?'Breathe out':'Next'}</button></div>`;}
+function settingsSheet(){return`<div class="grab"></div><h2 class="h1" style="font-size:calc(26px * var(--scale))">Settings</h2>
+  <p class="h2" style="margin:0">APPEARANCE</p><div class="seg">${[['light','Light'],['dark','Dark'],['auto','Automatic']].map(([k,l])=>`<button class="${S.look===k?'on':''}" data-act="look" data-v="${k}">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A'],[1.15,'A+'],[1.3,'A++']].map(([k,l])=>`<button class="${S.size===k?'on':''}" data-act="size" data-v="${k}" style="font-size:${Math.round(16*k)}px">${l}</button>`).join('')}</div>
+  <button class="item" data-act="morethemes" style="border:1px solid var(--line);border-radius:14px"><span class="grow"><span class="t">More colour themes</span><span class="s">Temple, Night, Earth, Focus, Slate, High contrast, Neon</span></span><span class="chev" style="transform:rotate(${S.moreThemes?90:0}deg)">${ico('chev')}</span></button>
+  ${S.moreThemes?`<div class="chips">${['Temple','Night','Earth','Focus','Slate','High contrast','Neon'].map(n=>`<span>${n}</span>`).join('')}</div>`:''}
+  <p class="h2" style="margin:0">YOUR COUNTS</p><p class="small" style="margin:0">They are kept only on this phone. Save a backup now and then, and keep the file somewhere safe.</p>
+  <div class="pbtns" style="grid-template-columns:1fr 1fr"><button class="btn soft" data-act="todo" data-msg="Saves a dated file, e.g. dharma-backup-26-09-30.json">${ico('save')} Save backup</button><button class="btn soft" data-act="todo" data-msg="Asks twice, in plain words, before replacing anything.">Restore</button></div>
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+
+// ─── Render + events ──────────────────────────────────────────────────────
+function render(){
+  const tabs=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
+  const body={today,practice,texts,learn}[S.tab]();
+  let html=`<div class="screen" id="scr">${body}</div><nav class="tabbar" aria-label="Main">${tabs.map(([k,l])=>`<button class="tab${S.tab===k?' on':''}" data-act="tab" data-v="${k}" ${S.tab===k?'aria-current="page"':''}>${ico(k)}${l}</button>`).join('')}</nav>`;
+  const ov={session,dedicate,prayer:prayerView,cal:calendar,tree,breath}[S.ov];
+  if(ov)html+=`<div class="overlay">${ov()}</div>`;
+  const sh={finish:finishSheet,settings:settingsSheet}[S.sheet];
+  if(sh)html+=`<div class="sheetveil" data-act="${S.sheet==='settings'?'closesheet':''}"><div class="sheet" role="dialog" aria-modal="true">${sh()}</div></div>`;
+  if(S.toast)html+=`<div class="toast" role="status">${S.toast.msg}${S.toast.undo?'<button data-act="undo">Undo</button>':''}</div>`;
+  $app.innerHTML=html;$app.dataset.look=S.look;$app.style.setProperty('--scale',S.size);
+  if(S.ov==='breath')runBreath();
+}
+let toastT;function toast(msg,undo){S.toast={msg,undo};clearTimeout(toastT);toastT=setTimeout(()=>{S.toast=null;render();},undo?5000:3000);render();}
+let wake=null;async function keepAwake(on){try{if(on&&'wakeLock'in navigator)wake=await navigator.wakeLock.request('screen');else if(wake){await wake.release();wake=null;}}catch(e){}}
+const buzz=ms=>{try{navigator.vibrate&&navigator.vibrate(ms);}catch(e){}};
+function runBreath(){clearTimeout(S.brTimer);const st=NR[S.br],orb=document.getElementById('orb');
+  // Start from the previous size, then transition: grow on the in-breath, shrink and darken on the out-breath.
+  const swap=(rm,add)=>requestAnimationFrame(()=>requestAnimationFrame(()=>{orb.classList.remove(rm);orb.classList.add(add);}));
+  if(orb&&st.k==='in')swap('out','in');
+  if(orb&&st.k==='out')swap('in','out');
+  if(st.k==='in')S.brTimer=setTimeout(()=>{S.br++;render();},5200);
+  if(st.k==='out')S.brTimer=setTimeout(()=>{S.br++;render();},6200);}
+
+$app.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');if(!el)return;const a=el.dataset.act;
+  // The dimmed backdrop closes a sheet only when the backdrop itself is tapped.
+  if(el.classList.contains('sheetveil')&&e.target!==el)return;
+  if(a==='')return;
+  const id=el.dataset.id;
+  switch(a){
+    case'tab':S.tab=el.dataset.v;break;
+    case'settings':S.sheet='settings';break;
+    case'closesheet':S.sheet=null;break;
+    case'look':S.look=el.dataset.v;break;
+    case'size':S.size=+el.dataset.v;break;
+    case'morethemes':S.moreThemes=!S.moreThemes;break;
+    case'cal':S.ov='cal';S.calOff=0;break;
+    case'calprev':S.calOff--;break;
+    case'calnext':S.calOff++;break;
+    case'start':S.session={pid:id||'',count:0};S.finishTo=id||S.current;S.ov='session';keepAwake(true);break;
+    case'tap':return;                                   // handled on pointerdown
+    case'minus':S.session.count=Math.max(0,S.session.count-1);break;
+    case'finish':S.sheet='finish';break;
+    case'resume':S.sheet=null;break;
+    case'pickto':S.finishTo=id;break;
+    case'addlog':{const p=pr(S.finishTo),n=S.session.count;p.count=Math.min(p.target,p.count+n);S.week[(new Date().getDay()+6)%7]=1;
+      S.sheet=null;S.ov='dedicate';keepAwake(false);render();setTimeout(()=>toast(`Added ${fmt(n)} to ${p.name}`),50);return;}
+    case'nolog':S.sheet=null;S.ov=null;keepAwake(false);break;
+    case'closeov':S.ov=null;S.verse=0;keepAwake(false);break;
+    case'quick':{const p=pr(id),n=p.pace||108,before=p.count;p.count=Math.min(p.target,p.count+n);S.week[(new Date().getDay()+6)%7]=1;
+      S.undo=()=>{p.count=before;};toast(`Added ${fmt(n)} to ${p.name}`,true);return;}
+    case'undo':S.undo&&S.undo();S.toast=null;break;
+    case'prayer':S.ov='prayer';S.verse=0;break;
+    case'vnext':S.verse++;break;
+    case'vprev':S.verse=Math.max(0,S.verse-1);break;
+    case'tib':S.showTib=!S.showTib;break;
+    case'tree':S.ov='tree';break;
+    case'breath':S.br=0;S.ov='breath';keepAwake(true);break;
+    case'brnext':if(NR[S.br].k==='rest')return;S.br++;break;
+    case'brback':S.br=Math.max(0,S.br-1);break;
+    case'closebr':clearTimeout(S.brTimer);S.ov=null;keepAwake(false);break;
+    case'todo':toast(el.dataset.msg||'In the full app');return;
+  }
+  render();
+});
+// Counting: pointerdown for instant response; update in place (no full re-render) so taps never lag.
+$app.addEventListener('pointerdown',e=>{
+  const z=e.target.closest('#tapzone');if(!z||S.ov!=='session'||S.sheet)return;
+  const c=++S.session.count;buzz(c%108===0?[40,60,120]:12);
+  const m=document.getElementById('mala');m.firstElementChild.outerHTML=malaSVG(c);
+  document.getElementById('cnt').textContent=fmt(c);document.getElementById('malas').textContent=`Mala ${Math.floor(c/108)+1} · bead ${c%108||108}`;
+  m.classList.remove('pulse');void m.offsetWidth;m.classList.add('pulse');
+});
+render();
+</script>

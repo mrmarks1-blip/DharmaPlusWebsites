@@ -9,3 +9,6 @@ desktop.ini
 # Local tooling
 .claude/
 node_modules/
+
+# local preview copy only (the published prototype ships its own)
+design/*.jpg
