@@ -1285,7 +1285,7 @@ const NINE_ROUND=(()=>{const s=[
 // ═══════════════════════════════════════════════════════════
 
 // Three Aa guru yoga — after James Low (Simply Being, "The Happy Twins"
-// retreat, 2019). DRAFT until Gareth signs it off (content/three-aa-draft.md).
+// retreat, 2019). Signed off by Gareth 2026-09-30 (notes: content/three-aa-draft.md).
 const THREE_AA_INFO=[
   'The Three Aa is a guru yoga from the Dzogchen teachings, which trace back to Garab Dorje. This guide follows James Low’s instructions, given at his 2019 retreat “The Happy Twins”. The guru yoga of the white A was also taught widely by Chögyal Namkhai Norbu.',
   'The white Aa stands for emptiness: the open ground of everything. The five-coloured light streaming from it is everything that can arise from that ground. Guru yoga is also about trust: the guru is the one awake to that ground, and so is inseparable from your own nature.',
@@ -1564,7 +1564,7 @@ function pagePractice(){const all=allPR();
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
     ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>
   <p class="h2">GURU YOGA</p><div class="list">
-    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">After James Low · a few minutes · draft</span></span>${chev}</button></div>
+    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">After James Low · a few minutes</span></span>${chev}</button></div>
   </div></div>`;}
 
 function ovPractice(){
@@ -1764,8 +1764,8 @@ function pageTexts(){
   ${TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?`<p class="h2">${label}</p>
   <div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`:'';}).join('')}
   <p class="h2">PRACTICE TEXTS</p>
-  <div class="list"><a class="item" href="./ngondro-full.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">The complete Ngöndro</span>
-    <span class="s">Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
+  <div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
+    <span class="s">A printable A4 booklet. Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
   <p class="small">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
   <div class="list">${SAD.map(s=>`<div class="item" style="flex-wrap:wrap;cursor:default"><span class="grow"><span class="t">${esc(s.name)}</span><span class="s">${esc(s.sub)}</span></span>
     <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>
@@ -1898,7 +1898,7 @@ function sitBox(choices,doneMsg,doneExtra=''){
   if(ST.sit)return`<div class="sitbox"><span class="small">Time left</span><b id="sitleft" class="sitleft">${mmss(sitLeft())}</b><button class="btn link" data-act="sitclear">Stop the timer</button></div>`;
   return`<div class="sitbox"><span class="small">Timer with a soft bell (optional)</span><div class="sitopts">${choices.map(m=>`<button class="opt" data-act="sit" data-v="${m}">${m} min</button>`).join('')}</div></div>`;}
 const MED_INFO={
-  threeaa:{t:'About the Three Aa',p:()=>THREE_AA_INFO,links:[['James Low · Simply Being','https://simplybeing.co.uk/audio-records/year/audio2019/autumn-2019-the-happy-twins/']],draft:true},
+  threeaa:{t:'About the Three Aa',p:()=>THREE_AA_INFO,links:[['James Low · Simply Being','https://simplybeing.co.uk/audio-records/year/audio2019/autumn-2019-the-happy-twins/']]},
   vajra:{t:'About vajra breathing',p:()=>VAJRA_INFO,links:[['Garchen Rinpoche on OM AH HUM','https://drikungdharmasurya.org/2014/04/vajra-recitation/']]},
   brahm:{t:'About the beautiful breath',p:()=>BRAHM_INFO,links:[['The Basic Method of Meditation (free book)','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/']]},
   count:{t:'About counting the breath',p:()=>COUNT_INFO,links:[]},
@@ -1910,9 +1910,9 @@ const medTop=(title,key,tag='')=>`<div class="ovtop"><button class="iconbtn" dat
 function openMed(ov){sitStop();ST.ov=ov;keepAwake(true);}
 function closeMed(){sitStop();vjReset();keepAwake(false);}
 
-// ── Three Aa (draft) ──
+// ── Three Aa ──
 function ovThreeAa(){const st=THREE_AA[ST.wa],s=st.k==='sound'?{...st,...THREE_AA_SOUND}:st,lat=ST.aForm==='latin',rest=st.k==='rest';
-  return`${medTop('Three Aa','threeaa',' <span class="tag">Draft</span>')}
+  return`${medTop('Three Aa','threeaa')}
   <div class="breath wa${rest?' sky':''}" data-act="${rest?'':'wanext'}">
     <p class="small">${st.r?`Aa ${st.r} of 3`:rest?'Resting':'Getting ready'}</p>
     <div class="aring${st.k==='sound'?' sound':''}${rest?' open':''}"><div class="aorb"><b class="${lat?'lat':''}"${lat?'':' lang="bo"'}>${lat?'A':'ཨ'}</b></div></div>

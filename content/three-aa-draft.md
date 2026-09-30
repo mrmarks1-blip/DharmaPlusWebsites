@@ -1,7 +1,7 @@
-# The Three Aa (DRAFT for review)
+# The Three Aa
 
-Status: **draft, not yet approved**. It's labelled "Draft" in the app until you
-sign it off. It replaces the earlier White A draft and is rebuilt from James
+Status: **approved by Gareth, 2026-09-30**. The "Draft" label is removed in the app.
+It replaces the earlier White A draft and is rebuilt from James
 Low's instructions ("Three Aa Practice", The Happy Twins retreat, 2019,
 simplybeing.co.uk). The wording is my own summary, not his text, since his
 transcript is copyright; the app links to his page.
