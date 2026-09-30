@@ -198,10 +198,12 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .week i.t { border-color:var(--accent); border-style:dashed; }
 .week i.y.t { border-style:solid; }
 /* Quote carousel — native horizontal swipe with scroll-snap */
-.quotes { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:12px; scrollbar-width:none; overscroll-behavior-x:contain; }
+/* The card takes the height of the quote showing (set in updQ), so short
+   sayings don't sit in a box sized for the longest verse. */
+.quotes { display:flex; align-items:flex-start; overflow-x:auto; scroll-snap-type:x mandatory; gap:12px; scrollbar-width:none; overscroll-behavior-x:contain; transition:height .25s; }
 .quotes::-webkit-scrollbar { display:none; }
-.quote { flex:0 0 100%; scroll-snap-align:center; display:flex; flex-direction:column; justify-content:center; gap:10px; min-height:150px; }
-.quote p { font-family:var(--f-display); font-size:calc(20px * var(--scale)); line-height:1.45; text-wrap:pretty; }
+.quote { flex:0 0 100%; scroll-snap-align:center; display:flex; flex-direction:column; justify-content:center; gap:10px; min-height:120px; }
+.quote p { font-family:var(--f-display); font-size:calc(20px * var(--scale)); line-height:1.45; text-wrap:pretty; white-space:pre-line; }
 .quote cite { font-style:normal; color:var(--ink-2); font-size:var(--fs-sm); }
 .qnav { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:4px; }
 .qnav .small { text-align:center; }
@@ -273,6 +275,7 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .vt { font-family:var(--f-tib); font-size:calc(24px * var(--scale)); line-height:1.9; color:var(--maroon); }
 .vp { font-size:calc(24px * var(--scale)); font-weight:700; line-height:1.35; letter-spacing:.01em; }
 .ve { font-size:var(--fs-lg); color:var(--ink-2); line-height:1.55; }
+.vx { font-size:calc(20px * var(--scale)); line-height:1.6; white-space:pre-line; max-width:62ch; }
 .whole .vblock { padding:14px 0; border-bottom:1px solid var(--line); display:flex; flex-direction:column; gap:6px; }
 .whole .vp { font-size:calc(21px * var(--scale)); }
 .whole .vt { font-size:calc(21px * var(--scale)); }
@@ -304,6 +307,16 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .orb.out { transform:scale(.6); transition-duration:6s; filter:grayscale(1) brightness(.55); }
 .bstep { font-size:calc(21px * var(--scale)); font-weight:700; }
 .bdesc { color:var(--ink-2); max-width:32ch; }
+/* White A: a white Tibetan A in a sphere ringed with the five colours;
+   it brightens while you sound A, then opens into clear sky. */
+.aring { width:min(58vw,220px); aspect-ratio:1; border-radius:50%; padding:9px; transition:transform 3s ease-out, opacity 3s ease-out;
+  background:conic-gradient(#f4f1ea,#f2c94c,#e2574c,#4caf6e,#4a7fd4,#f4f1ea); }
+.aorb { width:100%; height:100%; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 50% 42%,#33406a,#141a2e 72%);
+  box-shadow:0 0 0 0 rgba(255,255,255,0); transition:box-shadow 6s ease-out; }
+.aorb b { font-family:var(--f-tib); font-weight:400; font-size:calc(min(58vw,220px) * .46); line-height:1; color:#fff; text-shadow:0 0 16px rgba(255,255,255,.75); transform:translateY(8%); }
+.aring.sound .aorb { box-shadow:0 0 70px 26px rgba(255,255,255,.55); }
+.aring.open { transform:scale(1.5); opacity:0; }
+.breath.wa.sky { background:linear-gradient(180deg,var(--bg),color-mix(in srgb,#8fbbe8 28%,var(--bg))); }
 .nost { display:flex; gap:10px; justify-content:center; }
 .nost span { padding:6px 14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-size:14px; color:var(--ink-3); }
 .nost span.open { border-color:var(--accent); color:var(--accent-ink); background:var(--glow); }
@@ -1013,56 +1026,75 @@ const ABOUT_PR={
 
 // ═══════════════════════════════════════════════════════════
 // QUOTES — swipe through them on Today. Add more here: one line each.
-// Sources: the Dhammapada (F. Max Müller, 1881, public domain), the
-// Mahāparinibbāna Sutta (T. W. Rhys Davids, 1881), Atiśa's mind-training
-// slogans, and teachers of the Kagyu lineage.
+// Only words that can be traced to a text: the practice liturgy used in
+// this app, the Dhammapada (tr. F. Max Müller, 1881, public domain), the
+// Mahāparinibbāna Sutta (tr. T. W. Rhys Davids, 1881), Atiśa's mind-training
+// slogans, and well-known lines of the lineage. The four thoughts are
+// contemplations written for this app, and labelled as such.
+// (Removed 2026-09-30: sayings whose source couldn't be traced.)
 // ═══════════════════════════════════════════════════════════
 const QUOTES=[
-  {t:'Do not imagine, do not think, do not analyse, do not meditate, do not reflect. Rest in natural awareness.',a:'Tilopa'},
-  {t:'The nature of mind is originally pure. It is simply a matter of recognising it.',a:'Milarepa'},
-  {t:'The basis is Buddha nature. The path is bodhichitta. The fruition is Buddhahood for all beings.',a:'Gampopa'},
-  {t:'Watch your mind.',a:'16th Karmapa'},
-  {t:'Driven by fear I sought the mountains. Having seen the nature of mind, I no longer fear even death.',a:'Milarepa'},
-  {t:'The view is Mahamudra. Meditation is of one taste. Action is to abandon all grasping.',a:'Mārpa Lotsāwa'},
-  {t:'May all beings have happiness and its causes, and be free from suffering and its causes.',a:'Four Immeasurables'},
-  {t:'The greatest harm is the fixation on a self. The supreme precept is non-attachment to anything.',a:'Machig Labdrön'},
-  {t:'My father is intrinsic awareness. My mother is the vastness of space.',a:'Guru Rinpoche'},
-  {t:'All phenomena arise from mind and are purified in mind. Mind itself is beyond arising and cessation.',a:'3rd Karmapa'},
-  {t:'May the precious bodhicitta take birth where it does not exist, and where it exists, may it never wane.',a:'Aspiration for Bodhicitta'},
-  {t:'Work out your own liberation with diligence.',a:'Śākyamuni Buddha'},
-  {t:'Detachment is the foot of meditation. Devotion is the head. Unwavering attention is the body.',a:'Dorje Chang Tungma'},
-  {t:'Grant your blessings so that confusion may dawn as wisdom.',a:'Four Dharmas of Gampopa'},
-  {t:'The essence of thought is Dharmakāya: nothing whatsoever, yet everything arises.',a:'Dorje Chang Tungma'},
-  {t:'Compassion without wisdom becomes sentimentality. Wisdom without compassion becomes cold.',a:'Tibetan teaching'},
-  {t:'OM MANI PEME HUNG: the jewel in the lotus of the heart.',a:'Chenrezig mantra'},
-  {t:'Where the mind goes, there is no Mahamudra. Where mind does not go, that is Mahamudra.',a:'Saraha'},
-  {t:'Recognising the nature of mind, there is nothing to fear. Not recognising it, there is nothing safe.',a:'1st Karmapa'},
-  {t:'In meditation, rest without agenda. In daily life, act without grasping.',a:'Gampopa’s pith instructions'},
-  {t:'KARMAPA KHENNO: Karmapa, hear me!',a:'Guru Yoga invocation'},
-  {t:'SONAM DI YI TAM CHAY ZIK PA NYI: through this virtue, may omniscience be attained.',a:'Dedication of Merit'},
-  {t:'You are already what you seek. Practice is recognising what has always been present.',a:'Mahamudra pointing-out instruction'},
-  {t:'Whatever arises is the fresh nature of thought. Rest there, in its naturalness.',a:'Dorje Chang Tungma'},
-  // Dhammapada, tr. F. Max Müller (1881)
+  // From the practice liturgy
+  {t:'May all beings have happiness and the causes of happiness. May all beings be free from suffering and its causes.',a:'The Four Immeasurables'},
+  {t:'May the precious bodhicitta take birth where it is not yet existing; where it exists may it never wane, but continuously and ever increase.',a:'Aspiration for bodhicitta'},
+  {t:'Detachment is the foot of meditation. Devotion is the head of meditation. Unwavering attention is the body of meditation.',a:'Dorje Chang Tungma'},
+  {t:'Grant your blessings so that my mind may be one with the Dharma.',a:'The Four Dharmas of Gampopa'},
+  {t:'Grant your blessings so that Dharma may progress along the path.',a:'The Four Dharmas of Gampopa'},
+  {t:'Grant your blessings so that the path may clarify confusion.',a:'The Four Dharmas of Gampopa'},
+  {t:'Grant your blessings so that confusion may dawn as wisdom.',a:'The Four Dharmas of Gampopa'},
+  {t:'KARMAPA KHENNO: Karmapa, hear me.',a:'Guru yoga invocation'},
+  {t:'Through this virtue may omniscience be attained, and may every defilement be overcome.',a:'Dedication of merit'},
+  // Lineage
+  {t:'Don’t recall. Don’t imagine. Don’t think. Don’t examine. Don’t control. Rest.',a:'Tilopa’s six words of advice'},
+  {t:'It is not appearances that bind you, but your clinging to them.',a:'Tilopa to Nāropa'},
+  {t:'Though my view is as spacious as the sky, my attention to actions is as fine as barley flour.',a:'Guru Rinpoche'},
+  {t:'For as long as space endures, and for as long as living beings remain, until then may I too abide to dispel the misery of the world.',a:'Śāntideva, The Way of the Bodhisattva 10.55'},
+  // Śāntideva, Bodhicaryāvatāra, tr. L. D. Barnett, "The Path of Light" (1909, public domain)
+  {t:'As in the night, amidst the gross darkness of the clouds, the lightning shews for an instant its radiance, so by the grace of the Enlightened it may hap that the mind of man turn for an instant to holy works.',a:'Śāntideva, The Path of Light, ch. 1'},
+  {t:'Eager to escape sorrow, men rush into sorrow; from desire of happiness they blindly slay their own happiness, enemies to themselves.',a:'Śāntideva, The Path of Light, ch. 1'},
+  {t:'May I be a balm to the sick, their healer and servitor, until sickness come never again.',a:'Śāntideva, The Path of Light, ch. 3'},
+  {t:'I would be a protector of the unprotected, a guide of wayfarers, a ship, a dyke, and a bridge for them who seek the further Shore; a lamp for them who need a lamp, a bed for them who need a bed.',a:'Śāntideva, The Path of Light, ch. 3'},
+  {t:'This Thought of Enlightenment has arisen within me I know not how, even as a gem might be gotten by a blind man from a dunghill.',a:'Śāntideva, The Path of Light, ch. 3'},
+  {t:'How many can I slay of the wicked, who are measureless as space? But when the thought of wrath is slain, all my foes are slain.',a:'Śāntideva, The Path of Light, ch. 5'},
+  {t:'Whence can be found leather enough to cover the whole earth? But with a single leather shoe the whole ground is covered. In like manner the forces without me I cannot control; but I will control the thought within me.',a:'Śāntideva, The Path of Light, ch. 5'},
+  {t:'There is no guilt equal to hatred, no mortification equal to long-suffering.',a:'Śāntideva, The Path of Light, ch. 6'},
+  {t:'While the arrow of hate is in the heart, none can have a peaceful mind in equipoise, or feel the joy of kindliness, none can win sleep or calm.',a:'Śāntideva, The Path of Light, ch. 6'},
+  {t:'Form is emptiness, emptiness is form.',a:'The Heart Sūtra'},
+  {t:'Decay is inherent in all component things. Work out your salvation with diligence.',a:'The Buddha’s last words'},
+  // The four thoughts that turn the mind (contemplations)
+  {t:'This free and well-favoured human life is rare and easily lost. Use it well.',a:'The four thoughts · precious human life'},
+  {t:'Everything that is born will die, and the time of death is uncertain. Let this bring your practice into today.',a:'The four thoughts · impermanence'},
+  {t:'Actions have results. What we do, say and think now shapes what we meet later.',a:'The four thoughts · karma'},
+  {t:'Wherever we are born in samsāra, suffering follows. Seeing this clearly turns the mind towards freedom.',a:'The four thoughts · samsāra'},
+  // The Dhammapada, tr. F. Max Müller (1881)
   {t:'All that we are is the result of what we have thought: it is founded on our thoughts, it is made up of our thoughts.',a:'Dhammapada 1'},
+  {t:'If a man speaks or acts with a pure thought, happiness follows him, like a shadow that never leaves him.',a:'Dhammapada 2'},
   {t:'Hatred does not cease by hatred at any time: hatred ceases by love. This is an old rule.',a:'Dhammapada 5'},
   {t:'As rain breaks through an ill-thatched house, passion will break through an unreflecting mind.',a:'Dhammapada 13'},
   {t:'As rain does not break through a well-thatched house, passion will not break through a well-reflecting mind.',a:'Dhammapada 14'},
+  {t:'Earnestness is the path of immortality, thoughtlessness the path of death.',a:'Dhammapada 21'},
+  {t:'It is good to tame the mind, which is difficult to hold in and flighty, rushing wherever it listeth; a tamed mind brings happiness.',a:'Dhammapada 35'},
   {t:'As the bee collects nectar and departs without injuring the flower, or its colour or scent, so let a sage dwell in his village.',a:'Dhammapada 49'},
+  {t:'Not the perversities of others, not their sins of commission or omission, but his own misdeeds and negligences should a sage take notice of.',a:'Dhammapada 50'},
+  {t:'Like a beautiful flower, full of colour, but without scent, are the fine but fruitless words of him who does not act accordingly.',a:'Dhammapada 51'},
   {t:'As a solid rock is not shaken by the wind, wise people falter not amidst blame and praise.',a:'Dhammapada 81'},
   {t:'Even though a speech be a thousand words, but made up of senseless words, one word of sense is better, which if a man hears, he becomes quiet.',a:'Dhammapada 100'},
   {t:'If one man conquer in battle a thousand times thousand men, and if another conquer himself, he is the greatest of conquerors.',a:'Dhammapada 103'},
-  {t:'Let no man think lightly of good, saying in his heart, It will not come nigh unto me. Even by the falling of water-drops a water-pot is filled.',a:'Dhammapada 122'},
+  {t:'Let no man think lightly of good, saying in his heart, It will not benefit me. Even by the falling of water-drops a water-pot is filled; the wise man becomes full of good, even if he gather it little by little.',a:'Dhammapada 122'},
   {t:'Self is the lord of self; who else could be the lord?',a:'Dhammapada 160'},
+  {t:'By oneself the evil is done, by oneself one suffers; by oneself evil is left undone, by oneself one is purified.',a:'Dhammapada 165'},
   {t:'Not to commit any sin, to do good, and to purify one’s mind: that is the teaching of all the Awakened.',a:'Dhammapada 183'},
   {t:'Let us live happily then, not hating those who hate us.',a:'Dhammapada 197'},
   {t:'Health is the greatest of gifts, contentment the best riches; trust is the best of relationships, Nirvana the highest happiness.',a:'Dhammapada 204'},
   {t:'Let a man overcome anger by love, let him overcome evil by good; let him overcome the greedy by liberality, the liar by truth.',a:'Dhammapada 223'},
+  {t:'The fault of others is easily perceived, but that of oneself is difficult to perceive.',a:'Dhammapada 252'},
   {t:'You yourself must make an effort. The Tathāgatas are only preachers.',a:'Dhammapada 276'},
-  {t:'Earnestness is the path of immortality, thoughtlessness the path of death.',a:'Dhammapada 21'},
-  {t:'Decay is inherent in all component things. Work out your salvation with diligence.',a:'The Buddha’s last words'},
-  // Mind training (lojong) — Atiśa, set down by Geshe Chekawa
+  {t:'Through zeal knowledge is gotten, through lack of zeal knowledge is lost.',a:'Dhammapada 282'},
+  // Mind training (lojong): Atiśa's slogans, set down by Geshe Chekawa
   {t:'Regard all dharmas as dreams.',a:'Mind training slogan'},
   {t:'In post-meditation, be a child of illusion.',a:'Mind training slogan'},
+  {t:'Begin the sequence of sending and taking with yourself.',a:'Mind training slogan'},
+  {t:'When the world is filled with evil, transform all mishaps into the path of bodhi.',a:'Mind training slogan'},
   {t:'Drive all blames into one.',a:'Mind training slogan'},
   {t:'Be grateful to everyone.',a:'Mind training slogan'},
   {t:'Whatever you meet unexpectedly, join with meditation.',a:'Mind training slogan'},
@@ -1070,28 +1102,23 @@ const QUOTES=[
   {t:'Of the two witnesses, hold the principal one.',a:'Mind training slogan'},
   {t:'Always maintain only a joyful mind.',a:'Mind training slogan'},
   {t:'If you can practise even when distracted, you are well trained.',a:'Mind training slogan'},
+  {t:'Train in the three difficulties.',a:'Mind training slogan'},
+  {t:'Don’t be swayed by external circumstances.',a:'Mind training slogan'},
   {t:'Don’t talk about injured limbs.',a:'Mind training slogan'},
   {t:'Don’t ponder others.',a:'Mind training slogan'},
   {t:'Don’t bring things to a painful point.',a:'Mind training slogan'},
+  {t:'Don’t be jealous.',a:'Mind training slogan'},
   {t:'Abandon any hope of fruition.',a:'Mind training slogan'},
   {t:'Don’t expect applause.',a:'Mind training slogan'},
-  {t:'Begin the sequence of sending and taking with yourself.',a:'Mind training slogan'},
-  {t:'When the world is filled with evil, transform all mishaps into the path.',a:'Mind training slogan'},
-  // The four thoughts that turn the mind — the common preliminaries
-  {t:'This free and well-favoured human life is rare and easily lost. Use it well.',a:'The four thoughts · precious human life'},
-  {t:'Everything that is born will die, and the time of death is uncertain. Let this bring your practice into today.',a:'The four thoughts · impermanence'},
-  {t:'Actions have results. What we do, say and think now shapes what we meet later.',a:'The four thoughts · karma'},
-  {t:'Wherever we are born in samsāra, suffering follows. Seeing this clearly turns the mind towards freedom.',a:'The four thoughts · samsāra'},
-  // Further teachings
-  {t:'Though my view is as spacious as the sky, my attention to actions is as fine as barley flour.',a:'Guru Rinpoche'},
-  {t:'My religion is to live and die without regret.',a:'Milarepa'},
-  {t:'You are not bound by appearances, but by clinging to them.',a:'Tilopa to Nāropa'},
-  {t:'Form is emptiness, emptiness is form.',a:'Heart Sūtra'},
-  {t:'For as long as space endures, and for as long as living beings remain, until then may I too abide to dispel the misery of the world.',a:'Śāntideva'},
-  {t:'Grant your blessings so that my mind may follow the Dharma.',a:'Four Dharmas of Gampopa'},
-  {t:'Grant your blessings so that the Dharma may become the path.',a:'Four Dharmas of Gampopa'},
-  {t:'Grant your blessings so that the path may clarify confusion.',a:'Four Dharmas of Gampopa'},
 ];
+
+// The Thirty-Seven Practices of All the Bodhisattvas, by Gyalsé Tokmé Zangpo.
+// Translated by Adam Pearcey, 2006 (Lotsawa House, v1.6). Licensed CC BY-NC 4.0:
+// https://www.lotsawahouse.org/tibetan-masters/gyalse-thogme-zangpo/37-practices-all-bodhisattvas
+const THIRTY_SEVEN={id:"thirty_seven",title:"The Thirty-Seven Practices of Bodhisattvas",sub:"Gyalsé Tokmé Zangpo · tr. Adam Pearcey (Lotsawa House, CC BY-NC 4.0)",couplets:[{"sec": "Homage"}, {"x": "Namo Lokeśvarāya!"}, {"x": "You see that all things are beyond coming and going,\nYet still you strive solely for the sake of living beings—\nTo you, my precious guru inseparable from Lord Avalokita,\nI offer perpetual homage, respectfully, with body, speech and mind."}, {"x": "The perfect buddhas, who are the source of all benefit and joy,\nCome into being through accomplishing the sacred Dharma.\nAnd since this in turn depends on knowing how to practise,\nI shall now describe the practices of all the buddhas’ heirs."}, {"sec": "The thirty-seven practices"}, {"x": "The practice of all the bodhisattvas is to study, reflect and meditate,\nTirelessly, both day and night, without ever straying into idleness,\nIn order to free oneself and others from this ocean of saṃsāra,\nHaving gained this supreme vessel—a free, well-favoured human life, so difficult to find.", "n": 1}, {"x": "The practice of all the bodhisattvas is to leave behind one’s homeland,\nWhere our attachment to family and friends overwhelms us like a torrent,\nWhile our aversion towards enemies rages inside us like a blazing fire,\nAnd delusion’s darkness obscures what must be adopted and abandoned.", "n": 2}, {"x": "The practice of all the bodhisattvas is to take to solitary places,\nAvoiding the unwholesome, so that destructive emotions gradually fade away,\nAnd, in the absence of distraction, virtuous practice naturally gains strength;\nWhilst, with awareness clearly focused, we gain conviction in the teachings.", "n": 3}, {"x": "The practice of all the bodhisattvas is to renounce this life’s concerns,\nFor friends and relatives, long acquainted, must all go their separate ways;\nWealth and prized possessions, painstakingly acquired, must all be left behind;\nAnd consciousness, the guest who lodges in the body, must in time depart.", "n": 4}, {"x": "The practice of all the bodhisattvas is to avoid destructive friends,\nIn whose company the three poisons of the mind grow stronger,\nAnd we engage less and less in study, reflection and meditation,\nSo that love and compassion fade away until they are no more.", "n": 5}, {"x": "The practice of all the bodhisattvas is to cherish spiritual friends,\nBy regarding them as even more precious than one’s own body,\nSince they are the ones who will help to rid us of all our faults,\nAnd make our virtues grow ever greater just like the waxing moon.", "n": 6}, {"x": "The practice of all the bodhisattvas is to take refuge in the Three Jewels,\nSince they will never fail to provide protection for all who call upon them,\nFor whom are the ordinary gods of this world ever capable of helping,\nAs long as they themselves are trapped within saṃsāra’s vicious cycle?", "n": 7}, {"x": "The practice of all the bodhisattvas is never to commit a harmful act,\nEven though not to do so might put one’s very life at risk,\nFor the Sage himself has taught how negative actions will ripen\nInto the manifold miseries of the lower realms, so difficult to endure.", "n": 8}, {"x": "The practice of all the bodhisattvas is to strive towards the goal,\nWhich is the supreme state of changeless, everlasting liberation,\nSince all the happiness of the three realms lasts but a moment,\nAnd then is quickly gone, just like dewdrops on blades of grass.", "n": 9}, {"x": "The practice of all the bodhisattvas is to arouse bodhicitta,\nSo as to bring freedom to all sentient beings, infinite in number.\nFor how can true happiness ever be found while our mothers,\nWho have cared for us throughout the ages, endure such pain?", "n": 10}, {"x": "The practice of all the bodhisattvas is to make a genuine exchange\nOf one’s own happiness and well-being for all the sufferings of others.\nSince all misery comes from seeking happiness for oneself alone,\nWhilst perfect buddhahood is born from the wish for others’ good.", "n": 11}, {"x": "Even if others, in the grips of great desire, should steal,\nOr encourage others to take away, all the wealth that I possess,\nTo dedicate to them entirely my body, possessions and all my merits\nFrom the past, present and future— this is the practice of all the bodhisattvas.", "n": 12}, {"x": "Even if others should seek to cut off my head,\nThough I’ve done them not the slightest wrong,\nTo take upon myself, out of compassion,\nAll the harms they have amassed—this is the practice of all the bodhisattvas.", "n": 13}, {"x": "Even if others should declare before the world\nAll manner of unpleasant things about me,\nTo speak only of their qualities in return,\nWith a mind that’s filled with love—this is the practice of all the bodhisattvas.", "n": 14}, {"x": "Even if others should expose my hidden faults or deride me\nWhen speaking amidst great gatherings of many people,\nTo conceive of them as spiritual friends and to bow\nBefore them in respect—this is the practice of all the bodhisattvas.", "n": 15}, {"x": "Even if others whom I have cared for like children of my own\nShould turn upon me and treat me as an enemy,\nTo regard them only with special fondness and affection,\nAs a mother would her ailing child—this is the practice of all the bodhisattvas.", "n": 16}, {"x": "Even if others, equal or inferior to me in status,\nShould, out of arrogance, disparage me,\nTo honour them, as I would my teacher,\nBy bowing down my head before them—this is the practice of all the bodhisattvas.", "n": 17}, {"x": "Even though I may be destitute and despised by all,\nBeset with terrible illness and plagued by evil spirits,\nStill to take upon myself all beings’ ills and harmful actions,\nWithout ever losing heart—this is the practice of all the bodhisattvas.", "n": 18}, {"x": "Even though I may be famous and revered by all,\nAnd as rich as Vaiśravaṇa, the god of wealth himself,\nTo see the futility of all the glory and riches of this world\nAnd to remain without conceit—this is the practice of all the bodhisattvas.", "n": 19}, {"x": "The practice of all the bodhisattvas is to subdue the mind\nWith the forces of loving kindness and compassion.\nFor unless the real adversary—my own anger—is defeated,\nOuter enemies, though I may conquer them, will continue to appear.", "n": 20}, {"x": "The practice of all the bodhisattvas is to turn away immediately\nFrom those things which bring desire and attachment.\nFor the pleasures of the senses are just like salty water:\nThe more we taste of them, the more our thirst increases.", "n": 21}, {"x": "The practice of all the bodhisattvas is never to entertain concepts,\nWhich revolve around dualistic notions of perceiver and perceived,\nIn the knowledge that all these appearances are but the mind itself,\nWhilst mind’s own nature is forever beyond the limitations of ideas.", "n": 22}, {"x": "The practice of all the bodhisattvas is to let go of grasping\nWhen encountering things one finds pleasant or attractive,\nConsidering them to be like rainbows in the summer skies—\nBeautiful in appearance, yet in truth devoid of any substance.", "n": 23}, {"x": "The practice of all the bodhisattvas is to recognize delusion\nWhenever one is confronted by adversity or misfortune.\nFor these sufferings are just like the death of a child in a dream,\nAnd it’s so exhausting to cling to delusory perceptions as real.", "n": 24}, {"x": "The practice of all the bodhisattvas is to give out of generosity,\nWith no hopes of karmic recompense or expectation of reward.\nFor if those who seek awakening must give even their own bodies,\nWhat need is there to mention mere outer objects and possessions?", "n": 25}, {"x": "The practice of all the bodhisattvas is to observe ethical restraint,\nWithout the slightest intention of continuing in saṃsāric existence.\nFor lacking discipline one will never secure even one’s own well-being,\nAnd so any thought of bringing benefit to others would be absurd.", "n": 26}, {"x": "The practice of all the bodhisattvas is to cultivate patience,\nFree from any trace of animosity towards anyone at all,\nSince any potential source of harm is like a priceless treasure\nTo the bodhisattva who is eager to enjoy a wealth of virtue.", "n": 27}, {"x": "The practice of all the bodhisattvas is to strive with enthusiastic diligence—\nThe source of all good qualities—when working for the sake of all who live;\nSeeing that even śrāvakas and pratyekabuddhas, who labour for themselves alone,\nExert themselves as if urgently trying to extinguish fires upon their heads.", "n": 28}, {"x": "The practice of all the bodhisattvas is to cultivate concentration,\nWhich utterly transcends the four formless absorptions,\nIn the knowledge that mental afflictions are overcome entirely\nThrough penetrating insight suffused with stable calm.", "n": 29}, {"x": "The practice of all the bodhisattvas is to cultivate wisdom,\nBeyond the three conceptual spheres, alongside skilful means,\nSince it is not possible to attain the perfect level of awakening\nThrough the other five pāramitās alone, in wisdom’s absence.", "n": 30}, {"x": "The practice of all the bodhisattvas is to scrutinize oneself\nContinually and to rid oneself of faults whenever they appear.\nFor unless one checks carefully to find one’s own confusion,\nOne might appear to be practising Dharma, but act against it.", "n": 31}, {"x": "The practice of all the bodhisattvas is never to speak ill\nOf others who have embarked upon the greater vehicle,\nFor if, under the influence of destructive emotions,\nI speak of other bodhisattvas’ failings, it is I who am at fault.", "n": 32}, {"x": "The practice of all the bodhisattvas is to let go of attachment\nTo the households of benefactors and of family and friends,\nSince one’s study, reflection and meditation will all diminish\nWhen one quarrels and competes for honours and rewards.", "n": 33}, {"x": "The practice of all the bodhisattvas is to avoid harsh words,\nWhich others might find unpleasant or distasteful,\nSince abusive language upsets the minds of others,\nAnd thereby undermines a bodhisattva’s conduct.", "n": 34}, {"x": "The practice of all the bodhisattvas is to slay attachment\nAnd the rest—mind’s afflictions—at once, the very moment they arise,\nTaking as weapons the remedies held with mindfulness and vigilance.\nFor once the kleshas have become familiar, they’ll be harder to avert.", "n": 35}, {"x": "In short, no matter what one might be doing,\nBy examining always the status of one’s mind,\nWith continuous mindfulness and alertness,\nTo bring about the good of others—this is the practice of all the bodhisattvas.", "n": 36}, {"x": "The practice of all the bodhisattvas is to dedicate towards enlightenment\nAll the virtue to be gained through making effort in these ways,\nWith wisdom that is purified entirely of the three conceptual spheres,\nSo as to dispel the sufferings of the infinity of beings.", "n": 37}, {"sec": "Conclusion"}, {"x": "Here I have set down for those who wish to follow the bodhisattva path,\nThirty-seven practices to be adopted by all the buddhas’ heirs,\nBased on what is taught in the sūtras, tantras and treatises,\nAnd following the instructions of the great masters of the past."}, {"x": "Since my intellect is only feeble and I have studied but a little,\nThis is not a composition likely to delight the connoisseurs,\nYet since I’ve relied upon the sūtras and what the saints have taught\nI feel these are indeed the genuine trainings of the buddhas’ heirs."}, {"x": "Still, the tremendous waves of activity of the bodhisattvas\nAre difficult for simple-minded folk like me to comprehend,\nAnd I must therefore beg the indulgence of all the perfect saints\nFor any contradictions, irrelevancies or other flaws this may contain."}, {"x": "Through whatever merit has here been gained, may all beings\nGenerate sublime bodhicitta, both relative and absolute,\nAnd through this, come to equal Lord Avalokiteśvara,\nTranscending the extremes of existence and quiescence."}, {"x": "This was composed in Jewel Cave (Rinchen Puk) in Ngulchu by the monk Tokme, a teacher of scripture and reasoning, for his own and others’ benefit."}]};
+PRAYERS.push(THIRTY_SEVEN);
+// Each practice as its own quote (full verse), so any day may show, say, practice 9.
+QUOTES.push(...THIRTY_SEVEN.couplets.filter(c=>c.n).map(c=>({t:c.x,a:`The 37 Practices of Bodhisattvas · ${c.n}`})));
 
 // Nine-Round Breathing — Gareth's verbatim text (also in content/nine-round-breathing.md).
 const NINE_ROUND_TEXT=[
@@ -1121,6 +1148,23 @@ const NINE_ROUND=(()=>{const s=[
   for(let r=7;r<=9;r++)s.push(...round(r,'both','both',true));
   s.push({k:'rest',t:'Rest',d:'Rest in stillness, body and mind purified and light, letting go of all thoughts and images.'});
   return s;})();
+
+// White A guru yoga — DRAFT for Gareth's review (see content/white-a-draft.md).
+// Tap-first: nothing listens to the microphone; you tap when each sound ends.
+const WHITE_A_INFO=[
+  'The guru yoga of the White A comes from the Dzogchen teachings. It traces back to Garab Dorje, the first human teacher of Dzogchen, and has travelled through many teachers and places, adapted along the way while keeping the same essence.',
+  'It was taught widely by Chögyal Namkhai Norbu. James Low and the Simply Being sangha teach a simple form: sounding A three times, then resting.',
+  'In guru yoga we unite our own mind with the mind of the teacher, which is our own open, aware nature. The white A stands for that nature.',
+  'This guide is only a reminder of the steps. Please learn the practice from a qualified teacher.',
+];
+const WHITE_A=[
+  {k:'prep',t:'Sit comfortably',d:'Sit upright and relaxed, on a cushion or a chair. Let the breath settle by itself.'},
+  {k:'see',t:'The white A',d:'In the space in front of you, imagine a white Tibetan letter A, clear and shining, inside a sphere of five-coloured rainbow light.',
+    teacher:'Imagine your teacher in the space in front of you, with a white letter A shining at their heart. Their mind and your own true nature are not two.'},
+  {k:'sound',r:1},{k:'sound',r:2},{k:'sound',r:3},
+  {k:'rest',t:'Rest in openness',d:'The A dissolves into clear, open space, like a cloudless sky. Simply remain relaxed and present, without adding or changing anything. If you get lost in thoughts, sound A again.'},
+];
+const WHITE_A_SOUND={t:'Sound A',d:'Sound a long, relaxed “Aaah”, aloud or silently. The white A shines brighter, and your mind and the A become one. Tap when the sound has finished.'};
 
 // ═══════════════════════════════════════════════════════════
 // STATE & STORAGE
@@ -1314,7 +1358,7 @@ function pagePractice(){const all=allPR();
     ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
   <p class="h2">GUIDED</p><div class="list">
     ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}
-    <button class="item" data-act="toast" data-msg="White A is being prepared carefully from Namkhai Norbu and James Low's teachings."><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">White A</span><span class="s">Coming soon</span></span></button></div>
+    <button class="item" data-act="whitea"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">White A</span><span class="s">Guru yoga · a few minutes · draft</span></span>${chev}</button></div>
   </div></div>`;}
 
 function ovPractice(){
@@ -1407,7 +1451,10 @@ function openSession(pid){ST.tap.pid=pid||ST.tap.pid||'';saveTap();ST.ov='sessio
 // ═══════════════════════════════════════════════════════════
 // TEXTS — prayers verse by verse (or whole), practice texts
 // ═══════════════════════════════════════════════════════════
-function versesOf(pr){const out=[];let sec='';for(const c of pr.couplets){if(c.sec){sec=c.sec;continue;}if(c.t||c.p||c.e)out.push({...c,sec});}return out;}
+// Verses of a prayer. Couplet fields: t = Tibetan, p = phonetics (the chant
+// line), e = English translation, x = plain reading text (English-only texts),
+// n = verse number, sec = section heading that applies to the verses after it.
+function versesOf(pr){const out=[];let sec='';for(const c of pr.couplets){if(c.sec){sec=c.sec;continue;}if(c.t||c.p||c.e||c.x)out.push({...c,sec});}return out;}
 function pageTexts(){
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
   <div class="list">${PRAYERS.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>
@@ -1421,11 +1468,13 @@ function pageTexts(){
 function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar('Prayer');
   const vs=versesOf(pr),n=vs.length,i=Math.min(ST.verse,n-1),v=vs[i],last=i===n-1;
   const right=`<button class="iconbtn" data-act="tib" aria-label="${ST.showTib?'Hide':'Show'} Tibetan script" aria-pressed="${ST.showTib}" style="font-family:var(--f-tib);font-size:20px">ཀ</button>`;
-  const block=c=>`${ST.showTib&&c.t?`<p class="vt">${c.t}</p>`:''}${(c.p||'').split('\n').filter(Boolean).map(l=>`<p class="vp">${esc(l)}</p>`).join('')}${c.e?`<p class="ve">${esc(c.e)}</p>`:''}`;
+  const hasTib=vs.some(c=>c.t);
+  const block=c=>`${ST.showTib&&c.t?`<p class="vt">${c.t}</p>`:''}${(c.p||'').split('\n').filter(Boolean).map(l=>`<p class="vp">${esc(l)}</p>`).join('')}${c.e?`<p class="ve">${esc(c.e)}</p>`:''}${c.x?`<p class="vx">${esc(c.x)}</p>`:''}`;
+  const secOf=c=>c.n?`${c.sec} · ${c.n}`:c.sec;
   const mode=`<div class="seg" style="grid-template-columns:1fr 1fr;max-width:var(--col-w);margin:0 auto;padding:0 14px;width:100%"><button class="opt${ST.whole?'':' on'}" data-act="whole" data-v="0">One verse</button><button class="opt${ST.whole?' on':''}" data-act="whole" data-v="1">Whole prayer</button></div>`;
-  if(ST.whole)return`${topbar(esc(pr.title),{right})}${mode}<div class="ovbody whole"><div class="col"><p class="sub">${esc(pr.sub)}</p>
-    ${vs.map((c,k)=>`${c.sec&&(k===0||vs[k-1].sec!==c.sec)?`<p class="vsec" style="margin-top:10px">${esc(c.sec)}</p>`:''}<div class="vblock">${block(c)}</div>`).join('')}</div></div>`;
-  return`${topbar(esc(pr.title),{right})}${mode}<div class="verse"><div class="col">${v.sec?`<p class="vsec">${esc(v.sec)}</p>`:''}${block(v)}</div></div>
+  if(ST.whole)return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="ovbody whole"><div class="col"><p class="sub">${esc(pr.sub)}</p>
+    ${vs.map((c,k)=>`${c.sec&&(k===0||vs[k-1].sec!==c.sec)?`<p class="vsec" style="margin-top:10px">${esc(c.sec)}</p>`:''}<div class="vblock">${c.n?`<p class="vsec">${c.n}</p>`:''}${block(c)}</div>`).join('')}</div></div>`;
+  return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="verse"><div class="col">${v.sec?`<p class="vsec">${esc(secOf(v))}</p>`:''}${block(v)}</div></div>
   <p class="vcount">Verse ${i+1} of ${n}</p>
   <div class="vnav"><button class="btn soft" data-act="vprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closeov':'vnext'}">${last?'Finish':'Next verse'}</button></div>`;}
 
@@ -1462,8 +1511,13 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p class="h2" style="margin-top:18px">THE CALENDAR</p>
   <p>Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics (as in the open-source tibetan-date-calculator). Hair-cutting days follow tibetanbuddhistcalendar.org (Edward Henning’s Kālacakra calendar). The moon is calculated astronomically. With gratitude to their authors.</p>
   <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('Tibetan Buddhist calendar','https://tibetanbuddhistcalendar.org/day')}</div>
+  <p class="h2" style="margin-top:18px">TEXTS AND TRANSLATIONS</p>
+  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. Quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
+  <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/tibetan-masters/gyalse-thogme-zangpo/37-practices-all-bodhisattvas')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
+  <p class="h2" style="margin-top:18px">WHITE A</p>
+  <p>From the Dzogchen teachings of Garab Dorje, as taught by Chögyal Namkhai Norbu, and in the spirit of the teachings transmitted by James Low and his lineage.</p>
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -1512,6 +1566,22 @@ function runBreath(){clearTimeout(brTimer);const st=NINE_ROUND[ST.br],orb=docume
   const swap=(rm,add)=>requestAnimationFrame(()=>requestAnimationFrame(()=>{orb.classList.remove(rm);orb.classList.add(add);}));
   if(st.k==='in'){swap('out','in');brTimer=setTimeout(()=>{if(ST.ov==='breath'){ST.br++;render();}},5200);}
   if(st.k==='out'){swap('in','out');brTimer=setTimeout(()=>{if(ST.ov==='breath'){ST.br++;render();}},6200);}}
+// ═══════════════════════════════════════════════════════════
+// WHITE A (draft) — see the A, sound it three times, rest in openness
+// ═══════════════════════════════════════════════════════════
+function ovWhiteA(){const st=WHITE_A[ST.wa],s=st.k==='sound'?{...st,...WHITE_A_SOUND}:st,teacher=ST.waTeacher;
+  const desc=st.k==='see'&&teacher?st.teacher:s.d;
+  return`<div class="ovtop"><button class="iconbtn" data-act="closewa" aria-label="Close">${ico('close')}</button><div class="title">White A <span class="tag">Draft</span></div><button class="iconbtn" data-act="wainfo" aria-label="About this practice">${ico('info')}</button></div>
+  <div class="breath wa${st.k==='rest'?' sky':''}" data-act="${st.k==='rest'?'':'wanext'}">
+    <p class="small">${st.r?`Sound ${st.r} of 3`:st.k==='rest'?'Resting':'Getting ready'}</p>
+    <div class="aring${st.k==='sound'?' sound':''}${st.k==='rest'?' open':''}" id="aring"><div class="aorb"><b lang="bo">ཨ</b></div></div>
+    ${st.k==='see'?`<div class="seg" style="grid-template-columns:1fr 1fr;width:100%;max-width:340px"><button class="opt${teacher?'':' on'}" data-act="wateacher" data-v="0">The white A</button><button class="opt${teacher?' on':''}" data-act="wateacher" data-v="1">With my teacher</button></div>`:''}
+    <p class="bstep">${s.t}</p><p class="bdesc">${desc}</p>
+    ${st.k==='rest'||st.k==='sound'?'':'<p class="small">Tap anywhere when you are ready</p>'}</div>
+  <div class="vnav">${st.k==='rest'?`<button class="btn soft" data-act="waagain">Sound A again</button><button class="btn primary" data-act="wafinish">Finish</button>`
+    :`<button class="btn soft" data-act="waback">Back</button><button class="btn primary" data-act="wanext">${st.k==='sound'?'Sound finished':'Next'}</button>`}</div>`;}
+function sheetWA(){return`<div class="grab"></div><h2 class="h1">About the White A</h2>${WHITE_A_INFO.map(p=>`<p>${p}</p>`).join('')}
+  <p class="note">This guide is a draft, waiting to be checked.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;}
 function sheetNR(){return`<div class="grab"></div><h2 class="h1">Nine-Round Breathing</h2>
   <p class="small">As taught in the Dzogchen Community of Chögyal Namkhai Norbu.</p>
   <ol style="padding-left:1.3em;display:flex;flex-direction:column;gap:10px">${NINE_ROUND_TEXT.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
@@ -1612,9 +1682,9 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,practices:ovPractices,about:ovAbout,tree:()=>''};
+const OVERLAYS={session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,whitea:ovWhiteA,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,wa:sheetWA};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='';
 function render(){
@@ -1644,7 +1714,8 @@ function initQuotes(){const q=document.getElementById('quotes');if(!q)return;
   if(ST.qi==null)ST.qi=doy(new Date())%QUOTES.length;
   q.scrollLeft=ST.qi*(q.clientWidth+12);updQ();
   let t;q.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(()=>{ST.qi=Math.round(q.scrollLeft/(q.clientWidth+12));updQ();},80);},{passive:true});}
-function updQ(){const e=document.getElementById('qpos');if(e)e.textContent=`${ST.qi+1} of ${QUOTES.length}`;}
+function updQ(){const e=document.getElementById('qpos');if(e)e.textContent=`${ST.qi+1} of ${QUOTES.length}`;
+  const q=document.getElementById('quotes'),f=q&&q.children[ST.qi];if(f)q.style.height=f.offsetHeight+'px';}
 function goQuote(dir){const q=document.getElementById('quotes');if(!q)return;ST.qi=(ST.qi+dir+QUOTES.length)%QUOTES.length;
   q.scrollTo({left:ST.qi*(q.clientWidth+12),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});updQ();}
 let toastT;
@@ -1724,6 +1795,14 @@ document.getElementById('app').addEventListener('click',e=>{
     case'brback':ST.br=Math.max(0,ST.br-1);break;
     case'closebr':clearTimeout(brTimer);ST.ov=null;keepAwake(false);break;
     case'nrtext':clearTimeout(brTimer);sheet('nr');break;
+    case'whitea':ST.wa=0;ST.waTeacher=ls('esm_wa_teacher',false);ST.ov='whitea';keepAwake(true);break;
+    case'wanext':if(WHITE_A[ST.wa].k==='rest')return;ST.wa++;break;
+    case'waback':ST.wa=Math.max(0,ST.wa-1);break;
+    case'waagain':ST.wa=WHITE_A.findIndex(s=>s.k==='sound')+2;break;       // one more sound (the third slot), then rest
+    case'wateacher':ST.waTeacher=el.dataset.v==='1';lsSet('esm_wa_teacher',ST.waTeacher);break;
+    case'wainfo':sheet('wa');break;
+    case'closewa':ST.ov=null;keepAwake(false);break;
+    case'wafinish':ST.ov='dedicate';keepAwake(false);break;
     case'qprev':goQuote(-1);return;
     case'qnext':goQuote(1);return;
     case'toast':toast(el.dataset.msg);return;
