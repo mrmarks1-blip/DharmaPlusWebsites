@@ -346,7 +346,9 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 /* ═══════════════════════════════════════════
    BREATHING GUIDE
 ═══════════════════════════════════════════ */
-.breath { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:10px 24px; text-align:center; cursor:pointer; }
+.breath { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:20px; padding:10px 24px; text-align:center; cursor:pointer; }
+/* Centred when there is room; scrolls from the top (never clipped) when there isn't. */
+.breath > :first-child { margin-top:auto; } .breath > :last-child { margin-bottom:auto; }
 .orb { width:min(52vw,190px); aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 50% 45%,#fffdf6,#efe3c8 60%,#d9c49a); box-shadow:0 0 60px rgba(255,236,190,.5); transform:scale(.6); transition:transform 5s ease-in-out, filter 1s; }
 .orb.in { transform:scale(1); }
 .orb.out { transform:scale(.6); transition-duration:6s; filter:grayscale(1) brightness(.55); }
@@ -354,12 +356,13 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .bdesc { color:var(--ink-2); max-width:32ch; }
 /* White A: a white Tibetan A in a sphere ringed with the five colours;
    it brightens while you sound A, then opens into clear sky. */
-.aring { width:min(58vw,220px); aspect-ratio:1; border-radius:50%; padding:9px; transition:transform 3s ease-out, opacity 3s ease-out;
+.aring { width:var(--aring);  aspect-ratio:1; border-radius:50%; padding:9px; transition:transform 3s ease-out, opacity 3s ease-out;
   /* the five colours as James Low lists them: white, red, blue, green, yellow */
   background:conic-gradient(#f4f1ea,#e2574c,#4a7fd4,#4caf6e,#f2c94c,#f4f1ea);
   box-shadow:0 0 36px rgba(242,201,76,.25),0 0 60px rgba(74,127,212,.18); }
-.aorb b.lat { font-family:var(--f-display); font-weight:600; font-size:calc(min(58vw,220px) * .42); transform:none; }
+.aorb b.lat { font-family:var(--f-display); font-weight:600; font-size:calc(var(--aring) * .42); transform:none; }
 /* Sitting timer */
+:root { --aring:min(58vw,220px,28vh); }
 .sitbox { display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; max-width:420px; margin:0 auto; text-align:center; }
 .sitopts { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
 .sitopts .opt { min-width:74px; padding:0 12px; }
@@ -380,9 +383,10 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .bigcount { font-family:var(--f-display); font-weight:600; font-size:calc(110px * var(--scale)); line-height:1; color:var(--accent-ink); min-height:1.1em; font-variant-numeric:tabular-nums; }
 .aorb { width:100%; height:100%; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 50% 42%,#33406a,#141a2e 72%);
   box-shadow:0 0 0 0 rgba(255,255,255,0); transition:box-shadow 6s ease-out; }
-.aorb b { font-family:var(--f-tib); font-weight:400; font-size:calc(min(58vw,220px) * .46); line-height:1; color:#fff; text-shadow:0 0 16px rgba(255,255,255,.75); transform:translateY(8%); }
+.aorb b { font-family:var(--f-tib); font-weight:400; font-size:calc(var(--aring) * .46); line-height:1; color:#fff; text-shadow:0 0 16px rgba(255,255,255,.75); transform:translateY(8%); }
 .aring.sound .aorb { box-shadow:0 0 70px 26px rgba(255,255,255,.55); }
 .aring.open { transform:scale(1.5); opacity:0; }
+.breath.wa { gap:14px; }
 .breath.wa.sky { background:linear-gradient(180deg,var(--bg),color-mix(in srgb,#8fbbe8 28%,var(--bg))); }
 .nost { display:flex; gap:10px; justify-content:center; }
 .nost span { padding:6px 14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-size:14px; color:var(--ink-3); }
