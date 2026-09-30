@@ -12,10 +12,42 @@
 <title>Dharma Practice</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   THEMES
-═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — the whole look is driven from here.
+   Shared tokens (type, radii, layout) first; colour themes below.
+   Components further down only ever read these variables.
+═══════════════════════════════════════════════════════════════ */
 :root {
+  /* Type families */
+  --f-display:'Playfair Display',Georgia,serif;   /* headings, labels */
+  --f-serif:'Cormorant Garamond',Georgia,serif;   /* reading text, accents */
+  --f-ui:'Lato',system-ui,sans-serif;             /* controls, meta */
+  /* Type scale — multiplied by --scale (Settings → Text size) */
+  --scale:1;
+  --fs-label:calc(9px * var(--scale));    /* SMALL CAPS section labels */
+  --fs-meta:calc(10px * var(--scale));    /* secondary lines, captions */
+  --fs-small:calc(11px * var(--scale));
+  --fs-ui:calc(12px * var(--scale));      /* buttons, links, chips */
+  --fs-body:calc(13px * var(--scale));
+  --fs-text:calc(14px * var(--scale));    /* default body */
+  --fs-title:calc(15px * var(--scale));   /* card & list titles */
+  --fs-read:calc(16px * var(--scale));    /* serif reading text */
+  --fs-read-lg:calc(17px * var(--scale));
+  --fs-h:calc(18px * var(--scale));
+  --fs-h1:calc(22px * var(--scale));
+  /* Shape */
+  --r-xs:4px; --r-sm:8px; --r-md:10px; --r-lg:12px; --r-xl:14px; --r-2xl:20px;
+  /* Layout */
+  --gutter:14px; --col-w:760px; --nav-w:170px;
+  --nav-h:62px; --safe-b:env(safe-area-inset-bottom,0px);
+  /* Status & fixed accents (same in every theme) */
+  --ok:#50a060; --bad:#c05038; --done:#2e7d46; --spark:#f0b830; --grid:#9b1c2a;
+}
+
+/* Colour themes. "light" also lives on :root so it is the default.
+   Any element with data-theme="…" gets that theme's colours for its
+   subtree — Settings uses this to preview each theme on its own card. */
+:root, [data-theme="light"] {
   --bg:#fdf8f0; --surf:#f0e8d8; --card:#fff; --card2:#f5ede0;
   --bdr:rgba(107,15,26,.15); --bdr-hi:rgba(107,15,26,.4);
   --gold:#7a4e00; --gold-hi:#a06800; --gold-lo:rgba(122,78,0,.45); --gold-ghost:rgba(122,78,0,.07);
@@ -23,9 +55,7 @@
   --tx:#1a0804; --tx-mid:#5a3820; --tx-lo:#8a6850; --tx-ghost:#c0a890;
   --nav-bg:linear-gradient(180deg,#fff,#f5ede0); --nav-bdr:rgba(107,15,26,.12);
   --modal:rgba(0,0,0,.55); --inp:rgba(0,0,0,.04);
-  --nav-h:62px; --safe-b:env(safe-area-inset-bottom,0px);
-  --scale:1;
-  --scroll-bg:rgba(248,240,224,.95);
+  --btn-bg:linear-gradient(135deg,#c8900a,#7a5808); --btn-tx:#f8f0d8;
 }
 [data-theme="dark"] {
   --bg:#0e0804; --surf:#180e06; --card:#221408; --card2:#2c1a0a;
@@ -35,7 +65,6 @@
   --tx:#f0e4c8; --tx-mid:#b09060; --tx-lo:#705838; --tx-ghost:#3a2814;
   --nav-bg:linear-gradient(180deg,#1a1006,#0e0804); --nav-bdr:rgba(210,155,40,.12);
   --modal:rgba(0,0,0,.82); --inp:rgba(255,255,255,.04);
-  --scroll-bg:rgba(0,0,0,.84);
 }
 [data-theme="neuro"] {
   --bg:#08101c; --surf:#101828; --card:#182030; --card2:#1e2838;
@@ -45,7 +74,7 @@
   --tx:#e0eaf8; --tx-mid:#80a0c0; --tx-lo:#406080; --tx-ghost:#182840;
   --nav-bg:linear-gradient(180deg,#101828,#08101c); --nav-bdr:rgba(80,140,200,.12);
   --modal:rgba(0,0,0,.85); --inp:rgba(255,255,255,.05);
-  --scroll-bg:rgba(0,0,0,.84);
+  --btn-bg:linear-gradient(135deg,#2860a0,#14305a); --btn-tx:#e0f0ff;
 }
 [data-theme="temple"] {
   --bg:#1a0608; --surf:#220a0c; --card:#2c0e10; --card2:#340f12;
@@ -55,7 +84,6 @@
   --tx:#f5e8d0; --tx-mid:#c09060; --tx-lo:#705030; --tx-ghost:#3a1a10;
   --nav-bg:linear-gradient(180deg,#2c0e10,#1a0608); --nav-bdr:rgba(200,120,20,.15);
   --modal:rgba(0,0,0,.85); --inp:rgba(255,255,255,.05);
-  --scroll-bg:rgba(0,0,0,.84);
 }
 [data-theme="night"] {
   --bg:#080c1e; --surf:#0e1430; --card:#141c3a; --card2:#1a2244;
@@ -65,7 +93,6 @@
   --tx:#f0e8ff; --tx-mid:#9080c0; --tx-lo:#504080; --tx-ghost:#201830;
   --nav-bg:linear-gradient(180deg,#141c3a,#080c1e); --nav-bdr:rgba(160,130,200,.12);
   --modal:rgba(0,0,0,.88); --inp:rgba(255,255,255,.05);
-  --scroll-bg:rgba(0,0,0,.84);
 }
 [data-theme="earth"] {
   --bg:#f5ede0; --surf:#ede0ce; --card:#fff8f0; --card2:#f8eed8;
@@ -75,7 +102,6 @@
   --tx:#2c1008; --tx-mid:#6a3818; --tx-lo:#9a6040; --tx-ghost:#d0b090;
   --nav-bg:linear-gradient(180deg,#fff8f0,#ede0ce); --nav-bdr:rgba(160,80,20,.12);
   --modal:rgba(0,0,0,.55); --inp:rgba(0,0,0,.04);
-  --scroll-bg:rgba(245,237,224,.97);
 }
 [data-theme="slate"] {
   --bg:#1c2330; --surf:#222c3c; --card:#283444; --card2:#2e3c4e;
@@ -85,7 +111,6 @@
   --tx:#d8e8f8; --tx-mid:#8090a8; --tx-lo:#506070; --tx-ghost:#283040;
   --nav-bg:linear-gradient(180deg,#283444,#1c2330); --nav-bdr:rgba(140,170,200,.12);
   --modal:rgba(0,0,0,.8); --inp:rgba(255,255,255,.04);
-  --scroll-bg:rgba(0,0,0,.84);
 }
 [data-theme="highc"] {
   --bg:#000000; --surf:#0a0a0a; --card:#050505; --card2:#141414;
@@ -95,7 +120,6 @@
   --tx:#ffffff; --tx-mid:#ededed; --tx-lo:#cfcfcf; --tx-ghost:#8a8a8a;
   --nav-bg:linear-gradient(180deg,#0a0a0a,#000000); --nav-bdr:rgba(255,255,255,.4);
   --modal:rgba(0,0,0,.9); --inp:rgba(255,255,255,.08);
-  --scroll-bg:rgba(0,0,0,.92);
 }
 [data-theme="neon"] {
   --bg:#05060a; --surf:#0b0f18; --card:#0e1220; --card2:#141a2c;
@@ -105,21 +129,21 @@
   --tx:#eafcff; --tx-mid:#7fe6ff; --tx-lo:#79c8e0; --tx-ghost:#3a5a68;
   --nav-bg:linear-gradient(180deg,#0e1220,#05060a); --nav-bdr:rgba(22,224,208,.18);
   --modal:rgba(0,0,0,.88); --inp:rgba(255,255,255,.05);
-  --scroll-bg:rgba(0,5,8,.9);
 }
 
 /* ═══════════════════════════════════════════
-   RESET & BASE — scale cascades from body
+   RESET & BASE
 ═══════════════════════════════════════════ */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 /* touch-action:manipulation stops double-tap zoom (fast tapping) but keeps pinch-zoom */
 html,body { height:100%; overflow:hidden; background:var(--bg); touch-action:manipulation; }
-body { font-family:'Lato',sans-serif; color:var(--tx); font-size:calc(14px * var(--scale)); }
+body { font-family:var(--f-ui); color:var(--tx); font-size:var(--fs-text); }
 a { color:inherit; }
+button { font:inherit; color:inherit; }
 ::-webkit-scrollbar { width:2px; } ::-webkit-scrollbar-thumb { background:var(--gold-lo); border-radius:1px; }
 
 /* ═══════════════════════════════════════════
-   LAYOUT
+   APP SHELL & NAV
 ═══════════════════════════════════════════ */
 #app { position:fixed; inset:0; display:flex; flex-direction:column; }
 #content { flex:1; overflow:hidden; position:relative; }
@@ -131,19 +155,157 @@ a { color:inherit; }
 .nb {
   flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:3px; background:none; border:none; cursor:pointer; padding:5px 1px;
-  color:var(--tx-mid); transition:color .2s; font-family:'Lato';
+  color:var(--tx-mid); transition:color .2s;
 }
 .nb.active { color:var(--gold); }
-.nb-ico { font-size:calc(17px * var(--scale)); line-height:1; }
 .nb-lbl { font-size:calc(8.5px * var(--scale)); letter-spacing:.5px; text-transform:uppercase; }
 .nb-ico svg { width:calc(20px * var(--scale)); height:calc(20px * var(--scale)); display:block; }
-.home-ico svg { width:26px; height:26px; display:block; }
-.home-chev svg { width:15px; height:15px; display:block; }
-.more-ico svg { width:20px; height:20px; display:block; }
 .pico svg { width:16px; height:16px; display:block; }
 
+/* Page containers. .page = scrolling page; .stack = fixed header + .fill body;
+   .col = the centred reading column (caps line length on desktop). */
+.page { height:100%; overflow-y:auto; background:var(--bg); }
+.stack { height:100%; display:flex; flex-direction:column; overflow:hidden; background:var(--bg); }
+.fill { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+.scroll { flex:1; overflow-y:auto; }
+.col { width:100%; max-width:var(--col-w); margin:0 auto; padding:14px var(--gutter) calc(48px + var(--safe-b)); }
+.col.flush { padding:0 0 calc(30px + var(--safe-b)); }
+.section { margin-top:22px; }
+
+/* Sub-tabs (Practise, Prayers) */
+.tabs { display:flex; border-bottom:1px solid var(--bdr); flex-shrink:0; background:var(--surf); }
+.tab {
+  flex:1; padding:12px 4px; background:none; border:none; border-bottom:2px solid transparent;
+  margin-bottom:-1px; color:var(--tx-lo); font-size:var(--fs-body); letter-spacing:.3px; cursor:pointer; transition:color .2s;
+}
+.tab.on { color:var(--gold); border-bottom-color:var(--gold); }
+
+/* Page header bar (Learn, Settings) */
+.phead {
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-shrink:0;
+  padding:10px var(--gutter) 8px; border-bottom:1px solid var(--bdr); background:var(--surf);
+}
+.phead-t { font-family:var(--f-display); font-size:var(--fs-title); letter-spacing:.5px; color:var(--gold); }
+.phead-s { font-size:var(--fs-meta); color:var(--tx-lo); margin-top:2px; }
+
 /* ═══════════════════════════════════════════
-   MODALS / SHEETS / DIALOGS
+   TYPE
+═══════════════════════════════════════════ */
+.label { font-family:var(--f-display); font-size:var(--fs-label); letter-spacing:2px; color:var(--gold-lo); margin-bottom:8px; }
+.label.dim { color:var(--tx-lo); }
+.label.lg { font-size:var(--fs-meta); }
+.stitle { font-family:var(--f-display); font-size:var(--fs-body); letter-spacing:1.5px; color:var(--gold); text-align:center; margin-bottom:18px; }
+.prose p { font-family:var(--f-serif); font-size:var(--fs-read); line-height:1.85; color:var(--tx-mid); margin-bottom:14px; }
+.prose p.em { font-style:italic; color:var(--tx); }
+.fine { font-size:var(--fs-small); line-height:1.7; color:var(--tx-lo); }
+.foot { font-size:var(--fs-label); color:var(--tx-ghost); text-align:center; margin-top:10px; line-height:1.6; }
+.tib-s { font-size:var(--fs-title); color:var(--red-hi); opacity:.8; line-height:1.7; }
+.tib-p { font-family:var(--f-display); font-weight:700; font-size:var(--fs-title); letter-spacing:.5px; color:var(--gold-hi); line-height:1.5; }
+.tib-e { font-family:var(--f-serif); font-style:italic; font-size:calc(13.5px * var(--scale)); color:var(--tx-mid); line-height:1.45; }
+
+/* ═══════════════════════════════════════════
+   BUTTONS, INPUTS, CHIPS
+═══════════════════════════════════════════ */
+input[type=number],input[type=date],input[type=text] {
+  background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-md);
+  padding:12px 14px; width:100%; color:var(--tx);
+  font-size:calc(16px * var(--scale)); font-family:var(--f-ui); outline:none;
+  -webkit-appearance:none; appearance:none;
+}
+input:focus { border-color:var(--gold-lo); }
+input::placeholder { color:var(--tx-ghost); }
+.btn {
+  background:var(--btn-bg); color:var(--btn-tx); border:none;
+  border-radius:11px; padding:calc(14px * var(--scale)) 18px;
+  font-family:var(--f-display); font-size:var(--fs-ui); letter-spacing:1px;
+  cursor:pointer; width:100%; transition:opacity .15s;
+  box-shadow:0 2px 12px rgba(200,140,10,.2);
+}
+.btn:active { opacity:.8; }
+.btn.narrow { width:80px; flex-shrink:0; }
+.btn-o {
+  background:transparent; color:var(--tx-mid); border:1px solid var(--bdr);
+  border-radius:11px; padding:calc(13px * var(--scale)) 18px;
+  font-size:var(--fs-body); cursor:pointer; width:100%; transition:color .2s;
+}
+.btn-o:active { color:var(--gold); }
+.brow { display:flex; gap:10px; } .brow>* { flex:1; }
+.inrow { display:flex; gap:8px; margin-bottom:8px; }
+hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
+
+/* Gold outline link buttons (external links) */
+.links { display:flex; flex-wrap:wrap; gap:8px; }
+.linkbtn {
+  display:inline-block; background:var(--gold-ghost); border:1px solid var(--bdr); border-radius:9px;
+  padding:10px 16px; color:var(--gold); font-size:var(--fs-ui); text-decoration:none; cursor:pointer;
+}
+.linkbtn.sm { padding:7px 12px; font-size:var(--fs-small); border-radius:var(--r-sm); }
+.linkbtn.donate { background:linear-gradient(135deg,var(--red),#4a0808); color:#f8f0d8; border:none; }
+.linkbtn.hero {
+  display:block; text-align:center; padding:14px 20px; border:none; border-radius:11px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-lo)); color:var(--bg);
+  font-family:var(--f-display); letter-spacing:1px; font-weight:500;
+}
+
+/* Selectable option tiles (pace, text size) */
+.opt {
+  background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-md);
+  padding:13px 4px; color:var(--tx); font-size:15px; cursor:pointer; transition:all .2s;
+}
+.opt.on { background:var(--gold-ghost); border-color:var(--bdr-hi); color:var(--gold); }
+.opt-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px; }
+
+/* Small grey action chips (practice detail) */
+.chips { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:11px; }
+.chip {
+  display:flex; align-items:center; gap:5px; background:var(--inp); border:1px solid var(--bdr);
+  border-radius:var(--r-sm); padding:7px 11px; font-size:var(--fs-small); color:var(--tx-mid); cursor:pointer;
+}
+.chip .ed { font-size:var(--fs-meta); opacity:.55; }
+
+/* ═══════════════════════════════════════════
+   CARDS & ROWS
+═══════════════════════════════════════════ */
+.card { background:var(--card); border:1px solid var(--bdr); border-radius:var(--r-lg); padding:14px 16px; }
+.card.tint { background:var(--red-lo); }
+.card.glow { background:var(--gold-ghost); border-color:var(--bdr-hi); }
+.card + .card { margin-top:10px; }
+
+/* Big tappable row: icon · title/subtitle · chevron (Home, More) */
+.navrow {
+  width:100%; display:flex; align-items:center; gap:13px; text-align:left; cursor:pointer;
+  background:var(--card); border:1px solid var(--bdr); border-radius:var(--r-lg);
+  padding:13px; margin-bottom:9px;
+}
+.navrow-ico { color:var(--gold); flex-shrink:0; }
+.navrow-ico svg { width:26px; height:26px; display:block; }
+.navrow-txt { flex:1; min-width:0; }
+.navrow-t { display:block; font-family:var(--f-display); font-size:var(--fs-title); color:var(--tx); }
+.navrow-s { display:block; font-size:var(--fs-small); color:var(--tx-mid); margin-top:2px; }
+.navrow-chev { color:var(--tx-lo); flex-shrink:0; }
+.navrow-chev svg { width:15px; height:15px; display:block; }
+
+/* Plain list row (prayer list, figure index) */
+.listrow {
+  display:flex; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid var(--bdr);
+  cursor:pointer; transition:background .15s;
+}
+.listrow:active { background:var(--gold-ghost); }
+.listrow-txt { flex:1; min-width:0; }
+.listrow-t { font-family:var(--f-serif); font-size:var(--fs-h); color:var(--tx); line-height:1.2; }
+.listrow-s { font-size:var(--fs-meta); color:var(--tx-lo); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.listrow-go { color:var(--tx-lo); font-size:20px; flex-shrink:0; }
+
+/* Picker row inside sheets (log to practice) */
+.pickrow {
+  width:100%; display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+  background:var(--inp); border:1px solid var(--bdr); border-radius:11px; padding:12px 14px; margin-bottom:8px;
+  font-size:var(--fs-body); color:var(--tx);
+}
+.pickrow small { font-size:var(--fs-ui); color:var(--tx-lo); }
+
+/* ═══════════════════════════════════════════
+   SHEETS, DIALOGS, LIGHTBOX
 ═══════════════════════════════════════════ */
 .veil { position:fixed; inset:0; background:var(--modal); z-index:200; display:flex; align-items:flex-end; }
 .veil.center { align-items:center; justify-content:center; padding:18px; }
@@ -153,95 +315,227 @@ a { color:inherit; }
   animation:slideUp .28s cubic-bezier(.32,.72,0,1);
 }
 .dialog {
-  background:var(--card); border:1px solid var(--bdr); border-radius:20px;
+  background:var(--card); border:1px solid var(--bdr); border-radius:var(--r-2xl);
   padding:22px 18px; width:100%; max-width:360px;
   animation:popIn .22s cubic-bezier(.34,1.56,.64,1);
 }
-/* Refuge drawer */
-.rf-drawer {
-  position:fixed; bottom:0; left:0; right:0; z-index:210;
-  background:var(--card); border-top:1px solid var(--bdr); border-radius:22px 22px 0 0;
-  max-height:72vh; display:flex; flex-direction:column;
-  transform:translateY(100%); transition:transform .3s cubic-bezier(.32,.72,0,1);
-  padding-bottom:var(--safe-b);
+.dialog input { margin-bottom:14px; }
+.dlg-note { color:var(--tx-lo); font-size:var(--fs-ui); text-align:center; margin-bottom:14px; }
+.handle { width:36px; height:4px; border-radius:2px; background:rgba(128,100,60,.2); margin:10px auto 16px; }
+.lightbox { width:100%; max-width:440px; background:var(--card); border-radius:16px; overflow:hidden; border:1px solid var(--bdr); }
+.lightbox-img { position:relative; background:#000; max-height:68vh; overflow:auto; }
+.lightbox-img img { width:100%; display:block; }
+.lightbox-cap { padding:12px 14px; font-family:var(--f-serif); font-style:italic; font-size:var(--fs-body); color:var(--tx-mid); }
+.lightbox-cap .btn { margin-top:10px; }
+.xbtn {
+  position:absolute; top:10px; right:10px; width:32px; height:32px; border-radius:50%;
+  background:rgba(0,0,0,.5); border:none; color:#fff; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
 }
-.rf-drawer.open { transform:translateY(0); }
-.rf-drawer-scroll { flex:1; overflow-y:auto; padding:0 18px calc(16px + var(--safe-b)); }
-.rf-veil {
-  position:fixed; inset:0; z-index:209;
-  background:rgba(0,0,0,0); pointer-events:none;
-  transition:background .3s;
+.fbb {
+  position:fixed; bottom:200px; left:50%; transform:translateX(-50%); color:var(--spark);
+  font-size:24px; font-weight:300; pointer-events:none; z-index:500;
+  animation:rise 1.2s ease-out forwards; text-shadow:0 2px 8px rgba(0,0,0,.5);
 }
-.rf-veil.open { background:var(--modal); pointer-events:auto; }
 
 @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 @keyframes popIn { from{transform:scale(.88);opacity:0} to{transform:scale(1);opacity:1} }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 @keyframes rise { 0%{opacity:1;transform:translateY(0) translateX(-50%)} 100%{opacity:0;transform:translateY(-60px) translateX(-50%)} }
 @keyframes ripple { 0%{transform:scale(.2) translate(-50%,-50%);opacity:.5} 100%{transform:scale(9) translate(-50%,-50%);opacity:0} }
-@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,152,10,.4)} 50%{box-shadow:0 0 0 5px rgba(212,152,10,0)} }
-
-.handle { width:36px; height:4px; border-radius:2px; background:rgba(128,100,60,.2); margin:10px auto 16px; }
-.stitle { font-family:'Playfair Display'; font-size:calc(13px * var(--scale)); letter-spacing:1.5px; color:var(--gold); text-align:center; margin-bottom:18px; }
 
 /* ═══════════════════════════════════════════
-   INPUTS & BUTTONS
+   HOME
 ═══════════════════════════════════════════ */
-input[type=number],input[type=date],input[type=text] {
-  background:var(--inp); border:1px solid var(--bdr); border-radius:10px;
-  padding:12px 14px; width:100%; color:var(--tx);
-  font-size:calc(16px * var(--scale)); font-family:'Lato'; outline:none;
-  -webkit-appearance:none; appearance:none;
-}
-input:focus { border-color:var(--gold-lo); }
-input::placeholder { color:var(--tx-ghost); }
-.btn {
-  background:linear-gradient(135deg,#c8900a,#7a5808); color:#f8f0d8; border:none;
-  border-radius:11px; padding:calc(14px * var(--scale)) 18px;
-  font-family:'Playfair Display'; font-size:calc(12px * var(--scale)); letter-spacing:1px;
-  cursor:pointer; width:100%; transition:opacity .15s;
-  box-shadow:0 2px 12px rgba(200,140,10,.2);
-}
-.btn:active { opacity:.8; }
-[data-theme="dark"] .btn { background:linear-gradient(135deg,#c8900a,#7a5808); }
-[data-theme="neuro"] .btn { background:linear-gradient(135deg,#2860a0,#14305a); color:#e0f0ff; }
-.btn-o {
-  background:transparent; color:var(--tx-mid); border:1px solid var(--bdr);
-  border-radius:11px; padding:calc(13px * var(--scale)) 18px;
-  font-family:'Lato'; font-size:calc(13px * var(--scale)); cursor:pointer; width:100%;
-  transition:color .2s;
-}
-.btn-o:active { color:var(--gold); }
-.brow { display:flex; gap:10px; } .brow>* { flex:1; }
-hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
+.welcome { margin-bottom:18px; }
+.welcome-t { font-family:var(--f-display); font-size:var(--fs-title); color:var(--gold); margin-bottom:7px; }
+.welcome-s { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-title); color:var(--tx-mid); line-height:1.7; margin-bottom:12px; }
 
 /* ═══════════════════════════════════════════
-   TYPOGRAPHY
+   PRACTISE — accordion of practices. Each card sets --acc (its accent).
 ═══════════════════════════════════════════ */
-.tib-s { font-size:calc(15px * var(--scale)); color:var(--red-hi); opacity:.8; line-height:1.7; }
-.tib-p { font-family:'Playfair Display'; font-weight:700; font-size:calc(15px * var(--scale)); letter-spacing:.5px; color:var(--gold-hi); line-height:1.5; }
-.tib-e { font-family:'Cormorant Garamond'; font-style:italic; font-size:calc(13.5px * var(--scale)); color:var(--tx-mid); line-height:1.45; }
-
-/* ═══════════════════════════════════════════
-   CHIP BUTTONS (used in filters, settings, etc.)
-═══════════════════════════════════════════ */
-.a11y-b {
-  background:var(--card); border:1px solid var(--bdr); border-radius:20px;
-  padding:6px 11px; font-size:calc(11px * var(--scale)); color:var(--tx-lo);
-  cursor:pointer; font-family:'Lato'; white-space:nowrap;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
+.acc { background:var(--card); border:1px solid var(--bdr); border-radius:13px; margin-bottom:9px; overflow:hidden; }
+.acc-row { display:flex; align-items:center; gap:11px; padding:12px 13px; cursor:pointer; }
+.acc-dot { width:12px; height:12px; border-radius:50%; background:var(--acc); flex-shrink:0; }
+.acc-mid { flex:1; min-width:0; }
+.acc-name { font-family:var(--f-display); font-size:var(--fs-title); color:var(--tx); line-height:1.1; }
+.bar { height:5px; border-radius:3px; background:var(--bdr); margin-top:7px; overflow:hidden; }
+.bar > i { display:block; height:100%; border-radius:3px; background:var(--acc); }
+.acc-num { text-align:right; flex-shrink:0; }
+.acc-num b { display:block; font-weight:400; font-size:var(--fs-text); color:var(--tx); }
+.acc-num small { display:block; font-size:var(--fs-meta); color:var(--tx-lo); margin-top:1px; }
+.acc-add {
+  background:color-mix(in srgb,var(--acc) 12%,transparent); border:1px solid color-mix(in srgb,var(--acc) 40%,transparent);
+  border-radius:9px; padding:6px 9px; color:var(--acc); font-size:var(--fs-small); cursor:pointer; flex-shrink:0; white-space:nowrap;
 }
-.a11y-b.on { color:var(--gold); border-color:var(--gold-lo); }
+.acc-tick { color:var(--done); font-size:calc(16px * var(--scale)); flex-shrink:0; }
+.acc-chev { color:var(--tx-lo); flex-shrink:0; display:inline-flex; transform:rotate(90deg); transition:transform .2s; }
+.acc.open .acc-chev { transform:rotate(-90deg); }
+
+.pd { border-top:1px solid var(--bdr); padding:14px 12px 16px; background:var(--card2); }
+.pd-sub { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-body); color:var(--tx-lo); margin-bottom:12px; }
+.pd-big { display:flex; align-items:center; justify-content:space-between; margin-bottom:13px; }
+.pd-count { font-weight:300; font-size:calc(38px * var(--scale)); color:var(--tx); line-height:1; }
+.pd-count.done { color:var(--spark); }
+.pd-pct { font-size:var(--fs-small); color:var(--tx-lo); margin-top:4px; }
+.pd-add {
+  width:62px; height:62px; border-radius:50%; flex-shrink:0; cursor:pointer;
+  border:1.5px solid var(--acc); background:color-mix(in srgb,var(--acc) 13%,transparent); color:var(--acc);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.15;
+}
+.pd-add small { font-size:11px; line-height:1; }
+.pd-add b { font-size:var(--fs-body); font-weight:500; }
+.pd-img {
+  width:100%; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:13px;
+  background:color-mix(in srgb,var(--acc) 8%,transparent); border:1px solid color-mix(in srgb,var(--acc) 33%,transparent);
+  border-radius:11px; padding:11px; color:var(--acc); font-family:var(--f-display); font-size:var(--fs-ui); letter-spacing:.5px;
+}
+.pd-last { font-size:var(--fs-meta); color:var(--tx-lo); margin-bottom:10px; }
+.pd-mantra { text-align:center; padding:6px 0 12px; font-family:var(--f-display); font-weight:700; font-size:var(--fs-meta); letter-spacing:3px; color:var(--red); }
+.pd-cv { text-align:right; margin-top:4px; font-size:var(--fs-meta); color:var(--red-hi); }
+
+/* Bead grid (SVG circles, styled here) */
+.grid-svg { width:100%; display:block; }
+.grid-svg circle { fill:none; stroke:var(--grid); stroke-opacity:.32; stroke-width:.8; }
+.grid-svg circle.f { fill:var(--grid); stroke:none; opacity:.88; }
+.grid-svg circle.p { fill:var(--grid); stroke:none; opacity:.55; }
 
 /* ═══════════════════════════════════════════
-   REFUGE TREE — numbered markers (zone-coloured, high contrast)
+   TAP COUNTER — outer sets --tbg (background) and --ring (accent);
+   every tint below is a mix of --ring.
 ═══════════════════════════════════════════ */
+.tap { height:100%; display:flex; flex-direction:column; background:var(--tbg); transition:background .4s; position:relative; overflow:hidden; }
+.tap.shown { background:var(--bg); }
+.tap-hint { padding:8px 16px 6px; text-align:center; flex-shrink:0; font-size:var(--fs-meta); letter-spacing:.5px; color:color-mix(in srgb,var(--ring) 53%,transparent); }
+.tap-pinned {
+  padding:4px 16px 8px; text-align:center; flex-shrink:0; font-weight:300; font-size:calc(36px * var(--scale)); line-height:1;
+  color:color-mix(in srgb,var(--ring) 87%,transparent); text-shadow:0 2px 12px color-mix(in srgb,var(--ring) 27%,transparent);
+}
+.tap-area { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; position:relative; overflow:hidden; z-index:2; }
+.tap-rings { position:relative; width:140px; height:140px; margin:0 auto; }
+.tap-rings i { position:absolute; border-radius:50%; }
+.tap-rings i:nth-child(1) { inset:0; border:1.5px solid color-mix(in srgb,var(--ring) 25%,transparent); }
+.tap-rings i:nth-child(2) { inset:20px; border:1.5px solid color-mix(in srgb,var(--ring) 44%,transparent); }
+.tap-rings i:nth-child(3) {
+  inset:42px; border:1.5px solid color-mix(in srgb,var(--ring) 67%,transparent);
+  background:radial-gradient(circle,color-mix(in srgb,var(--ring) 33%,transparent),color-mix(in srgb,var(--ring) 13%,transparent));
+  box-shadow:0 0 30px color-mix(in srgb,var(--ring) 31%,transparent);
+}
+.tap-cta { margin-top:22px; font-size:var(--fs-small); letter-spacing:3px; color:color-mix(in srgb,var(--ring) 80%,transparent); text-shadow:0 2px 6px rgba(0,0,0,.6); }
+.ripple {
+  position:absolute; width:40px; height:40px; border-radius:50%; pointer-events:none;
+  background:color-mix(in srgb,var(--ring) 67%,transparent); transform:translate(-50%,-50%); animation:ripple .8s ease-out forwards;
+}
+.tap-reset { text-align:center; pointer-events:none; padding:0 32px; }
+.tap-reset-msg { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-text); color:rgba(255,255,255,.5); line-height:1.5; max-width:260px; margin:0 auto 18px; }
+.tap-reset-n { font-size:calc(40px * var(--scale)); color:rgba(255,255,255,.35); margin-bottom:20px; }
+.tap-reset-track { background:rgba(255,255,255,.1); border-radius:4px; height:7px; width:240px; max-width:80vw; overflow:hidden; margin-bottom:10px; }
+.tap-reset-track i { display:block; height:100%; background:var(--bad); border-radius:4px; transition:width .15s; }
+.tap-reset-sec { font-size:var(--fs-small); color:rgba(255,255,255,.92); letter-spacing:1px; }
+.tap-total { text-align:center; animation:fadeIn .4s ease-out; pointer-events:none; width:100%; display:flex; flex-direction:column; align-items:center; padding:0 20px; }
+.tap-total button { pointer-events:auto; cursor:pointer; }
+.tap-log {
+  background:var(--gold-ghost); border:1px solid var(--bdr-hi); border-radius:var(--r-lg); padding:13px 28px;
+  color:var(--gold); font-family:var(--f-display); font-size:var(--fs-body); letter-spacing:1px; margin-bottom:20px;
+}
+.tap-total-l { font-family:var(--f-display); color:var(--tx-lo); font-size:var(--fs-small); letter-spacing:3px; margin-bottom:10px; }
+.tap-total-n { font-weight:300; font-size:calc(80px * var(--scale)); color:var(--tx); line-height:1; margin-bottom:40px; }
+.tap-cont { background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-lg); color:var(--tx-lo); font-size:var(--fs-body); padding:12px 28px; }
+.tap-bar {
+  display:flex; justify-content:space-between; align-items:center; gap:8px; z-index:3;
+  padding:12px 18px calc(12px + var(--safe-b)); background:rgba(0,0,0,.08);
+  border-top:1px solid color-mix(in srgb,var(--ring) 9%,transparent);
+}
+.tap-minus { background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-md); min-width:52px; min-height:52px; color:var(--tx-mid); cursor:pointer; font-size:18px; }
+.tap-mid { display:flex; flex-direction:column; align-items:center; gap:6px; flex:1; }
+.tap-reveal {
+  background:color-mix(in srgb,var(--ring) 7%,transparent); border:1px solid color-mix(in srgb,var(--ring) 19%,transparent);
+  border-radius:var(--r-md); padding:13px 20px; color:color-mix(in srgb,var(--ring) 80%,transparent);
+  font-family:var(--f-display); font-size:var(--fs-small); letter-spacing:1.5px; cursor:pointer;
+}
+.tap-pin {
+  background:none; border:1px solid transparent; border-radius:var(--r-sm); padding:3px 10px; cursor:pointer;
+  color:color-mix(in srgb,var(--ring) 33%,transparent); font-size:var(--fs-label); letter-spacing:.5px;
+}
+.tap-pin.on { background:color-mix(in srgb,var(--ring) 13%,transparent); border-color:color-mix(in srgb,var(--ring) 38%,transparent); color:color-mix(in srgb,var(--ring) 93%,transparent); }
+.tap-rb {
+  background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-md); min-width:110px; min-height:52px;
+  color:var(--tx-lo); cursor:pointer; font-size:var(--fs-ui); padding:8px 14px; line-height:1.3;
+}
+.tap-rb.on { color:var(--bad); }
+.tap-rb small { display:block; font-size:.75em; opacity:.5; }
+.tap-rb.on small { opacity:1; }
+
+/* ═══════════════════════════════════════════
+   PRAYERS
+═══════════════════════════════════════════ */
+.reader-bar { position:sticky; top:0; z-index:10; background:var(--bg); padding:12px 0 10px; border-bottom:1px solid var(--bdr); margin-bottom:16px; }
+.reader-bar button { background:none; border:none; color:var(--gold); cursor:pointer; font-size:var(--fs-text); }
+.reader-t { font-family:var(--f-display); font-size:var(--fs-h); color:var(--tx); margin-bottom:5px; }
+.reader-s { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-text); color:var(--tx-lo); margin-bottom:12px; }
+.rule-short { width:50px; height:1px; background:linear-gradient(90deg,var(--gold-lo),transparent); margin-bottom:14px; }
+.reader-sec {
+  margin:15px 0 9px; padding:7px 12px; background:var(--gold-ghost); border-left:2px solid var(--gold-lo); border-radius:0 8px 8px 0;
+  font-family:var(--f-display); font-size:var(--fs-small); letter-spacing:1.5px; color:var(--gold);
+}
+.verse { margin-bottom:13px; }
+.verse .tib-s { margin-bottom:4px; }
+.verse .tib-e { margin-top:4px; }
+.notice { padding:10px 16px 8px; flex-shrink:0; background:var(--red-lo); border-bottom:1px solid var(--bdr); font-family:var(--f-serif); font-style:italic; font-size:var(--fs-text); color:var(--tx-mid); line-height:1.65; }
+.feature { display:block; text-decoration:none; margin-bottom:16px; background:var(--red-lo); border:2px solid var(--gold-lo); border-radius:var(--r-xl); padding:16px; }
+.feature-t { font-family:var(--f-serif); font-size:calc(19px * var(--scale)); color:var(--tx); line-height:1.2; margin-bottom:4px; }
+.feature-s { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-body); color:var(--tx-mid); margin-bottom:12px; line-height:1.6; }
+.sad { border-radius:var(--r-xl); padding:14px 14px 10px; margin-bottom:10px; }
+.sad + .sad { margin-top:0; }
+.sad-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.sad-sym { font-size:calc(20px * var(--scale)); color:var(--gold); flex-shrink:0; }
+.sad-t { font-family:var(--f-serif); font-size:var(--fs-read-lg); color:var(--tx); line-height:1.2; }
+.sad-s { font-size:var(--fs-meta); color:var(--tx-lo); margin-top:2px; }
+.sad .links { gap:6px; }
+
+/* ═══════════════════════════════════════════
+   LEARN — refuge tree. Markers/chips/badges set --zc (zone colour).
+═══════════════════════════════════════════ */
+.mtoggle {
+  display:flex; flex-direction:column; align-items:center; gap:2px; flex-shrink:0; cursor:pointer;
+  background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-md); padding:7px 12px;
+  color:var(--tx-lo); font-size:var(--fs-meta); transition:all .2s;
+}
+.mtoggle.on { background:var(--gold-ghost); border-color:var(--bdr-hi); color:var(--gold); }
+.mtoggle .ti { font-size:16px; line-height:1; }
+.mtoggle small { font-size:var(--fs-label); opacity:.7; }
+.rf-tools { flex-shrink:0; border-bottom:1px solid var(--bdr); background:var(--bg); padding:8px 0 0; }
+.rf-tools input { margin:0 var(--gutter); width:calc(100% - 2 * var(--gutter)); padding:10px 14px; }
+/* Filter chips double as the colour legend; one horizontally scrolling row */
+.fchips { display:flex; gap:5px; overflow-x:auto; padding:8px var(--gutter); scrollbar-width:none; }
+.fchips::-webkit-scrollbar { display:none; }
+.fchip {
+  display:inline-flex; align-items:center; gap:5px; flex-shrink:0; white-space:nowrap; cursor:pointer;
+  background:var(--card); border:1px solid var(--bdr); border-radius:var(--r-2xl); padding:5px 10px;
+  font-size:var(--fs-meta); color:var(--tx-lo); box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+.fchip.on { color:var(--gold); border-color:var(--gold-lo); }
+.fchip i { width:9px; height:9px; border-radius:50%; background:var(--zc); border:1.5px solid rgba(255,255,255,.7); }
+
+.thangka {
+  /* capped so the whole thangka fits below the Learn header/search (~170px) */
+  position:relative; width:100%; max-width:calc((100dvh - 180px) * 1080 / 1359); margin:0 auto;
+  aspect-ratio:1080/1359; overflow:hidden; touch-action:pan-y;
+}
+.stage { position:absolute; inset:0; transform-origin:0 0; will-change:transform; }
+.stage > img { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:fill; }
+.thangka-missing { padding:48px 20px; text-align:center; background:linear-gradient(180deg,#0d1e35,#0a2818 40%,#1a0c08); color:var(--tx-lo); font-family:var(--f-serif); font-style:italic; }
+.zbtns { position:absolute; right:8px; bottom:8px; z-index:20; display:flex; flex-direction:column; gap:6px; }
+.zbtns button {
+  width:30px; height:30px; border-radius:var(--r-sm); border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.45); color:#fff; font-size:17px; line-height:1; cursor:pointer; backdrop-filter:blur(4px);
+}
 .rf-marker {
   position:absolute; transform:translate(-50%,-50%);
-  width:24px; height:24px; border-radius:50%;
+  width:24px; height:24px; border-radius:50%; background:var(--zc);
   border:2px solid rgba(255,255,255,.9);
   display:flex; align-items:center; justify-content:center;
-  font-size:9px; font-family:'Lato'; font-weight:700; color:#fff;
+  font-size:9px; font-weight:700; color:#fff;
   cursor:pointer; z-index:10; transition:all .2s;
   box-shadow:0 2px 6px rgba(0,0,0,.65), 0 0 0 1px rgba(0,0,0,.3);
   text-shadow:0 1px 3px rgba(0,0,0,.6);
@@ -251,73 +545,147 @@ hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
 .rf-marker.dim { opacity:.25; }
 .rf-marker.highlighted { box-shadow:0 0 12px rgba(255,255,255,.6), 0 3px 10px rgba(0,0,0,.7); border-color:#fff; transform:translate(-50%,-50%) scale(1.15); }
 
-.rf-legend-item {
-  display:flex; align-items:center; gap:10px; padding:9px 14px;
-  border-bottom:1px solid var(--bdr); cursor:pointer; transition:background .15s;
-}
-.rf-legend-item:active { background:var(--gold-ghost); }
+.idx-hdr { display:flex; justify-content:space-between; align-items:center; cursor:pointer; padding:12px var(--gutter); border-top:1px solid var(--bdr); background:var(--surf); }
+.idx-hdr .label { margin-bottom:0; }
+.idx-hdr small { display:block; font-size:var(--fs-label); color:var(--tx-ghost); margin-top:2px; }
+.idx-hdr .chv { color:var(--tx-ghost); font-size:12px; }
+.rf-legend-item { padding:9px var(--gutter); }
 .rf-legend-item.dim { opacity:.3; }
+.rf-legend-item .listrow-t { font-size:var(--fs-read); }
 .rf-legend-num {
   width:22px; height:22px; border-radius:50%; flex-shrink:0;
-  background:var(--gold-ghost); border:1px solid var(--bdr-hi);
-  display:flex; align-items:center; justify-content:center;
-  font-size:calc(10px * var(--scale)); font-family:'Lato'; font-weight:700; color:var(--gold);
+  display:flex; align-items:center; justify-content:center; font-size:var(--fs-meta); font-weight:700;
+  background:color-mix(in srgb,var(--zc,var(--gold)) 13%,transparent);
+  border:1px solid color-mix(in srgb,var(--zc,var(--gold)) 53%,transparent); color:var(--zc,var(--gold));
 }
+.map-intro { padding:12px var(--gutter) 6px; border-top:1px solid var(--bdr); }
+.map-intro .label { margin-bottom:4px; }
+.map-intro small { display:block; font-size:var(--fs-label); color:var(--tx-ghost); margin-bottom:8px; }
+.refmap { width:100%; margin-bottom:40px; padding:0 var(--gutter); }
+.refmap svg { width:100%; display:block; background:#f3ecdc; border-radius:6px; }
+
+/* Figure drawer */
+.rf-drawer {
+  position:fixed; bottom:0; left:0; right:0; z-index:210;
+  background:var(--card); border-top:1px solid var(--bdr); border-radius:22px 22px 0 0;
+  max-height:72vh; display:flex; flex-direction:column;
+  transform:translateY(100%); transition:transform .3s cubic-bezier(.32,.72,0,1);
+  padding-bottom:var(--safe-b);
+}
+.rf-drawer.open { transform:translateY(0); }
+.rf-drawer .handle { cursor:pointer; }
+.rf-drawer-scroll { flex:1; overflow-y:auto; padding:0 18px calc(16px + var(--safe-b)); }
+.rf-veil { position:fixed; inset:0; z-index:209; background:rgba(0,0,0,0); pointer-events:none; transition:background .3s; }
+.rf-veil.open { background:var(--modal); pointer-events:auto; }
+.dr-hdr { margin-bottom:16px; }
+.dr-id { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.dr-id .rf-legend-num { width:28px; height:28px; font-size:var(--fs-small); }
+.dr-name { font-family:var(--f-display); font-size:var(--fs-h); color:var(--tx); line-height:1.1; }
+.dr-sub { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-text); color:var(--gold-lo); }
+.dr-tib { font-size:var(--fs-title); color:var(--red-hi); opacity:.8; margin-bottom:8px; }
+.tags { display:flex; flex-wrap:wrap; gap:5px; }
+.tag { background:var(--gold-ghost); border:1px solid var(--bdr); border-radius:var(--r-xs); padding:2px 7px; font-size:var(--fs-label); color:var(--tx-lo); }
+.dr-role { font-weight:300; font-size:var(--fs-body); color:var(--tx-mid); margin-bottom:14px; line-height:1.65; }
+.dr-bio { font-family:var(--f-serif); font-size:var(--fs-read-lg); color:var(--tx); line-height:1.85; margin-bottom:14px; }
+.dr-quote { margin:0 0 16px; padding:12px 14px; border-left:2px solid var(--bdr-hi); background:var(--gold-ghost); border-radius:0 10px 10px 0;
+  font-family:var(--f-serif); font-style:italic; font-size:var(--fs-read); color:var(--tx-mid); line-height:1.8; }
+.dr-link { display:flex; align-items:center; gap:10px; background:var(--card2); border:1px solid var(--bdr); border-radius:var(--r-md); padding:12px 14px; text-decoration:none; color:var(--tx); margin-bottom:14px; }
+.dr-link-ico { width:36px; height:36px; border-radius:var(--r-sm); background:var(--gold-ghost); border:1px solid var(--bdr-hi); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; }
+.dr-link b { display:block; font-weight:400; font-size:var(--fs-body); margin-bottom:2px; }
+.dr-link small { font-size:var(--fs-meta); color:var(--gold); }
 
 /* ═══════════════════════════════════════════
-   DESKTOP — sidebar nav + wider layout
+   CALENDAR & EVENTS
+═══════════════════════════════════════════ */
+.cal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.cal-arrow { background:var(--inp); border:1px solid var(--bdr); border-radius:var(--r-md); padding:8px 16px; color:var(--gold); cursor:pointer; display:inline-flex; }
+.cal-arrow.prev { transform:scaleX(-1); }
+.cal-today { font-size:var(--fs-meta); letter-spacing:2px; color:var(--tx-lo); }
+.cal-back { background:var(--gold-ghost); border:1px solid var(--bdr-hi); border-radius:var(--r-2xl); padding:6px 15px; color:var(--gold); font-size:var(--fs-small); cursor:pointer; }
+.cal-head { text-align:center; padding:6px 0 14px; border-bottom:1px solid var(--bdr); margin-bottom:18px; }
+.cal-moon { display:flex; justify-content:center; margin-bottom:12px; }
+.cal-date { font-size:var(--fs-meta); color:var(--tx-lo); letter-spacing:2px; margin-bottom:6px; }
+.cal-day { font-family:var(--f-display); font-size:var(--fs-h1); color:var(--tx); margin-bottom:4px; }
+.cal-phase { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-read); color:var(--tx-mid); margin-bottom:4px; }
+.cal-ausp { font-family:var(--f-display); font-size:var(--fs-text); color:var(--gold); margin-top:10px; letter-spacing:.5px; }
+.cal-ausp-d { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-text); color:var(--tx-lo); line-height:1.7; margin-top:8px; padding:0 8px; }
+.hair { display:flex; justify-content:space-between; align-items:center; }
+.hair b { font-weight:400; font-size:var(--fs-h); color:var(--tx-lo); }
+.hair b.good { color:var(--ok); } .hair b.avoid { color:var(--bad); }
+.hair span { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-title); color:var(--tx-lo); text-align:right; max-width:55%; }
+.quote { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-read-lg); color:var(--tx); line-height:1.85; margin-bottom:10px; }
+.quote-a { font-size:var(--fs-small); color:var(--tx-lo); text-align:right; }
+.up { display:flex; align-items:center; gap:11px; padding:9px 12px; background:var(--card); border:1px solid var(--bdr); border-radius:var(--r-md); margin-bottom:7px; }
+.up-mid { flex:1; min-width:0; }
+.up-name { font-family:var(--f-serif); font-size:var(--fs-read); color:var(--acc,var(--tx)); }
+.up-meta, .up-date { font-size:var(--fs-meta); color:var(--tx-lo); margin-top:2px; }
+.up-when { text-align:right; flex-shrink:0; }
+.up-when b { display:block; font-weight:400; font-size:var(--fs-body); color:var(--tx-mid); }
+.t-center { text-align:center; }
+.ev-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.ev-sym { font-size:28px; flex-shrink:0; }
+.ev-t { font-family:var(--f-display); font-size:var(--fs-read-lg); color:var(--tx); }
+.ev-s { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-body); color:var(--tx-lo); margin-top:3px; }
+.ev-d { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-title); color:var(--tx-mid); line-height:1.75; margin-bottom:16px; }
+.ev-note { display:flex; gap:10px; align-items:flex-start; }
+.ev-note p { font-size:var(--fs-ui); color:var(--tx-lo); line-height:1.7; }
+.gratitude { text-align:center; padding:20px; margin-bottom:24px; }
+.gratitude p { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-read-lg); color:var(--tx); line-height:1.9; margin-bottom:12px; }
+.blessing { font-family:var(--f-serif); font-style:italic; font-size:var(--fs-read); color:var(--tx-lo); text-align:center; line-height:2; }
+
+/* ═══════════════════════════════════════════
+   SETTINGS — each theme card carries data-theme, so it paints itself
+   with that theme's own tokens (no duplicated colour list in JS).
+═══════════════════════════════════════════ */
+.themes { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-bottom:26px; }
+.theme-card {
+  background:var(--bg); color:var(--tx); border:2px solid rgba(128,100,60,.15); border-radius:13px; padding:13px 12px;
+  display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left; cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,.15); transition:all .2s;
+}
+.theme-card.on { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold), 0 2px 10px rgba(0,0,0,.2); }
+.theme-card .tn { display:flex; justify-content:space-between; width:100%; font-weight:700; font-size:13px; }
+.theme-card .tn span { color:var(--gold); }
+.theme-card .td { font-family:var(--f-serif); font-style:italic; font-size:12px; color:var(--gold); opacity:.9; }
+.theme-card .sw { display:flex; gap:4px; margin-top:5px; }
+.theme-card .sw i { width:13px; height:13px; border-radius:50%; background:var(--gold); }
+.theme-card .sw i:nth-child(2) { background:var(--tx); opacity:.4; }
+.theme-card .sw i:nth-child(3) { background:var(--bg); border:1.5px solid color-mix(in srgb,var(--tx) 19%,transparent); }
+.sizes { display:flex; gap:9px; margin-bottom:24px; }
+.sizes .opt { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; padding:14px 8px; }
+.sizes .opt b { font-family:var(--f-display); font-weight:400; line-height:1; color:var(--tx); }
+.sizes .opt.on b { font-weight:700; color:var(--gold); }
+.sizes .opt small { font-size:10px; color:var(--tx-lo); }
+
+/* ═══════════════════════════════════════════
+   DESKTOP — left sidebar nav, centred content column
 ═══════════════════════════════════════════ */
 @media (min-width: 768px) {
-  /* Sidebar nav */
-  #app { flex-direction: row; }
+  #app { flex-direction:row; }
   #nav {
-    order: -1; /* sidebar on the left (it follows #content in the DOM) */
-    flex-direction: column; justify-content: flex-start; align-items: stretch;
-    width: 170px; height: 100%;
-    border-top: none; border-right: 1px solid var(--nav-bdr);
-    flex-shrink: 0; padding-bottom: 0;
+    order:-1; /* sidebar on the left (it follows #content in the DOM) */
+    flex-direction:column; justify-content:flex-start; align-items:stretch;
+    width:var(--nav-w); height:100%; flex-shrink:0; padding-bottom:0;
+    border-top:none; border-right:1px solid var(--nav-bdr);
   }
   .nb {
-    flex-direction: row; justify-content: flex-start;
-    gap: 11px; padding: 15px 20px;
-    flex: none; width: 100%; border-radius: 0;
-    border-left: 3px solid transparent;
-    transition: color .2s, background .2s, border-color .2s;
+    flex:none; width:100%; flex-direction:row; justify-content:flex-start; gap:11px; padding:15px 20px;
+    border-left:3px solid transparent; transition:color .2s, background .2s, border-color .2s;
   }
-  .nb.active { background: var(--gold-ghost); border-left-color: var(--gold); }
-  .nb-ico { font-size: 18px; }
-  .nb-lbl { font-size: 11px; letter-spacing: .4px; }
-
-  /* Settings button: pinned to bottom of sidebar */
-  .settings-nb { margin-top: auto; border-top: 1px solid var(--nav-bdr); }
-  .settings-nb .nb-lbl { display: block !important; }
-
-  /* Refuge drawer: offset so it doesn't overlap sidebar */
-  .rf-drawer { left: 170px; }
-  .rf-veil { left: 170px; }
-
+  .nb.active { background:var(--gold-ghost); border-left-color:var(--gold); }
+  .nb-lbl { font-size:11px; letter-spacing:.4px; }
+  .rf-drawer, .rf-veil { left:var(--nav-w); }
+  .rf-drawer { max-width:var(--col-w); margin:0 auto; right:0; }
   /* Sheets become centred dialogs instead of bottom-sliders */
-  .veil { align-items: center; justify-content: center; padding: 24px; }
-  .sheet {
-    border-radius: 20px; border: 1px solid var(--bdr);
-    max-width: 520px; width: 100%;
-    animation: popIn .22s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  /* Nicer scrollbar on desktop */
-  ::-webkit-scrollbar { width: 5px; }
+  .veil { align-items:center; justify-content:center; padding:24px; }
+  .sheet { border-radius:var(--r-2xl); border:1px solid var(--bdr); max-width:520px; animation:popIn .22s cubic-bezier(.34,1.56,.64,1); }
+  .fchips { flex-wrap:wrap; overflow:visible; justify-content:center; }
+  ::-webkit-scrollbar { width:5px; }
 }
-
-/* Wide desktop — slightly wider sidebar */
 @media (min-width: 1100px) {
-  #nav { width: 200px; }
-  .nb { padding: 16px 24px; }
-  .rf-drawer { left: 200px; }
-  .rf-veil { left: 200px; }
+  :root { --nav-w:200px; }
+  .nb { padding:16px 24px; }
 }
-
-/* Settings nav icon — hide label on mobile (icon-only to save space) */
-.settings-nb .nb-lbl { display: none; }
 </style>
 </head>
 <body>
@@ -334,6 +702,11 @@ hr.rule { border:none; border-top:1px solid var(--bdr); margin:14px 0; }
 
 <script>
 'use strict';
+
+// Names shown in the app. To rebrand, change these (plus <title>, the
+// apple-mobile-web-app-title meta tag, and manifest.json "name"/"short_name").
+const APP_NAME='Dharma Practice';
+const BRAND='Sliced Dharma';
 
 // ═══════════════════════════════════════════════════════════
 // THEME & SIZE (persisted, no floating panel)
@@ -795,38 +1168,38 @@ const FIGS=[
 // AVOID days: 1,2,7,12,16,18,21,25,28,29
 // ═══════════════════════════════════════════════════════════
 const HAIR_DATA={
-  1: {rec:'Avoid', col:'#c05038', result:'Short life'},
-  2: {rec:'Avoid', col:'#c05038', result:'Slander'},
-  3: {rec:'Good',  col:'#50a060', result:'Wealth'},
-  4: {rec:'Good',  col:'#50a060', result:'Increase in virtue'},
-  5: {rec:'Good',  col:'#50a060', result:'Increase in wealth'},
-  6: {rec:'Good',  col:'#50a060', result:'Increased sensory clarity'},
-  7: {rec:'Avoid', col:'#c05038', result:'Lawsuit'},
-  8: {rec:'Good',  col:'#50a060', result:'Long life'},
-  9: {rec:'Good',  col:'#50a060', result:'Attractive energy'},
-  10:{rec:'Good',  col:'#50a060', result:'Greater wang tang'},
-  11:{rec:'Good',  col:'#50a060', result:'Intelligence'},
-  12:{rec:'Avoid', col:'#c05038', result:'Poverty'},
-  13:{rec:'Good',  col:'#50a060', result:'Increase in longevity'},
-  14:{rec:'Good',  col:'#50a060', result:'Increase in comfort and wealth'},
-  15:{rec:'Good',  col:'#50a060', result:'Auspiciousness'},
-  16:{rec:'Avoid', col:'#c05038', result:'Obstacles'},
-  17:{rec:'Good',  col:'#50a060', result:'Virtue'},
-  18:{rec:'Avoid', col:'#c05038', result:'Loss'},
-  19:{rec:'Good',  col:'#50a060', result:'Increase in longevity'},
-  20:{rec:'Good',  col:'#50a060', result:'Wealth'},
-  21:{rec:'Avoid', col:'#c05038', result:'Fear of sickness'},
-  22:{rec:'Good',  col:'#50a060', result:'Gaining clothes and food'},
-  23:{rec:'Good',  col:'#50a060', result:'Increase in comfort and wealth'},
-  24:{rec:'Good',  col:'#50a060', result:'Happiness'},
-  25:{rec:'Avoid', col:'#c05038', result:'Sickness'},
-  26:{rec:'Good',  col:'#50a060', result:'Wellbeing'},
-  27:{rec:'Good',  col:'#50a060', result:'Joy and happiness'},
-  28:{rec:'Avoid', col:'#c05038', result:'Strife and quarrels'},
-  29:{rec:'Avoid', col:'#c05038', result:'Bad food'},
-  30:{rec:'Good',  col:'#50a060', result:'Purification of negative actions and obscurations'},
+  1: {rec:'Avoid', result:'Short life'},
+  2: {rec:'Avoid', result:'Slander'},
+  3: {rec:'Good',  result:'Wealth'},
+  4: {rec:'Good',  result:'Increase in virtue'},
+  5: {rec:'Good',  result:'Increase in wealth'},
+  6: {rec:'Good',  result:'Increased sensory clarity'},
+  7: {rec:'Avoid', result:'Lawsuit'},
+  8: {rec:'Good',  result:'Long life'},
+  9: {rec:'Good',  result:'Attractive energy'},
+  10:{rec:'Good',  result:'Greater wang tang'},
+  11:{rec:'Good',  result:'Intelligence'},
+  12:{rec:'Avoid', result:'Poverty'},
+  13:{rec:'Good',  result:'Increase in longevity'},
+  14:{rec:'Good',  result:'Increase in comfort and wealth'},
+  15:{rec:'Good',  result:'Auspiciousness'},
+  16:{rec:'Avoid', result:'Obstacles'},
+  17:{rec:'Good',  result:'Virtue'},
+  18:{rec:'Avoid', result:'Loss'},
+  19:{rec:'Good',  result:'Increase in longevity'},
+  20:{rec:'Good',  result:'Wealth'},
+  21:{rec:'Avoid', result:'Fear of sickness'},
+  22:{rec:'Good',  result:'Gaining clothes and food'},
+  23:{rec:'Good',  result:'Increase in comfort and wealth'},
+  24:{rec:'Good',  result:'Happiness'},
+  25:{rec:'Avoid', result:'Sickness'},
+  26:{rec:'Good',  result:'Wellbeing'},
+  27:{rec:'Good',  result:'Joy and happiness'},
+  28:{rec:'Avoid', result:'Strife and quarrels'},
+  29:{rec:'Avoid', result:'Bad food'},
+  30:{rec:'Good',  result:'Purification of negative actions and obscurations'},
 };
-function hairRec(td){return HAIR_DATA[td]||{rec:'Neutral',col:'#80a0b0',result:'No strong indication'};}
+function hairRec(td){return HAIR_DATA[td]||{rec:'Neutral',result:'No strong indication'};}
 
 // ═══════════════════════════════════════════════════════════
 // AUSPICIOUS DAYS
@@ -951,24 +1324,37 @@ function set(p){Object.assign(ST,p);render();}
 function switchTab(t){set({tab:t,prayer:null,modal:null,moreOpen:false});}
 function proj(c,pace,tgt){if(pace<=0||c>=tgt)return null;const d=new Date();d.setDate(d.getDate()+Math.ceil((tgt-c)/pace)+1);return d;}
 function paceFromDate(c,ds,tgt){const rem=tgt-c;if(rem<=0)return 0;const days=Math.max(1,Math.round((new Date(ds)-new Date())/86400000));const p=Math.ceil(rem/days);return p+(p%100>0?100-(p%100):0);}
-function bell(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();[[0,528,.32],[.15,396,.22],[.3,264,.18]].forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,ac.currentTime+dl);o.frequency.exponentialRampToValueAtTime(fr*.5,ac.currentTime+dl+3);gn.gain.setValueAtTime(0,ac.currentTime+dl);gn.gain.linearRampToValueAtTime(g,ac.currentTime+dl+.04);gn.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dl+5);o.start(ac.currentTime+dl);o.stop(ac.currentTime+dl+6);});}catch(e){}}
 
 // ═══════════════════════════════════════════════════════════
 // DOM HELPERS
 // ═══════════════════════════════════════════════════════════
+// h(tag, attrs, ...kids). attrs: cls → className; sty → inline style (keys
+// starting "--" become CSS custom properties — the only inline styles left are
+// genuinely dynamic values like a practice's accent or a marker's position);
+// on* → listeners; html → innerHTML; anything else → attribute. Falsy kids skip.
 function h(tag,at,...kids){
   const el=document.createElement(tag);
   if(at)for(const[k,v]of Object.entries(at)){
-    if(v==null)continue;
+    if(v==null||v===false)continue;
     if(k==='cls')el.className=v;
-    else if(k==='sty')Object.assign(el.style,v);
+    else if(k==='sty')for(const[p,x]of Object.entries(v)){if(p.startsWith('--'))el.style.setProperty(p,x);else el.style[p]=x;}
     else if(k.startsWith('on'))el.addEventListener(k.slice(2).toLowerCase(),v);
     else if(k==='html')el.innerHTML=v;
     else el.setAttribute(k,v);
   }
   for(const c of kids.flat(Infinity)){if(c==null||c===false)continue;el.appendChild(typeof c==='string'?document.createTextNode(c):c);}
   return el;}
-function svgDiv(html,sty){const d=document.createElement('div');if(sty)Object.assign(d.style,sty);d.innerHTML=html;return d;}
+
+// Small building blocks shared by every page.
+const col=(...k)=>h('div',{cls:'col'},...k);
+const label=(t,mod)=>h('p',{cls:'label'+(mod?' '+mod:'')},t);
+const linkBtn=(l,u,mod)=>h('a',{cls:'linkbtn'+(mod?' '+mod:''),href:u,target:'_blank',rel:'noopener'},l);
+const subtabs=(items,cur,pick)=>h('div',{cls:'tabs'},items.map(([id,l])=>h('button',{cls:'tab'+(cur===id?' on':''),onClick:()=>pick(id)},l)));
+const navRow=(icn,title,desc,onClick)=>h('button',{cls:'navrow',onClick},
+  h('span',{cls:'navrow-ico',html:ico(icn)}),
+  h('span',{cls:'navrow-txt'},h('span',{cls:'navrow-t'},title),h('span',{cls:'navrow-s'},desc)),
+  h('span',{cls:'navrow-chev',html:ico('chev')}));
+const pageHead=(title,sub,...right)=>h('div',{cls:'phead'},h('div',{},h('p',{cls:'phead-t'},title),h('p',{cls:'phead-s'},sub)),...right);
 
 // Inline-SVG icon set (currentColor). Ships in-page — no icon font, no glyph
 // rendering gaps. ico(name) returns an <svg> string for h('span',{html:ico(...)}).
@@ -990,135 +1376,85 @@ function ico(name){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentC
 // RENDER ENGINE
 // ═══════════════════════════════════════════════════════════
 const TABS=[
-  {id:'home',    lbl:'Home',     lblFull:'Home',     ico:'home'},
-  {id:'practise',lbl:'Practise', lblFull:'Practise', ico:'practise'},
-  {id:'prayers', lbl:'Prayers',  lblFull:'Prayers',  ico:'prayers'},
-  {id:'learn',   lbl:'Learn',    lblFull:'Learn',    ico:'learn'},
+  {id:'home',    lbl:'Home',     ico:'home'},
+  {id:'practise',lbl:'Practise', ico:'practise'},
+  {id:'prayers', lbl:'Prayers',  ico:'prayers'},
+  {id:'learn',   lbl:'Learn',    ico:'learn'},
 ];
 function render(){
-  const content=document.getElementById('content');
-  content.innerHTML='';
-  const nav=document.getElementById('nav');
-  nav.innerHTML='';
-  const isDesktop=window.innerWidth>=768;
-  TABS.forEach(t=>{
-    nav.appendChild(h('button',{cls:'nb'+(ST.tab===t.id?' active':''),onClick:()=>switchTab(t.id)},
-      h('span',{cls:'nb-ico',html:ico(t.ico)}),
-      h('span',{cls:'nb-lbl'},isDesktop?t.lblFull:t.lbl)));
-  });
+  const content=document.getElementById('content'),nav=document.getElementById('nav');
+  content.innerHTML='';nav.innerHTML='';
+  const navBtn=(on,icn,lbl,onClick)=>h('button',{cls:'nb'+(on?' active':''),onClick},
+    h('span',{cls:'nb-ico',html:ico(icn)}),h('span',{cls:'nb-lbl'},lbl));
+  TABS.forEach(t=>nav.appendChild(navBtn(ST.tab===t.id,t.ico,t.lbl,()=>switchTab(t.id))));
   // More — opens a menu (Appearance + About); not its own tab.
-  const moreActive=ST.tab==='settings'||ST.tab==='about';
-  nav.appendChild(h('button',{cls:'nb'+(moreActive?' active':''),onClick:()=>set({moreOpen:true})},
-    h('span',{cls:'nb-ico',html:ico('more')}),
-    h('span',{cls:'nb-lbl'},'More')));
-  if(ST.tab==='practise')content.appendChild(renderPractise());
-  else if(ST.tab==='prayers')content.appendChild(renderPrayersTab());
-  else if(ST.tab==='learn')renderRefuge(content);
-  else if(ST.tab==='settings')content.appendChild(renderSettings());
-  else if(ST.tab==='about')content.appendChild(renderAboutPage());
-  else content.appendChild(renderHome());
+  nav.appendChild(navBtn(ST.tab==='settings'||ST.tab==='about','more','More',()=>set({moreOpen:true})));
+  if(ST.tab==='learn')renderRefuge(content);
+  else content.appendChild(({practise:renderPractise,prayers:renderPrayersTab,settings:renderSettings,about:renderAboutPage}[ST.tab]||renderHome)());
   if(ST.moreOpen)content.appendChild(renderMoreMenu());
 }
 
-// ── HOME — Explore tiles + today/calendar + events (reuses renderCal/renderEvents) ──
+// ── HOME — welcome (first visit) + explore tiles + today + events ──
 function renderHome(){
-  const outer=h('div',{sty:{height:'100%',overflowY:'auto',background:'var(--bg)'}});
-  // First-visit welcome (dismissed once via localStorage esm_seen)
-  if(!ls('esm_seen')){
-    const wc=h('div',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',borderRadius:'12px',padding:'15px',margin:'14px 14px 2px'}});
-    wc.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',color:'var(--gold)',marginBottom:'7px'}},'Welcome to Dharma Practice'));
-    wc.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(15px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.7',marginBottom:'12px'}},'An unofficial companion for Ngöndro and daily practice — built to lower the barrier and cut through to the heart of the teachings. Have a look around below.'));
-    wc.appendChild(h('div',{sty:{display:'flex',gap:'8px'}},
-      h('button',{cls:'btn',sty:{flex:'1'},onClick:()=>{lsSet('esm_seen',true);render();}},'Begin'),
-      h('button',{cls:'btn-o',sty:{flex:'1'},onClick:()=>{lsSet('esm_seen',true);switchTab('about');}},'Read more')));
-    outer.appendChild(wc);
-  }
-  const ex=h('div',{sty:{padding:'16px 14px 2px'}});
-  ex.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)',marginBottom:'10px'}},'EXPLORE'));
-  [['practise','practise','Practise','Count your accumulations · tap counter'],
-   ['prayers','prayers','Prayers','Liturgies and practice texts to recite'],
-   ['learn','learn','Learn','The refuge tree, figures and teachings']].forEach(([tab,icn,title,desc])=>{
-    ex.appendChild(h('button',{sty:{width:'100%',display:'flex',alignItems:'center',gap:'13px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'13px',marginBottom:'9px',cursor:'pointer',textAlign:'left'},onClick:()=>switchTab(tab)},
-      h('span',{cls:'home-ico',html:ico(icn),sty:{color:'var(--gold)',flexShrink:0}}),
-      h('span',{sty:{flex:1,minWidth:0}},
-        h('span',{sty:{display:'block',fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',color:'var(--tx)'}},title),
-        h('span',{sty:{display:'block',fontSize:'calc(11px * var(--scale))',color:'var(--tx-mid)',marginTop:'2px'}},desc)),
-      h('span',{cls:'home-chev',html:ico('chev'),sty:{color:'var(--tx-lo)',flexShrink:0}})));
-  });
-  outer.appendChild(ex);
-  outer.appendChild(renderCal());
-  outer.appendChild(renderEvents());
-  return outer;
+  const c=col();
+  if(!ls('esm_seen'))c.appendChild(h('div',{cls:'card glow welcome'},
+    h('p',{cls:'welcome-t'},'Welcome to '+APP_NAME),
+    h('p',{cls:'welcome-s'},'An unofficial companion for Ngöndro and daily practice — built to lower the barrier and cut through to the heart of the teachings. Have a look around below.'),
+    h('div',{cls:'brow'},
+      h('button',{cls:'btn',onClick:()=>{lsSet('esm_seen',true);render();}},'Begin'),
+      h('button',{cls:'btn-o',onClick:()=>{lsSet('esm_seen',true);switchTab('about');}},'Read more'))));
+  c.appendChild(label('EXPLORE','dim lg'));
+  [['practise','Practise','Count your accumulations · tap counter'],
+   ['prayers','Prayers','Liturgies and practice texts to recite'],
+   ['learn','Learn','The refuge tree, figures and teachings']].forEach(([tab,title,desc])=>
+    c.appendChild(navRow(tab,title,desc,()=>switchTab(tab))));
+  c.appendChild(h('div',{cls:'section'},renderCal()));
+  c.appendChild(h('div',{cls:'section'},renderEvents()));
+  return h('div',{cls:'page'},c);
 }
 
-// ── PRACTISE — merges the old Track + Tap; Meditate lands in a later wave ──
+// ── PRACTISE — Accumulate (practice accordion) + Tap counter ──
 function renderPractise(){
-  const sub=ST.practiseSub||'accumulate';
-  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
-  const sb=h('div',{sty:{display:'flex',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}});
-  [['accumulate','Accumulate'],['tap','Tap counter']].forEach(([id,lbl])=>{
-    const on=sub===id;
-    sb.appendChild(h('button',{sty:{flex:1,padding:'12px 4px',background:'none',border:'none',borderBottom:`2px solid ${on?'var(--gold)':'transparent'}`,color:on?'var(--gold)':'var(--tx-lo)',fontSize:'calc(13px * var(--scale))',fontFamily:'Lato',cursor:'pointer',marginBottom:'-1px'},onClick:()=>{ST.practiseSub=id;render();}},lbl));
-  });
-  outer.appendChild(sb);
-  const body=h('div',{sty:{flex:1,overflow:'hidden',display:'flex',flexDirection:'column'}});
-  body.appendChild(sub==='tap'?renderTap():renderPractice());
-  outer.appendChild(body);
-  return outer;
+  const sub=ST.practiseSub;
+  return h('div',{cls:'stack'},
+    subtabs([['accumulate','Accumulate'],['tap','Tap counter']],sub,id=>{ST.practiseSub=id;render();}),
+    h('div',{cls:'fill'},sub==='tap'?renderTap():renderPractice()));
 }
 
-// ── MORE menu — Appearance (Settings) + About (Info) ──
+// ── MORE menu — Appearance (Settings) + About ──
 function renderMoreMenu(){
-  const veil=h('div',{cls:'veil',onClick:e=>{if(e.target===veil)set({moreOpen:false});}});
-  const sheet=h('div',{cls:'sheet'});
-  sheet.appendChild(h('div',{cls:'handle'}));
-  sheet.appendChild(h('p',{cls:'stitle'},'MORE'));
-  [['settings','sliders','Appearance','Themes & text size'],
-   ['about','info','About','Credits, links & gratitude']].forEach(([tab,icn,title,desc])=>{
-    sheet.appendChild(h('button',{sty:{width:'100%',display:'flex',alignItems:'center',gap:'12px',background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'14px',marginBottom:'8px',cursor:'pointer',textAlign:'left'},onClick:()=>switchTab(tab)},
-      h('span',{cls:'more-ico',html:ico(icn),sty:{color:'var(--gold)',flexShrink:0}}),
-      h('span',{sty:{flex:1}},
-        h('span',{sty:{display:'block',fontFamily:'Playfair Display',fontSize:'calc(14px * var(--scale))',color:'var(--tx)'}},title),
-        h('span',{sty:{display:'block',fontSize:'calc(11px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},desc))));
-  });
-  sheet.appendChild(h('button',{cls:'btn-o',onClick:()=>set({moreOpen:false})},'Close'));
-  veil.appendChild(sheet);return veil;
+  const close=()=>set({moreOpen:false});
+  const veil=h('div',{cls:'veil',onClick:e=>{if(e.target===veil)close();}});
+  veil.appendChild(h('div',{cls:'sheet'},h('div',{cls:'handle'}),h('p',{cls:'stitle'},'MORE'),
+    navRow('sliders','Appearance','Themes & text size',()=>switchTab('settings')),
+    navRow('info','About','Credits, links & gratitude',()=>switchTab('about')),
+    h('button',{cls:'btn-o',onClick:close},'Close')));
+  return veil;
 }
 
-// ── ABOUT page — the Info content in a scroll container ──
-function renderAboutPage(){
-  return h('div',{sty:{height:'100%',overflowY:'auto',background:'var(--bg)'}},renderInfo());
-}
+function renderAboutPage(){return h('div',{cls:'page'},col(renderInfo()));}
 
 // ═══════════════════════════════════════════════════════════
-// GRID
+// GRID — one circle per `cv` repetitions; colours come from .grid-svg CSS
 // ═══════════════════════════════════════════════════════════
 function renderGrid(pr,counter){
   const{target,cv}=pr,total=Math.ceil(target/cv),rows=Math.ceil(total/COLS);
   const filled=Math.floor(counter/cv),partial=(counter%cv)/cv;
-  const contentW=(document.getElementById('content')||{clientWidth:window.innerWidth}).clientWidth;
-  const cS=Math.min(14,(contentW-24)/COLS),r=cS*.36;
-  const acc='#9b1c2a'; // crimson for all practices
-  const NS='http://www.w3.org/2000/svg';
-  const svg=document.createElementNS(NS,'svg');
-  svg.setAttribute('viewBox',`0 0 ${COLS*cS} ${rows*cS}`);
-  svg.style.cssText='width:100%;display:block;';
+  const cS=14,r=cS*.36,NS='http://www.w3.org/2000/svg';
+  const el=(tag,at)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);return e;};
+  const svg=el('svg',{viewBox:`0 0 ${COLS*cS} ${rows*cS}`,class:'grid-svg'});
   for(let i=0;i<total;i++){
     const cx=(i%COLS)*cS+cS/2,cy=Math.floor(i/COLS)*cS+cS/2;
-    const c=document.createElementNS(NS,'circle');
-    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);
-    if(i<filled){c.setAttribute('fill',acc);c.setAttribute('opacity','0.88');}
+    if(i<filled)svg.appendChild(el('circle',{cx,cy,r,class:'f'}));
     else if(i===filled&&partial>0.04){
-      const cid=`p${pr.id}${i}`,defs=document.createElementNS(NS,'defs'),cp=document.createElementNS(NS,'clipPath');
-      cp.setAttribute('id',cid);const rect=document.createElementNS(NS,'rect');
-      rect.setAttribute('x',cx-r-1);rect.setAttribute('y',cy+r-partial*2*r-1);
-      rect.setAttribute('width',r*2+2);rect.setAttribute('height',partial*2*r+2);
-      cp.appendChild(rect);defs.appendChild(cp);svg.appendChild(defs);
-      const bg=document.createElementNS(NS,'circle');bg.setAttribute('cx',cx);bg.setAttribute('cy',cy);bg.setAttribute('r',r);
-      bg.setAttribute('fill','none');bg.setAttribute('stroke',acc+'50');bg.setAttribute('stroke-width','0.8');svg.appendChild(bg);
-      c.setAttribute('fill',acc);c.setAttribute('opacity','0.55');c.setAttribute('clip-path',`url(#${cid})`);
-    }else{c.setAttribute('fill','none');c.setAttribute('stroke','rgba(155,28,42,.32)');c.setAttribute('stroke-width','0.8');}
-    svg.appendChild(c);}
+      // Partly-filled bead: outline plus a bottom-up clipped fill.
+      const cid=`p${pr.id}${i}`,cp=el('clipPath',{id:cid});
+      cp.appendChild(el('rect',{x:cx-r-1,y:cy+r-partial*2*r-1,width:r*2+2,height:partial*2*r+2}));
+      svg.appendChild(el('defs',{})).appendChild(cp);
+      svg.appendChild(el('circle',{cx,cy,r}));
+      svg.appendChild(el('circle',{cx,cy,r,class:'p','clip-path':`url(#${cid})`}));
+    }else svg.appendChild(el('circle',{cx,cy,r}));
+  }
   return svg;}
 
 // ═══════════════════════════════════════════════════════════
@@ -1129,152 +1465,118 @@ function renderModal(){
   const m=ST.modal;if(!m)return null;
   const pr=PR.find(p=>p.id===m.prid),pd=pr?getPD(m.prid):{};
   const veil=h('div',{cls:'veil',onClick:e=>{if(e.target===veil)closeModal();}});
+  const sheet=(title,...k)=>{veil.appendChild(h('div',{cls:'sheet'},h('div',{cls:'handle'}),h('p',{cls:'stitle'},title),...k));return veil;};
+  const dialog=(title,...k)=>{veil.classList.add('center');veil.appendChild(h('div',{cls:'dialog'},h('p',{cls:'stitle'},title),...k));return veil;};
+  const okCancel=(ok,onOk)=>h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:onOk},ok));
   if(m.type==='pace'){
     const pace=pd.pace!==undefined?pd.pace:100;
-    const sheet=h('div',{cls:'sheet'});sheet.appendChild(h('div',{cls:'handle'}));
-    sheet.appendChild(h('p',{cls:'stitle'},'REPETITIONS PER SESSION'));
-    const grid=h('div',{sty:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'8px',marginBottom:'10px'}});
-    PACE_OPTS.forEach(v=>{const on=pace===v;grid.appendChild(h('button',{sty:{background:on?'var(--gold-ghost)':'var(--inp)',border:`1px solid ${on?'var(--bdr-hi)':'var(--bdr)'}`,borderRadius:'10px',padding:'13px 4px',color:on?'var(--gold)':'var(--tx)',fontSize:'15px',cursor:'pointer',fontFamily:'Lato'},onClick:()=>{setPD(m.prid,{...pd,pace:v});closeModal();}},v===0?'None':fmt(v)));});
-    sheet.appendChild(grid);
-    const cr=h('div',{sty:{display:'flex',gap:'8px',marginBottom:'8px'}});
-    const ci=h('input',{'type':'number','placeholder':'Custom…'});cr.appendChild(ci);
-    cr.appendChild(h('button',{cls:'btn',sty:{width:'80px',flexShrink:0},onClick:()=>{const v=parseInt(ci.value);if(v>0){setPD(m.prid,{...pd,pace:v});closeModal();}}},'Set'));
-    sheet.appendChild(cr);sheet.appendChild(h('button',{cls:'btn-o',onClick:closeModal},'Cancel'));
-    veil.appendChild(sheet);return veil;
+    const setPace=v=>{setPD(m.prid,{...pd,pace:v});closeModal();};
+    const ci=h('input',{type:'number',placeholder:'Custom…'});
+    return sheet('REPETITIONS PER SESSION',
+      h('div',{cls:'opt-grid'},PACE_OPTS.map(v=>h('button',{cls:'opt'+(pace===v?' on':''),onClick:()=>setPace(v)},v===0?'None':fmt(v)))),
+      h('div',{cls:'inrow'},ci,h('button',{cls:'btn narrow',onClick:()=>{const v=parseInt(ci.value);if(v>0)setPace(v);}},'Set')),
+      h('button',{cls:'btn-o',onClick:closeModal},'Cancel'));
   }
   if(m.type==='edit'){
-    veil.classList.add('center');const d=h('div',{cls:'dialog'});
-    d.appendChild(h('p',{cls:'stitle'},'EDIT COUNTER'));
-    d.appendChild(h('p',{sty:{color:'var(--tx-lo)',fontSize:'12px',textAlign:'center',marginBottom:'14px'}},`${pr.name} — target: ${fmt(pr.target)}`));
-    const inp=h('input',{'type':'number',sty:{marginBottom:'14px'}});inp.value=pd.counter||0;d.appendChild(inp);
-    d.appendChild(h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:()=>{const v=Math.min(pr.target,Math.max(0,parseInt(inp.value)||0));setPD(m.prid,{...pd,counter:v});closeModal();}},'Save')));
-    veil.appendChild(d);return veil;
+    const inp=h('input',{type:'number'});inp.value=pd.counter||0;
+    return dialog('EDIT COUNTER',h('p',{cls:'dlg-note'},`${pr.name} — target: ${fmt(pr.target)}`),inp,
+      okCancel('Save',()=>{const v=Math.min(pr.target,Math.max(0,parseInt(inp.value)||0));setPD(m.prid,{...pd,counter:v});closeModal();}));
   }
   if(m.type==='add'){
-    veil.classList.add('center');const d=h('div',{cls:'dialog'});
-    d.appendChild(h('p',{cls:'stitle'},'ADD REPETITIONS'));
-    const inp=h('input',{'type':'number','placeholder':'Number to add',sty:{marginBottom:'14px'}});d.appendChild(inp);
-    d.appendChild(h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:()=>{const v=parseInt(inp.value);if(v>0){doAdd(pr,getPD(m.prid),v);closeModal();}}},'Add')));
-    veil.appendChild(d);return veil;
+    const inp=h('input',{type:'number',placeholder:'Number to add'});
+    return dialog('ADD REPETITIONS',inp,
+      okCancel('Add',()=>{const v=parseInt(inp.value);if(v>0){doAdd(pr,getPD(m.prid),v);closeModal();}}));
   }
   if(m.type==='date'){
-    veil.classList.add('center');const d=h('div',{cls:'dialog'});
-    d.appendChild(h('p',{cls:'stitle'},'SET TARGET DATE'));
-    d.appendChild(h('p',{sty:{color:'var(--tx-lo)',fontSize:'12px',textAlign:'center',marginBottom:'14px'}},'Daily pace will be calculated automatically.'));
-    const def=(()=>{const dt=new Date();dt.setMonth(dt.getMonth()+3);return dt.toISOString().split('T')[0];})();
-    const inp=h('input',{'type':'date',sty:{marginBottom:'14px'}});inp.value=def;d.appendChild(inp);
-    d.appendChild(h('div',{cls:'brow'},h('button',{cls:'btn-o',onClick:closeModal},'Cancel'),h('button',{cls:'btn',onClick:()=>{setPD(m.prid,{...pd,pace:paceFromDate(pd.counter||0,inp.value,pr.target)});closeModal();}},'Set')));
-    veil.appendChild(d);return veil;
+    const dt=new Date();dt.setMonth(dt.getMonth()+3);
+    const inp=h('input',{type:'date'});inp.value=dt.toISOString().split('T')[0];
+    return dialog('SET TARGET DATE',h('p',{cls:'dlg-note'},'Daily pace will be calculated automatically.'),inp,
+      okCancel('Set',()=>{setPD(m.prid,{...pd,pace:paceFromDate(pd.counter||0,inp.value,pr.target)});closeModal();}));
   }
   if(m.type==='figlog'){
-    const sheet=h('div',{cls:'sheet'});sheet.appendChild(h('div',{cls:'handle'}));
-    sheet.appendChild(h('p',{cls:'stitle'},'LOG TO PRACTICE'));
-    sheet.appendChild(h('p',{sty:{color:'var(--tx-lo)',fontSize:'13px',textAlign:'center',marginBottom:'16px'}},`Add ${fmt(m.count)} to:`));
-    PR.forEach(p=>{const pd2=getPD(p.id),pct=Math.round(((pd2.counter||0)/p.target)*100);
-      sheet.appendChild(h('button',{sty:{width:'100%',background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'11px',padding:'12px 14px',marginBottom:'8px',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center'},onClick:()=>{const nc=Math.min(p.target,(pd2.counter||0)+m.count);setPD(p.id,{...pd2,counter:nc,lastDate:new Date().toISOString()});lsSet('esm_tap',{count:0,ci:0});set({tap:{count:0,ci:0},tapShown:false,modal:null});}},
-        h('span',{sty:{color:'var(--tx)',fontSize:'13px'}},p.name),h('span',{sty:{color:'var(--tx-lo)',fontSize:'12px'}},`${pct}% of ${fmt(p.target)}`)));});
-    sheet.appendChild(h('button',{cls:'btn-o',sty:{marginTop:'4px'},onClick:closeModal},'Cancel'));
-    veil.appendChild(sheet);return veil;
+    return sheet('LOG TO PRACTICE',h('p',{cls:'dlg-note'},`Add ${fmt(m.count)} to:`),
+      PR.map(p=>{const pd2=getPD(p.id),pct=Math.round(((pd2.counter||0)/p.target)*100);
+        return h('button',{cls:'pickrow',onClick:()=>{
+          setPD(p.id,{...pd2,counter:Math.min(p.target,(pd2.counter||0)+m.count),lastDate:new Date().toISOString()});
+          lsSet('esm_tap',{count:0,ci:0});set({tap:{count:0,ci:0},tapShown:false,modal:null});}},
+          h('span',{},p.name),h('small',{},`${pct}% of ${fmt(p.target)}`));}),
+      h('button',{cls:'btn-o',onClick:closeModal},'Cancel'));
   }
   return null;}
 
 // ═══════════════════════════════════════════════════════════
-// PRACTICE — full-screen image, collapsible bottom panel
+// PRACTICE — accordion of the 7 practices
 // ═══════════════════════════════════════════════════════════
 function doAdd(pr,pd,pace){
   const c=pd.counter||0,nc=Math.min(pr.target,c+pace);
   const undo=[...(pd.undo||[]).slice(-19),{counter:c,lastDate:pd.lastDate}];
   setPD(pr.id,{...pd,counter:nc,pace,lastDate:new Date().toISOString(),undo});
-  // Floating feedback — no popup
-  const fb=document.getElementById('fbb');if(fb)fb.remove();
-  const b=document.createElement('div');b.id='fbb';
-  b.style.cssText=`position:fixed;bottom:200px;left:50%;transform:translateX(-50%);color:#f0b830;font-size:24px;font-family:Lato;font-weight:300;pointer-events:none;z-index:500;animation:rise 1.2s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,.5);`;
-  b.textContent=`+${fmt(pace)}`;document.getElementById('content').appendChild(b);
+  // Floating "+N" feedback — no popup
+  document.getElementById('fbb')?.remove();
+  document.getElementById('content').appendChild(h('div',{id:'fbb',cls:'fbb'},`+${fmt(pace)}`));
 }
 
-// ── ACCUMULATE — collapsible accordion of the 7 practices (minimised by default) ──
 function renderPractice(){
-  const outer=h('div',{sty:{height:'100%',overflowY:'auto',background:'var(--bg)',padding:'10px 12px calc(20px + var(--safe-b))'}});
+  const c=col();
   PR.forEach((pr,i)=>{
     const pd=getPD(pr.id),counter=pd.counter||0,pace=pd.pace!==undefined?pd.pace:100;
-    const done=counter>=pr.target,pct=Math.round((counter/pr.target)*100);
-    const open=ST.prExpanded===i;
-    const card=h('div',{sty:{background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'13px',marginBottom:'9px',overflow:'hidden'}});
-    const row=h('div',{sty:{display:'flex',alignItems:'center',gap:'11px',padding:'12px 13px',cursor:'pointer'},onClick:()=>set({prExpanded:open?null:i})});
-    row.appendChild(h('span',{sty:{width:'12px',height:'12px',borderRadius:'50%',background:pr.acc,flexShrink:0}}));
-    const mid=h('div',{sty:{flex:1,minWidth:0}});
-    mid.appendChild(h('div',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',color:'var(--tx)',lineHeight:'1.1'}},pr.name));
-    mid.appendChild(h('div',{sty:{height:'5px',borderRadius:'3px',background:'var(--bdr)',marginTop:'7px',overflow:'hidden'}},
-      h('div',{sty:{height:'100%',borderRadius:'3px',width:pct+'%',background:pr.acc}})));
-    row.appendChild(mid);
-    const right=h('div',{sty:{textAlign:'right',flexShrink:0}});
-    right.appendChild(h('div',{sty:{fontSize:'calc(14px * var(--scale))',color:'var(--tx)'}},fmt(counter)));
-    right.appendChild(h('div',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'1px'}},done?'complete':`${pct}% of ${fmt(pr.target)}`));
-    row.appendChild(right);
-    if(!done)row.appendChild(h('button',{'aria-label':'Add '+fmt(pace),sty:{background:`${pr.acc}1e`,border:`1px solid ${pr.acc}66`,borderRadius:'9px',padding:'6px 9px',color:pr.acc,fontFamily:'Lato',fontSize:'calc(11px * var(--scale))',cursor:'pointer',flexShrink:0,whiteSpace:'nowrap'},onClick:e=>{e.stopPropagation();doAdd(pr,pd,pace);}},'+'+fmt(pace)));
-    if(done)row.appendChild(h('span',{sty:{color:'#2e7d46',fontSize:'calc(16px * var(--scale))',flexShrink:0}},'✓'));
-    row.appendChild(h('span',{cls:'pico',html:ico('chev'),sty:{color:'var(--tx-lo)',flexShrink:0,display:'inline-flex',transform:open?'rotate(-90deg)':'rotate(90deg)',transition:'transform .2s'}}));
-    card.appendChild(row);
-    if(open)card.appendChild(practiceDetail(pr,pd,counter,pace,done,pct));
-    outer.appendChild(card);
+    const done=counter>=pr.target,pct=Math.round((counter/pr.target)*100),open=ST.prExpanded===i;
+    c.appendChild(h('div',{cls:'acc'+(open?' open':''),sty:{'--acc':pr.acc}},
+      h('div',{cls:'acc-row',onClick:()=>set({prExpanded:open?null:i})},
+        h('span',{cls:'acc-dot'}),
+        h('div',{cls:'acc-mid'},h('div',{cls:'acc-name'},pr.name),h('div',{cls:'bar'},h('i',{sty:{width:pct+'%'}}))),
+        h('div',{cls:'acc-num'},h('b',{},fmt(counter)),h('small',{},done?'complete':`${pct}% of ${fmt(pr.target)}`)),
+        done?h('span',{cls:'acc-tick'},'✓')
+            :h('button',{cls:'acc-add','aria-label':'Add '+fmt(pace),onClick:e=>{e.stopPropagation();doAdd(pr,pd,pace);}},'+'+fmt(pace)),
+        h('span',{cls:'acc-chev pico',html:ico('chev')})),
+      open&&practiceDetail(pr,pd,counter,pace,done,pct)));
   });
+  const outer=h('div',{cls:'page'},c);
   if(ST.prImgOpen)outer.appendChild(renderImgLightbox(ST.prImgOpen));
   if(ST.modal)outer.appendChild(renderModal());
   return outer;
 }
 
-// Expanded detail — reuses renderGrid, doAdd, and the pace/edit/add/date modals so nothing is lost.
+// Expanded detail — big counter, add button, image, pace/date/edit chips, bead grid.
 function practiceDetail(pr,pd,counter,pace,done,pct){
-  const pd2=proj(counter,pace,pr.target),undo=pd.undo||[];
-  const wrap=h('div',{sty:{borderTop:'1px solid var(--bdr)',padding:'14px 12px 16px',background:'var(--card2)'}});
-  wrap.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-lo)',marginBottom:'12px'}},pr.sub));
-  const bigrow=h('div',{sty:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'13px'}});
-  const bc=h('div',{});
-  bc.appendChild(h('div',{sty:{fontFamily:'Lato',fontWeight:'300',fontSize:'calc(38px * var(--scale))',color:done?'#f0b830':'var(--tx)',lineHeight:'1'}},(done?'✓ ':'')+fmt(counter)));
-  bc.appendChild(h('div',{sty:{fontSize:'calc(11px * var(--scale))',color:'var(--tx-lo)',marginTop:'4px'}},done?'Ngöndro complete':`${pct}% of ${fmt(pr.target)}`));
-  bigrow.appendChild(bc);
-  if(!done){
-    const ab=h('button',{sty:{width:'62px',height:'62px',borderRadius:'50%',border:`1.5px solid ${pr.acc}`,background:`${pr.acc}22`,color:pr.acc,cursor:'pointer',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',flexShrink:0,fontFamily:'Lato'},onClick:()=>doAdd(pr,pd,pace)});
-    ab.innerHTML=`<span style="font-size:11px;line-height:1">+</span><span style="font-size:calc(13px * var(--scale));font-weight:500;line-height:1.15">${fmt(pace)}</span>`;
-    bigrow.appendChild(ab);
-  }
-  wrap.appendChild(bigrow);
-  wrap.appendChild(h('button',{sty:{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',background:`${pr.acc}14`,border:`1px solid ${pr.acc}55`,borderRadius:'11px',padding:'11px',color:pr.acc,fontFamily:'Playfair Display',fontSize:'calc(12px * var(--scale))',letterSpacing:'.5px',cursor:'pointer',marginBottom:'13px'},onClick:()=>set({prImgOpen:pr.id})},
-    h('span',{cls:'pico',html:ico('image')}),pr.id==='refuge'?'View refuge tree':'View image'));
-  const chip=(label,onClick,edit)=>h('button',{sty:{display:'flex',alignItems:'center',gap:'5px',background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'7px 11px',fontSize:'calc(11px * var(--scale))',color:'var(--tx-mid)',cursor:'pointer',fontFamily:'Lato'},onClick},label,edit?h('span',{sty:{fontSize:'calc(10px * var(--scale))',opacity:'.55'}},'✎'):null);
-  const chips=h('div',{sty:{display:'flex',gap:'7px',flexWrap:'wrap',marginBottom:'11px'}});
-  chips.appendChild(chip(`${fmt(pace)} / session`,()=>set({modal:{type:'pace',prid:pr.id}}),true));
-  if(pd2&&!done)chips.appendChild(chip(`Finish → ${fmtD(pd2)}`,()=>set({modal:{type:'date',prid:pr.id}}),true));
-  chips.appendChild(chip('Edit count',()=>set({modal:{type:'edit',prid:pr.id}}),true));
-  chips.appendChild(chip('+ Bulk add',()=>set({modal:{type:'add',prid:pr.id}})));
-  if(undo.length)chips.appendChild(chip('↩ Undo',()=>{const prev=undo[undo.length-1];setPD(pr.id,{...pd,counter:prev.counter,lastDate:prev.lastDate,undo:undo.slice(0,-1)});}));
-  wrap.appendChild(chips);
-  if(pd.lastDate)wrap.appendChild(h('div',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginBottom:'10px'}},`Last practised: ${fmtD(pd.lastDate)}`));
-  if(pr.mantra)wrap.appendChild(h('div',{sty:{textAlign:'center',padding:'6px 0 12px'}},
-    h('span',{sty:{fontFamily:'Playfair Display',fontWeight:'700',fontSize:'calc(10px * var(--scale))',letterSpacing:'3px',color:'var(--red)'}},pr.mantra)));
-  wrap.appendChild(renderGrid(pr,counter));
-  wrap.appendChild(h('div',{sty:{textAlign:'right',marginTop:'4px'}},h('span',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--red-hi)',fontFamily:'Lato'}},'One full circle ⬤ = '+fmt(pr.cv))));
-  return wrap;
+  const finish=proj(counter,pace,pr.target),undo=pd.undo||[];
+  const chip=(l,onClick,edit)=>h('button',{cls:'chip',onClick},l,edit&&h('span',{cls:'ed'},'✎'));
+  const modal=type=>()=>set({modal:{type,prid:pr.id}});
+  return h('div',{cls:'pd'},
+    h('p',{cls:'pd-sub'},pr.sub),
+    h('div',{cls:'pd-big'},
+      h('div',{},h('div',{cls:'pd-count'+(done?' done':'')},(done?'✓ ':'')+fmt(counter)),
+        h('div',{cls:'pd-pct'},done?'Ngöndro complete':`${pct}% of ${fmt(pr.target)}`)),
+      !done&&h('button',{cls:'pd-add',onClick:()=>doAdd(pr,pd,pace)},h('small',{},'+'),h('b',{},fmt(pace)))),
+    h('button',{cls:'pd-img',onClick:()=>set({prImgOpen:pr.id})},
+      h('span',{cls:'pico',html:ico('image')}),pr.id==='refuge'?'View refuge tree':'View image'),
+    h('div',{cls:'chips'},
+      chip(`${fmt(pace)} / session`,modal('pace'),true),
+      finish&&!done&&chip(`Finish → ${fmtD(finish)}`,modal('date'),true),
+      chip('Edit count',modal('edit'),true),
+      chip('+ Bulk add',modal('add')),
+      undo.length>0&&chip('↩ Undo',()=>{const prev=undo[undo.length-1];setPD(pr.id,{...pd,counter:prev.counter,lastDate:prev.lastDate,undo:undo.slice(0,-1)});})),
+    pd.lastDate&&h('div',{cls:'pd-last'},`Last practised: ${fmtD(pd.lastDate)}`),
+    pr.mantra&&h('div',{cls:'pd-mantra'},pr.mantra),
+    renderGrid(pr,counter),
+    h('div',{cls:'pd-cv'},'One full circle ⬤ = '+fmt(pr.cv)));
 }
 
 // Static image viewer for a practice; refuge also offers a jump to the interactive tree in Learn.
 function renderImgLightbox(prid){
   const pr=PR.find(p=>p.id===prid);if(!pr)return h('div');
-  const veil=h('div',{cls:'veil center',onClick:e=>{if(e.target===veil)set({prImgOpen:null});}});
-  const box=h('div',{sty:{width:'100%',maxWidth:'440px',background:'var(--card)',borderRadius:'16px',overflow:'hidden',border:'1px solid var(--bdr)'}});
-  const imgWrap=h('div',{sty:{position:'relative',background:'#000',maxHeight:'68vh',overflow:'auto'}});
-  imgWrap.appendChild(h('img',{src:pr.img,alt:pr.name,sty:{width:'100%',display:'block'}}));
-  imgWrap.appendChild(h('button',{'aria-label':'Close',sty:{position:'absolute',top:'10px',right:'10px',width:'32px',height:'32px',borderRadius:'50%',background:'rgba(0,0,0,.5)',border:'none',color:'#fff',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'},onClick:()=>set({prImgOpen:null})},h('span',{cls:'pico',html:ico('close'),sty:{color:'#fff'}})));
-  box.appendChild(imgWrap);
-  const cap=h('div',{sty:{padding:'12px 14px'}});
-  cap.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)'}},pr.name));
-  if(pr.id==='refuge')cap.appendChild(h('button',{cls:'btn',sty:{width:'100%',marginTop:'10px'},onClick:()=>{set({prImgOpen:null});switchTab('learn');}},'Learn about the figures →'));
-  box.appendChild(cap);
-  veil.appendChild(box);return veil;
+  const close=()=>set({prImgOpen:null});
+  const veil=h('div',{cls:'veil center',onClick:e=>{if(e.target===veil)close();}});
+  veil.appendChild(h('div',{cls:'lightbox'},
+    h('div',{cls:'lightbox-img'},h('img',{src:pr.img,alt:pr.name}),
+      h('button',{cls:'xbtn pico','aria-label':'Close',html:ico('close'),onClick:close})),
+    h('div',{cls:'lightbox-cap'},pr.name,
+      pr.id==='refuge'&&h('button',{cls:'btn',onClick:()=>{set({prImgOpen:null});switchTab('learn');}},'Learn about the figures →'))));
+  return veil;
 }
 
 // ═══════════════════════════════════════════════════════════
-// TAP (timer removed)
+// TAP COUNTER — background/accent cycle through TC/TR on each tap
 // ═══════════════════════════════════════════════════════════
 const TC=['#4a1f2d','#1f4a2a','#1f335c','#4a3a12','#3d2461','#144444','#4a3816','#4a2416'];
 const TR=['#ff6f91','#5be37a','#6fa8ff','#ffd54a','#b388ff','#4de1e1','#ffbf5a','#ff8a65'];
@@ -1283,71 +1585,48 @@ const TR=['#ff6f91','#5be37a','#6fa8ff','#ffd54a','#b388ff','#4de1e1','#ffbf5a',
 let tapResetTimer=null, tapResetProg=0;
 function renderTap(){
   const{tap,tapShown,tapReset,tapProg,tapPinned}=ST;
-  const ci=tap.ci%TC.length,bg=TC[ci],ring=TR[ci];
-  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',background:tapShown?'var(--bg)':bg,transition:'background .4s',position:'relative',overflow:'hidden'}});
+  const ci=tap.ci%TC.length;
+  const outer=h('div',{cls:'tap'+(tapShown?' shown':''),sty:{'--tbg':TC[ci],'--ring':TR[ci]}});
+  const tapping=!tapShown&&!tapReset;
+  if(tapping)outer.appendChild(h('p',{cls:'tap-hint'},'Colour change confirms each tap — practise freely'));
+  if(tapping&&tapPinned&&tap.count>0)outer.appendChild(h('div',{cls:'tap-pinned'},fmt(tap.count)));
 
-  // ── Hint strip (always visible above tap area, hidden on shown/reset) ──
-  if(!tapShown&&!tapReset){
-    outer.appendChild(h('div',{sty:{padding:'8px 16px 6px',textAlign:'center',flexShrink:0,zIndex:4}},
-      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:`${ring}88`,letterSpacing:'.5px',lineHeight:'1.4'}},'Colour change confirms each tap — practise freely')
-    ));
-  }
-
-  // ── Pinned mini-total (shown when tapPinned is on and tapping) ──
-  if(tapPinned&&!tapShown&&!tapReset&&tap.count>0){
-    outer.appendChild(h('div',{sty:{padding:'4px 16px 8px',textAlign:'center',flexShrink:0,zIndex:4}},
-      h('div',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:'calc(36px * var(--scale))',color:`${ring}dd`,lineHeight:1,textShadow:`0 2px 12px ${ring}44`}},fmt(tap.count))
-    ));
-  }
-
-  const ta=h('div',{sty:{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',cursor:'pointer',position:'relative',overflow:'hidden',zIndex:2}});
-  function doTap(e){if(tapShown||tapReset)return;e.preventDefault();
+  const ta=h('div',{cls:'tap-area'});
+  function doTap(e){if(ST.tapShown||ST.tapReset)return;e.preventDefault();
     const rect=ta.getBoundingClientRect(),src=e.touches?e.touches[0]:e;
-    const rip=document.createElement('div');
-    rip.style.cssText=`position:absolute;left:${src.clientX-rect.left}px;top:${src.clientY-rect.top}px;width:40px;height:40px;border-radius:50%;background:${ring}AA;transform:translate(-50%,-50%);pointer-events:none;animation:ripple .8s ease-out forwards;`;
+    const rip=h('div',{cls:'ripple',sty:{left:`${src.clientX-rect.left}px`,top:`${src.clientY-rect.top}px`}});
     ta.appendChild(rip);setTimeout(()=>rip.remove(),900);
     const nt={count:tap.count+1,ci:(tap.ci+1)%TC.length};lsSet('esm_tap',nt);set({tap:nt});}
   ta.addEventListener('click',doTap);ta.addEventListener('touchstart',doTap,{passive:false});
   if(tapReset){
-    ta.appendChild(h('div',{sty:{textAlign:'center',pointerEvents:'none',padding:'0 32px'}},
-      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'rgba(255,255,255,.5)',lineHeight:'1.5',maxWidth:'260px',margin:'0 auto 18px'}},'This is about to reset your session total to zero — release to stop'),
-      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(40px * var(--scale))',color:'rgba(255,255,255,.35)',marginBottom:'20px'}},fmt(tap.count)),
-      h('div',{sty:{background:'rgba(255,255,255,.1)',borderRadius:'4px',height:'7px',width:'240px',maxWidth:'80vw',overflow:'hidden',marginBottom:'10px'}},
-        h('div',{id:'tap-reset-bar',sty:{height:'100%',width:`${Math.round(tapProg*100)}%`,background:'#c05038',borderRadius:'4px',transition:'width .15s'}})),
-      h('p',{id:'tap-reset-sec',sty:{fontSize:'calc(11px * var(--scale))',color:'rgba(255,255,255,.92)',fontFamily:'Lato',letterSpacing:'1px'}},`${Math.ceil(5-tapProg*5)}s — release to cancel`)
-    ));
+    ta.appendChild(h('div',{cls:'tap-reset'},
+      h('p',{cls:'tap-reset-msg'},'This is about to reset your session total to zero — release to stop'),
+      h('p',{cls:'tap-reset-n'},fmt(tap.count)),
+      h('div',{cls:'tap-reset-track'},h('i',{id:'tap-reset-bar',sty:{width:`${Math.round(tapProg*100)}%`}})),
+      h('p',{id:'tap-reset-sec',cls:'tap-reset-sec'},`${Math.ceil(5-tapProg*5)}s — release to cancel`)));
   }else if(!tapShown){
-    // Elegant concentric-ring tap indicator
-    const tapIco=h('div',{sty:{position:'relative',width:'140px',height:'140px',margin:'0 auto',flexShrink:0}});
-    tapIco.appendChild(h('div',{sty:{position:'absolute',inset:0,borderRadius:'50%',border:`1.5px solid ${ring}40`}}));
-    tapIco.appendChild(h('div',{sty:{position:'absolute',inset:'20px',borderRadius:'50%',border:`1.5px solid ${ring}70`}}));
-    tapIco.appendChild(h('div',{sty:{position:'absolute',inset:'42px',borderRadius:'50%',background:`radial-gradient(circle,${ring}55,${ring}20)`,border:`1.5px solid ${ring}aa`,boxShadow:`0 0 30px ${ring}50`}}));
     ta.appendChild(h('div',{sty:{textAlign:'center',pointerEvents:'none'}},
-      tapIco,
-      h('p',{sty:{color:`${ring}cc`,marginTop:'22px',fontSize:'calc(11px * var(--scale))',fontFamily:'Lato',letterSpacing:'3px',textShadow:'0 2px 6px rgba(0,0,0,.6)'}},'TAP TO COUNT')
-    ));
+      h('div',{cls:'tap-rings'},h('i'),h('i'),h('i')),
+      h('p',{cls:'tap-cta'},'TAP TO COUNT')));
   }else{
-    // ── Revealed total view — LOG TO PRACTICE at very top ──
-    ta.appendChild(h('div',{sty:{textAlign:'center',animation:'fadeIn .4s ease-out',pointerEvents:'none',width:'100%',display:'flex',flexDirection:'column',alignItems:'center',padding:'0 20px'}},
-      h('button',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',borderRadius:'12px',padding:'13px 28px',color:'var(--gold)',fontFamily:'Playfair Display',fontSize:'calc(13px * var(--scale))',letterSpacing:'1px',cursor:'pointer',display:'inline-block',pointerEvents:'auto',marginBottom:'20px'},onClick:e=>{e.stopPropagation();set({modal:{type:'figlog',count:tap.count}});}}, 'LOG TO PRACTICE  ↗'),
-      h('p',{sty:{fontFamily:'Playfair Display',color:'var(--tx-lo)',fontSize:'calc(11px * var(--scale))',letterSpacing:'3px',marginBottom:'10px'}},'SESSION TOTAL'),
-      h('div',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:'calc(80px * var(--scale))',color:'var(--tx)',lineHeight:1,marginBottom:'40px'}},fmt(tap.count)),
-      h('button',{sty:{display:'inline-block',background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'12px',color:'var(--tx-lo)',fontSize:'calc(13px * var(--scale))',cursor:'pointer',fontFamily:'Lato',pointerEvents:'auto',padding:'12px 28px',marginTop:'4px'},onClick:e=>{e.stopPropagation();set({tapShown:false});}}, 'Continue tapping')
-    ));
+    // Revealed total — LOG TO PRACTICE at the top
+    ta.appendChild(h('div',{cls:'tap-total'},
+      h('button',{cls:'tap-log',onClick:e=>{e.stopPropagation();set({modal:{type:'figlog',count:tap.count}});}},'LOG TO PRACTICE  ↗'),
+      h('p',{cls:'tap-total-l'},'SESSION TOTAL'),
+      h('div',{cls:'tap-total-n'},fmt(tap.count)),
+      h('button',{cls:'tap-cont',onClick:e=>{e.stopPropagation();set({tapShown:false});}},'Continue tapping')));
   }
   outer.appendChild(ta);
-  const bar=h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 18px calc(12px + var(--safe-b))',background:'rgba(0,0,0,.08)',borderTop:`1px solid ${ring}18`,zIndex:3,gap:'8px'}});
-  bar.appendChild(h('button',{sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',minWidth:'52px',minHeight:'52px',color:'var(--tx-mid)',cursor:'pointer',fontSize:'18px'},onClick:()=>{const nt={...tap,count:Math.max(0,tap.count-1)};lsSet('esm_tap',nt);set({tap:nt});}},'−'));
-  if(!tapShown&&!tapReset){
-    // Middle: Reveal + Keep-total toggle
-    const midBar=h('div',{sty:{display:'flex',flexDirection:'column',alignItems:'center',gap:'6px',flex:1}});
-    midBar.appendChild(h('button',{sty:{background:`${ring}12`,border:`1px solid ${ring}30`,borderRadius:'10px',padding:'13px 20px',color:`${ring}cc`,fontFamily:'Playfair Display',fontSize:'calc(11px * var(--scale))',letterSpacing:'1.5px',cursor:'pointer'},onClick:()=>set({tapShown:true})},'REVEAL TOTAL'));
-    midBar.appendChild(h('button',{sty:{background:tapPinned?`${ring}22`:'none',border:`1px solid ${tapPinned?ring+'60':'transparent'}`,borderRadius:'8px',padding:'3px 10px',color:tapPinned?`${ring}ee`:`${ring}55`,fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',letterSpacing:'.5px',cursor:'pointer'},onClick:()=>{const v=!ST.tapPinned;lsSet('esm_tap_pinned',v);set({tapPinned:v});}},tapPinned?'⊙ Total pinned':'○ Keep total on screen'));
-    bar.appendChild(midBar);
-  } else bar.appendChild(h('div',{}));
-  // 5s hold reset
-  const rb=h('button',{sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',minWidth:'110px',minHeight:'52px',color:tapReset?'#c05038':'var(--tx-lo)',cursor:'pointer',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',padding:'8px 14px',lineHeight:'1.3'}});
-  rb.innerHTML=tapReset?'<span>Resetting…</span><br><span style="font-size:0.75em">Release to cancel</span>':'<span>Reset Counter</span><br><span style="font-size:0.75em;opacity:.5">Hold 5 seconds</span>';
+
+  const bar=h('div',{cls:'tap-bar'},
+    h('button',{cls:'tap-minus','aria-label':'Minus one',onClick:()=>{const nt={...tap,count:Math.max(0,tap.count-1)};lsSet('esm_tap',nt);set({tap:nt});}},'−'),
+    tapping?h('div',{cls:'tap-mid'},
+      h('button',{cls:'tap-reveal',onClick:()=>set({tapShown:true})},'REVEAL TOTAL'),
+      h('button',{cls:'tap-pin'+(tapPinned?' on':''),onClick:()=>{const v=!ST.tapPinned;lsSet('esm_tap_pinned',v);set({tapPinned:v});}},tapPinned?'⊙ Total pinned':'○ Keep total on screen'))
+    :h('div',{}));
+  // Hold 5 seconds to reset
+  const rb=h('button',{cls:'tap-rb'+(tapReset?' on':'')},
+    tapReset?'Resetting…':'Reset Counter',h('small',{},tapReset?'Release to cancel':'Hold 5 seconds'));
   function startR(){
     if(tapResetTimer)return;            // already holding
     tapResetProg=0;
@@ -1381,198 +1660,130 @@ function renderTap(){
   return outer;}
 
 // ═══════════════════════════════════════════════════════════
-// PRAYERS TAB — merged with Texts (sub-tabs: Prayers | Practice Texts)
+// PRAYERS TAB — sub-tabs: Prayers | Practice Texts
 // ═══════════════════════════════════════════════════════════
 function renderPrayersTab(){
-  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
-  // Sub-tab bar
-  const sb=h('div',{sty:{display:'flex',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}});
-  [['prayers','Prayers'],['texts','Practice Texts']].forEach(([id,lbl])=>{
-    const on=ST.prayerSub===id;
-    sb.appendChild(h('button',{sty:{flex:1,padding:'13px 4px',background:'none',border:'none',borderBottom:`2px solid ${on?'var(--gold)':'transparent'}`,color:on?'var(--gold)':'var(--tx-lo)',fontSize:'calc(13px * var(--scale))',fontFamily:'Lato',letterSpacing:'.3px',cursor:'pointer',marginBottom:'-1px',transition:'color .2s'},onClick:()=>{lsSet('esm_prayer_sub',id);set({prayerSub:id,prayer:null});}},(on?'':'')+lbl));
-  });
-  outer.appendChild(sb);
-  const body=h('div',{sty:{flex:1,overflow:'hidden',display:'flex',flexDirection:'column'}});
-  if(ST.prayerSub==='prayers')body.appendChild(renderPrayersList());
-  else body.appendChild(renderTextsList());
-  outer.appendChild(body);
-  return outer;}
+  return h('div',{cls:'stack'},
+    subtabs([['prayers','Prayers'],['texts','Practice Texts']],ST.prayerSub,id=>{lsSet('esm_prayer_sub',id);set({prayerSub:id,prayer:null});}),
+    h('div',{cls:'fill'},ST.prayerSub==='prayers'?renderPrayersList():renderTextsList()));}
 
 function renderPrayersList(){
   if(ST.prayer){
     const pr=PRAYERS.find(p=>p.id===ST.prayer);
-    const wrap=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
-    const scrl=h('div',{sty:{flex:1,overflowY:'auto',padding:'0 16px 60px'}});
-    const bb=h('div',{sty:{position:'sticky',top:0,background:'var(--bg)',padding:'12px 0 10px',zIndex:10,borderBottom:'1px solid var(--bdr)',marginBottom:'16px',display:'flex',alignItems:'center'}});
-    bb.appendChild(h('button',{sty:{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',fontSize:'calc(14px * var(--scale))',fontFamily:'Lato'},onClick:()=>set({prayer:null})},'← Prayers'));
-    scrl.appendChild(bb);
-    scrl.appendChild(h('div',{sty:{marginBottom:'14px'}},
-      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(18px * var(--scale))',color:'var(--tx)',marginBottom:'5px'}},pr.title),
-      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-lo)',marginBottom:'12px'}},pr.sub),
-      h('div',{sty:{width:'50px',height:'1px',background:'linear-gradient(90deg,var(--gold-lo),transparent)'}})));
-    pr.couplets.forEach(c=>{
-      if(c.sec){scrl.appendChild(h('div',{sty:{margin:'15px 0 9px',padding:'7px 12px',background:'var(--gold-ghost)',borderLeft:'2px solid var(--gold-lo)',borderRadius:'0 8px 8px 0'}},
-        h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(11px * var(--scale))',letterSpacing:'1.5px',color:'var(--gold)'}},'— '+c.sec)));return;}
-      const block=h('div',{sty:{marginBottom:'13px'}});
-      if(c.t&&c.t.trim())block.appendChild(h('p',{cls:'tib-s',sty:{marginBottom:'4px'}},c.t));
-      if(c.p&&c.p.trim())c.p.split('\n').forEach(line=>{if(line.trim())block.appendChild(h('p',{cls:'tib-p'},line));});
-      if(c.e&&c.e.trim())block.appendChild(h('p',{cls:'tib-e',sty:{marginTop:'4px'}},c.e));
-      if(c.t||c.p||c.e)scrl.appendChild(block);
+    const c=col(
+      h('div',{cls:'reader-bar'},h('button',{onClick:()=>set({prayer:null})},'← Prayers')),
+      h('p',{cls:'reader-t'},pr.title),h('p',{cls:'reader-s'},pr.sub),h('div',{cls:'rule-short'}));
+    c.style.paddingTop='0';
+    pr.couplets.forEach(v=>{
+      if(v.sec){c.appendChild(h('p',{cls:'reader-sec'},'— '+v.sec));return;}
+      const lines=(v.p||'').split('\n').filter(l=>l.trim());
+      if(!(v.t||'').trim()&&!lines.length&&!(v.e||'').trim())return;
+      c.appendChild(h('div',{cls:'verse'},
+        (v.t||'').trim()&&h('p',{cls:'tib-s'},v.t),
+        lines.map(l=>h('p',{cls:'tib-p'},l)),
+        (v.e||'').trim()&&h('p',{cls:'tib-e'},v.e)));
     });
-    wrap.appendChild(scrl);return wrap;}
-  const wrap=h('div',{sty:{height:'100%',overflow:'hidden',display:'flex',flexDirection:'column',background:'var(--bg)'}});
-  const list=h('div',{sty:{flex:1,overflowY:'auto'}});
-  PRAYERS.forEach(pr=>{
-    const item=h('div',{sty:{padding:'14px 16px',borderBottom:'1px solid var(--bdr)',cursor:'pointer',display:'flex',justifyContent:'space-between',alignItems:'center',transition:'background .15s'},onClick:()=>set({prayer:pr.id})});
-    item.addEventListener('touchstart',()=>item.style.background='var(--gold-ghost)',{passive:true});
-    item.addEventListener('touchend',()=>item.style.background='',{passive:true});
-    const info=h('div',{sty:{flex:1,minWidth:0}});
-    info.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(18px * var(--scale))',color:'var(--tx)'}},' '+pr.title));
-    info.appendChild(h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',marginTop:'3px'}},pr.sub));
-    item.appendChild(info);item.appendChild(h('span',{sty:{color:'var(--tx-lo)',fontSize:'20px',marginLeft:'10px',flexShrink:0}},'›'));
-    list.appendChild(item);});
-  wrap.appendChild(list);return wrap;}
+    return h('div',{cls:'page'},c);}
+  return h('div',{cls:'page'},h('div',{cls:'col flush'},PRAYERS.map(pr=>
+    h('div',{cls:'listrow',onClick:()=>set({prayer:pr.id})},
+      h('div',{cls:'listrow-txt'},h('p',{cls:'listrow-t'},pr.title),h('p',{cls:'listrow-s'},pr.sub)),
+      h('span',{cls:'listrow-go'},'›')))));}
 
 function renderTextsList(){
-  const wrap=h('div',{sty:{height:'100%',overflow:'hidden',display:'flex',flexDirection:'column'}});
-  wrap.appendChild(h('div',{sty:{padding:'10px 16px 8px',flexShrink:0,background:'var(--red-lo)',borderBottom:'1px solid var(--bdr)'}},
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.65'}},'It is recommended to receive reading transmission from a qualified teacher. Some practices require empowerment.')));
-  const list=h('div',{sty:{flex:1,overflowY:'auto',padding:'10px 0 30px'}});
-  // Featured: the full Ngöndro practice text (bundled PDF, works offline)
-  list.appendChild(h('a',{href:'./ngondro-full.pdf',target:'_blank',rel:'noopener',sty:{display:'block',textDecoration:'none',margin:'0 14px 16px',background:'var(--red-lo)',border:'2px solid var(--gold-lo)',borderRadius:'14px',padding:'16px'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'8px'}},'FULL PRACTICE TEXT'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(19px * var(--scale))',color:'var(--tx)',lineHeight:'1.2',marginBottom:'4px'}},'The complete Ngöndro'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)',marginBottom:'12px',lineHeight:'1.6'}},'The whole practice in one document, laid out to follow along. Saved for offline use once opened.'),
-    h('span',{sty:{display:'inline-block',background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px 14px',color:'var(--gold)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato'}},'Open PDF ↗')));
-  SAD.forEach(s=>{
-    const card=h('div',{sty:{margin:'0 14px 10px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'14px',padding:'14px 14px 10px'}});
-    const top=h('div',{sty:{display:'flex',alignItems:'center',gap:'10px',marginBottom:'10px'}});
-    top.appendChild(h('span',{sty:{fontSize:'calc(20px * var(--scale))',color:'var(--gold)',flexShrink:0}},s.sym));
-    const inf=h('div',{});
-    inf.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.2'}},s.name));
-    inf.appendChild(h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},s.sub));
-    top.appendChild(inf);card.appendChild(top);
-    const lr=h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'6px'}});
-    s.links.forEach(({l,u})=>lr.appendChild(h('a',{href:u,target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'7px 12px',color:'var(--gold)',fontSize:'calc(11px * var(--scale))',fontFamily:'Lato',textDecoration:'none'}},l+' ↗')));
-    card.appendChild(lr);list.appendChild(card);});
-  wrap.appendChild(list);return wrap;}
+  return h('div',{cls:'stack'},
+    h('p',{cls:'notice'},'It is recommended to receive reading transmission from a qualified teacher. Some practices require empowerment.'),
+    h('div',{cls:'scroll'},col(
+      // Featured: the full Ngöndro practice text (bundled PDF; cached offline once opened)
+      h('a',{cls:'feature',href:'./ngondro-full.pdf',target:'_blank',rel:'noopener'},
+        label('FULL PRACTICE TEXT'),
+        h('p',{cls:'feature-t'},'The complete Ngöndro'),
+        h('p',{cls:'feature-s'},'The whole practice in one document, laid out to follow along. Saved for offline use once opened.'),
+        h('span',{cls:'linkbtn sm'},'Open PDF ↗')),
+      SAD.map(s=>h('div',{cls:'card sad'},
+        h('div',{cls:'sad-top'},h('span',{cls:'sad-sym'},s.sym),
+          h('div',{},h('p',{cls:'sad-t'},s.name),h('p',{cls:'sad-s'},s.sub))),
+        h('div',{cls:'links'},s.links.map(({l,u})=>linkBtn(l+' ↗',u,'sm'))))))));}
 
 // ═══════════════════════════════════════════════════════════
 // REFUGE TREE — zone colours, marker toggle, bottom drawer
 // In-place filtering (no re-render on search, keyboard stays open)
 // ═══════════════════════════════════════════════════════════
 let rfFilter='';
-let rfDrawerFig=null;
 let rfMarkersVisible=false;
-// (The one-time marker-placement editor was removed in V10 — see git history
-// before commit "V10 cleanup" if marker coordinates ever need re-tuning.)
 
-// Zone colour for each category (used on marker backgrounds)
+// Zone colour for each category (markers, filter chips, index badges)
 const ZONE_COLORS={
   karmapas:'#c09010',lineage:'#b07820',mahasiddhas:'#7040b0',
   teachers:'#1870a8',buddhas:'#3060c0',bodhisattvas:'#1888b8',
   yidams:'#8b1c2a',dakinis:'#b83068',protectors:'#504070','female-masters':'#8840a8',
   offerings:'#9a8050',
 };
-
+// Most specific zone wins when a figure has several tags.
+const ZONE_ORDER=['karmapas','yidams','dakinis','mahasiddhas','lineage','teachers','buddhas','bodhisattvas','protectors','female-masters','offerings'];
 function getZoneColor(tags){
-  const order=['karmapas','yidams','dakinis','mahasiddhas','lineage','teachers','buddhas','bodhisattvas','protectors','female-masters','offerings'];
-  for(const z of order){if((tags||[]).includes(z))return ZONE_COLORS[z];}
-  return '#706050';
+  const z=ZONE_ORDER.find(z=>(tags||[]).includes(z));
+  return z?ZONE_COLORS[z]:'#706050';
 }
+const figMatches=(fig,f)=>!f||fig.name.toLowerCase().includes(f)||(fig.sub||'').toLowerCase().includes(f)||(fig.tags||[]).some(t=>t.includes(f));
 
 function openDrawer(figId){
-  rfDrawerFig=figId;
   const fig=FIGS.find(f=>f.id===figId);
   const scrl=document.getElementById('rf-drawer-scroll');
   scrl.innerHTML='';
   if(!fig)return;
-  // Header
-  const hdr=h('div',{sty:{marginBottom:'16px'}});
-  hdr.appendChild(h('div',{sty:{display:'flex',alignItems:'center',gap:'10px',marginBottom:'6px'}},
-    h('div',{sty:{width:'28px',height:'28px',borderRadius:'50%',background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:'calc(11px * var(--scale))',fontFamily:'Lato',fontWeight:700,color:'var(--gold)'}},String(fig.n)),
-    h('div',{},
-      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(18px * var(--scale))',color:'var(--tx)',lineHeight:'1.1'}},fig.name),
-      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--gold-lo)'}},(fig.sub||''))
-    )
-  ));
-  if(fig.tib)hdr.appendChild(h('p',{sty:{fontSize:'calc(15px * var(--scale))',color:'var(--red-hi)',opacity:.8,marginBottom:'8px'}},fig.tib));
-  hdr.appendChild(h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'5px'}},
-    ...(fig.tags||[]).map(t=>h('span',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'4px',padding:'2px 7px',fontSize:'calc(9px * var(--scale))',color:'var(--tx-lo)',fontFamily:'Lato'}},t))
-  ));
-  scrl.appendChild(hdr);
-  if(fig.role){
-    scrl.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'5px'}},'ROLE'));
-    scrl.appendChild(h('p',{sty:{fontFamily:'Lato',fontWeight:300,fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)',marginBottom:'14px',lineHeight:'1.65'}},fig.role));}
-  if(fig.bio){
-    scrl.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'6px'}},'BIOGRAPHY'));
-    scrl.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.85',marginBottom:'14px'}},fig.bio));}
-  if(fig.teaching){
-    scrl.appendChild(h('blockquote',{sty:{margin:'0 0 16px',padding:'12px 14px',borderLeft:'2px solid var(--bdr-hi)',background:'var(--gold-ghost)',borderRadius:'0 10px 10px 0'}},
-      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.8'}},'"'+fig.teaching+'"')));}
-  // Rigpa Wiki link
-  const haUrl=`https://www.rigpawiki.org/index.php?search=${encodeURIComponent(fig.name)}`;
-  scrl.appendChild(h('div',{sty:{marginBottom:'14px'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'8px'}},'RIGPA WIKI'),
-    h('a',{href:haUrl,target:'_blank',rel:'noopener',sty:{display:'flex',alignItems:'center',gap:'10px',background:'var(--card2)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'12px 14px',textDecoration:'none',color:'var(--tx)'}},
-      h('div',{sty:{width:'36px',height:'36px',borderRadius:'8px',background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:'18px'}}, '📖'),
-      h('div',{},
-        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(13px * var(--scale))',color:'var(--tx)',marginBottom:'2px'}},`Search: ${fig.name}`),
-        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--gold)'}}, 'rigpawiki.org ↗')
-      )
-    )
-  ));
-  if(fig.wiki){
-    scrl.appendChild(h('div',{sty:{display:'flex',gap:'8px',flexWrap:'wrap'}},
-      h('a',{href:fig.wiki,target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px 14px',color:'var(--gold)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',textDecoration:'none'}},'Wikipedia ↗'),
-      h('a',{href:`https://duckduckgo.com/?q=${encodeURIComponent(fig.name+' thangka')}&iax=images&ia=images`,target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'8px',padding:'8px 14px',color:'var(--gold)',fontSize:'calc(12px * var(--scale))',fontFamily:'Lato',textDecoration:'none'}},'Thangka images ↗')
-    ));}
+  scrl.append(
+    h('div',{cls:'dr-hdr'},
+      h('div',{cls:'dr-id'},
+        h('div',{cls:'rf-legend-num',sty:{'--zc':getZoneColor(fig.tags)}},String(fig.n)),
+        h('div',{},h('p',{cls:'dr-name'},fig.name),h('p',{cls:'dr-sub'},fig.sub||''))),
+      fig.tib&&h('p',{cls:'dr-tib'},fig.tib),
+      h('div',{cls:'tags'},(fig.tags||[]).map(t=>h('span',{cls:'tag'},t)))),
+    ...[fig.role&&[label('ROLE'),h('p',{cls:'dr-role'},fig.role)],
+      fig.bio&&[label('BIOGRAPHY'),h('p',{cls:'dr-bio'},fig.bio)],
+      fig.teaching&&h('blockquote',{cls:'dr-quote'},'"'+fig.teaching+'"'),
+      label('RIGPA WIKI'),
+      h('a',{cls:'dr-link',href:`https://www.rigpawiki.org/index.php?search=${encodeURIComponent(fig.name)}`,target:'_blank',rel:'noopener'},
+        h('div',{cls:'dr-link-ico'},'📖'),
+        h('div',{},h('b',{},`Search: ${fig.name}`),h('small',{},'rigpawiki.org ↗'))),
+      fig.wiki&&h('div',{cls:'links'},
+        linkBtn('Wikipedia ↗',fig.wiki,'sm'),
+        linkBtn('Thangka images ↗',`https://duckduckgo.com/?q=${encodeURIComponent(fig.name+' thangka')}&iax=images&ia=images`,'sm'))
+    ].flat().filter(Boolean));
   document.getElementById('rf-drawer').classList.add('open');
   document.getElementById('rf-veil').classList.add('open');}
 
 function closeDrawer(){
-  rfDrawerFig=null;
   document.getElementById('rf-drawer').classList.remove('open');
   document.getElementById('rf-veil').classList.remove('open');}
 
 function applyRfFilter(val){
   rfFilter=val;
-  const f=val.trim().toLowerCase();
-  const searchActive=!!f;
-  // When searching, force markers visible; when cleared, revert to toggle state
+  const f=val.trim().toLowerCase(),searching=!!f;
+  // While searching, markers are forced visible and non-matches dimmed.
   document.querySelectorAll('.rf-marker').forEach(el=>{
-    const fig=FIGS.find(fg=>fg.id===el.dataset.figid);
-    if(!fig)return;
-    const match=!f||fig.name.toLowerCase().includes(f)||(fig.sub||'').toLowerCase().includes(f)||(fig.tags||[]).some(t=>t.includes(f));
-    // Visibility: show if toggle is on OR search is active
-    const visible=rfMarkersVisible||searchActive;
-    el.classList.toggle('hidden-marker',!visible);
-    el.classList.toggle('dim',searchActive&&!match);
-    el.classList.toggle('highlighted',searchActive&&match);
+    const fig=FIGS.find(fg=>fg.id===el.dataset.figid);if(!fig)return;
+    const match=figMatches(fig,f);
+    el.classList.toggle('hidden-marker',!(rfMarkersVisible||searching));
+    el.classList.toggle('dim',searching&&!match);
+    el.classList.toggle('highlighted',searching&&match);
   });
-  // Update legend items
   document.querySelectorAll('.rf-legend-item').forEach(el=>{
-    const fig=FIGS.find(fg=>fg.id===el.dataset.figid);
-    if(!fig)return;
-    const match=!f||fig.name.toLowerCase().includes(f)||(fig.sub||'').toLowerCase().includes(f)||(fig.tags||[]).some(t=>t.includes(f));
-    el.classList.toggle('dim',!!f&&!match);
+    const fig=FIGS.find(fg=>fg.id===el.dataset.figid);if(!fig)return;
+    el.classList.toggle('dim',!figMatches(fig,f));
   });}
 
 function setRfTag(tag){
-  const inp=document.getElementById('rf-search-input');
-  const val=tag==='all'?'':tag;
-  if(inp){inp.value=val;}
+  const val=tag==='all'?'':tag,inp=document.getElementById('rf-search-input');
+  if(inp)inp.value=val;
   applyRfFilter(val);
-  // Update tag button active states
-  document.querySelectorAll('.rf-tag-btn').forEach(b=>{
-    b.classList.toggle('on',b.dataset.tag===tag||(tag==='all'&&b.dataset.tag==='all'));});}
+  document.querySelectorAll('.fchip').forEach(b=>b.classList.toggle('on',b.dataset.tag===tag));}
 
-// Generated figure-map schematic (replaces the old refuge-map.jpg). Each figure
-// is a tombstone outline + zone-coloured number badge + name, positioned from the
-// same FIGS data as the markers, so the numbering can never drift. Tap → drawer.
+// Generated figure-map schematic. Each figure is a tombstone outline + zone-
+// coloured number badge + name, positioned from the same FIGS data as the
+// markers, so the numbering can never drift. Tap → drawer.
 function renderRefMap(){
   const W=1080,H=1400,esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#f3ecdc;border-radius:6px">`;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
   FIGS.forEach(f=>{
     const cx=f.x/100*W, cy=f.y/100*H, w=66, ht=44, r=8, x=cx-w/2, y=cy-ht/2, col=getZoneColor(f.tags);
     const path=`M${x} ${y+r} Q${x} ${y} ${x+r} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${y+ht} H${x} Z`;
@@ -1583,107 +1794,43 @@ function renderRefMap(){
       +`<text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="Lato,sans-serif" font-size="9.5" fill="#2a1c10">${esc(f.name)}</text>`
       +`</g>`;
   });
-  svg+=`</svg>`;
-  const wrap=h('div',{sty:{width:'100%',marginBottom:'40px'}});
-  wrap.innerHTML=svg;
+  const wrap=h('div',{cls:'refmap',html:svg+'</svg>'});
   wrap.addEventListener('click',e=>{const g=e.target.closest('[data-figid]');if(g)openDrawer(g.dataset.figid);});
   return wrap;
 }
 
 function renderRefuge(container){
-  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
+  // Header: title + marker show/hide toggle
+  const toggleBtn=h('button',{cls:'mtoggle'+(rfMarkersVisible?' on':''),onClick:()=>{
+    rfMarkersVisible=!rfMarkersVisible;
+    toggleBtn.classList.toggle('on',rfMarkersVisible);
+    toggleBtn.querySelector('.ti').textContent=rfMarkersVisible?'◉':'○';
+    toggleBtn.querySelector('.tl').textContent=rfMarkersVisible?'Hide':'Show';
+    applyRfFilter(rfFilter);
+  }},h('span',{cls:'ti'},rfMarkersVisible?'◉':'○'),h('span',{cls:'tl'},rfMarkersVisible?'Hide':'Show'),h('small',{},'markers'));
 
-  // Header with marker toggle
-  const hdrRow=h('div',{sty:{padding:'10px 14px 8px',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)',display:'flex',justifyContent:'space-between',alignItems:'center'}});
-  const hdrText=h('div',{});
-  hdrText.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',letterSpacing:'.5px',color:'var(--gold)'}},'Karma Kagyu Refuge Field'));
-  hdrText.appendChild(h('p',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',fontFamily:'Lato',marginTop:'2px'}},'Tap numbered markers to learn about each figure'));
-  hdrRow.appendChild(hdrText);
-  // Marker visibility toggle button
-  const toggleBtn=h('button',{
-    id:'rf-marker-toggle',
-    sty:{
-      background:rfMarkersVisible?'var(--gold-ghost)':'var(--inp)',
-      border:`1px solid ${rfMarkersVisible?'var(--bdr-hi)':'var(--bdr)'}`,
-      borderRadius:'10px',padding:'7px 12px',cursor:'pointer',
-      display:'flex',flexDirection:'column',alignItems:'center',gap:'2px',
-      color:rfMarkersVisible?'var(--gold)':'var(--tx-lo)',
-      fontSize:'calc(10px * var(--scale))',fontFamily:'Lato',flexShrink:0,
-      transition:'all .2s'
-    },
-    onClick:()=>{
-      rfMarkersVisible=!rfMarkersVisible;
-      document.querySelectorAll('.rf-marker').forEach(el=>el.classList.toggle('hidden-marker',!rfMarkersVisible));
-      const btn=document.getElementById('rf-marker-toggle');
-      if(btn){
-        btn.style.background=rfMarkersVisible?'var(--gold-ghost)':'var(--inp)';
-        btn.style.border=`1px solid ${rfMarkersVisible?'var(--bdr-hi)':'var(--bdr)'}`;
-        btn.style.color=rfMarkersVisible?'var(--gold)':'var(--tx-lo)';
-        btn.querySelector('.toggle-ico').textContent=rfMarkersVisible?'◉':'○';
-        btn.querySelector('.toggle-lbl').textContent=rfMarkersVisible?'Hide':'Show';
-      }
-    }
-  });
-  toggleBtn.appendChild(h('span',{cls:'toggle-ico',sty:{fontSize:'16px',lineHeight:1}},rfMarkersVisible?'◉':'○'));
-  toggleBtn.appendChild(h('span',{cls:'toggle-lbl'},rfMarkersVisible?'Hide':'Show'));
-  toggleBtn.appendChild(h('span',{sty:{fontSize:'calc(9px * var(--scale))',opacity:'.7'}},'markers'));
-  hdrRow.appendChild(toggleBtn);
-  outer.appendChild(hdrRow);
-
-  // Search bar
-  const sw=h('div',{sty:{padding:'8px 14px',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--bg)'}});
-  const sinp=h('input',{id:'rf-search-input','type':'text','placeholder':'Search by name or category…'});
+  // Search + category chips (the chips double as the colour legend)
+  const sinp=h('input',{id:'rf-search-input',type:'text',placeholder:'Search by name or category…'});
   sinp.value=rfFilter;
   sinp.addEventListener('input',e=>applyRfFilter(e.target.value));
-  sw.appendChild(sinp);outer.appendChild(sw);
+  const cats=['all',...ZONE_ORDER.filter(z=>FIGS.some(f=>(f.tags||[]).includes(z)))];
+  const chips=h('div',{cls:'fchips'},cats.map(t=>h('button',{
+    cls:'fchip'+((rfFilter===t||(t==='all'&&!rfFilter))?' on':''),'data-tag':t,
+    sty:ZONE_COLORS[t]?{'--zc':ZONE_COLORS[t]}:null,onClick:()=>setRfTag(t)},
+    ZONE_COLORS[t]&&h('i'),t==='all'?'All':t)));
 
-  // Category chips (new categories)
-  const cats=['all','karmapas','lineage','mahasiddhas','teachers','yidams','dakinis','buddhas','bodhisattvas','protectors','female-masters','offerings'];
-  const tr=h('div',{sty:{padding:'6px 14px 8px',borderBottom:'1px solid var(--bdr)',display:'flex',flexWrap:'wrap',gap:'5px',flexShrink:0}});
-  cats.forEach(t=>{
-    const isActive=(rfFilter===t)||(t==='all'&&!rfFilter);
-    const col=ZONE_COLORS[t];
-    const btn=h('button',{
-      cls:'rf-tag-btn a11y-b'+(isActive?' on':''),
-      'data-tag':t,
-      sty:{fontSize:'calc(10px * var(--scale))',borderLeftColor:col&&isActive?col:'transparent',borderLeftWidth:'3px',borderLeftStyle:'solid'},
-      onClick:()=>setRfTag(t)
-    },t==='all'?'All':t);
-    tr.appendChild(btn);});
-  outer.appendChild(tr);
-
-  // Scrollable main body
-  const scroll=h('div',{sty:{flex:1,overflowY:'auto'}});
-
-  // Thangka image with zone-coloured markers
-  // aspect-ratio locks the coordinate space to the image's true proportions (1080×1359)
-  // so that left/top % on .rf-marker always map correctly regardless of viewport width
-  // Width capped so the whole thangka fits in the viewport height on desktop.
-  const imgWrap=h('div',{sty:{position:'relative',display:'block',width:'100%',maxWidth:'calc((100dvh - 40px) * 1080 / 1359)',margin:'0 auto',aspectRatio:'1080/1359',overflow:'hidden',touchAction:'pan-y'}});
-  // Inner stage holds the image + markers and is what zoom/pan transforms.
-  const stage=h('div',{sty:{position:'absolute',inset:0,transformOrigin:'0 0',willChange:'transform'}});
-  const img=h('img',{src:'refuge-tree.jpg',sty:{position:'absolute',inset:0,width:'100%',height:'100%',display:'block',objectFit:'fill'}});
-  img.addEventListener('error',()=>{
-    img.style.display='none';
-    stage.appendChild(h('div',{sty:{padding:'48px 20px',textAlign:'center',background:'linear-gradient(180deg,#0d1e35,#0a2818 40%,#1a0c08)'}},
-      h('div',{sty:{fontSize:'38px',marginBottom:'12px',opacity:.5}},'✾'),
-      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(13px * var(--scale))',color:'var(--gold-lo)',marginBottom:'8px'}},'REFUGE FIELD'),
-      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-lo)',lineHeight:'1.7'}},'Place refuge-tree.jpg alongside this file to display the thangka.')
-    ));});
+  // Thangka with zone-coloured markers. aspect-ratio (in CSS) locks the
+  // coordinate space to the image's true proportions (1080×1359) so marker
+  // left/top % always map correctly.
+  const imgWrap=h('div',{cls:'thangka'});
+  const stage=h('div',{cls:'stage'});
+  const img=h('img',{src:'refuge-tree.jpg',alt:'Karma Kagyu refuge tree thangka'});
+  img.addEventListener('error',()=>{img.remove();stage.appendChild(h('div',{cls:'thangka-missing'},'Refuge tree image missing (refuge-tree.jpg).'));});
   stage.appendChild(img);
-
-  // Zone-coloured markers
-  FIGS.forEach(fig=>{
-    const zColor=getZoneColor(fig.tags);
-    const marker=h('div',{
-      cls:'rf-marker'+(rfMarkersVisible?'':' hidden-marker'),
-      'data-figid':fig.id,
-      sty:{left:`${fig.x}%`,top:`${fig.y}%`,background:zColor},
-      title:`${fig.n}. ${fig.name}`,
-      onClick:()=>openDrawer(fig.id)
-    },String(fig.n));
-    stage.appendChild(marker);
-  });
+  FIGS.forEach(fig=>stage.appendChild(h('div',{
+    cls:'rf-marker'+(rfMarkersVisible?'':' hidden-marker'),'data-figid':fig.id,
+    sty:{left:`${fig.x}%`,top:`${fig.y}%`,'--zc':getZoneColor(fig.tags)},
+    title:`${fig.n}. ${fig.name}`,onClick:()=>openDrawer(fig.id)},String(fig.n))));
   imgWrap.appendChild(stage);
 
   // ── PINCH / DOUBLE-TAP ZOOM + DRAG-PAN ──────
@@ -1735,95 +1882,51 @@ function renderRefuge(container){
     // Suppress marker taps that were actually drags.
     imgWrap.addEventListener('click',e=>{if(moved>8){e.stopPropagation();e.preventDefault();moved=0;}},true);
     // Zoom buttons (desktop discoverability)
-    const zb=(lbl,fn)=>h('button',{sty:{width:'30px',height:'30px',borderRadius:'8px',border:'1px solid rgba(255,255,255,.25)',background:'rgba(0,0,0,.45)',color:'#fff',fontSize:'17px',lineHeight:1,cursor:'pointer',backdropFilter:'blur(4px)'},onClick:fn},lbl);
-    imgWrap.appendChild(h('div',{sty:{position:'absolute',right:'8px',bottom:'8px',zIndex:20,display:'flex',flexDirection:'column',gap:'6px'}},
-      zb('+',()=>{const W=imgWrap.clientWidth,H=imgWrap.clientHeight;zoomAt(W/2,H/2,sc*1.4);}),
-      zb('−',()=>{const W=imgWrap.clientWidth,H=imgWrap.clientHeight;zoomAt(W/2,H/2,sc/1.4);}),
-      zb('⤢',()=>{sc=1;tx=0;ty=0;apply();})
-    ));
+    imgWrap.appendChild(h('div',{cls:'zbtns'},
+      h('button',{'aria-label':'Zoom in',onClick:()=>zoomAt(imgWrap.clientWidth/2,imgWrap.clientHeight/2,sc*1.4)},'+'),
+      h('button',{'aria-label':'Zoom out',onClick:()=>zoomAt(imgWrap.clientWidth/2,imgWrap.clientHeight/2,sc/1.4)},'−'),
+      h('button',{'aria-label':'Reset zoom',onClick:()=>{sc=1;tx=0;ty=0;apply();}},'⤢')));
   }
 
   // Touch/press to temporarily reveal markers.
-  function showMarkersTemp(){
-    if(!rfMarkersVisible&&!rfFilter.trim()){
-      document.querySelectorAll('.rf-marker').forEach(el=>el.classList.remove('hidden-marker'));
-    }
-  }
-  function hideMarkersTemp(){
-    if(!rfMarkersVisible&&!rfFilter.trim()){
-      document.querySelectorAll('.rf-marker').forEach(el=>el.classList.add('hidden-marker'));
-    }
-  }
-  imgWrap.addEventListener('touchstart',showMarkersTemp,{passive:true});
-  imgWrap.addEventListener('touchend',hideMarkersTemp,{passive:true});
-  imgWrap.addEventListener('touchcancel',hideMarkersTemp,{passive:true});
-  imgWrap.addEventListener('mousedown',showMarkersTemp);
-  imgWrap.addEventListener('mouseup',hideMarkersTemp);
-  imgWrap.addEventListener('mouseleave',hideMarkersTemp);
+  const peek=show=>()=>{if(!rfMarkersVisible&&!rfFilter.trim())
+    document.querySelectorAll('.rf-marker').forEach(el=>el.classList.toggle('hidden-marker',!show));};
+  imgWrap.addEventListener('touchstart',peek(true),{passive:true});
+  imgWrap.addEventListener('touchend',peek(false),{passive:true});
+  imgWrap.addEventListener('touchcancel',peek(false),{passive:true});
+  imgWrap.addEventListener('mousedown',peek(true));
+  imgWrap.addEventListener('mouseup',peek(false));
+  imgWrap.addEventListener('mouseleave',peek(false));
 
-  scroll.appendChild(imgWrap);
+  // Figure index — collapsible
+  const idxBody=h('div',{sty:{display:'none'}},FIGS.map(fig=>
+    h('div',{cls:'listrow rf-legend-item','data-figid':fig.id,onClick:()=>openDrawer(fig.id)},
+      h('div',{cls:'rf-legend-num',sty:{'--zc':getZoneColor(fig.tags)}},String(fig.n)),
+      h('div',{cls:'listrow-txt'},h('p',{cls:'listrow-t'},fig.name),h('p',{cls:'listrow-s'},fig.sub||'')),
+      h('span',{cls:'listrow-go'},'›'))));
+  const chv=h('span',{cls:'chv'},'▼');
+  const idxHdr=h('div',{cls:'idx-hdr',onClick:()=>{const open=idxBody.style.display==='none';
+      idxBody.style.display=open?'block':'none';chv.textContent=open?'▲':'▼';}},
+    h('div',{},label('FIGURE INDEX','lg'),h('small',{},`${FIGS.length} figures — tap to read biography`)),chv);
 
-  // Zone colour legend key
-  const zoneKeys=Object.entries(ZONE_COLORS).filter(([k])=>FIGS.some(f=>(f.tags||[]).includes(k)));
-  const keyRow=h('div',{sty:{padding:'8px 14px',display:'flex',flexWrap:'wrap',gap:'6px',background:'var(--surf)',borderTop:'1px solid var(--bdr)',borderBottom:'1px solid var(--bdr)'}});
-  zoneKeys.forEach(([zone,col])=>{
-    keyRow.appendChild(h('div',{sty:{display:'flex',alignItems:'center',gap:'4px'}},
-      h('div',{sty:{width:'10px',height:'10px',borderRadius:'50%',background:col,border:'1.5px solid rgba(255,255,255,.7)',flexShrink:0}}),
-      h('span',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-lo)'}},zone)
-    ));
-  });
-  scroll.appendChild(keyRow);
-
-  // Figure Index — collapsible
-  let figIndexOpen=false;
-  const figIndexHdr=h('div',{
-    sty:{padding:'12px 14px',borderTop:'1px solid var(--bdr)',display:'flex',justifyContent:'space-between',alignItems:'center',cursor:'pointer',background:'var(--surf)'},
-    onClick:()=>{
-      figIndexOpen=!figIndexOpen;
-      figIndexBody.style.display=figIndexOpen?'block':'none';
-      figIndexChevron.textContent=figIndexOpen?'▲':'▼';
-    }
-  },
-    h('div',{},
-      h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)'}},'FIGURE INDEX'),
-      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-ghost)',marginTop:'2px'}},`${FIGS.length} figures — tap to read biography`)
-    ),
-    h('span',{id:'rf-fig-chevron',sty:{color:'var(--tx-ghost)',fontSize:'12px',flexShrink:0}},'▼')
-  );
-  const figIndexChevron=figIndexHdr.querySelector('#rf-fig-chevron');
-  scroll.appendChild(figIndexHdr);
-
-  const figIndexBody=h('div',{sty:{display:'none',paddingBottom:'16px'}});
-  FIGS.forEach(fig=>{
-    const zColor=getZoneColor(fig.tags);
-    const item=h('div',{cls:'rf-legend-item','data-figid':fig.id,onClick:()=>openDrawer(fig.id)},
-      h('div',{cls:'rf-legend-num',sty:{background:zColor+'22',borderColor:zColor+'88',color:zColor}},String(fig.n)),
-      h('div',{sty:{flex:1,minWidth:0}},
-        h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',color:'var(--tx)',lineHeight:'1.2'}},' '+fig.name),
-        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}},fig.sub||'')
-      ),
-      h('span',{sty:{color:'var(--tx-ghost)',fontSize:'18px',flexShrink:0}},'›')
-    );
-    figIndexBody.appendChild(item);
-  });
-  scroll.appendChild(figIndexBody);
-
-  // Figure map — generated from FIGS so numbers always match the markers above
-  scroll.appendChild(h('div',{sty:{padding:'12px 14px 6px',borderTop:'1px solid var(--bdr)'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'4px'}},'FIGURE MAP — numbers match the markers above'),
-    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-ghost)',marginBottom:'8px'}},'Tap any figure to read about it.')));
-  scroll.appendChild(renderRefMap());
-
-  outer.appendChild(scroll);
-  container.appendChild(outer);
+  container.appendChild(h('div',{cls:'stack'},
+    pageHead('Karma Kagyu Refuge Field','Tap numbered markers to learn about each figure',toggleBtn),
+    h('div',{cls:'rf-tools'},sinp,chips),
+    h('div',{cls:'scroll'},
+      imgWrap,
+      h('div',{cls:'col flush'},
+        idxHdr,idxBody,
+        // Figure map — generated from FIGS so numbers always match the markers above
+        h('div',{cls:'map-intro'},label('FIGURE MAP — numbers match the markers above','lg'),h('small',{},'Tap any figure to read about it.')),
+        renderRefMap()))));
   if(rfFilter)setTimeout(()=>applyRfFilter(rfFilter),50);}
 
 // ═══════════════════════════════════════════════════════════
-// ABOUT
+// CALENDAR · EVENTS · INFO
 // ═══════════════════════════════════════════════════════════
 function renderCal(){
   ST.calOffset=0;                      // always open on today; nav updates in place
-  const wrap=h('div',{sty:{padding:'14px 16px 60px'}});
+  const wrap=h('div',{});
   fillCal(wrap);
   return wrap;
 }
@@ -1831,196 +1934,108 @@ function renderCal(){
 // prev/next arrows don't lose scroll position on the Home page.
 function fillCal(wrap){
   wrap.innerHTML='';
-  const now=new Date(); now.setHours(12,0,0,0); now.setDate(now.getDate()+(ST.calOffset||0));
-  const isToday=(ST.calOffset||0)===0;
+  const off=ST.calOffset||0;
+  const now=new Date(); now.setHours(12,0,0,0); now.setDate(now.getDate()+off);
   const age=moonAge(now),td=tibDay(now),ausp=AUSP[td],hr=hairRec(td);
   const quote=QUOTES[doy(now)%QUOTES.length];
-  const upcoming=nextAusp(now,5);
-  // Day navigation
-  const arrow=(dir,lbl)=>h('button',{cls:'pico','aria-label':lbl,sty:{background:'var(--inp)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'8px 16px',color:'var(--gold)',cursor:'pointer',display:'inline-flex',transform:dir<0?'scaleX(-1)':'none'},html:ico('chev'),onClick:()=>{ST.calOffset=(ST.calOffset||0)+dir;fillCal(wrap);}});
-  wrap.appendChild(h('div',{sty:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'6px'}},
-    arrow(-1,'Previous day'),
-    isToday
-      ?h('span',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)'}},'TODAY')
-      :h('button',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr-hi)',borderRadius:'20px',padding:'6px 15px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(11px * var(--scale))',cursor:'pointer'},onClick:()=>{ST.calOffset=0;fillCal(wrap);}},'↺ Today'),
-    arrow(1,'Next day')
-  ));
-  // Header
-  wrap.appendChild(h('div',{sty:{textAlign:'center',padding:'6px 0 14px',borderBottom:'1px solid var(--bdr)',marginBottom:'18px'}},
-    h('div',{sty:{display:'flex',justifyContent:'center',marginBottom:'12px'},html:moonSVG(age,56)}),
-    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',letterSpacing:'2px',marginBottom:'6px'}},now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase()),
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(22px * var(--scale))',color:'var(--tx)',marginBottom:'4px'}},'Tibetan Day '+td),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',color:'var(--tx-mid)',marginBottom:'4px'}},moonPhase(age)+' — '+Math.round(moonIllum(age)*100)+'% illuminated'),
-    ausp&&h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(14px * var(--scale))',color:'var(--gold)',marginTop:'10px',letterSpacing:'.5px'}},'✦ '+ausp.name+' ✦'),
-    ausp&&h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(14px * var(--scale))',color:'var(--tx-lo)',lineHeight:'1.7',marginTop:'8px',padding:'0 8px'}},ausp.desc)
-  ));
-  // Hair cutting
-  wrap.appendChild(h('div',{sty:{background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'14px 16px',marginBottom:'16px'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)',marginBottom:'8px'}},'HAIR CUTTING — Tibetan astrological tradition'),
-    h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center'}},
-      h('p',{sty:{fontFamily:'Lato',fontSize:'calc(18px * var(--scale))',color:hr.col,fontWeight:400}},hr.rec),
-      h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(15px * var(--scale))',color:'var(--tx-lo)',textAlign:'right',maxWidth:'55%'}},hr.result)
-    )
-  ));
-  // Teaching of the day
-  wrap.appendChild(h('div',{sty:{background:'var(--red-lo)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'16px',marginBottom:'20px'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'10px'}},'TEACHING OF THE DAY'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.85',marginBottom:'10px'}},'"'+quote.t+'"'),
-    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(11px * var(--scale))',color:'var(--tx-lo)',textAlign:'right'}},quote.a)
-  ));
-  // Upcoming auspicious days — with a moon-phase icon each
-  wrap.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--tx-lo)',marginBottom:'12px'}},'NEXT AUSPICIOUS DAYS'));
-  upcoming.forEach(({date,td:tday,a})=>{
-    const diff=Math.round((date-now)/86400000),hr2=hairRec(tday);
-    wrap.appendChild(h('div',{sty:{display:'flex',alignItems:'center',gap:'11px',padding:'9px 12px',background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'10px',marginBottom:'7px'}},
-      h('div',{sty:{flexShrink:'0',display:'flex'},html:moonSVG(moonAge(date),30)}),
-      h('div',{sty:{flex:'1',minWidth:'0'}},
-        h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',color:a.col}},a.name),
-        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},`Tib Day ${tday} · Hair: ${hr2.rec}`)),
-      h('div',{sty:{textAlign:'right',flexShrink:'0'}},
-        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(13px * var(--scale))',color:'var(--tx-mid)'}},diff===0?'Today':diff===1?'Tomorrow':`In ${diff} days`),
-        h('p',{sty:{fontFamily:'Lato',fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',marginTop:'2px'}},date.toLocaleDateString('en-GB',{day:'numeric',month:'short'})))
-    ));
-  });
-  wrap.appendChild(h('div',{sty:{marginTop:'18px',textAlign:'center'}},
-    h('a',{href:'https://tibetanbuddhistcalendar.org/day',target:'_blank',rel:'noopener',sty:{display:'inline-block',background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'10px',padding:'11px 20px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Full Tibetan Buddhist Calendar ↗')));
-  wrap.appendChild(h('p',{sty:{fontFamily:'Lato',fontSize:'calc(9px * var(--scale))',color:'var(--tx-ghost)',textAlign:'center',marginTop:'10px',lineHeight:'1.6'}},'Phugpa dates computed with Svante Janson’s algorithm, via the tibetan-date-calculator library.'));
+  const go=d=>{ST.calOffset=d;fillCal(wrap);};
+  const arrow=(dir,lbl)=>h('button',{cls:'cal-arrow pico'+(dir<0?' prev':''),'aria-label':lbl,html:ico('chev'),onClick:()=>go(off+dir)});
+  wrap.append(
+    h('div',{cls:'cal-nav'},arrow(-1,'Previous day'),
+      off===0?h('span',{cls:'cal-today'},'TODAY'):h('button',{cls:'cal-back',onClick:()=>go(0)},'↺ Today'),
+      arrow(1,'Next day')),
+    h('div',{cls:'cal-head'},
+      h('div',{cls:'cal-moon',html:moonSVG(age,56)}),
+      h('p',{cls:'cal-date'},now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase()),
+      h('p',{cls:'cal-day'},'Tibetan Day '+td),
+      h('p',{cls:'cal-phase'},moonPhase(age)+' — '+Math.round(moonIllum(age)*100)+'% illuminated'),
+      ausp&&h('p',{cls:'cal-ausp'},'✦ '+ausp.name+' ✦'),
+      ausp&&h('p',{cls:'cal-ausp-d'},ausp.desc)),
+    h('div',{cls:'card'},label('HAIR CUTTING — Tibetan astrological tradition','dim'),
+      h('div',{cls:'hair'},h('b',{cls:hr.rec.toLowerCase()},hr.rec),h('span',{},hr.result))),
+    h('div',{cls:'card tint'},label('TEACHING OF THE DAY'),
+      h('p',{cls:'quote'},'"'+quote.t+'"'),h('p',{cls:'quote-a'},quote.a)),
+    h('div',{cls:'section'},label('NEXT AUSPICIOUS DAYS','dim lg'),
+      nextAusp(now,5).map(({date,td:tday,a})=>{
+        const diff=Math.round((date-now)/86400000);
+        return h('div',{cls:'up'},
+          h('div',{html:moonSVG(moonAge(date),30),sty:{display:'flex',flexShrink:'0'}}),
+          h('div',{cls:'up-mid'},h('p',{cls:'up-name',sty:{'--acc':a.col}},a.name),h('p',{cls:'up-meta'},`Tib Day ${tday} · Hair: ${hairRec(tday).rec}`)),
+          h('div',{cls:'up-when'},h('b',{},diff===0?'Today':diff===1?'Tomorrow':`In ${diff} days`),
+            h('p',{cls:'up-date'},date.toLocaleDateString('en-GB',{day:'numeric',month:'short'}))));
+      })),
+    h('div',{cls:'t-center',sty:{marginTop:'18px'}},linkBtn('Full Tibetan Buddhist Calendar ↗','https://tibetanbuddhistcalendar.org/day')),
+    h('p',{cls:'foot'},'Phugpa dates computed with Svante Janson’s algorithm, via the tibetan-date-calculator library.'));
 }
 
 function renderEvents(){
-  const w=h('div',{sty:{padding:'16px 16px 60px'}});
-  w.appendChild(h('div',{sty:{background:'var(--card)',border:'1px solid var(--bdr)',borderRadius:'16px',padding:'20px',marginBottom:'16px'}},
-    h('div',{sty:{display:'flex',alignItems:'center',gap:'12px',marginBottom:'14px'}},
-      h('span',{sty:{fontSize:'28px',flexShrink:0}},'☸'),
-      h('div',{},
-        h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(17px * var(--scale))',color:'var(--tx)'}},'Palpung Events'),
-        h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(13px * var(--scale))',color:'var(--tx-lo)',marginTop:'3px'}},'Palpung Changchub Dargyeling, Wales')
-      )
-    ),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(15px * var(--scale))',color:'var(--tx-mid)',lineHeight:'1.75',marginBottom:'16px'}},'Teachings, pujas, and retreats at the centre in Llangynog, Wales — under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident lama Lama Rabsang. Open to all.'),
-    h('a',{href:'https://www.palpung.org.uk/upcoming',target:'_blank',rel:'noopener',sty:{display:'block',background:'linear-gradient(135deg,var(--gold),var(--gold-lo))',color:'var(--bg)',borderRadius:'11px',padding:'14px 20px',fontFamily:'Playfair Display',fontSize:'calc(12px * var(--scale))',letterSpacing:'1px',textDecoration:'none',textAlign:'center',fontWeight:500}},'Open Events Page  ↗')
-  ));
-  w.appendChild(h('div',{sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'12px',padding:'14px 16px',display:'flex',gap:'10px',alignItems:'flex-start'}},
-    h('span',{sty:{fontSize:'16px',flexShrink:0,marginTop:'2px'}},'ℹ'),
-    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',color:'var(--tx-lo)',lineHeight:'1.7'}},'Palpung\'s events page cannot be shown in-app due to security restrictions on their server. Tap above to open it directly in your browser.')
-  ));
-  return w;}
+  return h('div',{},
+    h('div',{cls:'card'},
+      h('div',{cls:'ev-head'},h('span',{cls:'ev-sym'},'☸'),
+        h('div',{},h('p',{cls:'ev-t'},'Palpung Events'),h('p',{cls:'ev-s'},'Palpung Changchub Dargyeling, Wales'))),
+      h('p',{cls:'ev-d'},'Teachings, pujas, and retreats at the centre in Llangynog, Wales — under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident lama Lama Rabsang. Open to all.'),
+      linkBtn('Open Events Page  ↗','https://www.palpung.org.uk/upcoming','hero')),
+    h('div',{cls:'card glow ev-note'},h('span',{},'ℹ'),
+      h('p',{},'Palpung\'s events page cannot be shown in-app due to security restrictions on their server. Tap above to open it directly in your browser.')));}
 
 function renderInfo(){
-  const w=h('div',{sty:{padding:'16px 16px 60px'}});
-  function sec(title,el){const d=h('div',{sty:{marginBottom:'24px'}});d.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2.5px',color:'var(--gold-lo)',marginBottom:'10px'}},title));d.appendChild(el);return d;}
-  w.appendChild(sec('ABOUT DHARMA PRACTICE',h('div',{},
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',lineHeight:'1.85',color:'var(--tx-mid)',marginBottom:'14px'}},'This is an unofficial companion app. I built it from my own practice notes, and shaped it with a lot of generous feedback from the sangha, to keep the words and the flow as faithful as I could. It isn’t an official text, and it isn’t affiliated with or endorsed by Palpung Changchub Dargyeling or any Buddhist organisation.'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',lineHeight:'1.85',color:'var(--tx-mid)',marginBottom:'14px'}},'I’m dyslexic and have some other learning difficulties, and the traditional pecha layout can be genuinely hard to follow. Making this has been my way of lowering that barrier — cutting through to the heart of the practice, so I can spend less energy fighting the format and more on the practice itself.'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',lineHeight:'1.85',color:'var(--tx)',marginBottom:'14px'}},'That’s what Sliced Dharma means to me: slicing away what gets in the way, to reach the core of the teachings. If it helps you do the same, may it be of benefit.'),
-    h('p',{sty:{fontFamily:'Lato',fontSize:'calc(11px * var(--scale))',lineHeight:'1.7',color:'var(--tx-lo)'}},'Prayer texts are reproduced from the Palpung Changchub Dargyeling Prayer Book for personal practice use only.')
-  )));
-  w.appendChild(h('hr',{cls:'rule'}));
-  w.appendChild(sec('PALPUNG CHANGCHUB DARGYELING',h('div',{},
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(16px * var(--scale))',lineHeight:'1.85',color:'var(--tx-mid)',marginBottom:'16px'}},'Palpung Changchub Dargyeling is a Karma Kagyu Buddhist centre in Wales, UK, under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident teacher Lama Rabsang. They offer teachings, retreats, and an extensive library of free practice texts. Please offer them as much support as you can.'),
-    h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'8px'}},
-      h('a',{href:'https://www.palpung.org.uk/',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Website ↗'),
-      h('a',{href:'https://www.palpung.org.uk/resources',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Free Texts ↗'),
-      h('a',{href:'https://www.palpung.org.uk/donate',target:'_blank',rel:'noopener',sty:{background:'linear-gradient(135deg,var(--red),#4a0808)',color:'#f8f0d8',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none',borderRadius:'9px',padding:'10px 16px',border:'none'}},'Donate ↗')
-    ))));
-  w.appendChild(h('hr',{cls:'rule'}));
-  w.appendChild(sec('PROJECT LINKS',h('div',{},
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(15px * var(--scale))',color:'var(--tx-lo)',marginBottom:'12px',lineHeight:'1.7'}},'Original Android app by jwaga.'),
-    h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'8px'}},
-      h('a',{href:'https://github.com/jwaga/esmnyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'GitHub ↗'),
-      h('a',{href:'https://play.google.com/store/apps/details?id=pl.eastsidemandala.nyndrovnik',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Android App ↗')
-    ))));
-  w.appendChild(h('hr',{cls:'rule'}));
-  w.appendChild(sec('TIBETAN CALENDAR',h('div',{},
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontSize:'calc(15px * var(--scale))',color:'var(--tx-mid)',marginBottom:'12px',lineHeight:'1.8'}},'Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics via the open-source tibetan-date-calculator library. The hair-cutting predictions follow tibetanbuddhistcalendar.org — Edward Henning’s Kālacakra calendar. With gratitude to their authors.'),
-    h('div',{sty:{display:'flex',flexWrap:'wrap',gap:'8px'}},
-      h('a',{href:'https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'Janson — mathematics ↗'),
-      h('a',{href:'https://github.com/eszthoff/tibetan-date-calculator',target:'_blank',rel:'noopener',sty:{background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 16px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'tibetan-date-calculator ↗')
-    ))));
-  w.appendChild(h('hr',{cls:'rule'}));
-  w.appendChild(h('div',{sty:{background:'var(--red-lo)',border:'1px solid var(--bdr)',borderRadius:'14px',padding:'20px',marginBottom:'24px',textAlign:'center'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(10px * var(--scale))',letterSpacing:'2px',color:'var(--gold-lo)',marginBottom:'12px'}},'WITH GRATITUDE'),
-    h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(17px * var(--scale))',color:'var(--tx)',lineHeight:'1.9',marginBottom:'12px'}},'This app was inspired by the dedicated sangha of East Side Mandala, Lublin, Poland. May they swiftly attain enlightenment for the benefit of all beings without exception.'),
-    h('a',{href:'https://lublin.buddyzm.pl/',target:'_blank',rel:'noopener',sty:{display:'inline-block',background:'var(--gold-ghost)',border:'1px solid var(--bdr)',borderRadius:'9px',padding:'10px 20px',color:'var(--gold)',fontFamily:'Lato',fontSize:'calc(12px * var(--scale))',textDecoration:'none'}},'East Side Mandala ↗')
-  ));
-  w.appendChild(h('p',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'calc(16px * var(--scale))',color:'var(--tx-lo)',textAlign:'center',lineHeight:'2'}},'SARWA MANGALAM'));
-  return w;}
+  const sec=(title,...k)=>h('div',{sty:{marginBottom:'24px'}},label(title),...k);
+  return h('div',{},
+    sec('ABOUT '+APP_NAME.toUpperCase(),h('div',{cls:'prose'},
+      h('p',{},'This is an unofficial companion app. I built it from my own practice notes, and shaped it with a lot of generous feedback from the sangha, to keep the words and the flow as faithful as I could. It isn’t an official text, and it isn’t affiliated with or endorsed by Palpung Changchub Dargyeling or any Buddhist organisation.'),
+      h('p',{},'I’m dyslexic and have some other learning difficulties, and the traditional pecha layout can be genuinely hard to follow. Making this has been my way of lowering that barrier — cutting through to the heart of the practice, so I can spend less energy fighting the format and more on the practice itself.'),
+      h('p',{cls:'em'},`That’s what ${BRAND} means to me: slicing away what gets in the way, to reach the core of the teachings. If it helps you do the same, may it be of benefit.`),
+      h('p',{cls:'fine'},'Prayer texts are reproduced from the Palpung Changchub Dargyeling Prayer Book for personal practice use only.'))),
+    h('hr',{cls:'rule'}),
+    sec('PALPUNG CHANGCHUB DARGYELING',h('div',{cls:'prose'},
+      h('p',{},'Palpung Changchub Dargyeling is a Karma Kagyu Buddhist centre in Wales, UK, under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident teacher Lama Rabsang. They offer teachings, retreats, and an extensive library of free practice texts. Please offer them as much support as you can.')),
+      h('div',{cls:'links'},
+        linkBtn('Website ↗','https://www.palpung.org.uk/'),
+        linkBtn('Free Texts ↗','https://www.palpung.org.uk/resources'),
+        linkBtn('Donate ↗','https://www.palpung.org.uk/donate','donate'))),
+    h('hr',{cls:'rule'}),
+    sec('PROJECT LINKS',h('div',{cls:'prose'},h('p',{},'Original Android app by jwaga.')),
+      h('div',{cls:'links'},
+        linkBtn('GitHub ↗','https://github.com/jwaga/esmnyndrovnik'),
+        linkBtn('Android App ↗','https://play.google.com/store/apps/details?id=pl.eastsidemandala.nyndrovnik'))),
+    h('hr',{cls:'rule'}),
+    sec('TIBETAN CALENDAR',h('div',{cls:'prose'},
+      h('p',{},'Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics via the open-source tibetan-date-calculator library. The hair-cutting predictions follow tibetanbuddhistcalendar.org — Edward Henning’s Kālacakra calendar. With gratitude to their authors.')),
+      h('div',{cls:'links'},
+        linkBtn('Janson — mathematics ↗','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf'),
+        linkBtn('tibetan-date-calculator ↗','https://github.com/eszthoff/tibetan-date-calculator'))),
+    h('hr',{cls:'rule'}),
+    h('div',{cls:'card tint gratitude'},label('WITH GRATITUDE','lg'),
+      h('p',{},'This app was inspired by the dedicated sangha of East Side Mandala, Lublin, Poland. May they swiftly attain enlightenment for the benefit of all beings without exception.'),
+      linkBtn('East Side Mandala ↗','https://lublin.buddyzm.pl/')),
+    h('p',{cls:'blessing'},'SARWA MANGALAM'));}
 
 // ═══════════════════════════════════════════════════════════
 // SETTINGS PAGE
 // ═══════════════════════════════════════════════════════════
+// Only names/descriptions here — each card previews its theme by carrying
+// data-theme, so the colours come straight from the CSS theme blocks.
+const THEMES=[
+  ['light','Light','Warm parchment'],['dark','Dark','Deep amber'],['neuro','Focus','Blue-steel'],
+  ['temple','Temple','Saffron & burgundy'],['night','Night','Candlelit indigo'],['earth','Earth','Terracotta & ochre'],
+  ['slate','Slate','Cool grey-blue'],['highc','High contrast','Maximum contrast'],['neon','Neon','Futuristic cyan'],
+];
+const SIZES=[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']];
 function renderSettings(){
-  const outer=h('div',{sty:{height:'100%',display:'flex',flexDirection:'column',overflow:'hidden',background:'var(--bg)'}});
-  outer.appendChild(h('div',{sty:{padding:'14px 14px 10px',borderBottom:'1px solid var(--bdr)',flexShrink:0,background:'var(--surf)'}},
-    h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(15px * var(--scale))',letterSpacing:'.5px',color:'var(--gold)'}},'Settings'),
-    h('p',{sty:{fontSize:'calc(10px * var(--scale))',color:'var(--tx-lo)',fontFamily:'Lato',marginTop:'3px'}},'Appearance and display options')));
-  const scroll=h('div',{sty:{flex:1,overflowY:'auto',padding:'16px 14px 60px'}});
-
-  // ── THEME ──
-  scroll.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2.5px',color:'var(--gold-lo)',marginBottom:'12px'}},'THEME'));
   const curTheme=document.documentElement.getAttribute('data-theme')||'light';
-  const THEMES=[
-    {id:'light', name:'Light',  bg:'#fdf8f0',fg:'#1a0804',acc:'#7a4e00',desc:'Warm parchment'},
-    {id:'dark',  name:'Dark',   bg:'#0e0804',fg:'#f0e4c8',acc:'#d4980a',desc:'Deep amber'},
-    {id:'neuro', name:'Focus',  bg:'#08101c',fg:'#e0eaf8',acc:'#5898c8',desc:'Blue-steel'},
-    {id:'temple',name:'Temple', bg:'#1a0608',fg:'#f5e8d0',acc:'#e09020',desc:'Saffron & burgundy'},
-    {id:'night', name:'Night',  bg:'#080c1e',fg:'#f0e8ff',acc:'#c0a060',desc:'Candlelit indigo'},
-    {id:'earth', name:'Earth',  bg:'#f5ede0',fg:'#2c1008',acc:'#a06820',desc:'Terracotta & ochre'},
-    {id:'slate', name:'Slate',  bg:'#1c2330',fg:'#d8e8f8',acc:'#7090b0',desc:'Cool grey-blue'},
-    {id:'highc', name:'High contrast', bg:'#000000',fg:'#ffffff',acc:'#ffd400',desc:'Maximum contrast'},
-    {id:'neon',  name:'Neon',   bg:'#05060a',fg:'#eafcff',acc:'#19e6d2',desc:'Futuristic cyan'},
-  ];
-  const themeGrid=h('div',{sty:{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'9px',marginBottom:'26px'}});
-  THEMES.forEach(t=>{
-    const on=curTheme===t.id;
-    const btn=h('button',{
-      sty:{
-        background:t.bg,border:`2px solid ${on?t.acc:'rgba(128,100,60,.15)'}`,
-        borderRadius:'13px',padding:'13px 12px',cursor:'pointer',
-        display:'flex',flexDirection:'column',alignItems:'flex-start',gap:'4px',
-        boxShadow:on?`0 0 0 1px ${t.acc}, 0 2px 10px rgba(0,0,0,.2)`:'0 1px 4px rgba(0,0,0,.15)',
-        transition:'all .2s',textAlign:'left'
-      },
-      onClick:()=>{setTheme(t.id);render();}
-    });
-    btn.appendChild(h('div',{sty:{display:'flex',justifyContent:'space-between',alignItems:'center',width:'100%'}},
-      h('span',{sty:{fontFamily:'Lato',fontWeight:700,fontSize:'13px',color:t.fg}},t.name),
-      on?h('span',{sty:{color:t.acc,fontSize:'13px',lineHeight:1}},'✓'):h('span',{})));
-    btn.appendChild(h('span',{sty:{fontFamily:'Cormorant Garamond',fontStyle:'italic',fontSize:'12px',color:t.acc,opacity:.9}},t.desc));
-    btn.appendChild(h('div',{sty:{display:'flex',gap:'4px',marginTop:'5px'}},
-      h('div',{sty:{width:'13px',height:'13px',borderRadius:'50%',background:t.acc}}),
-      h('div',{sty:{width:'13px',height:'13px',borderRadius:'50%',background:t.fg,opacity:'.4'}}),
-      h('div',{sty:{width:'13px',height:'13px',borderRadius:'50%',background:t.bg,border:`1.5px solid ${t.fg}30`}})
-    ));
-    themeGrid.appendChild(btn);
-  });
-  scroll.appendChild(themeGrid);
-
-  // ── TEXT SIZE ──
-  scroll.appendChild(h('p',{sty:{fontFamily:'Playfair Display',fontSize:'calc(9px * var(--scale))',letterSpacing:'2.5px',color:'var(--gold-lo)',marginBottom:'12px'}},'TEXT SIZE'));
   const curScale=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale'))||1;
-  const sizeRow=h('div',{sty:{display:'flex',gap:'9px',marginBottom:'24px'}});
-  [[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].forEach(([v,lbl,name])=>{
-    const on=Math.abs(curScale-v)<0.05;
-    sizeRow.appendChild(h('button',{
-      sty:{
-        flex:1,background:on?'var(--gold-ghost)':'var(--inp)',
-        border:`1px solid ${on?'var(--bdr-hi)':'var(--bdr)'}`,
-        borderRadius:'12px',padding:'14px 8px',cursor:'pointer',
-        display:'flex',flexDirection:'column',alignItems:'center',gap:'5px',transition:'all .2s'
-      },
-      onClick:()=>{setSize(v);render();}
-    },
-      h('span',{sty:{fontFamily:'Playfair Display',fontSize:`${Math.round(14*v)}px`,color:on?'var(--gold)':'var(--tx)',fontWeight:on?700:400,lineHeight:1}},lbl),
-      h('span',{sty:{fontFamily:'Lato',fontSize:'10px',color:'var(--tx-lo)'}},name)
-    ));
-  });
-  scroll.appendChild(sizeRow);
-
-  outer.appendChild(scroll);
-  return outer;
+  return h('div',{cls:'stack'},
+    pageHead('Settings','Appearance and display options'),
+    h('div',{cls:'scroll'},col(
+      label('THEME'),
+      h('div',{cls:'themes'},THEMES.map(([id,name,desc])=>h('button',{cls:'theme-card'+(curTheme===id?' on':''),'data-theme':id,onClick:()=>{setTheme(id);render();}},
+        h('span',{cls:'tn'},name,curTheme===id&&h('span',{},'✓')),
+        h('span',{cls:'td'},desc),
+        h('span',{cls:'sw'},h('i'),h('i'),h('i'))))),
+      label('TEXT SIZE'),
+      h('div',{cls:'sizes'},SIZES.map(([v,lbl,name])=>h('button',{cls:'opt'+(Math.abs(curScale-v)<0.05?' on':''),onClick:()=>{setSize(v);render();}},
+        h('b',{sty:{fontSize:`${Math.round(14*v)}px`}},lbl),h('small',{},name)))))));
 }
-
 // ═══════════════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════════════
