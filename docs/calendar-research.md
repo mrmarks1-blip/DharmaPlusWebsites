@@ -61,3 +61,21 @@ explains why. One setting can flip the default later if Gareth's centre does it 
 - Kagyu Office, Tsurluk Losar 2014: https://kagyuoffice.org/gyalwang-karmapa-celebrates-tsurluk-losar-in-bodhgaya/
 - Svante Janson, Tibetan Calendar Mathematics: https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf
 - kitsuyui/hyper-calendar PR #171: https://github.com/kitsuyui/hyper-calendar/pull/171
+
+## 3. Festivals and anniversaries (A7), checked 2026-10-03
+
+Source list: tibetanbuddhistcalendar.org's yearly overview (8 festivals, 98 anniversaries by Tibetan
+date, 23 by Western date), which follows the Rigpa calendar.
+
+- **Festivals**: all 8 dates confirmed by Rigpa Wiki (Losar, the four Düchen, Gutor, Dzamling Chisang)
+  and Kunkhyen Tenpe Nyima, *Vajra Wisdom* (the Buddha's birth on 4/7; the Düchen).
+- **Anniversaries**: searched Rigpa Wiki for each. **16 confirmed** (same Tibetan date stated):
+  Khenpo Shenga, Lerab Lingpa, Do Khyentse, 3rd Jamgön Kongtrul, Tertön Mingyur Dorje, Dezhung
+  Rinpoche, Dagchen Rinpoche, Khandro Tsering Chödrön, Gatön Ngawang Lekpa, Nyoshul Lungtok, Shechen
+  Gyaltsab, Yangsi Dilgo Khyentse, Neten Chokling, Tsongkhapa, Khenchen Jigme Phuntsok, Tulku Urgyen.
+  **2 differ** (shown with a note in the app): Jamyang Khyentse Wangpo (list 1/21, Rigpa Wiki 2/21),
+  Thinley Norbu (list 11/3, Rigpa Wiki 11/2). Nyoshul Lungtok: Rigpa Wiki notes sources give 5/17 or 5/25.
+  The other 80 rest on the list alone (Rigpa Wiki has no date). 81 link to a Rigpa Wiki biography.
+- The list says "anniversaries and birthdays" without saying which; the app shows them as anniversaries.
+- **Leap months**: annual events are kept in the main month, not the leap month (assumption; matches
+  the "second of a doubled day" rule; tibetanbuddhistcalendar.org's public pages don't show which).
