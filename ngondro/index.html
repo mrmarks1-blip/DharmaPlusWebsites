@@ -366,6 +366,9 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .sitbox { display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; max-width:420px; margin:0 auto; text-align:center; }
 .sitopts { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
 .sitopts .opt { min-width:74px; padding:0 12px; }
+.sitpill { position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:35; display:flex; align-items:center; gap:8px; max-width:calc(100% - 28px); min-height:44px; padding:8px 16px; border-radius:999px; background:var(--surface); color:var(--ink); border:1px solid var(--line); box-shadow:0 4px 18px rgba(0,0,0,.18); font-weight:700; text-align:left; }
+.sitpill svg { width:20px; height:20px; flex-shrink:0; }
+.sitpill b { font-variant-numeric:tabular-nums; }
 .sitleft { font-size:calc(34px * var(--scale)); font-weight:600; font-variant-numeric:tabular-nums; }
 /* Vajra breathing: OM (white), AH (red), HUM (blue) glow as your breath moves */
 .vjpad { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:10px 24px; text-align:center;
@@ -1346,7 +1349,7 @@ let ST={
   verse:0, calOff:0, br:0, moreThemes:false, qi:null, toast:null, discardArm:false, restore:null,
   // meditation: Three Aa step + letter form, vajra breathing, Ajahn Brahm stage, breath count, sitting timer
   wa:0, aForm:ls('esm_a_form','tib'), vj:{mode:ls('esm_vj_mode','hold'),phase:'',count:0,lastHold:0},
-  bb:ls('esm_bb',0), cnt:{n:0,rounds:0}, sit:null,
+  bb:ls('esm_bb',0), cnt:{n:0,rounds:0}, sit:ls('esm_sit',null),
 };
 const pad2=n=>String(n).padStart(2,'0');
 const dayKey=(d=new Date())=>`${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
@@ -1486,6 +1489,7 @@ const I={
   phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/>',link:'<path d="M10 14l4-4M8.5 11.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M15.5 12.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>',
   trash:'<path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/>',
   swap:'<path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/>',
+  timer:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 2.5h4"/>',
 };
 const ico=(n,w)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]||''}</svg>`;
 
@@ -1635,7 +1639,9 @@ function ovDedicate(){const v=versesOf(PRAYERS.find(p=>p.id==='dedication')).fil
 let wakeLock=null;
 async function keepAwake(on){try{if(on&&'wakeLock'in navigator&&!wakeLock){wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',()=>{wakeLock=null;});}
   else if(!on&&wakeLock){await wakeLock.release();wakeLock=null;}}catch{}}
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&(ST.ov==='session'||ST.ov==='breath'))keepAwake(true);});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='visible')return;
+  if(ST.ov==='session'||ST.ov==='breath')keepAwake(true);
+  if(ST.sit&&!ST.sit.done)sitTick();else if(ST.sit&&ST.sit.away&&!ST.sit.buzzed){ST.sit.buzzed=true;lsSet('esm_sit',ST.sit);buzz([60,80,60]);}});
 const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p);}catch{}};
 function countTap(){
   const t=ST.tap;t.count++;t.ci=(t.ci+1)%TR.length;saveTap();buzz(t.count%108===0?[40,60,120]:12);
@@ -1882,20 +1888,29 @@ function bell(){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAud
   [[0,528,.3],[.12,396,.2],[.26,264,.16]].forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
     o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,t);o.frequency.exponentialRampToValueAtTime(fr*.5,t+3);
     gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+.04);gn.gain.exponentialRampToValueAtTime(.001,t+5);o.start(t);o.stop(t+6);});}catch{}}
+// The timer keeps going when you leave the practice (it is saved in esm_sit, so it
+// survives a reload too); a small pill above the tabs shows it and leads back.
 let sitT=null;
 const mmss=s=>`${Math.floor(s/60)}:${pad2(s%60)}`;
 const sitLeft=()=>ST.sit?Math.max(0,ST.sit.len-Math.floor((Date.now()-ST.sit.start)/1000)):0;
-function sitStart(min){sitStop();ST.sit={len:min*60,start:Date.now(),done:false};sitT=setInterval(sitTick,1000);bell();}
-function sitTick(){if(!ST.sit){sitStop();return;}const left=sitLeft(),el=document.getElementById('sitleft');
-  if(left<=0){clearInterval(sitT);sitT=null;ST.sit.done=true;bell();buzz([60,80,60]);
+const sitEnd=()=>new Date(ST.sit.start+ST.sit.len*1000);
+const sitAwayMsg=()=>`Your ${Math.round(ST.sit.len/60)}-minute sitting ended at ${pad2(sitEnd().getHours())}:${pad2(sitEnd().getMinutes())}.`;
+function sitStart(min){sitStop();ST.sit={len:min*60,start:Date.now(),done:false,ov:ST.ov};lsSet('esm_sit',ST.sit);sitT=setInterval(sitTick,1000);bell();}
+function sitTick(){if(!ST.sit){sitStop();return;}const left=sitLeft();
+  if(left<=0){if(sitT)clearInterval(sitT);sitT=null;if(ST.sit.done)return;ST.sit.done=true;
+    // Ended while the phone was locked or the app closed: no late bell, just say so (and buzz once they're back).
+    ST.sit.away=document.hidden||Date.now()-sitEnd()>5000;
+    if(!ST.sit.away)bell();if(!document.hidden)buzz([60,80,60]);
     // A finished sitting counts as meditation in the diary (minutes), if that activity is used.
-    if(acts().some(a=>a.id==='meditation'))addActAmount(dayKey(),'meditation',Math.round(ST.sit.len/60));
-    render();return;}
-  if(el)el.textContent=mmss(left);}
-function sitStop(){if(sitT)clearInterval(sitT);sitT=null;ST.sit=null;}
+    if(acts().some(a=>a.id==='meditation'))addActAmount(dayKey(sitEnd()),'meditation',Math.round(ST.sit.len/60));
+    lsSet('esm_sit',ST.sit);render();return;}
+  document.querySelectorAll('.sitlive').forEach(el=>el.textContent=mmss(left));}
+function sitStop(){if(sitT)clearInterval(sitT);sitT=null;ST.sit=null;lsSet('esm_sit',null);}
+const sitPill=()=>!ST.sit||ST.ov===ST.sit.ov?'':`<button class="sitpill" data-act="sitback">${ico('timer')}<span>${ST.sit.done?(ST.sit.away?sitAwayMsg():'Your sitting has ended'):'Sitting'}</span>${ST.sit.done?'':`<b class="sitlive">${mmss(sitLeft())}</b>`}</button>`;
 function sitBox(choices,doneMsg,doneExtra=''){
-  if(ST.sit&&ST.sit.done)return`<div class="sitbox"><b>${doneMsg||'Time is up.'}</b><div class="sitopts">${doneExtra}<button class="opt" data-act="sitclear">OK</button></div></div>`;
-  if(ST.sit)return`<div class="sitbox"><span class="small">Time left</span><b id="sitleft" class="sitleft">${mmss(sitLeft())}</b><button class="btn link" data-act="sitclear">Stop the timer</button></div>`;
+  if(ST.sit&&ST.sit.ov!==ST.ov)return`<div class="sitbox"><span class="small">Timer with a soft bell (optional)</span><div class="sitopts">${choices.map(m=>`<button class="opt" data-act="sit" data-v="${m}">${m} min</button>`).join('')}</div><span class="small">This starts a new timer and stops the one already running.</span></div>`;
+  if(ST.sit&&ST.sit.done)return`<div class="sitbox"><b>${ST.sit.away?sitAwayMsg():doneMsg||'Time is up.'}</b><div class="sitopts">${doneExtra}<button class="opt" data-act="sitclear">OK</button></div></div>`;
+  if(ST.sit)return`<div class="sitbox"><span class="small">Time left</span><b id="sitleft" class="sitleft sitlive">${mmss(sitLeft())}</b><button class="btn link" data-act="sitclear">Stop the timer</button></div>`;
   return`<div class="sitbox"><span class="small">Timer with a soft bell (optional)</span><div class="sitopts">${choices.map(m=>`<button class="opt" data-act="sit" data-v="${m}">${m} min</button>`).join('')}</div></div>`;}
 const MED_INFO={
   threeaa:{t:'About the Three Aa',p:()=>THREE_AA_INFO,links:[['James Low · Simply Being','https://simplybeing.co.uk/audio-records/year/audio2019/autumn-2019-the-happy-twins/']]},
@@ -1907,8 +1922,8 @@ function sheetInfo(){const m=MED_INFO[ST.sarg];return`<div class="grab"></div><h
   ${m.links.length?`<div class="links">${m.links.map(([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div>`:''}
   ${m.draft?'<p class="note">This guide is a draft, waiting to be checked.</p>':''}<button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const medTop=(title,key,tag='')=>`<div class="ovtop"><button class="iconbtn" data-act="closemed" aria-label="Close">${ico('close')}</button><div class="title">${title}${tag}</div><button class="iconbtn" data-act="medinfo" data-v="${key}" aria-label="About this practice">${ico('info')}</button></div>`;
-function openMed(ov){sitStop();ST.ov=ov;keepAwake(true);}
-function closeMed(){sitStop();vjReset();keepAwake(false);}
+function openMed(ov){ST.ov=ov;keepAwake(true);}
+function closeMed(){vjReset();keepAwake(false);}
 
 // ── Three Aa ──
 function ovThreeAa(){const st=THREE_AA[ST.wa],s=st.k==='sound'?{...st,...THREE_AA_SOUND}:st,lat=ST.aForm==='latin',rest=st.k==='rest';
@@ -2125,6 +2140,7 @@ function render(){
   if(ST.sheet)html+=`<div class="veil${opening?' enter':''}" data-act="veil"><div class="sheet${opening?' enter':''}" role="dialog" aria-modal="true">
     <div class="sheetbar" id="sheetbar"><span class="grab"></span><button class="xclose" data-act="closesheet" aria-label="Close">${ico('close')}</button></div>
     ${SHEETS[ST.sheet]().replace('<div class="grab"></div>','')}</div></div>`;
+  html+=sitPill();
   const toastNew=ST.toast&&ST.toast!==lastToast;lastToast=ST.toast;
   if(ST.toast)html+=`<div class="toast${toastNew?' enter':''}" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
   content.innerHTML=html;
@@ -2249,10 +2265,12 @@ document.getElementById('app').addEventListener('click',e=>{
     case'nrtext':clearTimeout(brTimer);sheet('nr');break;
     // meditation
     case'threeaa':case'vajra':case'brahm':case'count':
+      if(ST.sit&&ST.sit.ov===a){openMed(a);break;}   // back to a sitting that's still going: keep its place
       if(a==='threeaa')ST.wa=0;if(a==='vajra')Object.assign(ST.vj,{phase:'',count:0});if(a==='count')ST.cnt={n:0,rounds:0};openMed(a);break;
     case'medinfo':sheet('info',el.dataset.v);break;
     case'closemed':closeMed();ST.ov=null;break;
-    case'medfinish':closeMed();ST.ov='dedicate';break;
+    case'medfinish':sitStop();closeMed();ST.ov='dedicate';break;
+    case'sitback':if(!ST.sit)break;ST.sheet=null;if(ST.sit.ov)openMed(ST.sit.ov);else sitStop();break;
     case'sit':sitStart(+el.dataset.v);break;
     case'sitclear':sitStop();break;
     case'wanext':if(THREE_AA[ST.wa].k==='rest')return;ST.wa++;break;
@@ -2487,7 +2505,9 @@ dailySnapshot();
 if(hasPracticeData())keepStorage();
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
-if(history.state&&history.state.dp)hGuard=true;   // reloaded on our back-button entry: reuse it
+if(history.state&&history.state.dp)hGuard=true;
+// A sitting timer from before a reload: carry on, or (if it ended long ago) let it go.
+if(ST.sit){if(!ST.sit.done){sitT=setInterval(sitTick,1000);sitTick();}if(ST.sit&&Date.now()-sitEnd()>6*3600000)sitStop();}   // reloaded on our back-button entry: reuse it
 render();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(document.documentElement.getAttribute('data-theme')==='auto')render();});
 let lastW=innerWidth,rzT;
