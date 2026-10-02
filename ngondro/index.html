@@ -339,6 +339,15 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .cday.sp b { color:var(--accent-ink); }
 .cday.today { outline:3px solid var(--info); outline-offset:-2px; }
 .cday.blank { background:none; border:0; }
+.gcal .cday { position:relative; gap:2px; min-height:60px; padding:4px 0; }
+.gcal .cday b { font-size:16px; }
+.gcal .cday span { font-size:11px; }
+.gcal .cday i { display:block; width:14px; height:14px; border-radius:50%; }
+.gcal .cday i.none { border:1.5px solid var(--line); }
+.gcal .cday.fe::after, .gcal .cday.an::after { position:absolute; top:2px; right:4px; font-size:11px; color:var(--accent-ink); }
+.gcal .cday.fe::after { content:'★'; }
+.gcal .cday.an::after { content:'•'; font-size:16px; line-height:10px; }
+.list.plain .item { padding-left:0; padding-right:0; }
 .legend { display:flex; flex-direction:column; gap:10px; }
 .legend > div { display:flex; gap:12px; align-items:baseline; }
 .legend time { min-width:6.2em; font-weight:700; flex-shrink:0; }
@@ -1024,7 +1033,7 @@ function observedAusp(date){
   if(tn===td)return out;                      // first of a doubled pair: kept tomorrow
   if(AUSP[td])out.push({td,a:AUSP[td]});
   for(let k=td%30+1;k!==tn;k=k%30+1)          // numbers skipped before tomorrow
-    if(AUSP[k])out.push({td:k,a:AUSP[k],note:`Day ${k} is skipped this month, so it is kept today.`});
+    if(AUSP[k])out.push({td:k,a:AUSP[k],note:`Day ${k} is skipped this month, so it is kept today. ${ALT_SKIP}`});
   return out;
 }
 // Tibetan day repeats tomorrow (first of a doubled pair)?
@@ -1671,9 +1680,6 @@ const actAmount=v=>typeof v==='number'?fmt(v):'';
 function jChips(k){const d=dayActs(k);
   return`<div class="jchips">${acts().map(a=>`<button class="jchip${d[a.id]?' on':''}${ST.popAct===a.id?' pop':''}" data-act="jtick" data-k="${k}" data-v="${a.id}" style="--c:${a.color}" aria-pressed="${!!d[a.id]}"><i></i>${esc(a.name)}${d[a.id]?` ✓${typeof d[a.id]==='number'?' '+actAmount(d[a.id]):''}`:''}</button>`).join('')}
     <button class="jchip add" data-act="acts" aria-label="Change the activities">${ico('edit')} Edit</button></div>`;}
-function sheetJDay(){const k=ST.sarg,dt=new Date(k+'T12:00');
-  return`<div class="grab"></div><h2 class="h1">${dt.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
-  <p class="small">Tap what you practised that day.</p>${jChips(k)}<button class="btn primary wide" data-act="closesheet">Done</button>`;}
 function weekCard(now){
   const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),d=dayActs(sel),A=acts();
   const days=[...Array(7)].map((_,i)=>plusDays(mon,i)),selDate=noonOf(new Date(sel+'T12:00'));
@@ -1684,24 +1690,6 @@ function weekCard(now){
     <p class="small">Tap what you practised ${label}:</p>
     ${jChips(sel)}
     <div class="row" style="justify-content:space-between;flex-wrap:wrap"><span class="small">${n?`${n} day${n>1?'s':''} of practice this week.`:'Your practice days will show here.'}</span><button class="btn link" data-act="journal">See the month</button></div></div>`;}
-function ovJournal(){
-  const base=new Date();base.setDate(1);base.setMonth(base.getMonth()+(ST.jmon||0));const y=base.getFullYear(),m=base.getMonth();
-  const first=new Date(y,m,1,12),dim=new Date(y,m+1,0).getDate(),lead=(first.getDay()+6)%7,todayK=dayKey(),A=acts();
-  const cells=[...Array(lead).fill(null),...[...Array(dim)].map((_,i)=>new Date(y,m,i+1,12))];
-  const counts={};cells.forEach(x=>{if(!x)return;const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
-  return`${topbar('Practice diary')}<div class="ovbody"><div class="col">
-    <div class="row" style="justify-content:space-between"><button class="iconbtn" data-act="jprev" aria-label="Previous month">${ico('back')}</button>
-      <b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b>
-      <button class="iconbtn" data-act="jnext" aria-label="Next month" ${ST.jmon>=0?'disabled style="opacity:.4"':''}>${ico('chev')}</button></div>
-    <div class="cal jcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
-      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),fut=k>todayK;
-        return`<button class="cday jd${k===todayK?' today':''}" data-act="jpick" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><b>${x.getDate()}</b><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
-    <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
-    <p class="small">Tap a day to change what you ticked. Counts you add to a practice tick it here automatically.</p>
-    <button class="btn soft wide" data-act="acts">${ico('edit')} Change the activities</button>
-    <button class="btn soft wide" data-act="exportcsv">${ico('save')} Export as a spreadsheet</button>
-    <p class="small">The spreadsheet has one row for each day, with what you ticked and how many of each practice you counted. Your normal backup already includes this diary.</p>
-  </div></div>`;}
 function sheetActs(){const A=acts(),have=new Set(A.map(a=>a.id)),sugg=ACT_SUGGEST.filter(s=>!have.has(s.id)),pick=ST.newColor||ACT_COLORS[A.length%ACT_COLORS.length];
   return`<div class="grab"></div><h2 class="h1">Your activities</h2>
   <div class="list">${A.map(a=>`<div class="item" style="cursor:default"><span class="dot" style="--acc:${a.color}"></span><span class="grow"><span class="t">${esc(a.name)}</span>${a.pr?'<span class="s">Ticked automatically when you count</span>':''}</span>
@@ -1791,33 +1779,230 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
-// CALENDAR — the Tibetan month at a glance; tap a day for details
+// CALENDAR — one month view: the Gregorian month with the Tibetan day, moon,
+// auspicious days, festivals, anniversaries and the practice diary in each cell.
 // ═══════════════════════════════════════════════════════════
-function ovCalendar(){
-  const t0=tibCount(noonOf(new Date())),target=t0-((t0%30)||30)+1+ST.calOff*30;   // day-1 count of the month shown
-  let d=plusDays(new Date(),Math.round((target-t0)*0.984));
-  while(tibCount(d)>=target)d=plusDays(d,-1);while(tibCount(d)<target)d=plusDays(d,1);
-  const days=[];for(let x=d;tibCount(x)<target+30;x=plusDays(x,1))days.push(x);
-  const tm=tibDate(days[0]),todayS=noonOf(new Date()).toDateString(),lead=(days[0].getDay()+6)%7;
-  const cells=[...Array(lead).fill(null),...days],sp=days.flatMap(x=>observedAusp(x).map(o=>({x,o})));
-  return`${topbar(`${ordinal(tm.month)} month${tm.leap?' (leap)':''} · ${tm.element} ${tm.animal} year`)}<div class="ovbody"><div class="col">
-    <div class="row" style="justify-content:space-between"><button class="btn soft" data-act="calprev">${ico('back')} Earlier</button>${ST.calOff?'<button class="btn link" data-act="caltoday">This month</button>':''}<button class="btn soft" data-act="calnext">Later ${ico('chev')}</button></div>
-    <p class="small" style="text-align:center">${days[0].toLocaleDateString('en-GB',{day:'numeric',month:'short'})} to ${days[days.length-1].toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}. The big number is the Tibetan day. Tap any day.</p>
-    <div class="cal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
-      ${cells.map(x=>x?`<button class="cday${observedAusp(x).length?' sp':''}${x.toDateString()===todayS?' today':''}" data-act="day" data-d="${dayKey(x)}" aria-label="${x.toDateString()}, Tibetan day ${tibDay(x)}"><b>${tibDay(x)}</b><span>${x.getDate()} ${x.toLocaleDateString('en-GB',{month:'short'})}</span></button>`:'<div class="cday blank"></div>').join('')}</div>
-    <p class="h2">AUSPICIOUS DAYS THIS MONTH</p>
-    <div class="card legend">${sp.map(({x,o})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</time><span><button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>${o.note?` <span class="small">(day ${o.td} is skipped, so it is kept the day before)</span>`:''}</span></div>`).join('')||'<p class="small">None this month.</p>'}</div>
-    <div class="card prose"><p class="h2" style="margin:0 0 6px">ABOUT THE TIBETAN CALENDAR</p>
-      <p>Each month follows the moon: day 15 is the full moon and day 30 the new moon. To keep in step with the moon, a day number is sometimes skipped and sometimes repeated. An auspicious day that falls on a skipped day is kept the day before; one that falls on a repeated day is kept on the second of the two.</p>
-      <p>Hair-cutting advice is part of the Tibetan astrological tradition, and changes with the Tibetan day.</p></div>
-    <a class="btn soft wide" href="https://tibetanbuddhistcalendar.org/month" target="_blank" rel="noopener">Full Tibetan Buddhist calendar ↗</a>
+// Festivals and anniversaries are dated by Tibetan month and day. They follow the same rule as the
+// monthly days (skipped → the day before, doubled → the second day), and in a year with a leap month
+// they fall in the main month, not the leap one (docs/calendar-research.md).
+// Tibetan month/day for a lunar-day count, as tibDate() works it out for a civil date.
+function tibMD(n){const mc=Math.floor((n-1)/30),x=Math.ceil((65*mc+123)/67);return{m:((x-1)%12)+1,d:(n%30)||30,leap:Math.ceil((65*(mc+1)+123)/67)===x};}
+// The lunar days a civil day keeps: its own, plus any skipped before tomorrow. None on the first of a doubled pair.
+function keptCounts(date){const d=noonOf(date),n=tibCount(d),n1=tibCount(plusDays(d,1));if(n1===n)return[];const out=[n];for(let k=n+1;k<n1;k++)out.push(k);return out;}
+const RWK=t=>`https://www.rigpawiki.org/index.php?title=${encodeURIComponent(t.replace(/ /g,'_'))}`;
+// Festivals: dates from tibetanbuddhistcalendar.org, checked against Rigpa Wiki and Kunkhyen Tenpe Nyima
+// (Vajra Wisdom, via Shambhala Publications). Text in our words.
+const FESTS=[
+  {m:1,d:1,name:'Losar, the Tibetan New Year',t:'The first day of the year. The days before it are for purifying and clearing away the old year; the whole Losar period is an important time for practice.',u:RWK('Losar')},
+  {m:1,d:15,name:'Chotrul Düchen, the Festival of Miracles',t:'One of the four great festivals. The first fifteen days of the year recall the fifteen days on which the Buddha showed a different miracle each day, at Śrāvastī.',u:RWK('Chotrul Düchen')},
+  {m:4,d:7,name:'The Birth of the Buddha',t:'The Buddha’s birth, remembered on the 7th day of the 4th month (Kunkhyen Tenpe Nyima, Vajra Wisdom).',u:'https://www.shambhala.com/tibetan-practice-days/'},
+  {m:4,d:15,name:'Saga Dawa Düchen',t:'One of the four great festivals: the Buddha’s enlightenment at Bodhgaya and his passing into parinirvāṇa. The whole month of Saga Dawa is a time of practice and generosity.',u:RWK('Saga Dawa Düchen')},
+  {m:5,d:15,name:'Dzamling Chisang, Local Deities’ Day',t:'A day of extensive offerings, especially smoke offerings (sang), to the local deities and spirits of the land, often made on a hilltop.',u:RWK('Dzamling Chi Sang')},
+  {m:6,d:4,name:'Chökhor Düchen',t:'One of the four great festivals: seven weeks after his enlightenment the Buddha first turned the wheel of Dharma at Sarnath, teaching the Four Noble Truths.',u:RWK('Chökhor Düchen')},
+  {m:9,d:22,name:'Lhabab Düchen',t:'One of the four great festivals: the Buddha’s return to earth after spending three months teaching in the god realm, where his mother had been reborn.',u:RWK('Lha Bab Düchen')},
+  {m:12,d:29,name:'Gutor',t:'The second-to-last day of the year: practices to purify negativity and avert the obstacles of the past year, before Losar.',u:RWK('Gutor')},
+];
+const FEST_NOTE='On the four great festivals the effects of actions are said to be multiplied many millions of times (Rigpa Wiki; Lama Zopa Rinpoche).';
+// Anniversaries and birthdays: tibetanbuddhistcalendar.org's yearly list (from the Rigpa calendar).
+// [Tibetan month, day, name, Rigpa Wiki page if one confirms it]
+const ANNIV=[
+  [1, 1, "6th Dzogchen Rinpoche, Jikdral Changchub Dorjé (1935-1959)"],
+  [1, 3, "11th Minling Trichen, Gyurme Kunzang Wangyal (1931-2008)"],
+  [1, 5, "1st Dzogchen Rinpoche, Pema Rigdzin (1625-1697)"],
+  [1, 5, "Rigdzin Kunzang Sherab (1636-1699)"],
+  [1, 5, "Khenpo Shenga (1871-1927)"],
+  [1, 10, "Tertön Sogyal, Lerab Lingpa (1856-1926)"],
+  [1, 10, "12th Gyalwang Drukpa (1963-)"],
+  [1, 13, "1st Dodrupchen, Jikmé Trinlé Özer (1745-1821)"],
+  [1, 14, "Jetsün Milarepa (1040-1123)"],
+  [1, 15, "Garab Dorjé"],
+  [1, 15, "Marpa Lotsawa (1012-1097)"],
+  [1, 21, "Jamyang Khyentsé Wangpo (1820-1892)"],
+  [1, 25, "Kenchen Pema Tsewang (1931-2002)"],
+  [2, 1, "Penor Rinpoche (1932-2009)"],
+  [2, 2, "Orgyen Terdak Lingpa (1646-1714)"],
+  [2, 5, "Jamyang Shyepa Dorjé Ngawang Tsöndru (1648-1722)"],
+  [2, 8, "Tenga Rinpoche (1932-2012)"],
+  [2, 12, "Jetsün Drakpa Gyaltsen (1147-1216)"],
+  [2, 15, "Gyaltön Rinpoche (1908-1970)"],
+  [2, 19, "Chakdzö Tséwang Paljor (1909-1999)"],
+  [2, 20, "Do Khyentsé (1800-1866)"],
+  [2, 24, "3rd Jamgön Kongtrul Rinpoche (1954-1992)"],
+  [2, 26, "Jetsün Taranatha (1575-1634)"],
+  [2, 30, "Jamyang Loter Wangpo (1847-1914)"],
+  [3, 5, "Kalu Rinpoche (1905-1989)"],
+  [3, 16, "Tertön Mingyur Dorjé (1645-1667)"],
+  [3, 18, "Dezhung Rinpoche (1906-1987)"],
+  [3, 22, "Jigdral Dagchen Sakya Rinpoche (1929-2016)"],
+  [3, 24, "Khandro Tsering Chödrön (1929-2011)"],
+  [3, 25, "The Great Fifth Dalai Lama (1617-1682)"],
+  [3, 29, "Gatön Ngawang Lekpa (1867-1941)"],
+  [3, 30, "Tertön Sangyé Lingpa (1340-1396)"],
+  [4, 14, "14th Kunzig Shamar Rinpoche (1952-2014)"],
+  [4, 18, "Patrul Rinpoche (1808-1887)"],
+  [4, 23, "the enlightenment of Mahasiddha Birupa (837-909)"],
+  [4, 25, "Drikung Kyobpa Jigten Sumgön (1143-1217)"],
+  [4, 25, "Ngorchen Kunga Zangpo (1382-1456)"],
+  [4, 29, "Jamgön Mipham Rinpoche (1846-1912)"],
+  [4, 30, "Nyala Pema Dündul (1816-1872)"],
+  [5, 1, "Terchen Chokgyur Lingpa (1829-1870)"],
+  [5, 6, "Jamyang Khyentsé Chökyi Lodrö (1893-1959)"],
+  [5, 10, "Dilgo Khyentsé Yangsi Rinpoche (1993-)"],
+  [5, 17, "Nyoshul Lungtok (1829-1901)"],
+  [5, 18, "Shechen Gyaltsab Gyurme Pema Namgyal (1871-1926)"],
+  [5, 19, "Khenpo Ngakchung (1879-1941)"],
+  [5, 23, "Khenpo Akhyuk Rinpoche (1927-2011)"],
+  [5, 24, "Lungtok Shedrup Tenpé Nyima (1920-?)"],
+  [6, 4, "Drikung Kyabgön Chetsang Rinpoche (1946-)"],
+  [6, 14, "3rd Karmapa, Rangjung Dorjé (1284-1339)"],
+  [6, 15, "Gampopa (1079-1153)"],
+  [7, 5, "Kabjé Trulshik Rinpoche (1924-2011)"],
+  [7, 10, "Jomo Menmo (1248–1283)"],
+  [7, 15, "Drapa Ngönshe's discovery of the Four Medical Tantras (1012-1090)"],
+  [7, 15, "Tsarchen Losal Gyatso (1502-1566)"],
+  [7, 15, "Kunkhyen Pema Karpo (1527-1592)"],
+  [7, 16, "Nyoshul Khenpo Jamyang Dorjé (1932-1999)"],
+  [7, 18, "Bairo Rinpoche (1933-2017)"],
+  [7, 24, "Kyabjé Menri Trizin Rinpoche (1929-2017)"],
+  [7, 25, "Phagmodrupa (1110-1170)"],
+  [8, 10, "Neten Chokling Rinpoche (1973-)"],
+  [8, 14, "Domang Yangthang Rinpoche (1930-2016)"],
+  [8, 19, "Kyabje Dilgo Khyentse Rinpoche (1910-1991)"],
+  [8, 25, "Rigdzin Kumaradza (1266-1343)"],
+  [8, 25, "Katok Tsewang Norbu (1698-1755)"],
+  [9, 3, "Rigdzin Jigmé Lingpa (1729-1798)"],
+  [9, 9, "16th Gyalwang Karmapa (1924-1981)"],
+  [9, 9, "Khenpo Karthar Rinpoche (1924-2019)"],
+  [9, 14, "Khön Könchok Gyalpo (1034-1102)"],
+  [9, 14, "Khyungpo Naljor (c. 1050-1140)"],
+  [9, 14, "Sachen Kunga Nyingpo (1092-1158)"],
+  [9, 18, "Atiśa Dīpaṃkara (982-1054)"],
+  [9, 25, "Adzom Drukpa (1842-1924)"],
+  [10, 10, "Tulku Pegyal Rinpoche (1931-2001)"],
+  [10, 24, "Chamchen Chöjé (1354-1435)"],
+  [10, 25, "Jé Tsongkhapa (1357-1419)"],
+  [11, 3, "Thinley Norbu Rinpoche (1931-2011)"],
+  [11, 4, "Garje Khamtrul Rinpoche Jamyang Döndrup (1928-2019)"],
+  [11, 4, "Tsikey Chokling Rinpoche (1953-2020)"],
+  [11, 11, "Lopön Sönam Tsemo (1142-1182)"],
+  [11, 13, "Taklung Tsetrul Rinpoche (1926–2015)"],
+  [11, 14, "Sakya Pandita Kunga Gyaltsen (1182-1251)"],
+  [11, 15, "Kyabjé Khenchen Jigme Phuntsok Rinpoche (1933-2004)"],
+  [11, 18, "Kyabje Dudjom Rinpoche (1904-1987)"],
+  [11, 18, "Khamtrul Döngyü Nyima Rinpoche (1931-1980)"],
+  [11, 19, "Taklung Thangpa (1142-1210)"],
+  [11, 20, "Chadral Rinpoche (1913–2015)"],
+  [11, 22, "Drogön Chögyal Pakpa (1235-1280)"],
+  [11, 23, "Khenpo Appey (1927-2010)"],
+  [11, 23, "4th Dodrupchen, Tubten Trinlé Pal Zangpo (1927-2022)"],
+  [11, 26, "1st Jamgön Kongtrul Lodrö Thayé (1813-1899)"],
+  [12, 3, "1st Chetsang Rinpoche, Drikung Könchok Ratna (1590-1655)"],
+  [12, 11, "Kangyur Rinpoche (1898-1975)"],
+  [12, 18, "Kunkhyen Longchen Rabjam (1308-1364)"],
+  [12, 18, "1st Chungtsang Rinpoche (1595-1659)"],
+  [12, 19, "Neten Chokling Pema Gyurmé (1928-1974)"],
+  [12, 20, "Gelek Rinpoche (1939-2017)"],
+  [12, 21, "Dorzong Rinpoche (1943-2017)"],
+  [12, 24, "Tulku Urgyen Rinpoche (1920–1996)"],
+];
+// Anniversaries kept by the Western calendar: [month, day, name]
+const WEST=[
+  [3, 13, "Drubwang Tsoknyi Rinpoche (1966-)"],
+  [4, 4, "Chögyam Trungpa Rinpoche (1940-1987)"],
+  [4, 14, "Garchen Rinpoche (1936-)"],
+  [4, 15, "Shenphen Dawa Rinpoche (1950–2018)"],
+  [6, 18, "Dzongsar Jamyang Khyentse Rinpoche (1961-)"],
+  [6, 24, "7th Dzongchen Pönlop Rinpoche (1965-)"],
+  [6, 26, "17th Karmapa, Ogyen Trinley Dorjé (1985-)"],
+  [7, 6, "His Holiness the 14th Dalai Lama Tenzin Gyatso (1935-)"],
+  [8, 27, "Nyoshul Khenpo Jamyang Dorjé (1932-1999)"],
+  [8, 27, "Dudjom Sangyum Kusho Rigdzin Wangmo (-2014)"],
+  [8, 28, "Sogyal Rinpoche (1947-2019)"],
+  [9, 4, "Chökyi Nyima Rinpoche (1951-)"],
+  [9, 7, "Kyabgön Gongma Trichen Rinpoche (1945-)"],
+  [9, 27, "Namkhai Norbu Rinpoche (1938-2018)"],
+  [10, 23, "Dzigar Kongtrul Rinpoche (1964-)"],
+  [10, 29, "Lodi Gyari Rinpoche (1949-2018)"],
+  [11, 17, "Chagdud Tulku Rinpoche (1930-2002)"],
+  [11, 18, "7th Ling Rinpoche (1985-)"],
+  [11, 19, "Kyabgon Gongma Trizin Rinpoche (1974-)"],
+  [11, 20, "Yongey Mingyur Rinpoche (1975-)"],
+  [12, 17, "Dzogchen Rinpoche (1964-)"],
+  [12, 25, "6th Ling Rinpoche (1903-1983)"],
+  [12, 25, "Shechen Rabjam Rinpoche (1967-)"],
+];
+function eventsOn(date){const d=noonOf(date),n=tibCount(d),out=[];
+  keptCounts(d).forEach(c=>{const md=tibMD(c);if(md.leap)return;const sk=c!==n;
+    FESTS.filter(f=>f.m===md.m&&f.d===md.d).forEach(f=>out.push({kind:'fest',...f,sk}));
+    ANNIV.filter(a=>a[0]===md.m&&a[1]===md.d).forEach(a=>out.push({kind:'anniv',name:a[2],u:a[3]?RWK(a[3]):'',sk}));});
+  WEST.filter(w=>w[0]===d.getMonth()+1&&w[1]===d.getDate()).forEach(w=>out.push({kind:'west',name:w[2]}));
+  return out;}
+// When the other rule (tibetanbuddhistcalendar.org: skipped → the day after, doubled → the first)
+// would keep a day elsewhere, say so plainly.
+const ALT_SKIP='Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the day after instead.';
+const ALT_DOUBLE='Some calendars (e.g. tibetanbuddhistcalendar.org) keep it on the first of the two days instead.';
+const moonMark=d=>{const p=moonPhaseOn(d);return p==='Full Moon'?'○':p==='New Moon'?'●':'';};
+function calMonth(){const b=new Date();b.setDate(1);b.setMonth(b.getMonth()+(ST.calOff||0));return{y:b.getFullYear(),m:b.getMonth()};}
+function ovCal(){
+  const{y,m}=calMonth(),first=new Date(y,m,1,12),dim=new Date(y,m+1,0).getDate(),lead=(first.getDay()+6)%7,todayK=dayKey(),A=acts();
+  const days=[...Array(dim)].map((_,i)=>new Date(y,m,i+1,12)),cells=[...Array(lead).fill(null),...days];
+  const t0=tibDate(days[0]),t1=tibDate(days[dim-1]);
+  const tibSpan=t0.month===t1.month&&t0.leap===t1.leap?`${ordinal(t0.month)} Tibetan month`:`${ordinal(t0.month)}–${ordinal(t1.month)} Tibetan months`;
+  const counts={};days.forEach(x=>{const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
+  const list=days.flatMap(x=>[...observedAusp(x).map(o=>({x,k:'a',o})),...eventsOn(x).map(e=>({x,k:'e',e}))]);
+  const li=({x,k,o,e})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'})}</time><span>${k==='a'?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>`
+    :`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${e.kind==='fest'?`<b>${esc(e.name)}</b>`:`${e.kind==='west'?'':'Anniversary · '}${esc(e.name)}`}</button>`}</span></div>`;
+  return`${topbar('Calendar')}<div class="ovbody"><div class="col">
+    <div class="row" style="justify-content:space-between"><button class="iconbtn" data-act="calprev" aria-label="Previous month">${ico('back')}</button>
+      <div style="text-align:center"><b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b><div class="small">${tibSpan} · ${t1.element} ${t1.animal} year</div></div>
+      <button class="iconbtn" data-act="calnext" aria-label="Next month">${ico('chev')}</button></div>
+    ${ST.calOff?`<button class="btn link" data-act="caltoday" style="align-self:center">Back to this month</button>`:''}
+    <div class="cal gcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
+      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=observedAusp(x).length,ev=eventsOn(x),fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k);
+        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}, Tibetan day ${tibDay(x)}${sp?', auspicious day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
+          <b>${x.getDate()}</b><span>${tibDay(x)}${mm?` ${mm}`:''}</span>${ring?`<i style="${ring}"></i>`:'<i class="none"></i>'}</button>`;}).join('')}</div>
+    <p class="small" style="text-align:center">Big number: the date. Small: the Tibetan day (○ full moon, ● new moon). Gold: an auspicious day; ★ a festival; • an anniversary. The ring shows what you practised.</p>
+    <p class="h2">THIS MONTH</p>
+    <div class="card legend">${list.map(li).join('')||'<p class="small">Nothing special this month.</p>'}</div>
+    <p class="h2">YOUR PRACTICE DIARY</p>
+    <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
+    <p class="small">Tap a day to tick what you practised. Counts you add to a practice tick it automatically.</p>
+    <div class="btns even"><button class="btn soft" data-act="acts">${ico('edit')} Activities</button><button class="btn soft" data-act="exportcsv">${ico('save')} Spreadsheet</button></div>
+    <div class="list">${item('calabout','About the Tibetan calendar','How it works, whose rules, and the hair-cutting days',{ico:'info'})}
+      ${linkItem('https://tibetanbuddhistcalendar.org/month','Tibetan Buddhist Calendar','The full calendar online, by Rigpa students')}</div>
   </div></div>`;}
-function sheetDay(){const d=noonOf(new Date(ST.sarg+'T12:00')),t=tibDate(d),obs=observedAusp(d),hr=hairRec(t.day);
+// About the Tibetan calendar: our words, from the sources in docs/calendar-research.md.
+function ovCalAbout(){const L=(l,u)=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`,D=(t,b,open)=>`<details${open?' open':''}><summary>${t}</summary>${b}</details>`;
+  return`${topbar('About the Tibetan calendar')}<div class="ovbody"><div class="col prose">
+  <p class="sub">The Tibetan calendar follows both the moon and the sun. This app works it out on your phone, so it keeps working without the internet.</p>
+  ${D('How the months work',`<p>Each month runs from new moon to new moon: day 15 is the full moon and day 30 the new moon. A Tibetan day takes the number of the lunar day that is under way at daybreak.</p>
+    <p>Because lunar days are a little shorter than solar days, now and then two lunar days end between one daybreak and the next. One number is then <b>skipped</b>. Sometimes no lunar day ends at all, and a number is <b>doubled</b>. About every three years a whole <b>leap month</b> is added to keep the months in step with the seasons.</p>`,true)}
+  ${D('Skipped and doubled auspicious days',`<p>When an auspicious day is skipped or doubled, calendars do not all agree which day to keep it on:</p>
+    <ul class="steps"><li>The FPMT calendar (based on the Men-Tsee-Khang’s) keeps a skipped day on the day <b>before</b>, and a doubled day on the <b>second</b> (or the first, if that’s easier).</li>
+    <li>Alexander Berzin (Study Buddhism) gives the day <b>before</b> for a skipped day and the <b>first</b> for a doubled one.</li>
+    <li>tibetanbuddhistcalendar.org, following the Rigpa calendar, uses the day <b>after</b> and the <b>first</b>.</li></ul>
+    <p>This app keeps the day before and the second day, and on the days where the other rule would differ, it says so. If your teacher or centre keeps them differently, follow them.</p>
+    <p>Festivals and anniversaries follow the same rule. In a year with a leap month, they are kept in the main month.</p>`)}
+  ${D('Phugpa and Tsurphu',`<p>There are two main Tibetan calendar systems. The <b>Phugpa</b> system, from 1447, is the one most Tibetans use, including the Dalai Lama and the Men-Tsee-Khang. This app uses it.</p>
+    <p>The <b>Tsurphu</b> system comes from the Third Karmapa, Rangjung Dorje, and is still the official calendar of the Karma Kagyu. The two usually agree, but can differ by a day, and sometimes by a whole month: in 2014 Tsurphu Losar was on 31 January, Phugpa Losar on 2 March. A Tsurphu option may come later.</p>`)}
+  ${D('The Men-Tsee-Khang',`<p>The Tibetan Medical and Astro-science Institute, founded in Lhasa in 1916 by the Thirteenth Dalai Lama and re-established in exile in Dharamsala in 1961. Its astrologers prepare the Phugpa almanac that many Tibetan communities and centres follow.</p>`)}
+  ${D('Elements and animals',`<p>Years run in a 60-year cycle: twelve animals (Mouse, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Sheep, Monkey, Bird, Dog, Pig) combined with five elements (Wood, Fire, Earth, Iron, Water), each element lasting two years. The year changes at Losar, usually in February or March.</p>`)}
+  ${D('Hair-cutting days',`<p>Tibetan astrology gives each lunar day a quality for cutting hair, from very good (long life, wealth) to best avoided (illness, quarrels). It is a living tradition, kept by many Tibetans; the app shows it as tradition, not as fact. The advice for each day follows tibetanbuddhistcalendar.org.</p>`)}
+  ${D('With thanks',`<p>Tibetan dates are computed with Svante Janson’s <i>Tibetan Calendar Mathematics</i>, as in the open-source <i>tibetan-date-calculator</i> library by the makers of tibetanbuddhistcalendar.org (Rigpa students, inspired by the Rigpa calendar, published every year since the late 1970s). Festivals and anniversaries come from their yearly list. Checked against their calendar for every day from 2025 to 2030.</p>
+    <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('tibetanbuddhistcalendar.org','https://tibetanbuddhistcalendar.org/about')}${L('Study Buddhism: the Tibetan calendar','https://studybuddhism.com/en/advanced-studies/history-culture/tibetan-astrology/the-tibetan-calendar')}</div>`)}
+  </div></div>`;}
+function sheetDay(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=tibDate(d),obs=observedAusp(d),ev=eventsOn(d),hr=hairRec(t.day),fut=k>dayKey();
+  const fest=ev.filter(e=>e.kind==='fest'),ann=ev.filter(e=>e.kind!=='fest');
   return`<div class="grab"></div><h2 class="h1">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
-  <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
+  <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
   ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('')}
-  ${doubledToday(d)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice, so ${AUSP[t.day].name} is kept the next day.</p>`:''}
+  ${doubledToday(d)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice, so ${AUSP[t.day].name} is kept the next day. ${ALT_DOUBLE.replace('instead','(today) instead')}</p>`:''}
+  ${fest.map(f=>`<div class="card glow"><b>★ ${esc(f.name)}</b><p>${f.t}</p>${f.sk?`<p class="note" style="margin-top:8px">Its day is skipped this year, so it is kept today. ${ALT_SKIP}</p>`:''}
+    <p class="small" style="margin-top:6px">${FEST_NOTE}</p><a class="linkbtn" href="${f.u}" target="_blank" rel="noopener" style="margin-top:8px">Read more ↗</a></div>`).join('')}
+  ${ann.length?`<div class="card"><p class="small" style="margin-bottom:6px">Anniversaries</p><div class="list plain">${ann.map(a=>a.u?`<a class="item" href="${a.u}" target="_blank" rel="noopener"><span class="grow"><span class="t">${esc(a.name)}</span>${a.sk?'<span class="s">Kept today: its day is skipped</span>':''}</span><span class="chev">${ico('link')}</span></a>`:`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(a.name)}</span></span></div>`).join('')}</div>
+    <p class="small" style="margin-top:6px">From tibetanbuddhistcalendar.org’s list of anniversaries and birthdays.</p></div>`:''}
   <div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>
+  ${fut?'':`<p class="h2" style="margin:0">WHAT YOU PRACTISED</p>${jChips(k)}`}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -2068,10 +2253,10 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={aday:ovAday,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,
-  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovJournal,practices:ovPractices,about:ovAbout,tree:()=>''};
+const OVERLAYS={aday:ovAday,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
+  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs,jday:sheetJDay};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null;
 // Drag a sheet down by its top bar to close it.
@@ -2087,7 +2272,7 @@ let hGuard=false,hSkip=false;
 function closeTop(){
   const dr=document.getElementById('rf-drawer');if(ST.ov==='tree'&&dr&&dr.classList.contains('open')){closeDrawer();return'dom';}
   if(ST.sheet){ST.sheet=null;ST.restore=null;return true;}
-  if(ST.ov==='aday'){ST.ov=ST.adayBack||null;ST.adayBack=null;return true;}
+  if(ST.ov==='aday'||ST.ov==='calabout'){ST.ov=ST.adayBack||null;ST.adayBack=null;return true;}
   if(ST.ov){if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
     if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.ov=null;ST.verse=0;return true;}
   if(ST.tab!=='today'){ST.tab='today';return true;}
@@ -2261,7 +2446,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tab':if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
       if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.tab=el.dataset.v;ST.ov=null;ST.sheet=null;break;
     case'veil':case'closesheet':ST.sheet=null;ST.restore=null;break;
-    case'closeov':if(ST.ov==='aday'){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
+    case'closeov':if(ST.ov==='aday'||ST.ov==='calabout'){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
     case'seen':lsSet('esm_seen',true);break;
     case'settings':sheet('settings');break;
     case'theme':setTheme(el.dataset.v);break;
@@ -2310,6 +2495,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tree':ST.sheet=null;ST.ov='tree';break;
     case'practices':case'about':ST.ov=a;break;
     case'cal':ST.ov='cal';ST.calOff=0;break;
+    case'calabout':ST.adayBack=ST.ov;ST.ov='calabout';break;
     case'aday':ST.adayBack=ST.ov==='aday'?ST.adayBack:ST.ov;ST.sheet=null;ST.ov='aday';ST.arg=el.dataset.v;break;
     case'calprev':ST.calOff--;break;
     case'calnext':ST.calOff++;break;
@@ -2349,10 +2535,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'jday':ST.jday=el.dataset.v;break;
     case'jtick':{const k=el.dataset.k,id=el.dataset.v,on=!dayActs(k)[id];setAct(k,id,on?true:null);
       if(on){chime();buzz(15);ST.popAct=id;setTimeout(()=>{ST.popAct=null;},400);}keepStorage();break;}
-    case'journal':ST.ov='journal';ST.jmon=0;break;
-    case'jprev':ST.jmon=(ST.jmon||0)-1;break;
-    case'jnext':ST.jmon=Math.min(0,(ST.jmon||0)+1);break;
-    case'jpick':sheet('jday',el.dataset.v);break;
+    case'journal':ST.ov='cal';ST.calOff=0;break;
     case'acts':ST.sheet='acts';ST.newColor=null;break;
     case'actdel':lsSet('esm_activities',acts().filter(a=>a.id!==el.dataset.v));break;
     case'actadd':{const s=ACT_SUGGEST.find(x=>x.id===el.dataset.v);if(s)lsSet('esm_activities',[...acts(),s]);break;}
