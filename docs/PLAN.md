@@ -247,7 +247,7 @@ Climb the ladder: calendar files first, push only for what calendar files can't 
 - [ ] **Invite a friend** (link + short text) and "practise together" (Phase 2a event).
 - [ ] **Generosity page** ("Dana"): causes up front (Gareth to choose, decision 8; e.g. ROKPA, his
   centre, Tibetan monasteries/nunneries, local food banks), Buy Me a Coffee small at the bottom of
-  About with an honest note of real costs (hosting is currently free; the domain is ~£10/year).
+  About with an honest note of real costs (hosting is currently free on Cloudflare; check the IONOS invoice for the domain cost).
 - [ ] Later (needs a server): **group accumulations** (a sangha counting toward one shared goal,
   e.g. 1,000,000 mani for a teacher's long life). Big hit with centres. Needs D1 + simple join codes.
 
@@ -353,8 +353,8 @@ meditation daily and reading the quotes."
 - **Mental wellbeing.** Intensive breath practice can bring up difficult experiences for some people.
   A gentle note on breath practices ("if anything feels overwhelming, stop and speak to a teacher").
 - **Inclusive teachers in the quotes.** Licensed sources skew to historic male masters. Look for openly
-  licensed words from women teachers (e.g. Machik Labdrön is in; Ayu Khandro, Yeshe Tsogyal texts on
-  Lotsawa House) and ask permission from living ones (Tenzin Palmo, Khandro Rinpoche, Pema Chödrön).
+  licensed words by women masters (Machik Labdrön is in; search Lotsawa House for others) and ask
+  permission from living teachers (Tenzin Palmo, Khandro Rinpoche, Pema Chödrön).
 
 ---
 
