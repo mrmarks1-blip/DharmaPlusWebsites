@@ -155,7 +155,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
 - [x] **A1 back button** in `render()` + one `popstate` handler.
 - [x] **A2 timers survive navigation**: persistent pill, localStorage (`esm_sit`), "ended while you were away". Background bell still R&D (5.4).
 - [x] **A3 install buttons** prompt directly; landing page's `#install` link opens the sheet with one big Install button once the browser allows it; iPhone guide updated (⋯ menu, Chrome on iOS 16.4+).
-- [ ] **A8 rename "special day"** once Gareth picks a word (search the app for "special").
+- [x] **A8 rename "special day"** → "Auspicious days" (app + landing page).
 - [ ] **A5 link audit.** List every external link (`grep -o -E "https?://[^'\"\` )<>]+" ngondro/index.html | sort -u` — 96 today, 58 Wikipedia, 19 Palpung UK, 2 Rigpa Wiki pages built per figure via `FIG_LINKS`, plus `SPECIAL_WHY`). For each: does it open, is it the page a user needs at that moment, is there a better one? Record the result in `docs/link-audit.md` (URL · where used · verdict · replacement). Prefer: our own short sourced text in the app, then a link to a *practice* (Lotsawa House text or topic), then encyclopaedia pages. Use the browser pane for Rigpa Wiki (curl gets a bot check). Treasury of Lives needs a login: don't log in.
 - [ ] **A12 calendar check page.**
 - [ ] **A16 accessibility pass.**

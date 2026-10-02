@@ -1531,7 +1531,7 @@ function pageToday(){
     <span class="hairline"><span class="lbl">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></span></button>`);
   if(obs.length)obs.forEach(o=>{const w=SPECIAL_WHY[o.td];out.push(`<div class="card glow special"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}
     ${w?`<a class="btn link" href="${w.u}" target="_blank" rel="noopener" style="padding-left:0">Read more on Rigpa Wiki ↗</a>`:''}</div>`);});
-  else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];out.push(`<div class="card stack"><div><span class="small">Next special day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
+  else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];out.push(`<div class="card stack"><div><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
     <b style="display:block;font-size:var(--fs-lg)">${ns.o.a.name}</b></div>${w?`<p>${w.t}</p>`:''}
     <div class="row" style="justify-content:space-between;flex-wrap:wrap">${w?`<a class="btn link" href="${w.u}" target="_blank" rel="noopener">Read more on Rigpa Wiki ↗</a>`:''}<button class="btn link" data-act="cal">See the month</button></div></div>`);}}
   if(doubledToday(now)&&AUSP[t.day])out.push(`<p class="note">Day ${t.day} falls twice this month, so ${AUSP[t.day].name} is kept tomorrow.</p>`);
@@ -1799,7 +1799,7 @@ function pageLearn(){
     <span style="display:block;padding:14px 16px"><b style="display:block;font-size:var(--fs-lg)">The refuge tree</b><span class="small">${FIGS.length} figures. Tap any number to read who they are.</span></span></button>
   <div class="list">
     ${item('practices','The practices','What each one is, in plain words',{ico:'practice'})}
-    ${item('cal','The Tibetan calendar','Special days, the moon, and hair cutting',{ico:'cal'})}
+    ${item('cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',{ico:'cal'})}
     ${item('about','About this app','Why it exists, and who to thank',{ico:'info'})}
     ${isStandalone()?'':item('install','Add this app to your phone','Opens like any other app, and works offline',{ico:'phone'})}
   </div></div></div>`;}
@@ -1849,10 +1849,10 @@ function ovCalendar(){
     <p class="small" style="text-align:center">${days[0].toLocaleDateString('en-GB',{day:'numeric',month:'short'})} to ${days[days.length-1].toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}. The big number is the Tibetan day. Tap any day.</p>
     <div class="cal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
       ${cells.map(x=>x?`<button class="cday${observedAusp(x).length?' sp':''}${x.toDateString()===todayS?' today':''}" data-act="day" data-d="${dayKey(x)}" aria-label="${x.toDateString()}, Tibetan day ${tibDay(x)}"><b>${tibDay(x)}</b><span>${x.getDate()} ${x.toLocaleDateString('en-GB',{month:'short'})}</span></button>`:'<div class="cday blank"></div>').join('')}</div>
-    <p class="h2">SPECIAL DAYS THIS MONTH</p>
+    <p class="h2">AUSPICIOUS DAYS THIS MONTH</p>
     <div class="card legend">${sp.map(({x,o})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</time><span>${o.a.name}${o.note?` <span class="small">(day ${o.td} is skipped, so it is kept the day before)</span>`:''}</span></div>`).join('')||'<p class="small">None this month.</p>'}</div>
     <div class="card prose"><p class="h2" style="margin:0 0 6px">ABOUT THE TIBETAN CALENDAR</p>
-      <p>Each month follows the moon: day 15 is the full moon and day 30 the new moon. To keep in step with the moon, a day number is sometimes skipped and sometimes repeated. A special day that falls on a skipped day is kept the day before; one that falls on a repeated day is kept on the second of the two.</p>
+      <p>Each month follows the moon: day 15 is the full moon and day 30 the new moon. To keep in step with the moon, a day number is sometimes skipped and sometimes repeated. An auspicious day that falls on a skipped day is kept the day before; one that falls on a repeated day is kept on the second of the two.</p>
       <p>Hair-cutting advice is part of the Tibetan astrological tradition, and changes with the Tibetan day.</p></div>
     <a class="btn soft wide" href="https://tibetanbuddhistcalendar.org/month" target="_blank" rel="noopener">Full Tibetan Buddhist calendar ↗</a>
   </div></div>`;}
@@ -2174,7 +2174,7 @@ function initQuotes(){const c=document.getElementById('qcard');if(!c)return;let 
   c.addEventListener('pointerdown',e=>{if(!e.target.closest('button')){x0=e.clientX;y0=e.clientY;}});
   c.addEventListener('pointerup',e=>{if(x0==null)return;const dx=e.clientX-x0,dy=e.clientY-y0;x0=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3)goQuote(dx<0?1:-1);});
   c.addEventListener('pointercancel',()=>{x0=null;});}
-// Special days: a sentence on what the day is, and a real page to read more.
+// Auspicious days: a sentence on what the day is, and a real page to read more.
 const RW=t=>`https://www.rigpawiki.org/index.php?title=${t}`;
 const SPECIAL_WHY={
   8:{t:'The day of the Medicine Buddha, Sangye Menla: a day for healing prayers and his mantra.',u:RW('Buddha_of_Medicine')},
