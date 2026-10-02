@@ -196,8 +196,9 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
     `QUOTES` so they can be picked for this). Same licence rules as all quotes: Dhammapada and
     other public-domain or CC translations, Lotsawa House (CC BY-NC), permission for modern
     teachers. Gareth's example, "The best time to plant a tree was 20 years ago; the second best
-    time is now", is usually called a Chinese proverb but its origin is unknown: if used, credit it
-    as "Proverb", never as a Buddhist saying. Don't invent attributions.
+    time is now", is usually called a Chinese proverb but its origin is unknown. Gareth is happy to
+    use quotes like this: credit them gently and honestly, e.g. *"Proverb, origin unknown"* or
+    *"Often attributed to …"*, never as a Buddhist saying. Don't invent attributions.
 - [ ] **Kinds of meditation** on the Meditation timer area: short swipeable cards (like the quote
   card), each with what it is, its other names, and its styles; tap → fuller instructions and
   links. Start with:
@@ -205,13 +206,21 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
     Tibetan schools).
   - **Śamatha** (calm abiding; Tib. *shiné*; with an object such as the breath or an image, and
     without an object).
-  - **Open sitting** (resting without a technique; names vary by school: *shikantaza* in Sōtō Zen,
-    open awareness in Tibetan teaching; check each name against a source before using it).
-  - **Sky gazing** (Dzogchen). Research how openly it is taught: some teachers give it publicly,
-    others only with instruction. Keep it to a short, sourced intro plus "learn this from a
-    teacher" (see the restricted-texts note in Phase 7) until that's clear.
+  - **Open sitting** (resting without a technique; *shikantaza*, "just sitting", in Sōtō Zen,
+    which Gareth loves; other schools' names checked against a source before use).
+  - **Open awareness** (Gareth's name for it; includes sky gazing). Covers resting in awareness,
+    looking into the open sky, and the teaching "the mind is like the sky". Gareth: it's widely
+    taught now, so present it openly, sourced, with the usual "a teacher can take you further".
+  - **Different schools' and masters' explanations** of each kind, organised so people can go
+    deeper if they want (e.g. Zen: Dōgen on shikantaza; Theravada: Ajahn Chah / Mahasi; Tibetan:
+    Mingyur Rinpoche, James Low). Quiet by default: a short card on top, "More from other
+    traditions" in `<details>` underneath. Never pushed at people. Licensing as for quotes:
+    summarise in our words and link, quote only openly licensed text.
   - Each card links to one good wiki page (Rigpa Wiki / Wikipedia, checked in the link audit) and,
     where there is one, a **short, pointed James Low / Simply Being piece** on that exact topic.
+- [ ] **Vajrasound** (vajrasound.com, if that's the one Gareth means: Buddhist chants and prayers
+  recited in English, made to chant along with; also on Bandcamp). Link to it from Texts / prayers.
+  Ask them before using any recordings in the app (they invite contact and submissions).
 - [ ] **More Simply Being links overall:** go through simplybeing.co.uk and pick short articles or
   excerpts that answer one question each (not long retreat talks). Record them in
   `docs/link-audit.md` with where in the app each one belongs. Link only; don't copy text.
@@ -406,6 +415,17 @@ meditation daily and reading the quotes."
 
 - **The name.** Gareth may rebrand from "Sliced Dharma". The name lives in two places only (root
   `index.html` title/wordmark and `APP_NAME`/`BRAND` in the app). Domain and manifest would follow.
+- **Retreats and teachings near you (later, Gareth 2026-10-02):** a trusted list of retreat
+  centres and Dharma centres, chosen carefully (lineage, safeguarding record, recommended by
+  teachers/sangha; Gareth decides who's on it). Then show upcoming retreats and teachings from them
+  in one place, because many only post on Facebook or hard-to-find sites. Ways to get the dates,
+  simplest first: (1) centres that publish an iCal/Google Calendar feed: read it directly
+  (needs a small server piece to fetch and cache, since browsers block cross-site calendar reads);
+  (2) centres with an events page: a scheduled fetch that reads structured data (schema.org
+  `Event`) if they have it; (3) everyone else, incl. Facebook-only: a simple form or email where
+  centres (or trusted volunteers) submit events, checked before they appear. Facebook's API
+  doesn't let us read pages' events, and scraping it breaks its terms: don't. Ask centres'
+  permission before listing them. Filters: tradition, country, online/in person, date.
 - **Teacher/centre mode (later):** a centre shares a link that preloads its practices, calendar
   extras and an accumulation goal. Spreads the app sangha by sangha.
 - **"Share the app" card** in Settings and after milestones: one tap shares the link with a line of
