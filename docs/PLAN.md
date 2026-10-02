@@ -159,7 +159,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
 - [x] **A5 link audit** → `docs/link-audit.md`. Test is *fit for purpose*, not just "opens" (Gareth): if no single page answers what someone wants at that moment, write it in the app, sourced. All 206 links open; auspicious-day links unfit → in-app "About this day" sheets (next); 13 Rigpa Wiki stubs to drop; 58 unused figure links removed.
 - [x] **A12 calendar check page.** `ngondro/tests.html` (not deployed): 1,979 days (31 Dec 2024 – 1 Jun 2030, incl. leap months 2027/2 and 2029/11) and Losar 2025–2030 all match tibetanbuddhistcalendar.org's month view. Also lists the 18 auspicious days in that range where the two skipped/doubled rules disagree (A6 research list).
 - [x] **Auspicious days: "About this day" pages** (from the A5 audit): what · why (sourced) · what people do (anyone / go further / if you have the practice) · practice links, for the 8th, 10th, 15th, 25th, 29th, 30th. Rigpa Wiki links removed; unsourced lines dropped. Festivals (A7) should follow the same pattern.
-- [ ] **A16 accessibility pass.**
+- [→] **A16 accessibility pass**: moved to Phase 6 (Gareth, 2026-10-03), so one full audit covers the new design.
 
 ### Phase 1 · One calendar, a calmer Today
 - [ ] **Unified calendar** (replace `ovJournal` + `ovCalendar` with one month view; keep both features):
@@ -325,6 +325,11 @@ Climb the ladder: calendar files first, push only for what calendar files can't 
 - [ ] **Logo:** OM AH HUM in a thigle (bindu). Licensed/commissioned from Tashi Mannox (decision 4),
   then: app icon (maskable 512), favicon, landing page, share-image watermark.
 - [ ] Use `oklch()` colours and `light-dark()` so each theme is a handful of variables.
+- [ ] **Full accessibility audit (A16)**, during and after the restyle: build it in from the first design
+  sketches, then audit the finished UI. Cover: colour contrast for every theme (WCAG AA), text size /
+  zoom to 200%, focus moving into sheets and back out (or move sheets to `<dialog>`), keyboard use,
+  screen-reader labels (VoiceOver on iPhone, TalkBack on Android), `prefers-reduced-motion`, touch
+  targets at least 44px, the refuge tree and calendar grid for screen readers, Tibetan script with `lang="bo"`.
 
 ### Phase 7 · For every Buddhist, not one school
 Gareth: "I would like any school to be able to use and get value from this, even just tracking
