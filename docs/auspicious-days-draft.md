@@ -1,6 +1,6 @@
 # Auspicious days: draft "About this day" pages
 
-**Draft for Gareth, 2026-10-03.** Not in the app yet. One page per monthly day, opened by tapping the day on
+**Built 2026-10-03** (`DAY_INFO` / `ovAday` in `ngondro/index.html`); the app is now the source of truth. Changes from this draft: added Kunkhyen Tenpe Nyima (*Vajra Wisdom*, via Shambhala's practice-days page: full moon, new moon and 8th are sacred days of Amitābha, Śākyamuni and the Medicine Buddha), Lochen Dharmaśrī on the 25th, Yeshé Tsogyal on feasts on the 8th/10th/15th/25th, Dudjom Rinpoche on each month's 10th (via Cornu); dropped Gutor and the full vow list. Gareth asked to triple-check two phrases he may have heard: "Amitābha is particularly accessible" (not found as worded; replaced by Tenpe Nyima's "always a sacred day of Amitābha") and "a day when transmission is especially available" (not found in any source; dropped; the sources speak of Guru Rinpoche's blessings on the 10th and the ḍākinīs gathering on the 25th). One page per monthly day, opened by tapping the day on
 Today or in the calendar. Same shape each time: *what it is · why this day · what people do · practise
 and read more*. Everything is in our own words unless quoted; every claim says who says it. Things
 marked **[check]** need Gareth's (or a teacher's) eye.

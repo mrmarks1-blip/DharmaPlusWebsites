@@ -917,12 +917,12 @@ function hairRec(td){return HAIR_DATA[td]||{rec:'Neutral',result:'No strong indi
 // AUSPICIOUS DAYS
 // ═══════════════════════════════════════════════════════════
 const AUSP={
-  8: {name:'Medicine Buddha Day',col:'#4080b0',desc:'The day of Sangye Menla. Reciting OM BEKANDZE BEKANDZE MAHA BEKANDZE RADZA SAMUGATE SOHA brings healing, purification, and removal of obstacles. A powerful day for all healing activities.'},
-  10:{name:'Guru Rinpoche Day', col:'#a07830', desc:'Padmasambhava bestows special blessings today. Excellent for Guru Yoga, the Seven-Line Prayer, and all Vajrayāna practice. Observed across all Tibetan Buddhist schools.'},
-  15:{name:'Full Moon — Amitābha',col:'#c0a840',desc:'The full moon greatly multiplies all merit. Buddha Amitābha is particularly accessible today. Excellent for all practice, Dewachen aspiration prayers, and making offerings.'},
-  25:{name:'Ḍākinī Day',        col:'#b06080', desc:'The day of the wisdom ḍākinīs. Particularly auspicious for inner tantric practice, feast offerings, and Vajravārāhī practice. A day when transmission is especially available.'},
-  29:{name:'Dharmapāla Day',    col:'#706098', desc:'The day of the Dharma protectors. Auspicious for smoke offerings, torma offerings, and requesting the protectors to remove obstacles from the path of practitioners.'},
-  30:{name:'New Moon',          col:'#504870', desc:'The last day of the lunar month. A powerful day for purification. The Vajrasattva hundred-syllable mantra is especially effective for clearing negative karma. Good for retreat and introspection.'},
+  8: {name:'Medicine Buddha Day',col:'#4080b0',desc:'A sacred day of the Medicine Buddha, Sangye Menla, and a day for the one-day vows. A day for healing prayers and his mantra: OM BEKANDZE BEKANDZE MAHA BEKANDZE RADZA SAMUGATE SOHA.'},
+  10:{name:'Guru Rinpoche Day', col:'#a07830', desc:'Guru Rinpoche promised to come on the tenth day to all who pray to him. A day for Guru Yoga, the Seven-Line Prayer, and feast offerings.'},
+  15:{name:'Full Moon — Amitābha',col:'#c0a840',desc:'The full moon is always a sacred day of Buddha Amitābha, and practice is said to be greatly multiplied. A day for Dewachen aspiration prayers, offerings, and renewing vows.'},
+  25:{name:'Ḍākinī Day',        col:'#b06080', desc:'The tenth day of the waning moon, when the ḍākinīs are said to gather where people practise. A day for feast offerings and ḍākinī practice such as Vajravārāhī.'},
+  29:{name:'Dharmapāla Day',    col:'#706098', desc:'The day of the Dharma protectors. A day for cleaning the shrine, smoke offerings, and asking for obstacles to practice to be cleared.'},
+  30:{name:'New Moon',          col:'#504870', desc:'The last day of the lunar month, a sacred day of Buddha Śākyamuni. A day for purification and renewing vows, such as Vajrasattva practice and sojong.'},
 };
 
 
@@ -1486,10 +1486,10 @@ function pageToday(){
       <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span><br><span class="small">${phaseText(now)}</span></span>${chev}</span>
     <span class="hairline"><span class="lbl">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></span></button>`);
   if(obs.length)obs.forEach(o=>{const w=SPECIAL_WHY[o.td];out.push(`<div class="card glow special"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}
-    ${w?`<a class="btn link" href="${w.u}" target="_blank" rel="noopener" style="padding-left:0">Read more on Rigpa Wiki ↗</a>`:''}</div>`);});
+    ${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`);});
   else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];out.push(`<div class="card stack"><div><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
     <b style="display:block;font-size:var(--fs-lg)">${ns.o.a.name}</b></div>${w?`<p>${w.t}</p>`:''}
-    <div class="row" style="justify-content:space-between;flex-wrap:wrap">${w?`<a class="btn link" href="${w.u}" target="_blank" rel="noopener">Read more on Rigpa Wiki ↗</a>`:''}<button class="btn link" data-act="cal">See the month</button></div></div>`);}}
+    <div class="row" style="justify-content:space-between;flex-wrap:wrap">${DAY_INFO[ns.o.td]?`<button class="btn link" data-act="aday" data-v="${ns.o.td}">About this day ${ico('chev')}</button>`:''}<button class="btn link" data-act="cal">See the month</button></div></div>`);}}
   if(doubledToday(now)&&AUSP[t.day])out.push(`<p class="note">Day ${t.day} falls twice this month, so ${AUSP[t.day].name} is kept tomorrow.</p>`);
   out.push(`<p class="h2">YOUR PRACTICE</p>
   <div class="card stack" style="--acc:${p.acc}"><div class="row"><div class="grow"><div class="pname">${esc(p.name)}</div><div class="pnum"><b>${fmt(c)}</b> of ${fmt(p.target)} · ${pct}%</div></div><button class="btn soft switchbtn" data-act="pick" aria-label="Switch to a different practice">${ico('swap')}<span>Switch</span></button></div>
@@ -1806,7 +1806,7 @@ function ovCalendar(){
     <div class="cal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
       ${cells.map(x=>x?`<button class="cday${observedAusp(x).length?' sp':''}${x.toDateString()===todayS?' today':''}" data-act="day" data-d="${dayKey(x)}" aria-label="${x.toDateString()}, Tibetan day ${tibDay(x)}"><b>${tibDay(x)}</b><span>${x.getDate()} ${x.toLocaleDateString('en-GB',{month:'short'})}</span></button>`:'<div class="cday blank"></div>').join('')}</div>
     <p class="h2">AUSPICIOUS DAYS THIS MONTH</p>
-    <div class="card legend">${sp.map(({x,o})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</time><span>${o.a.name}${o.note?` <span class="small">(day ${o.td} is skipped, so it is kept the day before)</span>`:''}</span></div>`).join('')||'<p class="small">None this month.</p>'}</div>
+    <div class="card legend">${sp.map(({x,o})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})}</time><span><button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>${o.note?` <span class="small">(day ${o.td} is skipped, so it is kept the day before)</span>`:''}</span></div>`).join('')||'<p class="small">None this month.</p>'}</div>
     <div class="card prose"><p class="h2" style="margin:0 0 6px">ABOUT THE TIBETAN CALENDAR</p>
       <p>Each month follows the moon: day 15 is the full moon and day 30 the new moon. To keep in step with the moon, a day number is sometimes skipped and sometimes repeated. An auspicious day that falls on a skipped day is kept the day before; one that falls on a repeated day is kept on the second of the two.</p>
       <p>Hair-cutting advice is part of the Tibetan astrological tradition, and changes with the Tibetan day.</p></div>
@@ -1815,7 +1815,7 @@ function ovCalendar(){
 function sheetDay(){const d=noonOf(new Date(ST.sarg+'T12:00')),t=tibDate(d),obs=observedAusp(d),hr=hairRec(t.day);
   return`<div class="grab"></div><h2 class="h1">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
   <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
-  ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}</div>`).join('')}
+  ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('')}
   ${doubledToday(d)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice, so ${AUSP[t.day].name} is kept the next day.</p>`:''}
   <div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -2068,7 +2068,7 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,
+const OVERLAYS={aday:ovAday,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCalendar,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovJournal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
   newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs,jday:sheetJDay};
@@ -2087,6 +2087,7 @@ let hGuard=false,hSkip=false;
 function closeTop(){
   const dr=document.getElementById('rf-drawer');if(ST.ov==='tree'&&dr&&dr.classList.contains('open')){closeDrawer();return'dom';}
   if(ST.sheet){ST.sheet=null;ST.restore=null;return true;}
+  if(ST.ov==='aday'){ST.ov=ST.adayBack||null;ST.adayBack=null;return true;}
   if(ST.ov){if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
     if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.ov=null;ST.verse=0;return true;}
   if(ST.tab!=='today'){ST.tab='today';return true;}
@@ -2144,16 +2145,99 @@ function initQuotes(){const c=document.getElementById('qcard');if(!c)return;let 
   c.addEventListener('pointerdown',e=>{if(!e.target.closest('button')){x0=e.clientX;y0=e.clientY;}});
   c.addEventListener('pointerup',e=>{if(x0==null)return;const dx=e.clientX-x0,dy=e.clientY-y0;x0=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3)goQuote(dx<0?1:-1);});
   c.addEventListener('pointercancel',()=>{x0=null;});}
-// Auspicious days: a sentence on what the day is, and a real page to read more.
-const RW=t=>`https://www.rigpawiki.org/index.php?title=${t}`;
+// Auspicious days: a sentence on Today, and an "About this day" page in the app (Gareth: links must be
+// fit for purpose; no single page out there explains why each day exists and what people do, so we do).
+// Every claim names its source; see docs/auspicious-days-draft.md and docs/link-audit.md (2026-10-03).
 const SPECIAL_WHY={
-  8:{t:'The day of the Medicine Buddha, Sangye Menla: a day for healing prayers and his mantra.',u:RW('Buddha_of_Medicine')},
-  10:{t:'Guru Rinpoche (Padmasambhava) day: a day for his practice, the Seven-Line Prayer, and feast offerings (tsok).',u:RW('Padmasambhava')},
-  15:{t:'The full moon, the day of Buddha Amitābha, when the merit of practice is said to be greatly multiplied.',u:RW('Amitabha')},
-  25:{t:'Ḍākinī day: a day for feast offerings (tsok) and the practice of the wisdom ḍākinīs.',u:RW('Dakini')},
-  29:{t:'Dharmapāla day: prayers and offerings, such as smoke offerings, to the Dharma protectors.',u:RW('Dharma_Protectors')},
-  30:{t:'The new moon: a powerful day for purification, such as Vajrasattva practice and renewing vows (sojong).',u:RW('Sojong')},
+  8:{t:'The day of the Medicine Buddha, Sangye Menla: a day for healing prayers and his mantra.'},
+  10:{t:'Guru Rinpoche (Padmasambhava) day: a day for his practice, the Seven-Line Prayer, and feast offerings (tsok).'},
+  15:{t:'The full moon, a sacred day of Buddha Amitābha, when the merit of practice is said to be greatly multiplied.'},
+  25:{t:'Ḍākinī day: a day for feast offerings (tsok) and the practice of the wisdom ḍākinīs.'},
+  29:{t:'Dharmapāla day: prayers and offerings, such as smoke offerings, to the Dharma protectors.'},
+  30:{t:'The new moon: a powerful day for purification, such as Vajrasattva practice and renewing vows (sojong).'},
 };
+const LH=p=>`https://www.lotsawahouse.org/${p}`;
+const DAY_SRC={
+  tenth:['Gönpo Tseten Rinpoche, Explanation of the Tenth Day (tr. Stefan Mang, Lotsawa House)',LH('tibetan-masters/gonpo-tseten-rinpoche/bouquet-of-udumbara-flowers')],
+  vows:['Jigme Lingpa, ritual for the one-day vows (Lotsawa House)',LH('tibetan-masters/jigme-lingpa/one-day-vows')],
+  shambhala:['Special practice days, from Vajra Wisdom and Tibetan Astrology (Shambhala Publications)','https://www.shambhala.com/tibetan-practice-days/'],
+  har:['Jeff Watt, Holy Days of the Tibetan Lunar Calendar (Himalayan Art Resources)','https://www.himalayanart.org/search/set.cfm?setID=1742'],
+  lunar:['Lama Döndrup, The Lunar Cycle and the Potential for Awakening (Sukhasiddhi Foundation)','https://www.sukhasiddhi.org/blog/syau7vd5bsuehzzkdzkix91m81r9tk'],
+  sojong:['Sojong (Rigpa Wiki)','https://www.rigpawiki.org/index.php?title=Sojong'],
+  monthly10:['Dudjom Rinpoche on each month’s tenth day, summarised by Philippe Cornu (Shambhala Publications)','https://www.shambhala.com/guru-rinpoche-day/'],
+};
+const DAY_INTRO=[
+  'Tibetan Buddhism follows the moon. Teachers explain that as the moon waxes and wanes it affects not only the tides but the subtle energies of the body, so on certain days the conditions for practice come together more easily (Lama Döndrup; Lochen Dharmaśrī, quoted in <i>Vajra Wisdom</i>). Over the centuries particular days of each month became linked with particular buddhas and practices.',
+  'Practice on these days is said to bring far greater benefit than usual. Teachers give different figures for how much; the advice they share is simple: on these days, do a little more, and do it well.',
+  'Customs differ between schools and centres. If your teacher or centre does something different, follow them.'];
+const DAY_INFO={
+  8:{what:'A day of the Medicine Buddha (Sangye Menla), the buddha of healing, and one of the three days each month for taking simple one-day vows.',
+    why:['Kunkhyen Tenpe Nyima writes that the full moon, new moon and eighth day are always sacred days of Amitābha, Buddha Śākyamuni and the Medicine Buddha respectively (<i>Vajra Wisdom</i>).',
+      'The 8th, the full moon and the new moon are the traditional days for the eight one-day vows. Jigme Lingpa’s short ritual begins: <i>“From now on, on the eighth and full and new moon days, I shall abandon killing…”</i>',
+      'Yeshé Tsogyal named the 8th, with the 10th, 15th and 25th, as days to gather a feast offering (quoted by Gönpo Tseten Rinpoche). Some traditions also keep the 8th for Tārā (Lama Döndrup; Philippe Cornu).'],
+    anyone:['Pray for anyone who is ill, and for your own healing.','Recite the Medicine Buddha mantra: TADYATHA OM BEKANDZE BEKANDZE MAHA BEKANDZE RADZA SAMUGATE SOHA.','Take extra care not to harm any living being today, and dedicate the good of it to all who suffer.'],
+    more:['Keep the eight one-day vows from sunrise to the next sunrise. Jigme Lingpa’s short ritual for taking them is on Lotsawa House.'],
+    have:['The Medicine Buddha practice (Palpung’s texts are in Texts).'],
+    links:[['Medicine Buddha texts · Lotsawa House',LH('topics/medicine-buddha/')],['Taking the one-day vows · Jigme Lingpa',LH('tibetan-masters/jigme-lingpa/one-day-vows')]],
+    src:['shambhala','vows','tenth','lunar']},
+  10:{what:'The day of Guru Rinpoche (Padmasambhava), who brought the Vajrayāna to Tibet. Kept every month, especially by those who pray to him.',
+    why:['Guru Rinpoche was born miraculously from a lotus on the tenth day of the Monkey month, so the tenth of every month recalls his life (Gönpo Tseten Rinpoche). Dudjom Rinpoche explained that each month’s tenth day recalls a different episode of it (summarised by Philippe Cornu).',
+      'Before leaving Tibet he promised to come to those with faith, and above all on the tenth day of the waxing moon. Among the promises Gönpo Tseten Rinpoche quotes: <i>“On every tenth day I shall come to Tibet.”</i>',
+      'It is said that a feast offering made on this day brings merit <i>“a hundred thousand times more exalted than on any other day.”</i>'],
+    anyone:['Pray to Guru Rinpoche with devotion; the Seven-Line Prayer is the best known.','Do whatever good you feel drawn to: make offerings, set out water bowls, give to people and animals in need, set creatures free, circumambulate a holy place.','<i>“At the least, at sun rise on the tenth day / Do not engage in non-virtuous deeds, such as taking lives.”</i>'],
+    more:[],
+    have:['Guru Rinpoche practice and a feast offering (tsok). Palpung’s Konchog Chidu and Shower of Blessings are in Texts.'],
+    links:[['Prayers to Guru Rinpoche · Lotsawa House',LH('topics/guru-rinpoche-prayers/')],['Feast offering (tsok) · Lotsawa House',LH('topics/tsok/')]],
+    src:['tenth','monthly10']},
+  15:{what:'The full moon: a sacred day of Buddha Amitābha, a day for renewing vows, and for doing everything a little more mindfully.',
+    why:['Kunkhyen Tenpe Nyima writes that the full moon is always a sacred day of Amitābha (<i>Vajra Wisdom</i>). Jeff Watt also lists the 15th for Amitābha and all the peaceful deities.',
+      'The full and new moons are the <i>sojong</i> days, when monks and nuns restore and purify their vows. The Buddha taught it, as the verse quoted by Patrul Rinpoche says, <i>“to replenish virtue and purify harmful deeds”</i>. Lay people keep the eight one-day vows on these days (Jigme Lingpa).',
+      'The great days of the Buddha’s life are full moons too: his awakening and passing are remembered on the full moon of the fourth month (Kunkhyen Tenpe Nyima).'],
+    anyone:['Pray to Amitābha and make aspirations to be born in his pure land, Dewachen.','Remember those who have died, and dedicate your practice to them.','Look back honestly at the month and make a fresh start.'],
+    more:['Keep the eight one-day vows (see the 8th).'],
+    have:['Sojong of your vows, and Amitābha practice or phowa.'],
+    links:[['Amitābha · Lotsawa House',LH('topics/amitabha/')],['Aspirations for Dewachen · Lotsawa House',LH('topics/sukhavati-aspiration/')],['Sojong texts · Lotsawa House',LH('topics/sojong/')]],
+    src:['shambhala','har','sojong','vows']},
+  25:{what:'Ḍākinī Day: the day of the ḍākinīs, the female embodiments of enlightened wisdom. It is the tenth day of the <i>waning</i> moon, the counterpart of Guru Rinpoche’s day on the waxing tenth.',
+    why:['Gönpo Tseten Rinpoche quotes the Cakrasaṃvara root tantra: <i>“on the tenth day of the waxing moon and the tenth day of the waning moon (the twenty-fifth day), yoginīs will come.”</i>',
+      'Outwardly, the ḍākinīs gather at sacred places and where people practise. Lochen Dharmaśrī says the accomplished ḍākinīs gather in practitioners’ places on the tenth by day and on the twenty-fifth by night (quoted in <i>Vajra Wisdom</i>).',
+      'Inwardly, the subtle channels, winds and essences of the body gather too. With outer and inner conditions together, the day is praised as a supreme time for practice (Gönpo Tseten Rinpoche).'],
+    anyone:['Make offerings (flowers, light, food and drink) and share the food afterwards.','Pray with devotion, and dedicate whatever you do.'],
+    more:[],
+    have:['A feast offering (tsok) and ḍākinī practice such as Vajrayoginī or Vajravārāhī. Customs differ by centre.'],
+    links:[['Feast offering (tsok) · Lotsawa House',LH('topics/tsok/')],['Ḍākinī texts · Lotsawa House',LH('topics/dakini-treasury/')]],
+    src:['tenth','shambhala','lunar']},
+  29:{what:'The day before the new moon, kept for the Dharma protectors: enlightened beings, often wrathful in form, who protect the teachings and those who practise them.',
+    why:['Philippe Cornu’s <i>Tibetan Astrology</i> lists the 29th as the day of the Dharmapālas, the protectors of the Dharma. Jeff Watt lists the 9th, 19th and 29th for all the Dharma protectors, Mahākāla and others.','Lama Döndrup (Kagyu) keeps the 29th for the protectors, and for cleaning the shrine.',
+      'We have not found a teaching that explains why the 29th in particular. Rather than guess, we simply say it is the custom.'],
+    anyone:['Clean and refresh your shrine.','Make a smoke offering (sang); Mipham’s brief sang and Riwo Sangchö are in Texts.','Ask for obstacles to your practice, and to others’ wellbeing, to be cleared.'],
+    more:[],
+    have:['The protector practices of your lineage, with torma offerings. In the Karma Kagyu this is Mahākāla Bernakchen.'],
+    links:[['Dharma protectors · Lotsawa House',LH('topics/dharma-protectors/')],['Smoke offerings · Lotsawa House',LH('topics/sang-offering/')]],
+    src:['shambhala','har','lunar']},
+  30:{what:'The new moon, the last day of the lunar month: a sacred day of Buddha Śākyamuni, and a day for purification and a fresh start.',
+    why:['Kunkhyen Tenpe Nyima writes that the new moon is always a sacred day of Buddha Śākyamuni (<i>Vajra Wisdom</i>).',
+      'Like the full moon, it is a <i>sojong</i> day for restoring vows, and one of the three monthly days for the eight one-day vows (Jigme Lingpa).',
+      'Lama Döndrup describes the new and full moons as days of strong influence on the subtle body, good for acknowledging harmful actions.'],
+    anyone:['Look back on the month. Acknowledge what went wrong without beating yourself up, and resolve to do better.','Recite the Vajrasattva mantra, or the confession to the Thirty-Five Buddhas.','Make an offering to the Buddha.'],
+    more:['Keep the eight one-day vows (see the 8th).'],
+    have:['Sojong of your vows, and Vajrasattva practice.'],
+    links:[['Confession · Lotsawa House',LH('topics/confession/')],['Vajrasattva · Lotsawa House',LH('topics/vajrasattva/')],['Sojong texts · Lotsawa House',LH('topics/sojong/')]],
+    src:['shambhala','sojong','vows','lunar']},
+};
+function ovAday(){const td=+ST.arg,a=AUSP[td],i=DAY_INFO[td];if(!a||!i)return topbar('About this day');
+  const L=([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`,ul=xs=>`<ul class="steps">${xs.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  return`${topbar(a.name)}<div class="ovbody"><div class="col prose">
+  <p class="sub">${i.what}</p>
+  <details><summary>Why some days matter more</summary>${DAY_INTRO.map(p=>`<p style="margin-top:8px">${p}</p>`).join('')}</details>
+  <p class="h2">WHY THIS DAY</p>${i.why.map(p=>`<p>${p}</p>`).join('')}
+  <p class="h2">WHAT PEOPLE DO</p><p class="small">Anyone can</p>${ul(i.anyone)}
+  ${i.more.length?`<p class="small">To go further</p>${ul(i.more)}`:''}
+  <p class="small">If you have received the practice</p>${ul(i.have)}
+  <p class="h2">PRACTISE AND READ MORE</p><div class="links">${i.links.map(L).join('')}</div>
+  <details><summary>Sources</summary><div class="links" style="margin-top:8px">${i.src.map(k=>L(DAY_SRC[k])).join('')}</div>
+    <p class="small" style="margin-top:8px">Lotsawa House texts are shared under CC BY-NC 4.0. Short quotes from other books are credited to them.</p></details>
+  </div></div>`;}
 // The date as a Tibetan calendar writes it: ཚེས་ + Tibetan numerals, and the weekday (གཟའ་…).
 const TIB_WEEKDAY=['གཟའ་ཉི་མ།','གཟའ་ཟླ་བ།','གཟའ་མིག་དམར།','གཟའ་ལྷག་པ།','གཟའ་ཕུར་བུ།','གཟའ་པ་སངས།','གཟའ་སྤེན་པ།'];
 const tibDateScript=(d,day)=>`ཚེས་${tibNum(day)} · ${TIB_WEEKDAY[d.getDay()]}`;
@@ -2177,7 +2261,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tab':if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
       if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.tab=el.dataset.v;ST.ov=null;ST.sheet=null;break;
     case'veil':case'closesheet':ST.sheet=null;ST.restore=null;break;
-    case'closeov':if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
+    case'closeov':if(ST.ov==='aday'){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
     case'seen':lsSet('esm_seen',true);break;
     case'settings':sheet('settings');break;
     case'theme':setTheme(el.dataset.v);break;
@@ -2226,6 +2310,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tree':ST.sheet=null;ST.ov='tree';break;
     case'practices':case'about':ST.ov=a;break;
     case'cal':ST.ov='cal';ST.calOff=0;break;
+    case'aday':ST.adayBack=ST.ov==='aday'?ST.adayBack:ST.ov;ST.sheet=null;ST.ov='aday';ST.arg=el.dataset.v;break;
     case'calprev':ST.calOff--;break;
     case'calnext':ST.calOff++;break;
     case'caltoday':ST.calOff=0;break;
