@@ -424,7 +424,8 @@ meditation daily and reading the quotes."
   (2) centres with an events page: a scheduled fetch that reads structured data (schema.org
   `Event`) if they have it; (3) everyone else, incl. Facebook-only: a simple form or email where
   centres (or trusted volunteers) submit events, checked before they appear. Facebook's API
-  doesn't let us read pages' events, and scraping it breaks its terms: don't. Ask centres'
+  has restricted reading other pages' events since 2018 (needs Meta app review; check current
+  rules before relying on it), and scraping breaks its terms: don't. Ask centres'
   permission before listing them. Filters: tradition, country, online/in person, date.
 - **Teacher/centre mode (later):** a centre shares a link that preloads its practices, calendar
   extras and an accumulation goal. Spreads the app sangha by sangha.
