@@ -174,6 +174,23 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
   `paceFromDate()`). Plain CSS/SVG, no chart library. One button: "Practise" → Practice page.
   Start/edit/change amount live on the Practice page. Ponytail: ship one chart style; add a pie/ring
   option later only if people ask.
+- [ ] **Meditation timer** (Gareth, 2026-10-02): one plain "Meditation timer" card on **Today** and
+  **Practice**, not tied to any meditation. Preset buttons (5 · 10 · 20 · 30 · 45 min) plus an editable
+  time (a number field or −/+ steppers, remembers the last one used). Reuses the existing timer
+  (`sitStart`/`esm_sit`, bell, the pill, "ended while you were away", diary minutes), so it's mostly UI.
+  Ideas to offer Gareth (pick before building; core first, extras only if wanted):
+  - *Core:* start bell and end bell; screen stays awake; minutes go into the diary automatically;
+    a dim "eyes closed" screen while sitting (tap to show the time).
+  - *Settling-in time:* 10–30 s before the first bell to sit down and settle.
+  - *Interval bells:* an optional soft bell every N minutes (to check posture or switch practice).
+  - *Open sitting:* counts up with no end, for people who don't want a target; stop when done.
+  - *Beginning and end:* optional one-line motivation before and dedication after, matching the
+    "good in the beginning, middle and end" structure taught in Tibetan Buddhism (source it,
+    e.g. Patrul Rinpoche's *Words of My Perfect Teacher*); off by default for other schools.
+  - *Minutes this week/month* in the progress view (Phase 1), as days and minutes, never a streak.
+  - *Bell choice:* the current synthesised bell plus one or two more; a recorded singing bowl only
+    if the recording is openly licensed.
+  - *Later:* saved presets with names ("Morning sit 20 + 2 intervals"), and a reminder to sit (Phase 2a).
 - [ ] **Practice page top tile** mirrors the session's hide-number look: the coloured sphere,
   "spiced up" (slow conic-gradient drift with CSS `@property`, respects reduced motion).
 - [ ] **Festivals and anniversaries** (A7), each with its source, and the per-system labelling (A6).
