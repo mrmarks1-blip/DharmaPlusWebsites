@@ -445,6 +445,11 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 .dr-tib { font-family:var(--f-tib); font-size:calc(19px * var(--scale)); color:var(--maroon); }
 .dr-bio { font-size:var(--fs); line-height:1.65; }
 .dr-quote { border-left:3px solid var(--accent); padding:4px 0 4px 14px; font-family:var(--f-display); font-size:var(--fs-lg); line-height:1.5; }
+.perks { display:flex; flex-direction:column; gap:12px; margin:4px 0 8px; padding:0; list-style:none; }
+.perks li { padding-left:14px; border-left:3px solid var(--accent); }
+.perks b { display:block; }
+.perks span { color:var(--ink-2); font-size:var(--fs-sm); }
+.steps { padding-left:1.3em; display:flex; flex-direction:column; gap:8px; }
 .links { display:flex; flex-wrap:wrap; gap:8px; }
 .linkbtn { display:inline-flex; align-items:center; min-height:var(--tap); padding:8px 14px; border-radius:var(--r); border:1px solid var(--line); background:var(--sunk); color:var(--accent-ink); font-weight:700; text-decoration:none; font-size:var(--fs-sm); }
 .prose p { line-height:1.65; margin-bottom:12px; max-width:62ch; }
@@ -2087,12 +2092,25 @@ function sheetRestore(){const R=ST.restore||{step:0};
     <button class="btn danger wide" data-act="restorego">Yes, replace them</button><button class="btn soft wide" data-act="closesheet">No, keep what I have</button>`;}
 function promptInstall(){if(!installPrompt)return;const p=installPrompt;installPrompt=null;   // a prompt can only be used once
   p.prompt();p.userChoice.finally(()=>{if(ST.sheet==='install')ST.sheet=null;render();});}
+// "Add to phone": why it's worth it first, then the steps for the browser they're in.
+function installSteps(){const ua=navigator.userAgent,ol=li=>`<ol class="steps">${li.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+  if(/FBAN|FBAV|Instagram|Line\/|; wv\)/i.test(ua))return`<p>You're inside another app's browser, which can't add apps. Open this page in ${isIOS()?'Safari':'Chrome'} first (look for <b>Open in browser</b> in the ⋯ menu), then tap Add to phone again.</p>`;
+  if(isIOS())return ol(['Tap the <b>Share</b> button (a square with an arrow pointing up). On newer iPhones it may be inside the <b>⋯</b> menu.','Scroll down and tap <b>Add to Home Screen</b>.','Tap <b>Add</b>. The app appears on your home screen.'])
+    +`<p class="note">On iPhone the home-screen app keeps its own copy of your counts. If you've already counted here, make a backup first (Settings → Backup), then restore it in the new app.</p>`;
+  if(/SamsungBrowser/i.test(ua))return ol(['Tap the menu <b>≡</b> at the bottom right.','Tap <b>Add page to</b>, then <b>Home screen</b>.']);
+  if(/Android/i.test(ua))return ol(['Tap the menu <b>⋮</b> at the top right.','Tap <b>Add to home screen</b> or <b>Install app</b>.','Tap <b>Install</b> (or <b>Add</b>).']);
+  if(/Firefox/i.test(ua))return`<p>Firefox on a computer can't add apps. Open this page in Chrome or Edge, or just bookmark it: it works the same in the browser.</p>`;
+  if(/Safari/i.test(ua)&&!/Chrome|Edg/i.test(ua))return ol(['In the menu bar, choose <b>File</b> → <b>Add to Dock</b>.']);
+  return ol(['Click the install icon at the right of the address bar (a screen with a down arrow), or open the menu <b>⋮</b>.','Choose <b>Install</b>.']);}
 function sheetInstall(){
-  const body=isStandalone()?'<p>This app is already installed. Open it from your home screen.</p>'
-   :installPrompt?`<p>Add ${APP_NAME} to your home screen. It then opens like any other app and works without internet.</p><button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button>`
-   :isIOS()?`<p>On iPhone and iPad (Safari, or Chrome on iOS 16.4 and later):</p><ol style="padding-left:1.3em;display:flex;flex-direction:column;gap:8px"><li>Tap the <b>Share</b> button (a square with an arrow pointing up). On newer iPhones it may be inside the <b>⋯</b> menu.</li><li>Scroll down and tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol>`
-   :`<p>Open your browser's menu (usually ⋮ at the top right) and choose <b>Install app</b> or <b>Add to Home screen</b>.</p>`;
-  return`<div class="grab"></div><h2 class="h1">Add to your phone</h2>${body}<button class="btn soft wide" data-act="closesheet">Close</button>`;}
+  if(isStandalone())return`<div class="grab"></div><h2 class="h1">Already on your phone</h2><p>You're using the app version. Open it any time from your home screen.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;
+  return`<div class="grab"></div><h2 class="h1">Add to your phone</h2>
+  <ul class="perks"><li><b>One tap to open</b><span>Its own icon on your home screen, like any other app.</span></li>
+    <li><b>Works without internet</b><span>Count, read the prayers and check the calendar on retreat or on a plane.</span></li>
+    <li><b>Full screen, no distractions</b><span>No address bar or tabs while you practise.</span></li>
+    <li><b>Free and private</b><span>No account, no ads, nothing to download from a store. Your practice stays on your phone.</span></li></ul>
+  ${installPrompt?`<button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button><p class="small" style="text-align:center">Your browser will ask you to confirm.</p>`:`<p class="h2" style="margin-top:4px">HOW TO ADD IT</p>${installSteps()}`}
+  <button class="btn soft wide" data-act="closesheet">Not now</button>`;}
 
 // ═══════════════════════════════════════════════════════════
 // RENDER
@@ -2319,7 +2337,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'restorenext':ST.restore.step=2;break;
     case'restorego':applyBackup(ST.restore.o);ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup restored');return;
     // Where the browser can install directly (Android Chrome, Edge…), the first tap installs.
-    case'install':if(installPrompt){promptInstall();return;}sheet('install');break;
+    case'install':sheet('install');break;
     case'installgo':promptInstall();return;
     default:return;
   }
