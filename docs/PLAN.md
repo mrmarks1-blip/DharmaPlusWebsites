@@ -226,6 +226,13 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
   `docs/link-audit.md` with where in the app each one belongs. Link only; don't copy text.
 - [ ] **Practice page top tile** mirrors the session's hide-number look: the coloured sphere,
   "spiced up" (slow conic-gradient drift with CSS `@property`, respects reduced motion).
+- [ ] **Refuge tree numbers, gently reworked** (Gareth, 2026-10-03). Today: with numbers hidden, pressing
+  the picture shows them only while your finger is down (`peek` in `mountRefuge`), so they vanish before you
+  can tap one; with numbers shown, 97 solid 26px circles cover most of the thangka. Ideas to try (show
+  Gareth, pick one): tap the picture → numbers fade in and **stay** a few seconds so they can be tapped;
+  tap a figure directly (invisible tap areas) opens its drawer without needing numbers at all; smaller,
+  semi-transparent markers that get bigger only when zoomed in; show numbers only for the zoomed-in area.
+  Never crop the image.
 - [ ] **Festivals and anniversaries** (A7), each with its source (tibetanbuddhistcalendar.org/yearly-events-overview lists the Düchen, Gutor, Local Deities' Day and ~100 masters' anniversaries by Tibetan month/day; check each against a second source), and the per-system labelling (A6).
 - [ ] **About the Tibetan calendar**, rewritten (our words, not copied) to cover what
   tibetanbuddhistcalendar.org's About covers, plus more, in expandable `<details>` sections:
