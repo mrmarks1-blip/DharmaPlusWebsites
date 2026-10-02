@@ -178,19 +178,43 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
   **Practice**, not tied to any meditation. Preset buttons (5 · 10 · 20 · 30 · 45 min) plus an editable
   time (a number field or −/+ steppers, remembers the last one used). Reuses the existing timer
   (`sitStart`/`esm_sit`, bell, the pill, "ended while you were away", diary minutes), so it's mostly UI.
-  Ideas to offer Gareth (pick before building; core first, extras only if wanted):
-  - *Core:* start bell and end bell; screen stays awake; minutes go into the diary automatically;
-    a dim "eyes closed" screen while sitting (tap to show the time).
-  - *Settling-in time:* 10–30 s before the first bell to sit down and settle.
-  - *Interval bells:* an optional soft bell every N minutes (to check posture or switch practice).
-  - *Open sitting:* counts up with no end, for people who don't want a target; stop when done.
-  - *Beginning and end:* optional one-line motivation before and dedication after, matching the
-    "good in the beginning, middle and end" structure taught in Tibetan Buddhism (source it,
-    e.g. Patrul Rinpoche's *Words of My Perfect Teacher*); off by default for other schools.
-  - *Minutes this week/month* in the progress view (Phase 1), as days and minutes, never a streak.
-  - *Bell choice:* the current synthesised bell plus one or two more; a recorded singing bowl only
-    if the recording is openly licensed.
-  - *Later:* saved presets with names ("Morning sit 20 + 2 intervals"), and a reminder to sit (Phase 2a).
+  Gareth chose **all** of these (2026-10-02):
+  - Start and end bell; screen stays awake; minutes go into the diary automatically.
+  - **Settling-in time** (10–30 s before the first bell), **interval bells** (every N minutes),
+    **open sitting** (counts up, no end), **eyes-closed screen** (dim and quiet; tap to see the time).
+  - **Motivation and dedication:** an optional line before and after, following "good in the
+    beginning, middle and end" (source it, e.g. Patrul Rinpoche's *Words of My Perfect Teacher*);
+    off by default for schools that don't use it.
+  - **Bell choice:** the current bell plus one or two more; a recorded bowl only if openly licensed.
+  - **Named presets** ("Morning sit, 20 min, 2 interval bells").
+  - **Minutes in progress:** days and minutes this week/month in the Phase 1 progress view.
+- [ ] **Meditation streak, kindly done** (Gareth is OK with a streak, if it's plain and kind).
+  A simple black-and-white strip of days that fills in as you sit, beside overall progress (total
+  days, total minutes). A missed day never "breaks" or "loses" anything: it says e.g. *"4 days of
+  meditation complete · 1 day since your last sit"* with a quote about beginning again.
+  - **Quotes about continuing / beginning again:** research and add a set (tag them `cont` in
+    `QUOTES` so they can be picked for this). Same licence rules as all quotes: Dhammapada and
+    other public-domain or CC translations, Lotsawa House (CC BY-NC), permission for modern
+    teachers. Gareth's example, "The best time to plant a tree was 20 years ago; the second best
+    time is now", is usually called a Chinese proverb but its origin is unknown: if used, credit it
+    as "Proverb", never as a Buddhist saying. Don't invent attributions.
+- [ ] **Kinds of meditation** on the Meditation timer area: short swipeable cards (like the quote
+  card), each with what it is, its other names, and its styles; tap → fuller instructions and
+  links. Start with:
+  - **Vipassanā** (insight; Tib. *lhagthong*; e.g. Mahasi noting, Goenka body-sweeping, insight in
+    Tibetan schools).
+  - **Śamatha** (calm abiding; Tib. *shiné*; with an object such as the breath or an image, and
+    without an object).
+  - **Open sitting** (resting without a technique; names vary by school: *shikantaza* in Sōtō Zen,
+    open awareness in Tibetan teaching; check each name against a source before using it).
+  - **Sky gazing** (Dzogchen). Research how openly it is taught: some teachers give it publicly,
+    others only with instruction. Keep it to a short, sourced intro plus "learn this from a
+    teacher" (see the restricted-texts note in Phase 7) until that's clear.
+  - Each card links to one good wiki page (Rigpa Wiki / Wikipedia, checked in the link audit) and,
+    where there is one, a **short, pointed James Low / Simply Being piece** on that exact topic.
+- [ ] **More Simply Being links overall:** go through simplybeing.co.uk and pick short articles or
+  excerpts that answer one question each (not long retreat talks). Record them in
+  `docs/link-audit.md` with where in the app each one belongs. Link only; don't copy text.
 - [ ] **Practice page top tile** mirrors the session's hide-number look: the coloured sphere,
   "spiced up" (slow conic-gradient drift with CSS `@property`, respects reduced motion).
 - [ ] **Festivals and anniversaries** (A7), each with its source, and the per-system labelling (A6).
@@ -338,8 +362,9 @@ meditation daily and reading the quotes."
 
 ## 6. From a Buddhist and spiritual point of view (things to keep in mind)
 
-- **Streaks and pressure.** Streak loss and guilt notifications cut against the practice. Keep the
-  current gentle approach ("begin again", no broken streak). Evening nudges should encourage
+- **Streaks and pressure.** Guilt notifications cut against the practice. Gareth is fine with a plain
+  streak if a missed day is never framed as a loss ("4 days complete · 1 day since your last sit" + a
+  quote about beginning again). Evening nudges should encourage
   (Patrul's "Don't be a fool: for once, just sit tight" tone, Dilgo Khyentse's "never lose heart").
 - **Numbers vs. quality.** The 111,111 is traditional, but teachers stress motivation over counting.
   The progress view should also show "sessions" and "days practised", not only totals. Every session
