@@ -157,7 +157,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
 - [x] **A3 install buttons**: "Add to phone" always opens a sheet with the benefits first, then either one Install button (when the browser offers it) or steps for *that* browser (Android Chrome, Samsung, iPhone incl. the separate-storage/backup note, in-app browsers, desktop Chrome/Edge/Safari/Firefox). Gareth: the generic "open your browser's menu" text was the real annoyance.
 - [x] **A8 rename "special day"** → "Auspicious days" (app + landing page).
 - [ ] **A5 link audit.** List every external link (`grep -o -E "https?://[^'\"\` )<>]+" ngondro/index.html | sort -u` — 96 today, 58 Wikipedia, 19 Palpung UK, 2 Rigpa Wiki pages built per figure via `FIG_LINKS`, plus `SPECIAL_WHY`). For each: does it open, is it the page a user needs at that moment, is there a better one? Record the result in `docs/link-audit.md` (URL · where used · verdict · replacement). Prefer: our own short sourced text in the app, then a link to a *practice* (Lotsawa House text or topic), then encyclopaedia pages. Use the browser pane for Rigpa Wiki (curl gets a bot check). Treasury of Lives needs a login: don't log in.
-- [ ] **A12 calendar check page.**
+- [x] **A12 calendar check page.** `ngondro/tests.html` (not deployed): 1,979 days (31 Dec 2024 – 1 Jun 2030, incl. leap months 2027/2 and 2029/11) and Losar 2025–2030 all match tibetanbuddhistcalendar.org's month view. Also lists the 18 auspicious days in that range where the two skipped/doubled rules disagree (A6 research list).
 - [ ] **A16 accessibility pass.**
 
 ### Phase 1 · One calendar, a calmer Today
@@ -218,7 +218,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
     summarise in our words and link, quote only openly licensed text.
   - Each card links to one good wiki page (Rigpa Wiki / Wikipedia, checked in the link audit) and,
     where there is one, a **short, pointed James Low / Simply Being piece** on that exact topic.
-- [ ] **Vajrasound** (vajrasound.com, if that's the one Gareth means: Buddhist chants and prayers
+- [ ] **Vajrasound** (vajrasound.com, confirmed by Gareth: Buddhist chants and prayers
   recited in English, made to chant along with; also on Bandcamp). Link to it from Texts / prayers.
   Ask them before using any recordings in the app (they invite contact and submissions).
 - [ ] **More Simply Being links overall:** go through simplybeing.co.uk and pick short articles or
@@ -226,7 +226,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
   `docs/link-audit.md` with where in the app each one belongs. Link only; don't copy text.
 - [ ] **Practice page top tile** mirrors the session's hide-number look: the coloured sphere,
   "spiced up" (slow conic-gradient drift with CSS `@property`, respects reduced motion).
-- [ ] **Festivals and anniversaries** (A7), each with its source, and the per-system labelling (A6).
+- [ ] **Festivals and anniversaries** (A7), each with its source (tibetanbuddhistcalendar.org/yearly-events-overview lists the Düchen, Gutor, Local Deities' Day and ~100 masters' anniversaries by Tibetan month/day; check each against a second source), and the per-system labelling (A6).
 - [ ] **About the Tibetan calendar**, rewritten (our words, not copied) to cover what
   tibetanbuddhistcalendar.org's About covers, plus more, in expandable `<details>` sections:
   Phugpa vs Tsurphu; how skipped/doubled days work and whose rules we follow; the Men-Tsee-Khang;

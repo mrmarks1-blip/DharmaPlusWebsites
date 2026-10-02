@@ -4,6 +4,7 @@ content/
 design/
 print/
 docs/
+ngondro/tests.html
 # Repo housekeeping:
 README.md
 .gitignore

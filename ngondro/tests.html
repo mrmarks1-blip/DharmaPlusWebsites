@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Calendar check</title>
+<style>
+  :root { --bg:#fff; --ink:#1a1a1a; --ok:#11753a; --bad:#b3261e; --soft:#666; --line:#ddd; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#151515; --ink:#eee; --ok:#5fd18a; --bad:#ff7b72; --soft:#aaa; --line:#333; } }
+  body { margin:0; padding:16px; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, sans-serif; max-width:760px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .verdict { font-size:20px; font-weight:700; padding:12px 14px; border-radius:10px; margin:12px 0; color:#fff; }
+  .verdict.ok { background:var(--ok); } .verdict.bad { background:var(--bad); }
+  .row { padding:6px 0; border-bottom:1px solid var(--line); }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .soft { color:var(--soft); font-size:14px; }
+  table { border-collapse:collapse; width:100%; font-size:14px; } td, th { text-align:left; padding:4px 6px; border-bottom:1px solid var(--line); }
+  .wrap { overflow-x:auto; }
+</style>
+</head>
+<body>
+<h1>Calendar check</h1>
+<p class="soft">Checks the app's Tibetan calendar (read live from <code>index.html</code>) against every day of
+tibetanbuddhistcalendar.org's month view, 31 Dec 2024 to 1 Jun 2030 (collected 2026-10-02). Not linked from the
+app and not deployed (see <code>.assetsignore</code>). Open it after any change to the calendar code: green means
+nothing moved.</p>
+<div id="out">Running…</div>
+<script>
+// Reference: tibetanbuddhistcalendar.org month view (Phugpa, Men-Tsee-Khang). One row per Tibetan month:
+// [first civil date, Tibetan month, doubled-month flag, the Tibetan day number on each civil day from that date].
+// A missing number = skipped day; a repeated number = doubled day.
+const REF=[
+['2024-12-31',11,0,'1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,22,23,24,25,26,27,28,29,30'],
+['2025-01-30',12,0,'1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,25,26,27,28,29'],
+['2025-02-28',1,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2025-03-30',2,0,'1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,18,19,20,21,22,23,24,25,26,27,29,30'],
+['2025-04-28',3,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2025-05-28',4,0,'1,3,4,5,6,7,8,9,10,11,12,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27,28,29,30'],
+['2025-06-26',5,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30'],
+['2025-07-25',6,0,'1,2,3,4,5,6,7,8,9,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,27,28,29,30'],
+['2025-08-24',7,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,28,29,30'],
+['2025-09-22',8,0,'1,2,3,4,5,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2025-10-22',9,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,30'],
+['2025-11-21',10,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2025-12-20',11,0,'1,2,3,4,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2026-01-19',12,0,'1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,25,26,27,28,29,30'],
+['2026-02-18',1,0,'1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2026-03-19',2,0,'1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2026-04-18',3,0,'1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,23,24,25,26,27,28,30'],
+['2026-05-17',4,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2026-06-16',5,0,'1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,18,19,20,21,22,23,24,26,27,28,29,30'],
+['2026-07-15',6,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30'],
+['2026-08-13',7,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30'],
+['2026-09-12',8,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26,27,28,29,30'],
+['2026-10-11',9,0,'1,2,3,4,5,6,7,8,9,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2026-11-10',10,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,27,28,29,30'],
+['2026-12-09',11,0,'1,2,3,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2027-01-08',12,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,24,25,26,27,28,29,30'],
+['2027-02-07',1,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,28,29,30'],
+['2027-03-09',2,1,'1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2027-04-07',2,1,'1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,21,22,23,24,25,26,27,28,29,30'],
+['2027-05-07',3,0,'1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2027-06-05',4,0,'1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2027-07-05',5,0,'1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2027-08-03',6,0,'1,2,3,4,6,7,8,9,10,11,12,13,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,30'],
+['2027-09-01',7,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2027-10-01',8,0,'2,3,4,5,6,7,8,9,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26,27,28,29,30'],
+['2027-10-30',9,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,14,15,17,18,19,20,21,22,23,24,25,26,27,28,30'],
+['2027-11-28',10,0,'1,2,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30'],
+['2027-12-28',11,0,'1,2,3,4,5,6,6,7,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2028-01-27',12,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,27,28,28,29,30'],
+['2028-02-26',1,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2028-03-26',2,0,'1,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2028-04-25',3,0,'1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,25,26,27,28,29,30'],
+['2028-05-25',4,0,'1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2028-06-23',5,0,'1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,21,22,23,24,25,26,27,28,29,30'],
+['2028-07-23',6,0,'1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2028-08-21',7,0,'1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,18,19,20,21,22,23,24,25,26,27,29,30'],
+['2028-09-19',8,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2028-10-19',9,0,'2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,19,20,21,22,23,24,26,27,28,29,30'],
+['2028-11-17',10,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,30'],
+['2028-12-16',11,0,'1,2,3,4,5,6,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,28,29,30'],
+['2029-01-15',12,0,'1,2,3,4,5,6,7,8,9,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2029-02-14',1,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30'],
+['2029-03-15',2,0,'1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2029-04-14',3,0,'1,2,3,4,5,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,23,23,24,25,26,27,28,29,30'],
+['2029-05-14',4,0,'1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,29,30'],
+['2029-06-13',5,0,'1,2,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2029-07-12',6,0,'1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,26,27,28,29,30'],
+['2029-08-11',7,0,'1,3,4,5,6,7,8,9,10,11,12,14,15,16,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2029-09-09',8,0,'1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,22,23,24,25,26,28,29,30'],
+['2029-10-08',9,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2029-11-07',10,0,'1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,16,17,18,19,20,21,22,23,24,26,27,28,29,30'],
+['2029-12-06',11,1,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29'],
+['2030-01-04',11,1,'1,2,3,4,5,6,7,8,9,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26,27,28,29,30'],
+['2030-02-03',12,0,'1,2,3,4,5,6,7,8,9,10,11,12,12,13,14,15,16,17,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2030-03-05',1,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,28,29,30'],
+['2030-04-03',2,0,'1,2,3,4,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26,27,28,29,30'],
+['2030-05-03',3,0,'1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,27,28,28,29,30'],
+];
+// Losar (1st day of the 1st month) as shown on the site.
+const LOSAR=['2025-02-28','2026-02-18','2027-02-07','2028-02-26','2029-02-14','2030-03-05'];
+
+const civil=(iso,plus=0)=>{const[y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d+plus,12);};
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const nice=d=>d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+(async()=>{const out=document.getElementById('out');
+  // Pull the calendar code out of the app itself, so this always tests what ships.
+  let cal;
+  try{const src=await (await fetch('./index.html',{cache:'no-store'})).text();
+    const a=src.indexOf('const AUSP={'),b=src.indexOf('function doy(');
+    if(a<0||b<a)throw new Error('Could not find the calendar code (looked for "const AUSP={" … "function doy(").');
+    cal=new Function(src.slice(a,b)+';return{AUSP,tibDay,tibDate,observedAusp};')();
+  }catch(e){out.innerHTML=`<div class="verdict bad">Could not load the calendar code</div><p>${esc(e.message)}</p>`;return;}
+
+  // 1. Every civil day: Tibetan day number and month.
+  const bad=[];let n=0;const days=[];   // days: [civil Date, tibDay, month, doubledMonthFlag, firstOfDoubledMonth]
+  REF.forEach(([start,m,dbl,list],i)=>{const first=dbl&&!(REF[i-1]&&REF[i-1][2]&&REF[i-1][1]===m);
+    list.split(',').map(Number).forEach((td,k)=>days.push([civil(start,k),td,m,dbl,first]));});
+  for(const[d,td,m,dbl,first]of days){n++;const t=cal.tibDate(d);
+    const want=`day ${td}, month ${m}${dbl?(first?' (1st of doubled month)':' (2nd of doubled month)'):''}`;
+    const got=`day ${t.day}, month ${t.month}${t.leap?' (leap)':''}`;
+    if(cal.tibDay(d)!==td||t.month!==m||(dbl&&t.leap!==first))bad.push(`${nice(d)}: site says ${want}; app says ${got}`);}
+  // 2. Losar.
+  const losarBad=LOSAR.filter(s=>{const t=cal.tibDate(civil(s));return!(t.day===1&&t.month===1&&!t.leap);});
+
+  // 3. For information: where the two skipped/doubled-day rules put an auspicious day differently.
+  //    This app: skipped → the day BEFORE, doubled → the SECOND day. Men-Tsee-Khang: skipped → day AFTER, doubled → FIRST.
+  const diffs=[];
+  for(let i=1;i<days.length-1;i++){const[d,td]=days[i],prev=days[i-1][1],next=days[i+1][1];
+    if(prev!==td)for(let k=prev%30+1;k!==td;k=k%30+1)if(cal.AUSP[k])   // k was skipped: it fell between yesterday and today
+      diffs.push([cal.AUSP[k].name,'skipped',days[i-1][0],d]);
+    if(td===next&&cal.AUSP[td])diffs.push([cal.AUSP[td].name,'doubled',days[i+1][0],d]);}
+  // Check the app really does what it says for those days.
+  const ruleBad=diffs.filter(([name,kind,appDay])=>!cal.observedAusp(appDay).some(o=>o.a.name===name));
+
+  const total=bad.length+losarBad.length+ruleBad.length;
+  out.innerHTML=`<div class="verdict ${total?'bad':'ok'}">${total?`${total} problem${total>1?'s':''}`:'All good'}</div>
+  <div class="row ${bad.length?'bad':'ok'}">${bad.length?'✗':'✓'} ${n} days checked against the site: ${bad.length?`${bad.length} differ`:'all match'}.</div>
+  ${bad.slice(0,50).map(x=>`<div class="row bad soft">${esc(x)}</div>`).join('')}
+  <div class="row ${losarBad.length?'bad':'ok'}">${losarBad.length?'✗':'✓'} Losar 2025–2030 (${LOSAR.map(s=>nice(civil(s))).join(', ')})${losarBad.length?': wrong for '+losarBad.join(', '):''}.</div>
+  <div class="row ${ruleBad.length?'bad':'ok'}">${ruleBad.length?'✗':'✓'} The app keeps each skipped/doubled auspicious day where its rule says${ruleBad.length?': not for '+ruleBad.map(r=>r[0]+' '+iso(r[2])).join(', '):''}.</div>
+  <h2 style="font-size:18px;margin-top:24px">For information: where the rules disagree</h2>
+  <p class="soft">The app keeps a skipped day's event on the day <b>before</b> and a doubled day's on the <b>second</b>
+  day. The Men-Tsee-Khang rule, as described in PLAN.md (A6), uses the day <b>after</b> and the <b>first</b>. The right-hand
+  column is worked out from that description, not yet checked against the days the site itself marks. Not a failure: it's the A6 research list.</p>
+  <div class="wrap"><table><tr><th>Day</th><th>Why</th><th>This app</th><th>Men-Tsee-Khang rule</th></tr>
+  ${diffs.map(([name,kind,a,b])=>`<tr><td>${esc(name)}</td><td>${kind}</td><td>${nice(a)}</td><td>${nice(b)}</td></tr>`).join('')}</table></div>`;
+})();
+</script>
+</body>
+</html>
