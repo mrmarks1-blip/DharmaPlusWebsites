@@ -348,6 +348,45 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .gcal .cday.fe::after { content:'★'; }
 .gcal .cday.an::after { content:'•'; font-size:16px; line-height:10px; }
 .list.plain .item { padding-left:0; padding-right:0; }
+.tcard { padding:0; overflow:hidden; display:flex; flex-direction:column; }
+.tc-top { display:flex; align-items:center; gap:14px; padding:14px 16px; text-align:left; width:100%; }
+.tc-top b { display:block; font-size:var(--fs-lg); }
+.tc-top .small { display:block; }
+.tc-top .chev { color:var(--ink-3); }
+.tc-ausp { padding:12px 16px; border-top:1px solid var(--line); }
+.tc-ausp.glow { background:var(--glow); }
+.tc-ausp b { font-size:var(--fs-lg); }
+.tcard > .note { margin:0 16px 10px; }
+.tc-ev { display:flex; flex-direction:column; gap:2px; text-align:left; padding:10px 16px; border-top:1px solid var(--line); width:100%; }
+.tc-hair { display:flex; flex-direction:column; gap:2px; padding:10px 16px; border-top:1px solid var(--line); background:var(--sunk); }
+.tc-week { display:flex; flex-direction:column; gap:10px; padding:12px 16px 8px; border-top:1px solid var(--line); }
+.prog { display:flex; flex-direction:column; gap:6px; text-align:left; width:100%; }
+.prog .bar i { background:var(--acc,var(--accent)); }
+.prog .dot { background:var(--acc,var(--accent)); }
+.mtime { display:flex; align-items:center; justify-content:center; gap:14px; }
+.mtime label { display:flex; align-items:baseline; gap:6px; }
+.mtime input { width:3.2em; font-size:calc(34px * var(--scale)); font-weight:600; text-align:center; border:0; border-bottom:2px solid var(--line); background:transparent; color:var(--ink); font-variant-numeric:tabular-nums; padding:0; }
+.mtime .iconbtn { font-size:26px; font-weight:700; }
+.mtime .mtopen { font-size:var(--fs-lg); }
+.mtopts { justify-content:center; }
+.mstreak { display:flex; flex-direction:column; gap:8px; padding-top:10px; border-top:1px solid var(--line); }
+.mstreak .strip { display:grid; grid-template-columns:repeat(14,1fr); gap:3px; }
+.mstreak .strip i { aspect-ratio:1; border-radius:3px; border:1.5px solid var(--ink-3); }
+.mstreak .strip i.on { background:var(--ink); border-color:var(--ink); }
+.mstreak .strip i.t { outline:2px solid var(--ink-2); outline-offset:1px; }
+.mquote { margin:0; padding-left:12px; border-left:3px solid var(--line); }
+.mquote p { font-family:var(--f-display); }
+.mquote cite { font-size:var(--fs-sm); color:var(--ink-2); font-style:normal; }
+.sitscreen { position:absolute; inset:0; display:flex; flex-direction:column; background:var(--bg); transition:background .6s; }
+.sitscreen.dim { background:#000; color:#777; }
+.sitscreen.dim .ovtop { opacity:.35; }
+.sitmid { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:0 24px; }
+.sitbig { font-size:calc(44px * var(--scale)); font-weight:600; font-variant-numeric:tabular-nums; }
+.sitscreen.dim .sithint { color:#444; }
+@property --sa { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+.sphere { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:conic-gradient(from var(--sa),#ff6f91,#ffd54a,#5be37a,#4de1e1,#6fa8ff,#b388ff,#ff6f91); box-shadow:0 0 18px rgba(255,255,255,.35), inset 0 0 10px rgba(0,0,0,.15); animation:spin-sa 14s linear infinite; }
+@keyframes spin-sa { to { --sa:360deg; } }
+@media (prefers-reduced-motion: reduce) { .sphere { animation:none; } }
 .legend { display:flex; flex-direction:column; gap:10px; }
 .legend > div { display:flex; gap:12px; align-items:baseline; }
 .legend time { min-width:6.2em; font-weight:700; flex-shrink:0; }
@@ -1071,6 +1110,14 @@ const ABOUT_PR={
 // (Removed 2026-09-30: sayings whose source couldn't be traced.)
 // ═══════════════════════════════════════════════════════════
 const QUOTES=[
+  // Carrying on and beginning again (cont:1, shown when it's been a while since your last sit).
+  {t:'He who formerly was reckless and afterwards became sober, brightens up this world, like the moon when freed from clouds.',a:'Dhammapada 172',cont:1},
+  {t:'By rousing himself, by earnestness, by restraint and control, the wise man may make for himself an island which no flood can overwhelm.',a:'Dhammapada 25',cont:1},
+  {t:'Let a wise man blow off the impurities of his self, as a smith blows off the impurities of silver one by one, little by little, and from time to time.',a:'Dhammapada 239',cont:1},
+  {t:'Don’t be a fool: for once, just sit tight.',a:'Patrul Rinpoche, Advice from Me to Myself',cont:1},
+  {t:'The way to practice is to apply yourself to something appropriate to your abilities.',a:'Patrul Rinpoche, Heart Advice for Practitioners',cont:1},
+  {t:'Limit yourself to just a few activities and undertake them all with diligence.',a:'Chatral Rinpoche, Words of Advice',cont:1},
+  {t:'The best time to plant a tree was twenty years ago. The second best time is now.',a:'Proverb, origin unknown',cont:1},
   // From the practice liturgy
   {t:'May all beings have happiness and the causes of happiness. May all beings be free from suffering and its causes.',a:'The Four Immeasurables'},
   {t:'May the precious bodhicitta take birth where it is not yet existing; where it exists may it never wane, but continuously and ever increase.',a:'Aspiration for bodhicitta'},
@@ -1096,7 +1143,7 @@ const QUOTES=[
   {t:'There is no guilt equal to hatred, no mortification equal to long-suffering.',a:'Śāntideva, The Path of Light, ch. 6'},
   {t:'While the arrow of hate is in the heart, none can have a peaceful mind in equipoise, or feel the joy of kindliness, none can win sleep or calm.',a:'Śāntideva, The Path of Light, ch. 6'},
   {t:'Form is emptiness, emptiness is form.',a:'The Heart Sūtra'},
-  {t:'Decay is inherent in all component things. Work out your salvation with diligence.',a:'The Buddha’s last words'},
+  {t:'Decay is inherent in all component things. Work out your salvation with diligence.',a:'The Buddha’s last words',cont:1},
   // The Dhammapada, tr. F. Max Müller (1881)
   {t:'All that we are is the result of what we have thought: it is founded on our thoughts, it is made up of our thoughts.',a:'Dhammapada 1'},
   {t:'If a man speaks or acts with a pure thought, happiness follows him, like a shadow that never leaves him.',a:'Dhammapada 2'},
@@ -1111,7 +1158,7 @@ const QUOTES=[
   {t:'As a solid rock is not shaken by the wind, wise people falter not amidst blame and praise.',a:'Dhammapada 81'},
   {t:'Even though a speech be a thousand words, but made up of senseless words, one word of sense is better, which if a man hears, he becomes quiet.',a:'Dhammapada 100'},
   {t:'If one man conquer in battle a thousand times thousand men, and if another conquer himself, he is the greatest of conquerors.',a:'Dhammapada 103'},
-  {t:'Let no man think lightly of good, saying in his heart, It will not benefit me. Even by the falling of water-drops a water-pot is filled; the wise man becomes full of good, even if he gather it little by little.',a:'Dhammapada 122'},
+  {t:'Let no man think lightly of good, saying in his heart, It will not benefit me. Even by the falling of water-drops a water-pot is filled; the wise man becomes full of good, even if he gather it little by little.',a:'Dhammapada 122',cont:1},
   {t:'Self is the lord of self; who else could be the lord?',a:'Dhammapada 160'},
   {t:'By oneself the evil is done, by oneself one suffers; by oneself evil is left undone, by oneself one is purified.',a:'Dhammapada 165'},
   {t:'Not to commit any sin, to do good, and to purify one’s mind: that is the teaching of all the Awakened.',a:'Dhammapada 183'},
@@ -1119,7 +1166,7 @@ const QUOTES=[
   {t:'Health is the greatest of gifts, contentment the best riches; trust is the best of relationships, Nirvana the highest happiness.',a:'Dhammapada 204'},
   {t:'Let a man overcome anger by love, let him overcome evil by good; let him overcome the greedy by liberality, the liar by truth.',a:'Dhammapada 223'},
   {t:'The fault of others is easily perceived, but that of oneself is difficult to perceive.',a:'Dhammapada 252'},
-  {t:'You yourself must make an effort. The Tathāgatas are only preachers.',a:'Dhammapada 276'},
+  {t:'You yourself must make an effort. The Tathāgatas are only preachers.',a:'Dhammapada 276',cont:1},
   {t:'Through zeal knowledge is gotten, through lack of zeal knowledge is lost.',a:'Dhammapada 282'},
 
   // ── From Lotsawa House (lotsawahouse.org), licensed CC BY-NC 4.0, quoted word for word.
@@ -1144,7 +1191,7 @@ const QUOTES=[
   {t:'Do not forget sentient beings;\nWith compassion dedicate your merit to them and make prayers of aspiration.',a:'Dilgo Khyentse Rinpoche, Heart Advice in Four Lines'},
   // Dilgo Khyentse Rinpoche, Advice to three-year retreatants, tr. Adam Pearcey 2007
   {t:'In Dharma practice, the most important thing is motivation. If it is motivated by the wish to benefit all beings, then even a single prostration or a single recitation of the hundred-syllable mantra will yield inexhaustible merit.',a:'Dilgo Khyentse Rinpoche'},
-  {t:'Even if you were to practise day and night with unflagging diligence for a full twelve years and still fail to have even one good dream, you must never lose heart.',a:'Dilgo Khyentse Rinpoche'},
+  {t:'Even if you were to practise day and night with unflagging diligence for a full twelve years and still fail to have even one good dream, you must never lose heart.',a:'Dilgo Khyentse Rinpoche',cont:1},
   {t:'Understand this: it is more important to take to heart the key instructions than to receive a great many teachings.',a:'Dilgo Khyentse Rinpoche'},
   {t:'Without genuine compassion there is simply no possibility of reaching buddhahood.',a:'Dilgo Khyentse Rinpoche'},
   {t:'To recite even a single maṇi mantra is of inconceivable benefit, so dedicate it for the sake of all who live.',a:'Dilgo Khyentse Rinpoche'},
@@ -1472,11 +1519,122 @@ function nextSpecial(from){for(let i=1;i<60;i++){const d=plusDays(from,i),o=obse
 const when=i=>i===0?'today':i===1?'tomorrow':`in ${i} days`;
 
 // ═══════════════════════════════════════════════════════════
+// TODAY — one calendar card, progress, and the meditation timer
+// ═══════════════════════════════════════════════════════════
+// The day in one card: date and Tibetan date, today's (or the next) auspicious day, festivals and
+// anniversaries, hair cutting, and this week's practice diary.
+function todayCard(now){const t=tibDate(now),obs=observedAusp(now),ev=eventsOn(now),hr=hairRec(t.day);
+  const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),days=[...Array(7)].map((_,i)=>plusDays(mon,i));
+  const selDate=noonOf(new Date(sel+'T12:00')),label=sel===dayKey(now)?'today':selDate.toLocaleDateString('en-GB',{weekday:'long'});
+  const n=days.filter(x=>Object.keys(dayActs(dayKey(x))).length).length;
+  let ausp='';
+  if(obs.length)ausp=obs.map(o=>`<div class="tc-ausp glow"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:6px">${o.note}</p>`:''}
+    ${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('');
+  else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];ausp=`<div class="tc-ausp"><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
+    <b style="display:block">${ns.o.a.name}</b>${w?`<p>${w.t}</p>`:''}${DAY_INFO[ns.o.td]?`<button class="btn link" data-act="aday" data-v="${ns.o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`;}}
+  const dbl=doubledToday(now)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice this month, so ${AUSP[t.day].name} is kept tomorrow. ${ALT_DOUBLE.replace('instead','(today) instead')}</p>`:'';
+  const evs=ev.length?`<button class="tc-ev" data-act="day" data-d="${dayKey(now)}">${ev.filter(e=>e.kind==='fest').map(e=>`<b>★ ${esc(e.name)}</b>`).join('')}${ev.some(e=>e.kind!=='fest')?`<span class="small">Anniversary: ${ev.filter(e=>e.kind!=='fest').map(e=>esc(e.name.replace(/\s*\(.*\)$/,''))).join(', ')}</span>`:''}</button>`:'';
+  return`<div class="card tcard">
+    <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),48)}<span class="grow"><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
+      <span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span>
+      <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span><span class="small">${phaseText(now)}</span></span>${chev}</button>
+    ${ausp}${dbl}${evs}
+    <div class="tc-hair"><span class="small">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></div>
+    <div class="tc-week"><div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
+      <p class="small">Tap what you practised ${label}:</p>${jChips(sel)}
+      <div class="row" style="justify-content:space-between;flex-wrap:wrap"><span class="small">${n?`${n} day${n>1?'s':''} of practice this week.`:'Your practice days will show here.'}</span><button class="btn link" data-act="cal">Open calendar</button></div></div>
+  </div>`;}
+
+// Progress: this month's count against what the chosen pace needs this month, for each practice
+// counted in the last two months (or the current one). Gentle: no streaks for counts.
+function monthSum(id,y,m){const P=ls('esm_plog',{}),pre=`${y}-${pad2(m+1)}-`;let s=0;for(const k in P)if(k.startsWith(pre))s+=P[k][id]||0;return s;}
+function progressCard(now){const P=ls('esm_plog',{}),cut=dayKey(plusDays(now,-60)),y=now.getFullYear(),m=now.getMonth(),dim=new Date(y,m+1,0).getDate();
+  const recent=new Set();for(const k in P)if(k>=cut)Object.keys(P[k]).forEach(id=>recent.add(id));
+  let ids=allPR().filter(p=>recent.has(p.id)&&(getPD(p.id).counter||0)<p.target).map(p=>p.id);if(!ids.length)ids=[currentId()];
+  const rows=ids.slice(0,4).map(id=>{const p=findPR(id),pd=getPD(id),c=pd.counter||0,pace=paceOf(id),need=pace*dim,got=monthSum(id,y,m),pct=Math.min(100,Math.round(got/need*100)),fin=proj(c,pace,p.target,pd.lastDate);
+    return`<button class="prog" data-act="practice" data-id="${id}" style="--acc:${p.acc}"><span class="row"><span class="dot"></span><b class="grow">${esc(p.name)}</b><span class="small">${fmt(got)} of ${fmt(need)} this month</span></span>
+      <span class="bar"><i style="width:${Math.max(pct,got?2:0)}%"></i></span>
+      <span class="small">${fmt(c)} of ${fmt(p.target)} in all${fin?` · at ${fmt(pace)} a day, done around ${fin.toLocaleDateString('en-GB',{month:'short',year:'numeric'})}`:''}</span></button>`;}).join('');
+  const med=medStats(now);
+  return`<p class="h2">YOUR PROGRESS</p><div class="card stack">${rows}
+    ${med.monthDays?`<div class="prog" style="--acc:#4a7fd4"><span class="row"><span class="dot"></span><b class="grow">Meditation</b><span class="small">${med.monthDays} day${med.monthDays>1?'s':''}${med.monthMin?` · ${fmt(med.monthMin)} min`:''} this month</span></span></div>`:''}
+    <button class="btn primary" data-act="tab" data-v="practice">${ico('mala')} Practise</button></div>`;}
+
+// ── Meditation timer ──
+// Settings in esm_medtimer. Uses the shared sitting timer (esm_sit, the pill, the bell, diary minutes).
+const MT_DEF={min:20,settle:15,interval:0,bell:'bowl',dim:true,motiv:true,dedic:true,presets:[]};
+const mt=()=>({...MT_DEF,...ls('esm_medtimer',{})});
+const mtSave=o=>lsSet('esm_medtimer',{...mt(),...o});
+const BELLS={bowl:'Singing bowl',bell:'Small bell',gong:'Deep gong'};
+// Meditation days and minutes from the diary's "Meditation" ticks (the timer adds minutes there).
+function medStats(now){const j=journal(),days=Object.keys(j).filter(k=>j[k].meditation).sort(),pre=dayKey(now).slice(0,8);
+  const min=k=>typeof j[k].meditation==='number'?j[k].meditation:0;
+  let run=0;for(let d=noonOf(now);;d=plusDays(d,-1)){const k=dayKey(d);if(j[k]&&j[k].meditation)run++;else if(k===dayKey(now))continue;else break;}
+  const last=days[days.length-1],since=last?Math.round((noonOf(now)-noonOf(new Date(last+'T12:00')))/86400000):null;
+  return{total:days.length,minutes:days.reduce((s,k)=>s+min(k),0),run,since,monthDays:days.filter(k=>k.startsWith(pre)).length,monthMin:days.filter(k=>k.startsWith(pre)).reduce((s,k)=>s+min(k),0),j};}
+// A plain strip of the last 14 days, filled where you sat. A missed day is just a gap, never "broken".
+function medStreak(now){const s=medStats(now);if(!s.total)return'';
+  const cells=[...Array(14)].map((_,i)=>{const d=plusDays(now,i-13),k=dayKey(d),on=s.j[k]&&s.j[k].meditation;return`<i class="${on?'on':''}${k===dayKey(now)?' t':''}" title="${d.toDateString()}"></i>`;}).join('');
+  const line=s.since===0?`${s.run} day${s.run>1?'s':''} of meditation in a row · ${s.total} day${s.total>1?'s':''} in all${s.minutes?` · ${fmt(s.minutes)} minutes`:''}`
+    :`${s.run||s.total} day${(s.run||s.total)>1?'s':''} of meditation complete · ${s.since} day${s.since>1?'s':''} since your last sit`;
+  const q=s.since>0?contQuote(now):null;
+  return`<div class="mstreak" aria-label="Meditation in the last 14 days"><div class="strip">${cells}</div><p class="small">${line}</p>
+    ${q?`<figure class="mquote"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`:''}</div>`;}
+function contQuote(now){const C=QUOTES.filter(q=>q.cont);return C[doy(now)%C.length];}
+function medTimerCard(now){const o=mt(),s=ST.sit&&ST.sit.ov==='sit'?ST.sit:null;
+  if(s)return`<p class="h2">MEDITATION TIMER</p><div class="card stack"><b>${s.done?'Your sitting has ended':'You are sitting'}</b>
+    <button class="btn primary" data-act="sitback">${ico('timer')} ${s.done?'See it':'Return'}</button>${medStreak(now)}</div>`;
+  const chips=[5,10,20,30,45].map(m=>`<button class="opt${!o.open&&o.min===m?' on':''}" data-act="mtset" data-v="${m}">${m}</button>`).join('')+`<button class="opt${o.open?' on':''}" data-act="mtopen">Open</button>`;
+  const pre=o.presets.map((p,i)=>`<button class="jchip" data-act="mtpre" data-v="${i}" style="--c:var(--accent)"><i></i>${esc(p.name)}</button>`).join('');
+  const sum=[o.settle?`Settle ${o.settle} s`:'',o.interval?`bell every ${o.interval} min`:'',BELLS[o.bell]].filter(Boolean).join(' · ');
+  return`<p class="h2">MEDITATION TIMER</p><div class="card stack">
+    <div class="mtime">${o.open?`<b class="mtopen">Open sitting</b><span class="small">No end time. Stop when you’re ready.</span>`
+      :`<button class="iconbtn" data-act="mtstep" data-v="-1" aria-label="One minute less">−</button><label><input id="mtmin" type="number" inputmode="numeric" min="1" max="240" value="${o.min}" aria-label="Minutes" data-act="mtnum"><span>min</span></label><button class="iconbtn" data-act="mtstep" data-v="1" aria-label="One minute more">+</button>`}</div>
+    <div class="sitopts mtopts">${chips}</div>
+    ${pre?`<div class="jchips">${pre}</div>`:''}
+    <button class="btn primary wide" data-act="mtstart">Begin</button>
+    <button class="btn link" data-act="mtsettings" style="align-self:center">${esc(sum)} · Change</button>
+    ${medStreak(now)}</div>`;}
+function sheetMT(){const o=mt(),seg=(act,cur,opts)=>`<div class="sitopts">${opts.map(([v,l])=>`<button class="opt${cur===v?' on':''}" data-act="${act}" data-v="${v}">${l}</button>`).join('')}</div>`,
+  sw=(act,on,l)=>`<button class="item" data-act="${act}" role="switch" aria-checked="${on}"><span class="grow"><span class="t">${l}</span></span><span class="tag${on?' ok':''}">${on?'On':'Off'}</span></button>`;
+  return`<div class="grab"></div><h2 class="h1">Timer settings</h2>
+  <p class="h2" style="margin:0">SETTLING IN</p><p class="small">Time to sit down and settle before the first bell.</p>${seg('mtsettle',o.settle,[[0,'None'],[10,'10 s'],[20,'20 s'],[30,'30 s']])}
+  <p class="h2" style="margin:0">INTERVAL BELLS</p><p class="small">A soft bell every few minutes, to check your posture or change practice.</p>${seg('mtint',o.interval,[[0,'Off'],[5,'5 min'],[10,'10 min'],[15,'15 min'],[20,'20 min']])}
+  <p class="h2" style="margin:0">BELL</p><div class="list">${Object.entries(BELLS).map(([k,l])=>`<div class="item" style="cursor:default"><button class="grow" data-act="mtbell" data-v="${k}" style="text-align:left"><span class="t">${l}</span>${o.bell===k?'<span class="s">Chosen</span>':''}</button><button class="btn soft" data-act="mthear" data-v="${k}">Hear it</button></div>`).join('')}</div>
+  <div class="list">${sw('mtdim',o.dim,'Eyes-closed screen (dim; tap to see the time)')}${sw('mtmotiv',o.motiv,'Set a motivation before you begin')}${sw('mtdedic',o.dedic,'Dedicate at the end')}</div>
+  <p class="h2" style="margin:0">SAVE AS A PRESET</p>
+  <input id="mtname" type="text" maxlength="30" placeholder="e.g. Morning sit" aria-label="Name for this preset">
+  <button class="btn soft wide" data-act="mtsavepre">Save ${o.open?'open sitting':`${o.min} min`}${o.interval?`, bell every ${o.interval} min`:''}</button>
+  ${o.presets.length?`<div class="list">${o.presets.map((p,i)=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(p.name)}</span><span class="s">${p.open?'Open sitting':`${p.min} min`}${p.interval?` · bell every ${p.interval} min`:''}${p.settle?` · settle ${p.settle} s`:''}</span></span><button class="iconbtn" data-act="mtdelpre" data-v="${i}" aria-label="Delete ${esc(p.name)}">${ico('trash')}</button></div>`).join('')}</div>`:''}
+  <button class="btn primary wide" data-act="closesheet">Done</button>`;}
+// The beginning and the end, after Longchenpa's three principles: bodhicitta at the start,
+// resting in the main part, dedication at the close.
+const MT_MOTIV='May this time of practice benefit all beings, and may I come to free them from suffering.';
+function ovSit(){const s=ST.sit;
+  if(!s||ST.sitPhase==='motiv')return`<div class="ovtop"><button class="iconbtn" data-act="closeov" aria-label="Back">${ico('back')}</button><div class="title">Meditation</div><span style="width:48px"></span></div>
+    <div class="verse"><div class="col" style="text-align:center"><p class="vsec">BEGIN WITH A GOOD MOTIVATION</p><p class="vp" style="font-size:calc(22px * var(--scale))">${MT_MOTIV}</p>
+      <p class="small">“Generating bodhicitta at the beginning, having no reference in the main part, and dedicating merit at the conclusion.” Longchenpa</p></div></div>
+    <div class="vnav" style="grid-template-columns:1fr"><button class="btn primary" data-act="mtgo">Begin</button></div>`;
+  const now=Date.now(),settling=s.start>now,peek=!ST.sitDim||(ST.sitPeek&&now-ST.sitPeek<4000)||s.done;
+  const big=s.done?(s.away?sitAwayMsg():'Your sitting has ended'):settling?`Settling in… <span class="sitlive">${mmss(Math.ceil((s.start-now)/1000))}</span>`:`<span class="sitlive">${mmss(s.open?Math.floor((now-s.start)/1000):sitLeft())}</span>`;
+  return`<div class="sitscreen${ST.sitDim&&!s.done?' dim':''}" id="sitzone" data-act="sitpeek">
+    <div class="ovtop"><button class="iconbtn" data-act="closeov" aria-label="Leave this screen (the timer keeps going)">${ico('back')}</button><div class="title">${s.open?'Open sitting':`${Math.round(s.len/60)} minutes`}</div><span style="width:48px"></span></div>
+    <div class="sitmid">${peek?`<p class="sitbig">${big}</p>${s.done?'':`<p class="small">${settling?'The bell will ring to begin.':s.open?'Sitting':'Time left'}</p>`}`:`<p class="small sithint">Tap anywhere to see the time</p>`}</div>
+    <div class="vnav" style="grid-template-columns:1fr">${s.done?`<button class="btn primary" data-act="mtfinish">${mt().dedic?'Dedicate':'Done'}</button>`:peek?`<button class="btn soft" data-act="mtend">${s.open?'End the sitting':'End early'}</button>`:''}</div></div>`;}
+// Begin: motivation first if wanted, then the timer (settling time, then the first bell).
+function mtBegin(){const o=mt();ST.sitDim=o.dim;ST.sitPeek=0;ST.ov='sit';
+  if(o.motiv){ST.sitPhase='motiv';return;}mtGo();}
+function mtGo(){const o=mt();ST.sitPhase=null;ST.ov='sit';sitStart(o.open?0:o.min,{settle:o.settle,interval:o.interval,bell:o.bell,open:o.open});keepAwake(true);}
+// Ending early or an open sitting: the minutes sat still go into the diary.
+function mtEnd(){const s=ST.sit;if(!s)return;const sat=Math.floor(Math.max(0,Date.now()-s.start)/60000);
+  if(sat>0&&acts().some(a=>a.id==='meditation'))addActAmount(dayKey(),'meditation',sat);
+  sitStop();keepAwake(false);toast(sat?`${sat} minute${sat>1?'s':''} of meditation added to your diary`:'Sitting ended');}
+
+// ═══════════════════════════════════════════════════════════
 // TODAY
 // ═══════════════════════════════════════════════════════════
 function pageToday(){
-  const now=noonOf(new Date()),t=tibDate(now),obs=observedAusp(now),hr=hairRec(t.day);
-  const id=currentId(),p=findPR(id),pd=getPD(id),c=pd.counter||0,pct=Math.floor(c/p.target*100),pace=paceOf(id);
+  const now=noonOf(new Date());
   const out=[`<div class="row"><div class="greet grow">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>`];
   // Words for today — one quote at a time; swipe or use the arrows.
   out.push(`<div class="card qcard" id="qcard">${quoteHTML()}
@@ -1488,30 +1646,12 @@ function pageToday(){
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
-  // The day, in Tibetan terms — hair cutting sits with it as part of the astrological calendar.
-  out.push(`<button class="daycard" data-act="cal" aria-label="Open the Tibetan calendar">
-    <span class="top">${moonSVG(moonAge(now),48)}<span><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
-      <span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span><br>
-      <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span><br><span class="small">${phaseText(now)}</span></span>${chev}</span>
-    <span class="hairline"><span class="lbl">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></span></button>`);
-  if(obs.length)obs.forEach(o=>{const w=SPECIAL_WHY[o.td];out.push(`<div class="card glow special"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}
-    ${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`);});
-  else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];out.push(`<div class="card stack"><div><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
-    <b style="display:block;font-size:var(--fs-lg)">${ns.o.a.name}</b></div>${w?`<p>${w.t}</p>`:''}
-    <div class="row" style="justify-content:space-between;flex-wrap:wrap">${DAY_INFO[ns.o.td]?`<button class="btn link" data-act="aday" data-v="${ns.o.td}">About this day ${ico('chev')}</button>`:''}<button class="btn link" data-act="cal">See the month</button></div></div>`);}}
-  if(doubledToday(now)&&AUSP[t.day])out.push(`<p class="note">Day ${t.day} falls twice this month, so ${AUSP[t.day].name} is kept tomorrow.</p>`);
-  out.push(`<p class="h2">YOUR PRACTICE</p>
-  <div class="card stack" style="--acc:${p.acc}"><div class="row"><div class="grow"><div class="pname">${esc(p.name)}</div><div class="pnum"><b>${fmt(c)}</b> of ${fmt(p.target)} · ${pct}%</div></div><button class="btn soft switchbtn" data-act="pick" aria-label="Switch to a different practice">${ico('swap')}<span>Switch</span></button></div>
-    <div class="bar"><i style="width:${Math.max(pct,c?1:0)}%"></i></div>
-    ${c>=p.target?`<p class="done-line">✦ Complete ✦</p>`:`<div class="btns"><button class="btn primary" data-act="start" data-id="${id}">${ico('mala')} Start session</button><button class="btn soft" data-act="quick" data-id="${id}">+ ${fmt(pace)}</button></div>
-    <div class="row" style="justify-content:space-between"><button class="btn link" data-act="pace" data-id="${id}">Change the + amount</button><button class="btn link" data-act="practice" data-id="${id}">Edit total</button></div>`}</div>`);
+  out.push(todayCard(now),progressCard(now),medTimerCard(now));
   // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
   if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
     <p>Your counts live only on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
     <p class="small">${lastBackupText()}</p></div>
     <div class="btns"><button class="btn primary" data-act="sharebackup">${ico('save')} Send a copy</button><button class="btn soft" data-act="bklater">Later</button></div></div>`);
-  // This week — the practice diary (gentle: no streaks, just colour).
-  out.push(weekCard(now));
   return`<div class="page"><div class="col">${out.join('')}</div></div>`;
 }
 
@@ -1523,7 +1663,8 @@ function prRow(p){const pd=getPD(p.id),c=pd.counter||0,pct=Math.floor(c/p.target
     <span class="s">${fmt(c)} of ${fmt(p.target)}</span>${done?'':`<span class="minibar" style="display:block"><i style="width:${Math.max(pct,c?1:0)}%"></i></span>`}</span>${done?'<span class="tag ok">Complete</span>':chev}</button>`;}
 function pagePractice(){const all=allPR();
   return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
-  <button class="bigtile" data-act="start" data-id="">${ico('mala',1.6)}<span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
+  <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
+  ${medTimerCard(noonOf(new Date()))}
   <p class="h2">NGÖNDRO</p><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div>
   <p class="h2">OTHER PRACTICES</p><div class="list">${all.filter(p=>p.group!=='ngondro').map(prRow).join('')}
     ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
@@ -1680,16 +1821,6 @@ const actAmount=v=>typeof v==='number'?fmt(v):'';
 function jChips(k){const d=dayActs(k);
   return`<div class="jchips">${acts().map(a=>`<button class="jchip${d[a.id]?' on':''}${ST.popAct===a.id?' pop':''}" data-act="jtick" data-k="${k}" data-v="${a.id}" style="--c:${a.color}" aria-pressed="${!!d[a.id]}"><i></i>${esc(a.name)}${d[a.id]?` ✓${typeof d[a.id]==='number'?' '+actAmount(d[a.id]):''}`:''}</button>`).join('')}
     <button class="jchip add" data-act="acts" aria-label="Change the activities">${ico('edit')} Edit</button></div>`;}
-function weekCard(now){
-  const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),d=dayActs(sel),A=acts();
-  const days=[...Array(7)].map((_,i)=>plusDays(mon,i)),selDate=noonOf(new Date(sel+'T12:00'));
-  const label=sel===dayKey(now)?'today':selDate.toLocaleDateString('en-GB',{weekday:'long'});
-  const n=days.filter(x=>Object.keys(dayActs(dayKey(x))).length).length;
-  return`<p class="h2">THIS WEEK</p><div class="card stack">
-    <div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
-    <p class="small">Tap what you practised ${label}:</p>
-    ${jChips(sel)}
-    <div class="row" style="justify-content:space-between;flex-wrap:wrap"><span class="small">${n?`${n} day${n>1?'s':''} of practice this week.`:'Your practice days will show here.'}</span><button class="btn link" data-act="journal">See the month</button></div></div>`;}
 function sheetActs(){const A=acts(),have=new Set(A.map(a=>a.id)),sugg=ACT_SUGGEST.filter(s=>!have.has(s.id)),pick=ST.newColor||ACT_COLORS[A.length%ACT_COLORS.length];
   return`<div class="grab"></div><h2 class="h1">Your activities</h2>
   <div class="list">${A.map(a=>`<div class="item" style="cursor:default"><span class="dot" style="--acc:${a.color}"></span><span class="grow"><span class="t">${esc(a.name)}</span>${a.pr?'<span class="s">Ticked automatically when you count</span>':''}</span>
@@ -1768,7 +1899,7 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics (as in the open-source tibetan-date-calculator). Hair-cutting days follow tibetanbuddhistcalendar.org (Edward Henning’s Kālacakra calendar). The moon is calculated astronomically. With gratitude to their authors.</p>
   <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('Tibetan Buddhist calendar','https://tibetanbuddhistcalendar.org/day')}</div>
   <p class="h2" style="margin-top:18px">TEXTS AND TRANSLATIONS</p>
-  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Abraham Ta-Quan and Sean Ross. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
+  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Lama Chönam and Timothy Hinkle (Light of Berotsana), Abraham Ta-Quan and Sean Ross. A few sayings whose origin is unknown are credited as such. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
   <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
@@ -2026,8 +2157,10 @@ function runBreath(){clearTimeout(brTimer);const st=NINE_ROUND[ST.br],orb=docume
 // MEDITATION — shared soft bell + sitting timer
 // ═══════════════════════════════════════════════════════════
 let audioCtx=null;
-function bell(){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx;
-  [[0,528,.3],[.12,396,.2],[.26,264,.16]].forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
+// Three synthesised bells (no recordings, so nothing to license). times: strikes, about 3.5 s apart.
+const BELL_TONES={bowl:[[0,528,.3],[.12,396,.2],[.26,264,.16]],bell:[[0,1046,.22],[.02,1568,.12],[.05,2093,.06]],gong:[[0,196,.34],[.08,147,.24],[.2,98,.2]]};
+function bell(kind='bowl',vol=1,times=1){for(let i=1;i<times;i++)setTimeout(()=>bell(kind,vol),i*3500);try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx;
+  (BELL_TONES[kind]||BELL_TONES.bowl).map(([dl,fr,g])=>[dl,fr,g*vol]).forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
     o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,t);o.frequency.exponentialRampToValueAtTime(fr*.5,t+3);
     gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+.04);gn.gain.exponentialRampToValueAtTime(.001,t+5);o.start(t);o.stop(t+6);});}catch{}}
 // The timer keeps going when you leave the practice (it is saved in esm_sit, so it
@@ -2037,18 +2170,26 @@ const mmss=s=>`${Math.floor(s/60)}:${pad2(s%60)}`;
 const sitLeft=()=>ST.sit?Math.max(0,ST.sit.len-Math.floor((Date.now()-ST.sit.start)/1000)):0;
 const sitEnd=()=>new Date(ST.sit.start+ST.sit.len*1000);
 const sitAwayMsg=()=>`Your ${Math.round(ST.sit.len/60)}-minute sitting ended at ${pad2(sitEnd().getHours())}:${pad2(sitEnd().getMinutes())}.`;
-function sitStart(min){sitStop();ST.sit={len:min*60,start:Date.now(),done:false,ov:ST.ov};lsSet('esm_sit',ST.sit);sitT=setInterval(sitTick,1000);bell();}
-function sitTick(){if(!ST.sit){sitStop();return;}const left=sitLeft();
+// o: settle (s before the first bell), interval (min between soft bells), bell kind, open (counts up, no end).
+function sitStart(min,o={}){sitStop();const settle=o.settle||0;ST.sit={len:min*60,start:Date.now()+settle*1000,done:false,ov:ST.ov,open:!!o.open,int:(o.interval||0)*60,bell:o.bell||'bowl',ik:0,began:!settle};
+  lsSet('esm_sit',ST.sit);sitT=setInterval(sitTick,1000);if(!settle)bell(ST.sit.bell);}
+function sitTick(){if(!ST.sit){sitStop();return;}const s=ST.sit,now=Date.now();if(s.done)return;
+  if(s.start>now){document.querySelectorAll('.sitlive').forEach(e=>e.textContent=mmss(Math.ceil((s.start-now)/1000)));return;}   // settling in
+  if(!s.began){s.began=true;lsSet('esm_sit',s);if(!document.hidden)bell(s.bell);render();return;}
+  const el=Math.floor((now-s.start)/1000);
+  if(s.int>0){const k=Math.floor(el/s.int);if(k>(s.ik||0)&&(s.open||el<s.len)){s.ik=k;lsSet('esm_sit',s);if(!document.hidden)bell(s.bell,.5);}}   // interval bell
+  if(s.open){document.querySelectorAll('.sitlive').forEach(e=>e.textContent=mmss(el));return;}
+  const left=sitLeft();
   if(left<=0){if(sitT)clearInterval(sitT);sitT=null;if(ST.sit.done)return;ST.sit.done=true;
     // Ended while the phone was locked or the app closed: no late bell, just say so (and buzz once they're back).
     ST.sit.away=document.hidden||Date.now()-sitEnd()>5000;
-    if(!ST.sit.away)bell();if(!document.hidden)buzz([60,80,60]);
+    if(!ST.sit.away)bell(ST.sit.bell,1,3);if(!document.hidden)buzz([60,80,60]);
     // A finished sitting counts as meditation in the diary (minutes), if that activity is used.
     if(acts().some(a=>a.id==='meditation'))addActAmount(dayKey(sitEnd()),'meditation',Math.round(ST.sit.len/60));
     lsSet('esm_sit',ST.sit);render();return;}
   document.querySelectorAll('.sitlive').forEach(el=>el.textContent=mmss(left));}
 function sitStop(){if(sitT)clearInterval(sitT);sitT=null;ST.sit=null;lsSet('esm_sit',null);}
-const sitPill=()=>!ST.sit||ST.ov===ST.sit.ov?'':`<button class="sitpill" data-act="sitback">${ico('timer')}<span>${ST.sit.done?(ST.sit.away?sitAwayMsg():'Your sitting has ended'):'Sitting'}</span>${ST.sit.done?'':`<b class="sitlive">${mmss(sitLeft())}</b>`}</button>`;
+const sitPill=()=>!ST.sit||ST.ov===ST.sit.ov?'':`<button class="sitpill" data-act="sitback">${ico('timer')}<span>${ST.sit.done?(ST.sit.away?sitAwayMsg():'Your sitting has ended'):'Sitting'}</span>${ST.sit.done?'':`<b class="sitlive">${mmss(ST.sit.open?Math.max(0,Math.floor((Date.now()-ST.sit.start)/1000)):sitLeft())}</b>`}</button>`;
 function sitBox(choices,doneMsg,doneExtra=''){
   if(ST.sit&&ST.sit.ov!==ST.ov)return`<div class="sitbox"><span class="small">Timer with a soft bell (optional)</span><div class="sitopts">${choices.map(m=>`<button class="opt" data-act="sit" data-v="${m}">${m} min</button>`).join('')}</div><span class="small">This starts a new timer and stops the one already running.</span></div>`;
   if(ST.sit&&ST.sit.done)return`<div class="sitbox"><b>${ST.sit.away?sitAwayMsg():doneMsg||'Time is up.'}</b><div class="sitopts">${doneExtra}<button class="opt" data-act="sitclear">OK</button></div></div>`;
@@ -2254,10 +2395,10 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={aday:ovAday,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
+const OVERLAYS={aday:ovAday,sit:ovSit,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,mt:sheetMT,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null;
 // Drag a sheet down by its top bar to close it.
@@ -2274,7 +2415,7 @@ function closeTop(){
   const dr=document.getElementById('rf-drawer');if(ST.ov==='tree'&&dr&&dr.classList.contains('open')){closeDrawer();return'dom';}
   if(ST.sheet){ST.sheet=null;ST.restore=null;return true;}
   if(ST.ov==='aday'||ST.ov==='calabout'){ST.ov=ST.adayBack||null;ST.adayBack=null;return true;}
-  if(ST.ov){if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
+  if(ST.ov){if(ST.ov==='session'||ST.ov==='breath'||ST.ov==='sit'){keepAwake(false);clearTimeout(brTimer);ST.sitPhase=null;}
     if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.ov=null;ST.verse=0;return true;}
   if(ST.tab!=='today'){ST.tab='today';return true;}
   return false;}
@@ -2444,10 +2585,10 @@ document.getElementById('app').addEventListener('click',e=>{
   if(a!=='discard')ST.discardArm=false;
   const sheet=(s,arg)=>{ST.sheet=s;ST.sarg=arg;};
   switch(a){
-    case'tab':if(ST.ov==='session'||ST.ov==='breath'){keepAwake(false);clearTimeout(brTimer);}
+    case'tab':if(ST.ov==='session'||ST.ov==='breath'||ST.ov==='sit'){keepAwake(false);clearTimeout(brTimer);ST.sitPhase=null;}
       if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.tab=el.dataset.v;ST.ov=null;ST.sheet=null;break;
     case'veil':case'closesheet':ST.sheet=null;ST.restore=null;break;
-    case'closeov':if(ST.ov==='aday'||ST.ov==='calabout'){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
+    case'closeov':if(['aday','calabout','sit'].includes(ST.ov)){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
     case'seen':lsSet('esm_seen',true);break;
     case'settings':sheet('settings');break;
     case'theme':setTheme(el.dataset.v);break;
@@ -2496,6 +2637,27 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tree':ST.sheet=null;ST.ov='tree';break;
     case'practices':case'about':ST.ov=a;break;
     case'cal':ST.ov='cal';ST.calOff=0;break;
+    // meditation timer
+    case'mtset':mtSave({min:+el.dataset.v,open:false});break;
+    case'mtopen':mtSave({open:!mt().open});break;
+    case'mtstep':mtSave({min:Math.min(240,Math.max(1,mt().min+ +el.dataset.v)),open:false});break;
+    case'mtnum':return;
+    case'mtpre':{const pr=mt().presets[+el.dataset.v];if(pr)mtSave({min:pr.min,open:!!pr.open,interval:pr.interval||0,settle:pr.settle||0});break;}
+    case'mtstart':mtBegin();break;
+    case'mtgo':mtGo();break;
+    case'mtsettings':sheet('mt');break;
+    case'mtsettle':mtSave({settle:+el.dataset.v});break;
+    case'mtint':mtSave({interval:+el.dataset.v});break;
+    case'mtbell':mtSave({bell:el.dataset.v});bell(el.dataset.v);break;
+    case'mthear':bell(el.dataset.v);return;
+    case'mtdim':mtSave({dim:!mt().dim});break;
+    case'mtmotiv':mtSave({motiv:!mt().motiv});break;
+    case'mtdedic':mtSave({dedic:!mt().dedic});break;
+    case'mtsavepre':{const o=mt(),name=val('mtname')||(o.open?'Open sitting':`${o.min} minutes`);mtSave({presets:[...o.presets,{name,min:o.min,open:o.open,interval:o.interval,settle:o.settle}].slice(-8)});toast(`Saved “${name}”`);return;}
+    case'mtdelpre':mtSave({presets:mt().presets.filter((_,i)=>i!==+el.dataset.v)});break;
+    case'sitpeek':ST.sitPeek=Date.now();setTimeout(()=>{if(ST.ov==='sit')render();},4100);break;
+    case'mtend':{const d=mt().dedic;mtEnd();ST.ov=d?'dedicate':null;break;}
+    case'mtfinish':{const d=mt().dedic;sitStop();keepAwake(false);ST.ov=d?'dedicate':null;break;}
     case'calabout':ST.adayBack=ST.ov;ST.ov='calabout';break;
     case'aday':ST.adayBack=ST.ov==='aday'?ST.adayBack:ST.ov;ST.sheet=null;ST.ov='aday';ST.arg=el.dataset.v;break;
     case'calprev':ST.calOff--;break;
@@ -2564,6 +2726,7 @@ document.getElementById('app').addEventListener('click',e=>{
   }
   render();
 });
+document.getElementById('app').addEventListener('change',e=>{if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
 // Counting taps: pointerdown on the tap zone (instant, and works for fast repeated taps).
 document.getElementById('app').addEventListener('pointerdown',e=>{
   if(ST.sheet)return;
