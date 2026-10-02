@@ -2085,10 +2085,12 @@ function sheetRestore(){const R=ST.restore||{step:0};
   return`<div class="grab"></div><h2 class="h1">Are you sure?</h2>
     <p>Your counts now will be replaced with your copy from ${when_}.</p>
     <button class="btn danger wide" data-act="restorego">Yes, replace them</button><button class="btn soft wide" data-act="closesheet">No, keep what I have</button>`;}
+function promptInstall(){if(!installPrompt)return;const p=installPrompt;installPrompt=null;   // a prompt can only be used once
+  p.prompt();p.userChoice.finally(()=>{if(ST.sheet==='install')ST.sheet=null;render();});}
 function sheetInstall(){
   const body=isStandalone()?'<p>This app is already installed. Open it from your home screen.</p>'
    :installPrompt?`<p>Add ${APP_NAME} to your home screen. It then opens like any other app and works without internet.</p><button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button>`
-   :isIOS()?`<p>On iPhone and iPad, use Safari:</p><ol style="padding-left:1.3em;display:flex;flex-direction:column;gap:8px"><li>Tap the <b>Share</b> button (a square with an arrow pointing up).</li><li>Scroll down and tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol>`
+   :isIOS()?`<p>On iPhone and iPad (Safari, or Chrome on iOS 16.4 and later):</p><ol style="padding-left:1.3em;display:flex;flex-direction:column;gap:8px"><li>Tap the <b>Share</b> button (a square with an arrow pointing up). On newer iPhones it may be inside the <b>⋯</b> menu.</li><li>Scroll down and tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>.</li></ol>`
    :`<p>Open your browser's menu (usually ⋮ at the top right) and choose <b>Install app</b> or <b>Add to Home screen</b>.</p>`;
   return`<div class="grab"></div><h2 class="h1">Add to your phone</h2>${body}<button class="btn soft wide" data-act="closesheet">Close</button>`;}
 
@@ -2316,8 +2318,9 @@ document.getElementById('app').addEventListener('click',e=>{
     case'restoresnap':{const s=ls('esm_snapshots',[])[+el.dataset.i];if(s){ST.restore={step:1,o:{app:'dharma-practice',created:s.at,data:s.data}};}break;}
     case'restorenext':ST.restore.step=2;break;
     case'restorego':applyBackup(ST.restore.o);ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup restored');return;
-    case'install':sheet('install');break;
-    case'installgo':if(installPrompt){installPrompt.prompt();installPrompt.userChoice.finally(()=>{installPrompt=null;ST.sheet=null;render();});}return;
+    // Where the browser can install directly (Android Chrome, Edge…), the first tap installs.
+    case'install':if(installPrompt){promptInstall();return;}sheet('install');break;
+    case'installgo':promptInstall();return;
     default:return;
   }
   render();
