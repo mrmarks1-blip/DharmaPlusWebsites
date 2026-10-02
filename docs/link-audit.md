@@ -110,7 +110,9 @@ Other notes:
 - Removed the 58 unused `wiki:` links from `FIGS` (never displayed).
 - Updated the moved Simply Being link.
 
-## Waiting on Gareth
-1. OK to build the in-app "About this day" sheets (section 1), and to draft all six for review?
-2. OK to drop the Rigpa Wiki stubs listed in section 2?
-3. Include Garchen Rinpoche's vajra recitation instructions verbatim in the app (allowed by its notice)?
+## Decided (2026-10-03)
+1. Yes: build in-app "About this day" pages. Draft: `docs/auspicious-days-draft.md`.
+2. Yes: dropped 10 Rigpa Wiki stubs (kept Bernakchen, Six-arm Mahākāla, Yungtön, Tseringma for now); tantra links labelled "The … Tantra".
+3. Yes: Garchen Rinpoche's words added verbatim to *About vajra breathing* (collapsed). Excerpt only: the
+   paragraphs on vase breathing and tummo are left out (he says they need a teacher's pith instructions),
+   with a note saying so. Gareth can ask for the full text.
