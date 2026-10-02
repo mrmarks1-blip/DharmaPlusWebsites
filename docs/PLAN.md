@@ -131,6 +131,8 @@ Ordered by how much they hurt users now.
 
 ## 3. Decisions Gareth needs to make (blocking items marked ●)
 
+**Decided 2026-10-02:** (1) Calendar: research properly, then show both systems where they disagree, each labelled; Gareth to ask Lama Rabsang which rules Palpung follows. (2) "Special day" → **Auspicious days**. (3) Notifications: calendar files (.ics) first; push decided later.
+
 1. ● **Calendar systems.** Which is the default for Today (Phugpa or Tsurphu), and which skipped/doubled rule (Men-Tsee-Khang or the current one)? Proposal: a setting "My calendar: Phugpa (most schools) / Tsurphu (Karma Kagyu)", default chosen from the tradition picked at setup. Where systems disagree, show both, labelled. Ask a teacher (Lama Rabsang / Palpung) which their centre follows.
 2. ● **A word for "special day".** Options: *Practice days* (plain, works for every school) · *Auspicious days* (the usual Tibetan English) · *Holy days* · *Dharma days* · *Observances*. Recommendation: **Practice days**, with each day's own name (Guru Rinpoche Day, Uposatha…) doing the rest.
 3. ● **Notifications approach** (see 4, Phase 2). Start with calendar files (no server, works today), then add real push notifications, which need a small server piece on Cloudflare. OK to add that?
@@ -150,7 +152,7 @@ Phases are in order of value and dependency. Each task ends when it works at pho
 browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main` only on his say-so.
 
 ### Phase 0 · Fix what's annoying now (small, safe)
-- [ ] **A1 back button** in `render()` + one `popstate` handler.
+- [x] **A1 back button** in `render()` + one `popstate` handler.
 - [ ] **A2 timers survive navigation**: persistent pill, localStorage, "ended while you were away".
 - [ ] **A3 install buttons** prompt directly; `?install=1` landing flow; iPhone guide.
 - [ ] **A8 rename "special day"** once Gareth picks a word (search the app for "special").
