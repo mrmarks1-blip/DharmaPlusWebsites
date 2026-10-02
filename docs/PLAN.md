@@ -157,6 +157,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
 - [x] **A3 install buttons**: "Add to phone" always opens a sheet with the benefits first, then either one Install button (when the browser offers it) or steps for *that* browser (Android Chrome, Samsung, iPhone incl. the separate-storage/backup note, in-app browsers, desktop Chrome/Edge/Safari/Firefox). Gareth: the generic "open your browser's menu" text was the real annoyance.
 - [x] **A8 rename "special day"** → "Auspicious days" (app + landing page).
 - [x] **A5 link audit** → `docs/link-audit.md`. Test is *fit for purpose*, not just "opens" (Gareth): if no single page answers what someone wants at that moment, write it in the app, sourced. All 206 links open; auspicious-day links unfit → in-app "About this day" sheets (next); 13 Rigpa Wiki stubs to drop; 58 unused figure links removed.
+- [x] **A12 calendar check page.** `ngondro/tests.html` (not deployed): 1,979 days (31 Dec 2024 – 1 Jun 2030, incl. leap months 2027/2 and 2029/11) and Losar 2025–2030 all match tibetanbuddhistcalendar.org's month view. Also lists the 18 auspicious days in that range where the two skipped/doubled rules disagree (A6 research list).
 - [ ] **A16 accessibility pass.**
 
 ### Phase 1 · One calendar, a calmer Today
