@@ -116,3 +116,23 @@ Other notes:
 3. Yes: Garchen Rinpoche's words added verbatim to *About vajra breathing* (collapsed). Excerpt only: the
    paragraphs on vase breathing and tummo are left out (he says they need a teacher's pith instructions),
    with a note saying so. Gareth can ask for the full text.
+
+## Simply Being and new meditation links (Phase 1, 2026-10-03)
+
+Gareth wants short, pointed James Low pieces, not long retreat talks. Simply Being is mostly transcripts
+and recordings; the most pointed ones found so far, and where they're used:
+
+| Piece | Length | Used in |
+|---|---|---|
+| *Five Questions about the Mind*, extract, London 2020 | 11 pages | Kinds of meditation → Open awareness |
+| *Calm and Clear: finding space for life*, Lisbon 2020 | 27 pages | Kinds of meditation → Just sitting |
+| *The Happy Twins*, Eifel 2019 (audio) | whole retreat | Three Aa source credit (no shorter piece found yet) |
+
+Candidates to look at later (not yet read): *Take it Easy* (Zoom 2011; Veciana 2024), *Your mind is
+mahamudra: Tilopa's meditation advice* (Zoom 2024), *Having dharma with you wherever you go* (extract,
+Berghof 2026). Link only; never copy the text (© James Low).
+
+New links in Kinds of meditation (all checked): Rigpa Wiki Shamatha/Vipashyana; Wikipedia
+Samatha-vipassanā, Mahasi Sayadaw, Shikantaza, Sky gazing (Dzogchen); Access to Insight (Thanissaro,
+CC BY-NC); dhamma.org; Sōtō Zen zazen instructions; Lotsawa House (Shabkar, Mahāmudrā topic); Tergar.
+Texts page: Vajrasound (chant along).

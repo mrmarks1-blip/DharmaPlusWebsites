@@ -387,6 +387,11 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .sphere { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:conic-gradient(from var(--sa),#ff6f91,#ffd54a,#5be37a,#4de1e1,#6fa8ff,#b388ff,#ff6f91); box-shadow:0 0 18px rgba(255,255,255,.35), inset 0 0 10px rgba(0,0,0,.15); animation:spin-sa 14s linear infinite; }
 @keyframes spin-sa { to { --sa:360deg; } }
 @media (prefers-reduced-motion: reduce) { .sphere { animation:none; } }
+.kinds { display:grid; grid-auto-flow:column; grid-auto-columns:82%; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+.kind { scroll-snap-align:start; display:flex; flex-direction:column; gap:6px; text-align:left; padding:16px; border-radius:var(--r-lg); background:var(--surface); border:1px solid var(--line); }
+.kind b { font-family:var(--f-display); font-size:var(--fs-lg); }
+.kind .more { margin-top:auto; color:var(--accent-ink); font-weight:700; display:flex; align-items:center; gap:4px; }
+.kind .more svg { width:16px; height:16px; }
 .legend { display:flex; flex-direction:column; gap:10px; }
 .legend > div { display:flex; gap:12px; align-items:baseline; }
 .legend time { min-width:6.2em; font-weight:700; flex-shrink:0; }
@@ -1632,6 +1637,61 @@ function mtEnd(){const s=ST.sit;if(!s)return;const sat=Math.floor(Math.max(0,Dat
   if(sat>0&&acts().some(a=>a.id==='meditation'))addActAmount(dayKey(),'meditation',sat);
   sitStop();keepAwake(false);toast(sat?`${sat} minute${sat>1?'s':''} of meditation added to your diary`:'Sitting ended');}
 
+// Kinds of meditation: a short card each (swipe along the row), tap for more. Quiet by default: what
+// other traditions say sits in "More from other traditions". Our words; every claim names its source
+// (docs/link-audit.md, 2026-10-03). Quotes only from openly licensed texts, or very short and credited.
+const WP=t=>`https://en.wikipedia.org/wiki/${encodeURIComponent(t.replace(/ /g,'_'))}`;
+const MED_KINDS=[
+  {id:'shamatha',name:'Calm abiding',names:'Śamatha (Sanskrit) · samatha (Pali) · shiné (Tibetan)',short:'Settling the mind by resting it lightly on one thing, often the breath, until it grows calm and steady.',
+    how:['Sit comfortably upright. Let the body be still and the breath natural.','Rest your attention lightly on the breath, or on another support such as an image or a sound.','When you notice you have drifted off, simply come back. No need to scold yourself: noticing is the practice.'],
+    more:'Tibetan teachers describe calm abiding <b>with an object</b> and, later, <b>without one</b>: simply resting (Khenpo Ngakchung, quoted on Rigpa Wiki).',
+    schools:[['Tibetan','Shiné is one of the two main meditation practices, with clear seeing (lhaktong). It settles and steadies the mind; on its own it does not uproot confusion, which is why it is joined with insight (Rigpa Wiki).'],
+      ['Theravāda','Mindfulness of breathing (ānāpānasati), which can deepen into absorption. Ajahn Brahm’s “beautiful breath” stages in this app follow this path.'],
+      ['Zen','Zazen often begins with counting the breath (sūsokukan) or just watching it; the app’s “Counting the breath” is one way in (Wikipedia, Zazen).'],
+      ['A note','Thanissaro Bhikkhu points out that in the early texts calm and insight are “not separate paths of practice, but instead are complementary ways of relating to the present moment” (Access to Insight, CC BY-NC).']],
+    app:[['count','Counting the breath'],['brahm','The beautiful breath'],['vajra','Vajra breathing']],
+    links:[['Shamatha · Rigpa Wiki','https://www.rigpawiki.org/index.php?title=Shamatha'],['Calm and insight · Wikipedia',WP('Samatha-vipassanā')],['One Tool Among Many · Thanissaro Bhikkhu','https://www.accesstoinsight.org/lib/authors/thanissaro/onetool.html']]},
+  {id:'vipassana',name:'Insight',names:'Vipassanā (Pali) · vipaśyanā (Sanskrit) · lhaktong (Tibetan) · “clear seeing”',short:'Once the mind is a little settled, looking closely at experience to see it as it really is.',
+    how:['Begin with a few minutes of calm abiding.','Then notice whatever is most noticeable: a sensation, a sound, a thought, a feeling.','Watch it arise, change and pass, without holding on to it or pushing it away.'],
+    more:'The Tibetan word lhaktong means “seeing in a special, especially clear way” (Rigpa Wiki).',
+    schools:[['Mahasi Sayadaw (Burma)','Noting: silently naming experience as it happens, such as the rising and falling of the belly, or “thinking”, “hearing” (Wikipedia, Mahasi Sayadaw).'],
+      ['S. N. Goenka','Ten-day courses, offered freely: first the breath at the nostrils (ānāpāna), then observing sensations through the body with equanimity. Vipassana “means to see things as they really are” (dhamma.org).'],
+      ['Tibetan','Clear seeing looks into the nature of mind and phenomena. Kamalaśīla’s Stages of Meditation is a classic guide; it asks for a teacher, study and reflection (Rigpa Wiki).']],
+    app:[],
+    links:[['Vipashyana · Rigpa Wiki','https://www.rigpawiki.org/index.php?title=Vipashyana'],['Mahasi Sayadaw · Wikipedia',WP('Mahasi Sayadaw')],['Vipassana courses · dhamma.org','https://www.dhamma.org/en/about/vipassana']]},
+  {id:'sitting',name:'Just sitting',names:'Shikantaza (Sōtō Zen) · zazen · “silent illumination” (Chinese Chan)',short:'Sitting with no object and no goal, letting thoughts come and go on their own.',
+    how:['Sit upright and stable, eyes half open, gazing down at about 45 degrees without focusing on anything.','Breathe naturally. Long breaths are long, short breaths short.','Don’t follow thoughts and don’t push them away. In the words of the Sōtō Zen school: “Just leave thoughts alone, allowing them to come up and go away freely.”'],
+    more:'Shikantaza is Dōgen’s Japanese rendering of a Chinese phrase his teacher Rujing used for “silent illumination”, taught by Hongzhi Zhengjue in the 12th century (Wikipedia).',
+    schools:[['Zen','Dōgen’s Universally Recommended Instructions for Zazen (Fukanzazengi) is the classic text; the Sōtō Zen school publishes a translation and plain instructions.'],
+      ['Tibetan','Resting in the natural state, without fixing on anything, is taught in Mahāmudrā and Dzogchen. See Open awareness.'],
+      ['James Low','“Calm and Clear: finding space for life” (Lisbon, 2020): relaxing, and letting sensations, feelings and thoughts come and go without chasing them.']],
+    app:[],
+    links:[['How to do zazen · Sōtō Zen','https://www.sotozen.com/eng/practice/zazen/howto/'],['Shikantaza · Wikipedia',WP('Shikantaza')],['Calm and Clear · James Low (transcript)','https://simplybeing.co.uk/texts-and-transcripts/calm-and-clear-finding-space-for-life-lisbon-2020/']]},
+  {id:'open',name:'Open awareness',names:'The mind like the sky · sky gazing (namkha arté) · resting in the nature of mind',short:'Resting as the open, knowing space in which thoughts and feelings come and go, like clouds in the sky.',
+    how:['Sit comfortably, eyes open, gaze relaxed and a little upward. If you can, look out into an open sky.','Let your awareness mix with the space. Nothing to hold on to, nothing to do.','When thoughts come, don’t follow them and don’t stop them. Like clouds, they appear and fade by themselves.'],
+    more:'Shabkar sings: “While resting, once thoughts have ceased, / Mind becomes like a clear, cloudless sky, / As transparent as flawless crystal.” (Song of Dzogchen Instructions, tr. Sean Price, Yeshi Chötso and Adam Pearcey, Lotsawa House, CC BY-NC)',
+    schools:[['Dzogchen','Sky gazing is a core practice of the Dzogchen teachings in the Nyingma school and Bön (Wikipedia). It is taught openly today; a teacher can take you much further.'],
+      ['Mahāmudrā','The Kagyu school’s great teaching on the nature of mind. Its “formless” practice is resting the mind in clear, luminous awareness (Reginald Ray, quoted on Wikipedia).'],
+      ['Mingyur Rinpoche','Teaches “open awareness” to beginners, often after resting with the breath (Tergar).'],
+      ['James Low','“Five Questions about the Mind” (London, 2020): does the mind come from anywhere, stay anywhere, go anywhere, have a shape or a size? Classic Dzogchen questions for looking into the mind itself.']],
+    app:[['threeaa','The Three Aa']],
+    links:[['Sky gazing · Wikipedia',WP('Sky gazing (Dzogchen)')],['Song of Dzogchen Instructions · Shabkar','https://www.lotsawahouse.org/tibetan-masters/shabkar/song-of-dzogchen-instruction'],['Mahāmudrā texts · Lotsawa House','https://www.lotsawahouse.org/topics/mahamudra/'],['Five Questions about the Mind · James Low','https://simplybeing.co.uk/texts-and-transcripts/five-questions-about-the-mind-extract-london-2020/'],['Introduction to meditation · Tergar','https://tergar.org/intro-to-meditation']]},
+];
+const medKindsRow=()=>`<p class="h2">KINDS OF MEDITATION</p><div class="kinds" role="list">${MED_KINDS.map(k=>`<button class="kind" role="listitem" data-act="medkind" data-v="${k.id}"><b>${k.name}</b><span class="small">${k.names.split(' · ')[0]}</span><span>${k.short}</span><span class="more">More ${ico('chev')}</span></button>`).join('')}</div>
+  <p class="small" style="text-align:center">Swipe for more. Each works with the timer above.</p>`;
+function ovMedKind(){const k=MED_KINDS.find(x=>x.id===ST.arg);if(!k)return topbar('Meditation');
+  const L=([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`;
+  return`${topbar(k.name)}<div class="ovbody"><div class="col prose">
+    <p class="small">${k.names}</p><p class="sub">${k.short}</p>
+    <p class="h2">HOW TO BEGIN</p><ol class="steps">${k.how.map(x=>`<li>${x}</li>`).join('')}</ol>
+    <p>${k.more}</p>
+    ${k.app.length?`<p class="h2">IN THIS APP</p><div class="list">${k.app.map(([a,l])=>item(a,l,'')).join('')}</div>`:''}
+    <button class="btn primary wide" data-act="mtstart">${ico('timer')} Sit with the timer</button>
+    <details><summary>More from other traditions</summary>${k.schools.map(([w,t])=>`<p style="margin-top:8px"><b>${w}.</b> ${t}</p>`).join('')}</details>
+    <p class="h2">READ MORE</p><div class="links">${k.links.map(L).join('')}</div>
+    <p class="small">These are short introductions, not a replacement for a teacher.</p>
+  </div></div>`;}
+
 // ═══════════════════════════════════════════════════════════
 // TODAY
 // ═══════════════════════════════════════════════════════════
@@ -1667,6 +1727,7 @@ function pagePractice(){const all=allPR();
   return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
   <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
   ${medTimerCard(noonOf(new Date()))}
+  ${medKindsRow()}
   <p class="h2">NGÖNDRO</p><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div>
   <p class="h2">OTHER PRACTICES</p><div class="list">${all.filter(p=>p.group!=='ngondro').map(prRow).join('')}
     ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
@@ -1846,6 +1907,8 @@ function pageTexts(){
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
   ${TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?`<p class="h2">${label}</p>
   <div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`:'';}).join('')}
+  <p class="h2">CHANT ALONG</p>
+  <div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}</div>
   <p class="h2">PRACTICE TEXTS</p>
   <div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
     <span class="s">A printable A4 booklet. Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
@@ -1901,7 +1964,7 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics (as in the open-source tibetan-date-calculator). Hair-cutting days follow tibetanbuddhistcalendar.org (Edward Henning’s Kālacakra calendar). The moon is calculated astronomically. With gratitude to their authors.</p>
   <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('Tibetan Buddhist calendar','https://tibetanbuddhistcalendar.org/day')}</div>
   <p class="h2" style="margin-top:18px">TEXTS AND TRANSLATIONS</p>
-  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Lama Chönam and Timothy Hinkle (Light of Berotsana), Abraham Ta-Quan and Sean Ross. A few sayings whose origin is unknown are credited as such. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
+  <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Lama Chönam and Timothy Hinkle (Light of Berotsana), Sean Price, Yeshi Chötso, Abraham Ta-Quan and Sean Ross. A few sayings whose origin is unknown are credited as such. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
   <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
@@ -2397,7 +2460,7 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={aday:ovAday,sit:ovSit,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
+const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
   newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,mt:sheetMT,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
@@ -2646,6 +2709,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'mtnum':return;
     case'mtpre':{const pr=mt().presets[+el.dataset.v];if(pr)mtSave({min:pr.min,open:!!pr.open,interval:pr.interval||0,settle:pr.settle||0});break;}
     case'mtstart':mtBegin();break;
+    case'medkind':ST.ov='medkind';ST.arg=el.dataset.v;break;
     case'mtgo':mtGo();break;
     case'mtsettings':sheet('mt');break;
     case'mtsettle':mtSave({settle:+el.dataset.v});break;
