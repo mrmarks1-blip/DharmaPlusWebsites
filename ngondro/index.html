@@ -275,6 +275,9 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .shqst i { width:24px; height:24px; border-radius:50%; border:1px solid var(--line); }
 .shqst.on { border-color:var(--accent); background:var(--glow); color:var(--accent-ink); }
 .sheet > * { flex-shrink:0; }
+.card.feature { display:flex; align-items:center; gap:14px; text-align:left; border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); background:linear-gradient(135deg,var(--glow),var(--surface)); }
+.card.feature b { display:block; font-size:var(--fs-lg); }
+.ftib { font-family:var(--f-tib); font-size:34px; line-height:1; color:var(--accent-ink); width:52px; height:52px; display:grid; place-items:center; border-radius:50%; background:var(--surface); border:1px solid var(--line); flex:none; }
 .tourpill { position:absolute; left:50%; bottom:calc(84px + var(--safe-b)); transform:translateX(-50%); z-index:36; display:flex; align-items:center; gap:10px; padding:6px 6px 6px 16px; border-radius:999px;
   background:var(--surface); border:1px solid var(--accent); box-shadow:0 6px 24px rgba(0,0,0,.22); font-weight:700; white-space:nowrap; }
 .tourpill .btn { min-height:40px; padding:0 14px; }
@@ -742,6 +745,31 @@ const PACE_OPTS=[0,21,50,100,108,200,300,500,1000];
 // PRAYERS
 // ═══════════════════════════════════════════════════════════
 const PRAYERS=[
+  {id:'ll_mingyur',group:'longlife',title:'Long-life prayer for Mingyur Rinpoche',sub:'by the Tai Situpa · Lotsawa House, CC BY-NC 4.0',couplets:[
+    {t:"ཨོཾ་བདེ་ལེགས་སུ་གྱུར་ཅིག",p:"om delek su gyur chik",e:"Oṃ! May there be happiness and well-being!"},
+    {t:"རབ་འབྱམས་རྒྱལ་བའི་ཐུགས་བསྐྱེད་ལས་འཁྲུངས་པ། །\nསྙིགས་དུས་འགྲོ་བའི་མགོན་པོ་ཆོས་ཀྱི་རྗེ། །\nགསང་ཆེན་བསྟན་པའི་མེས་པོ་བཀའ་དྲིན་ཅན། །\nཨོ་རྒྱན་སངས་རྒྱས་གཉིས་པས་དགེ་ལེགས་སྩོལ། །",p:"rabjam gyalwé tukkyé lé trungpa\nnyikdü drowé gönpo chö kyi jé\nsangchen tenpé mepo kadrinchen\norgyen sangye nyipé gelek tsol",e:"Born from the aspirations of countless victorious buddhas,\nThe leader of beings in this degenerate age, the lord of Dharma,\nAnd kind patriarch of the great secret teachings\nIs Orgyen, the second Buddha: grant us virtue and auspiciousness!"},
+    {t:"ཁྱོད་ཀྱི་རྣམ་པར་རོལ་པ་མཐའ་ཡས་ཀྱང༌། །\nཡོང༵ས་ཀྱི་དགེ༵་བའི་བཤེས་གཉེན་ཡོངས་ཀྱི་མགོན། །\nམི༵་འགྱུར༵་རྟག་པ་དམ་པའི་མཛོད་འཛིན་པ། །\nརྡོ༵་རྗེ༵་གསུམ་གྱི་ངོ་བོར་ཞབས་བརྟན་གསོལ། །",p:"khyö kyi nampar rolpa tayé kyang\nyong kyi gewe shényen yong kyi gön\nmingyur takpa dampé dzö dzinpa\ndorjé sum gyi ngowor zhabten sol",e:"Although your emanations are beyond limit,\nYou appear as the universal spiritual friend and the lord of all.\nKeeper of the unchanging and everlasting spiritual treasures—\nMay your life remain secure as the essence of the three vajras!"},
+    {t:"འགྱུར་མེད་ཟབ་མོའི་ཐ་ཚིག་རིན་པོ་ཆེ། །\nངེས་གསང་བསྟན་འཛིན་དམ་པ་ཆོས་ཀྱི་རྗེ། །\nརྨད་བྱུང་མཆོག་གི་སྤྲུལ་སྐུ་འགྲོ་བའི་མགོན། །\nརྡོ་རྗེ་གསུམ་གྱི་ངོ་བོར་ཞབས་བརྟན་གསོལ། །",p:"gyurmé zabmö tatsik rinpoche\nngé sang tendzin dampa chö kyi jé\nmejung chok gi tulku drowé gön\ndorjé sum gyi ngowor zhabten sol",e:"Precious statements, unchanging and profound—\nThe definitive and secret teachings are held by this lord of Dharma,\nThis marvellous and sublime nirmāṇakāya, and leader of beings,\nMay your life remain secure as the essence of the three vajras!"},
+    {t:"བསླུ་མེད་སྐྱབས་གནས་དཀོན་མཆོག་རིན་ཆེན་གསུམ། །\nརྩ་གསུམ་དམ་ཅན་རྒྱ་མཚོའི་བདེན་སྟོབས་ཀྱིས། །\nབླ་མའི་ཞབས་པད་ཡུན་དུ་བརྟན་པ་དང༌། །\nམཛད་འཕྲིན་ཕྱོགས་མཐར་ཁྱབ་ཅིང་རྒྱས་གྱུར་ཅིག །",p:"lumé kyabné könchok rinchen sum\ntsa sum damchen gyatsö den tob kyi\nlamé zhabpé yündu tenpa dang\ndzetrin chok tar khyab ching gyé gyur chik",e:"By the power and truth of the unfailing objects of refuge—the three most precious jewels—\nAnd also the Three Roots and infinite oath-bound protectors,\nMay this teacher’s life remain secure long into the future,\nAnd may his activity flourish and extend to the very limits of space!"},
+    {x:'In response to the students who requested a long-life prayer for Yongey Mingyur Rinpoche, Tai Situpa made this aspiration. May it be fulfilled! May virtue and goodness increase!'},
+  ]},
+  {id:'ll_situ',group:'longlife',title:'Long-life prayer for the Tai Situpa',sub:'Padma’s Melodious Song · by Jamyang Khyentse Chökyi Lodrö · tr. Adam Pearcey, Lotsawa House, CC BY-NC 4.0',couplets:[
+    {t:"ཨོཾ་སྭསྟི།\nརབ་འབྱམས་ཕྱོགས་བཅུའི་ཞིང་ན་བཞུགས་པ་ཡི།    །\nབླ་མ་རྩ་གསུམ་རྒྱལ་བ་རྒྱ་མཚོ་ཡི།    །\nཐུགས་རྗེ་མཐུ་སྟོབས་བདེན་པའི་རྩལ་ཕྱུངས་ཏེ།    །\nབཀྲ་ཤིས་ངོ་མཚར་མེ་ཏོག་ཆར་དུ་བསྙིལ།    །",p:"om svasti\nrabjam chok chü zhing na zhukpa yi\nlama tsa sum gyalwa gyatso yi\ntukjé tutob denpé tsal chung té\ntashi ngotsar metok char du nyil",e:"Oṃ svasti!\nThrough invoking the compassion, power and truth\nOf all the gurus and oceanic Three Roots\nThroughout the infinite realms of the ten directions,\nMay a flowery rain of wondrous auspiciousness descend!"},
+    {t:"ཀརྨ་པ་ཡི་བསྟན་འཛིན་ཁྱུ་མཆོག་ཆེ།    །\nབྱམས་ཆེན་དངོས་སྣང་པདྨ་དབང་ཆེན་གྱི།    །\nཟློས་གར་མཐོང་བ་དོན་ཡོད་སྤྲུལ་པའི་སྐུ།    །\nཉིན་བྱེད་དབང་པོ་བཞིན་དུ་ཞབས་བརྟན་གསོལ།    །",p:"karma pa yi tendzin khyuchok ché\njamchen ngö nang pema wangchen gyi\ndögar tongwa dön yö trulpé ku\nnyinjé wangpo zhindu zhabten sol",e:"Great leader among those who uphold the Karmapas’ teachings,\nThe great Maitreya in person, emanation of Pema Wangchen,\nNirmāṇakāya who is meaningful to behold,\nMay you live long like a mighty sun, I pray."},
+    {t:"མཁས་བཙུན་བཟང་པོའི་རྣམ་ཐར་ཡོངས་རྫོགས་ནས།    །\nངེས་དོན་གྲུབ་པ་ཡོངས་ཀྱི་རྗེ་བོར་གྱུར།    །\nམདོ་སྔགས་ཟབ་དོན་སྨྲ་བའི་སེངྒེ་ཆེ།    །\nཞབས་པད་བསྐལ་པ་རྒྱ་མཚོར་རྟག་བཞུགས་གསོལ།    །",p:"khé tsün zangpö namtar yongdzok né\nngedön drubpa yong kyi jewor gyur\ndo ngak zab dön mawé senggé ché\nzhabpé kalpa gyatsor tak zhuk sol",e:"May your liberating qualities of learning, ethics and kindness fully mature,\nSo that you become the foremost of all adepts of definitive meaning.\nA great lion among those who explain the profound meaning of sūtra and mantra—\nMay your lotus feet remain steadfast for a hundred aeons, I pray."},
+    {t:"ཕྱི་ནང་བར་ཆད་བདུད་སྡེའི་གཡུལ་ལས་རྒྱལ།    །\nའཆི་མེད་ཚེ་དང་མཁྱེན་སྟོབས་རབ་རྒྱས་ཤིང་།    །\nསྲིད་ཞིའི་དགེ་མཚན་དབང་དུ་འདུ་བ་དང་།    །\nདོན་གཉིས་འབད་མེད་ལྷུན་གྱིས་གྲུབ་པར་ཤོག  །",p:"chi nang barché dü dé yul lé gyal\nchimé tsé dang khyen tob rabgyé shing\nsizhi getsen wang du duwa dang\ndön nyi bemé lhün gyi drubpar shok",e:"May you be victorious in the battle with demonic forces and obstacles, outer and inner,\nMay your deathless longevity and strength of wisdom bloom,\nMay you gain control of the marks of virtue in existence and quiescence,\nAnd may you effortlessly and spontaneously accomplish your own and others’ aims!"},
+  ]},
+  {id:'seven_line',title:'Seven-Line Prayer',sub:'TSHIG BDUN GSOL \'DEBS — the heart prayer to Guru Rinpoche',about:'sevenline',couplets:[
+    {p:'HUNG',e:''},
+    {t:'ཨུ་རྒྱན་ཡུལ་གྱི་ནུབ་བྱང་མཚམས།',p:'ORJEN YULJI NUPJANG TAM',e:'At the north-western border of Orgyen,'},
+    {t:'པདྨ་གེ་སར་སྡོང་པོ་ལ།',p:'PEMA GESAR DONGPO LA',e:'upon the heart of a lotus flower,'},
+    {t:'ཡ་མཚན་མཆོག་གི་དངོས་གྲུབ་བརྙེས།',p:'YATSEN CHO GI NGODRUP NYE',e:'endowed with the most marvellous attainments,'},
+    {t:'པདྨ་འབྱུང་གནས་ཞེས་སུ་གྲགས།',p:'PEMA JUNGNEY SHESU DRAG',e:'you are renowned as the Lotus-born,'},
+    {t:'འཁོར་དུ་མཁའ་འགྲོ་མང་པོར་བསྐོར།',p:'KHORDU KHANDRO MANGPUR KOR',e:'surrounded by many hosts of ḍākinīs.'},
+    {t:'ཁྱེད་ཀྱི་རྗེས་སུ་བདག་སྒྲུབ་ཀྱི།',p:'CHERCHI JESU DAGDRUP CHI',e:'Following in your footsteps I practise —'},
+    {t:'བྱིན་གྱིས་རླབས་ཕྱིར་གཤེགས་སུ་གསོལ།',p:'JINJI LABCHIR SHEG SU SOL',e:'please come and bestow your blessing!'},
+    {p:'GURU PEMA SIDDHI HUNG',e:''},
+  ]},
   // Order and English follow the Palpung Changchub Dargyeling Prayer Book, p.2.
   {id:'refuge_bodhi',title:'Refuge & Bodhicitta',sub:'Refuge ×3, then the Four Immeasurables ×3',couplets:[
     {sec:'REFUGE AND BODHICITTA  (×3)'},
@@ -807,17 +835,6 @@ const PRAYERS=[
     {p:'PHEN DEY NAM KHA KHAB PAR SHOK',e:'May its blessings fill the sky.'},
     {p:'DUK NA DUK NYAL DAK GYI KHUR',e:'When I am unhappy, may the sorrows of all beings be mine.'},
     {p:'KHOR WA DUK NYAL GYI GYA TSO TONG PAR SHOK',e:'May the ocean of suffering run dry.'},
-  ]},
-  {id:'seven_line',title:'Seven-Line Prayer',sub:'TSHIG BDUN GSOL \'DEBS — to Guru Padmasambhava',couplets:[
-    {p:'HUNG',e:''},
-    {t:'ཨུ་རྒྱན་ཡུལ་གྱི་ནུབ་བྱང་མཚམས།',p:'ORJEN YULJI NUPJANG TAM',e:'At the north-western border of Orgyen,'},
-    {t:'པདྨ་གེ་སར་སྡོང་པོ་ལ།',p:'PEMA GESAR DONGPO LA',e:'upon the heart of a lotus flower,'},
-    {t:'ཡ་མཚན་མཆོག་གི་དངོས་གྲུབ་བརྙེས།',p:'YATSEN CHO GI NGODRUP NYE',e:'endowed with the most marvellous attainments,'},
-    {t:'པདྨ་འབྱུང་གནས་ཞེས་སུ་གྲགས།',p:'PEMA JUNGNEY SHESU DRAG',e:'you are renowned as the Lotus-born,'},
-    {t:'འཁོར་དུ་མཁའ་འགྲོ་མང་པོར་བསྐོར།',p:'KHORDU KHANDRO MANGPUR KOR',e:'surrounded by many hosts of ḍākinīs.'},
-    {t:'ཁྱེད་ཀྱི་རྗེས་སུ་བདག་སྒྲུབ་ཀྱི།',p:'CHERCHI JESU DAGDRUP CHI',e:'Following in your footsteps I practise —'},
-    {t:'བྱིན་གྱིས་རླབས་ཕྱིར་གཤེགས་སུ་གསོལ།',p:'JINJI LABCHIR SHEG SU SOL',e:'please come and bestow your blessing!'},
-    {p:'GURU PEMA SIDDHI HUNG',e:''},
   ]},
   {id:'four_dharmas',title:'Four Dharmas of Gampopa',sub:'CHOS BZHI',couplets:[
     {p:'LO CHÖSU DROWAR JINGI LABTU SOL',e:'Grant your blessings so that my mind may be one with the Dharma.'},
@@ -1628,7 +1645,7 @@ function todayCard(now){const T=calTib(),C=uses().includes('cal'),t=tibDate(now)
     <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),48)}<span class="grow"><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
       ${T?`<span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span>
       <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span>`:''}<span class="small">${phaseText(now)}</span></span>${chev}</button>
-    ${ausp}${dbl}${evs}${reminders().filter(r=>r.date===dayKey(now)).map(r=>`<button class="tc-ev" data-act="day" data-d="${r.date}"><b>${ico('cal')} ${r.time} · ${esc(r.title)}</b>${r.friend?'<span class="small">Practising with a friend</span>':''}</button>`).join('')}
+    ${ausp}${dbl}${evs}${bardoOn(now).map(b=>`<button class="tc-ev" data-act="tab" data-v="texts"><b>Week ${b.week} of 7${b.name?` for ${esc(b.name)}`:''}</b><span class="small">A day for prayers and dedication · Texts → When someone has died</span></button>`).join('')}${reminders().filter(r=>r.date===dayKey(now)).map(r=>`<button class="tc-ev" data-act="day" data-d="${r.date}"><b>${ico('cal')} ${r.time} · ${esc(r.title)}</b>${r.friend?'<span class="small">Practising with a friend</span>':''}</button>`).join('')}
     ${T&&C?`<div class="tc-hair"><span class="small">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></div>`:''}
     <div class="tc-week"><div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
       <p class="small">Tap what you practised ${label}:</p>${jChips(sel)}
@@ -2011,7 +2028,22 @@ function versesOf(pr){const out=[];let sec='',lead=[];
     if(text){out.push({...c,sec,before:lead.length?lead:null});lead=[];}
   }
   return out;}
-const TEXT_GROUPS=[['daily','DAILY PRAYERS'],['sang','SMOKE OFFERINGS'],['other','OTHER TEXTS']];
+const TEXT_GROUPS=[['daily','DAILY PRAYERS'],['longlife','LONG-LIFE PRAYERS'],['sang','SMOKE OFFERINGS'],['other','OTHER TEXTS']];
+// Prayers we may not copy into the app (no open licence), opened on their own sites. [group, title, sub, url]
+const TEXT_LINKS=[
+  ['longlife','Long-life prayer for Garchen Rinpoche','From the Garchen Buddhist Institute (PDF)','https://garchen.net/wp-content/uploads/2020/06/LongLifePrayer-HEGR-SHORT.pdf'],
+  ['longlife','Long-life prayer for Lama Lena (Yeshe Kaytup)','By Lama Candice O’Denver · on Lama Lena’s site','https://lamalenateachings.com/long-life-prayer-for-yeshe-kaytup-rimpoche-lama-lena/'],
+  ['longlife','Prayer for the swift rebirth of Chhimed Rigdzin Rinpoche (C.R. Lama)','The first prayer in The Seven Chapters of Prayer, tr. C.R. Lama and James Low (free PDF, Simply Being)','https://simplybeing.co.uk/wp-content/uploads/2012/08/SevenChapters_Leu_Dun_Ma_31a_sm_final_ARuft_Apr_2011.pdf'],
+];
+// Longer explanations of a prayer, opened from its page. Our words, after the teacher named; links to the source.
+const PRAYER_ABOUT={sevenline:{t:'About the Seven-Line Prayer',p:[
+  'The Seven-Line Prayer (Tsik Dün Söldeb) is the best-known prayer to Guru Rinpoche, Padmasambhava, who brought tantric Buddhism to Tibet and established the lineages that continue today as the Nyingma. All the schools of Tibetan Buddhism hold him in great respect.',
+  'Its seven lines call to him where he was born, on a lotus in the land of Oḍḍiyāna in the north-west; name him the Lotus-born, of marvellous accomplishment, with many ḍākinīs around him; and ask him to come and bless us as we follow him in practice.',
+  'James Low explains that Padmasambhava is “the presence of all the Buddhas”: whatever qualities the Buddhas have, all are present in him, so this one practice is enough. We can trust it.',
+  'It is usually recited three times. As James Low teaches it: the first time we call him from his pure land, the Copper-Coloured Mountain; the second time we feel he is here, smiling and looking at us; the third time he dissolves into us, because the practice is there to free us from believing we are small, limited beings.',
+  'It can be said at any time: at the start of a practice session, on Guru Rinpoche days (the tenth of each Tibetan month), or whenever you need help.'],
+  links:[['James Low: Introducing the Padmasambhava practice (PDF)','https://simplybeing.co.uk/wp-content/uploads/502-2019-Eifel-Extracts-Padmasambhava-Practice-JF-BT-28-08-2024.pdf'],
+    ['The prayer, with C.R. Lama reciting it (Simply Being)','https://simplybeing.co.uk/texts-and-transcripts/seven-line-prayer-of-padmasambhava/']]}};
 // ═══════════════════════════════════════════════════════════
 // PRACTICE DIARY — tick what you practised each day; each activity has a
 // colour, and a day's circle fills with the colours of what was done.
@@ -2076,12 +2108,19 @@ const names=(arr,n=3)=>arr.slice(0,n).join(', ')+(arr.length>n?` and ${arr.lengt
 function fold(id,title,snippet,body,openDef=false){const F=ls('esm_fold',{})||{},open=F[id]??openDef;
   return`<details class="sect" data-fold="${id}"${open?' open':''}><summary><span class="sect-h"><span class="sect-t">${title}</span><span class="sect-s">${snippet}</span></span><span class="sect-c" aria-hidden="true">${ico('chev')}</span></summary><div class="sect-b">${body}</div></details>`;}
 function pageTexts(){
-  const groups=TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?fold('t_'+g,label,names(ps.map(p=>p.title)),
-    `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`):'';}).join('');
+  const groups=TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g),lk=TEXT_LINKS.filter(l=>l[0]===g);return ps.length||lk.length?fold('t_'+g,label,names([...ps.map(p=>p.title),...lk.map(l=>l[1])]),
+    `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}${lk.map(l=>linkItem(l[3],esc(l[1]),esc(l[2]))).join('')}</div>${g==='longlife'?'<p class="small" style="margin-top:6px">Prayers marked ↗ open on their own sites. More are on the way.</p>':''}`):'';}).join('');
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
+  <button class="card feature" data-act="prayer" data-id="seven_line"><span class="ftib" lang="bo" aria-hidden="true">ཧཱུྃ</span><span class="grow"><b>The Seven-Line Prayer</b><span class="small">The heart prayer to Guru Rinpoche, with an explanation after James Low</span></span>${chev}</button>
   ${groups}
   ${LOCKED.length?fold('t_locked','TEXTS THAT NEED TRANSMISSION',names(LOCKED.map(t=>t.title)),`<div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`):''}
-  ${fold('t_chant','CHANT ALONG','Vajrasound: chants and prayers in English',`<div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}</div>`)}
+  ${fold('t_listen','LISTEN','Chants and teachings: Vajrasound, C.R. Lama, Lama Lena',`<div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}
+    ${linkItem('https://simplybeing.co.uk/texts-and-transcripts/seven-line-prayer-of-padmasambhava/','C.R. Lama: the Seven-Line Prayer','Recited three times (1994), with the text · Simply Being')}
+    ${linkItem('https://simplybeing.co.uk/listen-to-rinpoche-2/','Listen to Chhimed Rigdzin Rinpoche','Recordings of C.R. Lama · Simply Being')}
+    ${linkItem('https://simplybeing.co.uk/','James Low · Simply Being','Talks, retreats and texts, free to listen and download')}
+    ${linkItem('https://vajrasound.bandcamp.com/track/sukhavati-aspiration-karma-chagme-rinpoche','Sukhāvatī Aspiration (Karma Chagmé)','Chanted in English · Vajrasound')}
+    ${linkItem('https://youtube.com/lamalenateachings','Lama Lena Teachings','Dzogchen teachings and Q&A, free on YouTube')}</div>`)}
+  ${fold('t_bardo','WHEN SOMEONE HAS DIED','The 49 days: prayers, and a gentle way to mark the weeks',bardoBody())}
   ${fold('t_pdf','PRACTICE TEXTS','A printable booklet, and texts from the Palpung library',`<div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
     <span class="s">A printable A4 booklet. Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
   <p class="small" style="margin:12px 0 8px">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
@@ -2100,7 +2139,7 @@ function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar
   const mode=`<div class="seg" style="grid-template-columns:1fr 1fr;max-width:var(--col-w);margin:0 auto;padding:0 14px;width:100%"><button class="opt${ST.whole?'':' on'}" data-act="whole" data-v="0">One verse</button><button class="opt${ST.whole?' on':''}" data-act="whole" data-v="1">Whole prayer</button></div>`;
   if(ST.whole)return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="ovbody whole"><div class="col"><p class="sub">${esc(pr.sub)}</p>
     ${vs.map((c,k)=>`${c.sec&&(k===0||vs[k-1].sec!==c.sec)?`<p class="vsec" style="margin-top:10px">${esc(c.sec)}</p>`:''}<div class="vblock">${c.n?`<p class="vsec">${c.n}</p>`:''}${block(c)}</div>`).join('')}</div></div>`;
-  return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="verse" data-swl="${last?'':'vnext'}" data-swr="vprev"><div class="col">${v.sec?`<p class="vsec">${esc(secOf(v))}</p>`:''}${block(v)}</div></div>
+  return`${topbar(esc(pr.title),{right:(pr.about?`<button class="iconbtn" data-act="prayabout" data-v="${pr.about}" aria-label="About this prayer">${ico('info')}</button>`:'')+(hasTib?right:'')})}${mode}${pr.about&&!ST.verse?`<button class="btn link" data-act="prayabout" data-v="${pr.about}" style="align-self:center">About this prayer, after James Low ${ico('chev')}</button>`:''}<div class="verse" data-swl="${last?'':'vnext'}" data-swr="vprev"><div class="col">${v.sec?`<p class="vsec">${esc(secOf(v))}</p>`:''}${block(v)}</div></div>
   <p class="vcount">Verse ${i+1} of ${n}</p>
   <div class="vnav"><button class="btn soft" data-act="vprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closeov':'vnext'}">${last?'Finish':'Next verse'}</button></div>`;}
 
@@ -2348,7 +2387,7 @@ function ovCal(){const T=calTib();
   const t0=tibDate(days[0]),t1=tibDate(days[dim-1]);
   const tibSpan=t0.month===t1.month&&t0.leap===t1.leap?`${ordinal(t0.month)} Tibetan month`:`${ordinal(t0.month)}–${ordinal(t1.month)} Tibetan months`;
   const counts={};days.forEach(x=>{const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
-  const list=days.flatMap(x=>[...(T?observedAusp(x):[]).map(o=>({x,k:'a',o})),...(T?eventsOn(x):[]).map(e=>({x,k:'e',e})),...otherDays(x).map(o=>({x,k:'o',o})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'r',e:{name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
+  const list=days.flatMap(x=>[...bardoOn(x).map(b=>({x,k:'r',e:{name:`Week ${b.week} of 7${b.name?' for '+b.name:''} · prayers for the 49 days`}})),...(T?observedAusp(x):[]).map(o=>({x,k:'a',o})),...(T?eventsOn(x):[]).map(e=>({x,k:'e',e})),...otherDays(x).map(o=>({x,k:'o',o})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'r',e:{name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
   // Living teachers (dates ending "-)") are birthdays; the rest, anniversaries.
   const evName=e=>e.kind==='fest'?`<b>${esc(e.name)}</b>`:`${/-\)$/.test(e.name)?'Birthday':'Anniversary'} · ${esc(e.name)}`;
   const kIco=({k,o,e})=>k==='a'?`<i class="ki ka" aria-hidden="true"></i>`:k==='o'?`<i class="ki ko" aria-hidden="true">${moonSVG(o.major&&/full/.test(o.name)?SYN/2:o.major?0:SYN/4,16)}</i>`
@@ -2405,6 +2444,7 @@ function sheetDay(){const T=calTib(),k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=
   return`<div class="grab"></div><h2 class="h1">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
   <div class="row">${moonSVG(moonAge(d),44)}<div>${T?`<b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</div>`:''}<div class="small">${phaseText(d)}</div></div></div>
   ${oth.map(o=>`<div class="card${o.major?' glow':''}"><b>${esc(o.name)}</b><p>${o.t}</p><a class="linkbtn" href="${o.u}" target="_blank" rel="noopener" style="margin-top:8px">Read more ↗</a></div>`).join('')}
+  ${bardoOn(d).map(b=>`<div class="card"><b>Week ${b.week} of 7${b.name?` for ${esc(b.name)}`:''}</b><p>A day to recite the Wishing Prayer of Dewachen or the Prayer of Kuntuzangpo, and dedicate the merit.</p><button class="btn link" data-act="tab" data-v="texts" style="padding-left:0">Prayers ${ico('chev')}</button></div>`).join('')}
   ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('')}
   ${fest.map(f=>`<div class="card glow"><b>★ ${esc(f.name)}</b><p>${f.t}</p>${f.sk?`<p class="note" style="margin-top:8px">Its day is skipped this year, so it is kept today. ${altSkip()}</p>`:''}
     <p class="small" style="margin-top:6px">${FEST_NOTE}</p><a class="linkbtn" href="${f.u}" target="_blank" rel="noopener" style="margin-top:8px">Read more ↗</a></div>`).join('')}
@@ -3092,6 +3132,33 @@ async function openLocked(t,pass){try{const o=await unlockText(t,pass);const P=l
     const id='locked_'+t.id;if(!PRAYERS.some(x=>x.id===id))PRAYERS.push({...o,id,group:'locked',title:t.title,sub:o.sub||t.sub||''});
     ST.sheet=null;ST.ov='prayer';ST.arg=id;ST.verse=0;render();}
   catch(e){toast('That password didn’t open it. Please check it and try again.');}}
+function sheetPrayAbout(){const a=PRAYER_ABOUT[ST.sarg];if(!a)return'';
+  return`<div class="grab"></div><h2 class="h1">${a.t}</h2>${a.p.map(x=>`<p>${x}</p>`).join('')}
+  <div class="links">${a.links.map(([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div>
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+// ── When someone has died: the 49 days (esm_bardo = [{name, date}]). Garchen Rinpoche advises reciting the Wishing
+// Prayer of Dewachen and/or Kuntuzangpo's Prayer every day for 49 days, or at the very least every seventh day after the
+// passing (Dying & Death Instructions, Drikung Dharma Surya Center). The seventh days are marked in the calendar.
+const bardoList=()=>ls('esm_bardo',[])||[];
+function bardoDays(b){const d0=noonOf(new Date(b.date+'T12:00'));return[1,2,3,4,5,6,7].map(k=>({k,d:plusDays(d0,7*k)}));}
+function bardoOn(date){const k=dayKey(date),out=[];bardoList().forEach(b=>bardoDays(b).forEach(x=>{if(dayKey(x.d)===k)out.push({...b,week:x.k});}));return out;}
+const BARDO_LINKS=[['Garchen Rinpoche: Dying & Death Instructions (PDF)','https://drikungdharmasurya.org/wp-content/uploads/2022/02/Dying-Death-Instructions-by-Garchen-Rinpoche.pdf'],
+  ['Aspiration to be reborn in Sukhāvatī (Dewachen)','https://www.lotsawahouse.org/tibetan-masters/jigme-lingpa/sukhavati-aspiration'],
+  ['The Prayer of Kuntuzangpo','https://www.lotsawahouse.org/tibetan-masters/rigdzin-godem/prayer-of-kuntuzangpo'],
+  ['Dying and the bardos: more prayers (Lotsawa House)','https://www.lotsawahouse.org/topics/dying-bardos/']];
+function bardoBody(){const L=bardoList();
+  return`<p>In the Tibetan tradition, the time after a death is a time to help: through prayer, practice and dedicating merit to the person who has died. It is traditionally said to last up to 49 days.</p>
+  <p>Garchen Rinpoche advises reciting the Wishing Prayer of Dewachen (Sukhāvatī) and/or the Prayer of Kuntuzangpo every day for the 49 days, or at the very least every seventh day after the passing. The mantras of Amitābha and Chenrezig (OM MANI PEME HUNG) can be recited too, and everything dedicated to them.</p>
+  <div class="links">${BARDO_LINKS.map(([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div>
+  ${L.length?`<div class="list">${L.map((b,i)=>{const nx=bardoDays(b).find(x=>x.d>=noonOf(new Date()));return`<div class="item" style="cursor:default"><span class="grow"><span class="t">${b.name?esc(b.name):'Someone dear to you'}</span><span class="s">${nx?`Week ${nx.k} of 7 · ${nx.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}`:'The 49 days are complete'}</span></span><button class="iconbtn" data-act="bardodel" data-v="${i}" aria-label="Remove">${ico('trash')}</button></div>`;}).join('')}</div>`:''}
+  <button class="btn soft wide" data-act="bardo">${ico('cal')} Mark the seven weeks in my calendar</button>
+  <p class="small">A teacher or monastery can also be asked to say prayers. Ask your own teacher what they advise.</p>`;}
+function sheetBardo(){const d=dayKey();
+  return`<div class="grab"></div><h2 class="h1">Mark the 49 days</h2><p class="small">The seven weekly days, each on the same day of the week as the passing, appear in your calendar and on Today, with the prayers. Only on this phone.</p>
+  <label class="small" for="bardoname">Their name (optional)</label><input id="bardoname" type="text" maxlength="40">
+  <label class="small" for="bardodate">The day they died</label><input id="bardodate" type="date" max="${d}" value="${d}">
+  <p class="small">Some count the day of death as the first day, which moves each week a day earlier. Follow your teacher if they say otherwise.</p>
+  <button class="btn primary wide" data-act="bardoadd">Mark the weeks</button><button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
   <div class="list">${allPR().map(p=>{const c=getPD(p.id).counter||0;return item('setcur',esc(p.name),`${fmt(c)} of ${fmt(p.target)}`,{attrs:`data-id="${p.id}" style="--acc:${p.acc}"`,right:currentId()===p.id?'<span class="tag ok">Now</span>':''});}).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -3191,7 +3258,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -3477,6 +3544,11 @@ document.getElementById('app').addEventListener('click',e=>{
     case'endsession':ST.sheet=null;ST.ov=null;keepAwake(false);break;
     // texts
     case'prayer':ST.ov='prayer';ST.arg=id;ST.verse=0;break;
+    case'prayabout':sheet('prayabout',el.dataset.v);break;
+    case'bardoadd':{const ds=val('bardodate'),nm=val('bardoname').trim();if(!ds){toast('Please choose the date they died');return;}
+      lsSet('esm_bardo',[...bardoList().filter(b=>b.date!==ds||b.name!==nm),{date:ds,name:nm}]);ST.sheet=null;toast('The 49 days are marked in your calendar');break;}
+    case'bardodel':lsSet('esm_bardo',bardoList().filter((b,i)=>i!==+el.dataset.v));break;
+    case'bardo':sheet('bardo');break;
     case'vnext':ST.verse++;break;
     case'vprev':ST.verse=Math.max(0,ST.verse-1);break;
     case'tib':ST.showTib=!ST.showTib;lsSet('esm_tib',ST.showTib);break;
