@@ -431,6 +431,21 @@ milestones (Eight Auspicious Symbols) are a design job for Phase 6.
   sitemap.xml. Google still shows the old WordPress tagline until it re-crawls: Gareth to add the site in
   Google Search Console (DNS TXT verification in Cloudflare; Claude can add the record) and request indexing.
 
+### 2026-10-04, fifth round
+Done: texts@slicedharma.com forwards to mrmarks1@gmail.com (Cloudflare Email Routing, active). Fixes: Practice order
+(kinds, breath, open sitting, ngöndro, other); Texts start closed; back returns to your place; swipe for every Next/Back
+(data-swl/data-swr); tour keeps going after "Show me"; share images drawn once and kept (fixes broken/flicker).
+Three Aa: soft singing-bowl tone; mic ends each Aa; after the third: melt → black 20 s → "Sky to sky" + small ×.
+Texts: Seven-Line Prayer first + explanation after James Low (Eifel 2019 transcript); long-life prayers (Mingyur,
+Tai Situpa from Lotsawa CC BY-NC; Garchen, Lama Lena, C.R. Lama swift rebirth as links: copyright); Listen links;
+When someone has died (Garchen Rinpoche's instructions; seven weekly days in calendar/Today; esm_bardo).
+Practise together: shared counts (worker /api/group…, D1 table groups; esm_groups). Generosity page (ovDana).
+Waiting on Gareth: James Low's and Lama Rabsang's long-life prayers (he'll send); permission emails in
+docs/requests.md (Lama Lena quotes + prayer; Simply Being: C.R. Lama prayer text, Khordong refuge tree image, James
+Low quotes); "can't add my own practices to the calendar" (couldn't reproduce: need exact steps).
+Paused by Gareth: locked texts, redesign/mockups, other schools' texts, more calendars, Tsurphu, retreat list,
+translations.
+
 ## 5. New web tech worth using (checked October 2026; re-check support before relying on it)
 
 | Tech | Use here | Notes |
