@@ -244,6 +244,18 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .qnav .small { text-align:center; }
 .qlbl { display:inline-flex; align-items:center; gap:2px; }
 .qlbl .iconbtn { width:40px; height:40px; color:var(--ink-3); }
+.mile-ico { width:96px; height:96px; margin:4px auto 0; color:var(--accent); }
+.mile-ico svg { width:100%; height:100%; }
+.miles { display:flex; flex-direction:column; gap:8px; }
+.mile { display:flex; align-items:center; gap:12px; padding:8px 10px; border-radius:var(--r); background:var(--sunk); opacity:.55; }
+.mile.on { opacity:1; }
+.mile .mi { width:40px; height:40px; flex:none; color:var(--accent); }
+.mile .mi svg { width:100%; height:100%; }
+.mile b { display:block; }
+.milerow { display:flex; align-items:center; flex-wrap:wrap; gap:6px; padding:6px 0; color:var(--accent); background:none; border:0; text-align:left; min-height:44px; }
+.milerow > span:not(.small) { width:26px; height:26px; }
+.milerow svg { width:100%; height:100%; }
+.milerow .small { color:var(--ink-3); margin-left:4px; }
 .shqimg { display:block; width:100%; max-height:52vh; object-fit:contain; border-radius:var(--r); border:1px solid var(--line); background:var(--sunk); }
 
 /* ═══════════════════════════════════════════
@@ -1119,6 +1131,11 @@ function doy(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
 // PRACTICE EXPLAINERS — short, plain-English "what is this?"
 // ═══════════════════════════════════════════════════════════
 const NGONDRO=['refuge','prostr','diamond','mandala','guruyoga'];
+// Shown under Prostrations (practice page and Learn → The practices). Gareth: "people can do whatever they can";
+// sources: Lama Zopa Rinpoche (lamayeshe.com/advice/prostrations), Lion's Roar (Carlo Carranza, "Understanding the Ngöndro").
+const PROSTR_NOTE=`<p><b>Prostrations for every body.</b> Do what your body allows. Many teachers allow modified prostrations when full ones aren’t possible: on the knees, or bowing with the hands on a table or chair. If even that is too much, you can visualise. Lama Zopa Rinpoche advises imagining countless bodies, vast as mountains, all prostrating with you, while you recite with your hands joined in the prostration mudra; done with a good visualisation, he says, it can bring even more merit than the physical prostration.</p>
+  <p class="small" style="margin-top:6px">Ask your own teacher what they advise.</p>
+  <div class="links" style="margin-top:8px"><a class="linkbtn" href="https://www.lamayeshe.com/advice/prostrations" target="_blank" rel="noopener">Lama Zopa Rinpoche’s advice ↗</a></div>`;
 const ABOUT_PR={
   refuge:'Taking refuge in the Buddha, the Dharma and the Sangha, with a short refuge formula recited as its own accumulation.',
   prostr:'The first of the four special preliminaries. Full-length prostrations while reciting the refuge prayer, with the refuge tree before you. Body, speech and mind go for refuge together.',
@@ -1405,6 +1422,14 @@ const I={
   phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/>',link:'<path d="M10 14l4-4M8.5 11.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M15.5 12.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>',
   trash:'<path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/>',
   swap:'<path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/>',
+  hands:'<path d="M11.4 3.5 8.8 9.6l-.4 5L5 18l2 2.5 4.4-3.4zM12.6 3.5l2.6 6.1.4 5L19 18l-2 2.5-4.4-3.4z"/>',
+  sitter:'<circle cx="12" cy="5.3" r="2.2"/><path d="M12 8.6v4.6M7.2 11.2c1.4 1.4 3 2 4.8 2s3.4-.6 4.8-2M4.5 18.6c2-2.2 4.5-2.8 7.5-2.8s5.5.6 7.5 2.8z"/>',
+  sprout:'<path d="M12 20v-8M12 12c0-3-2-5-6-5 0 3 2 5 6 5zM12 14.5c0-3 2-5.5 6-5.5 0 3-2 5.5-6 5.5zM7 20h10"/>',
+  bigtree:'<path d="M12 21v-6M12 16.5l-2.6-1.8M12 17.5l2.6-2"/><path d="M12 3c-3 0-5 2.2-5 4.6-1.6.6-2.5 2-2.5 3.5 0 2.2 1.8 3.9 4 3.9h7c2.2 0 4-1.7 4-3.9 0-1.5-.9-2.9-2.5-3.5C17 5.2 15 3 12 3z"/>',
+  heart:'<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
+  hearts:'<path d="M9 18s-5.5-3.4-5.5-7.4A3.2 3.2 0 0 1 9 8.7a3.2 3.2 0 0 1 5.5 1.9"/><path d="M15 20s-5-3.1-5-6.7a2.9 2.9 0 0 1 5-1.8 2.9 2.9 0 0 1 5 1.8c0 3.6-5 6.7-5 6.7z"/>',
+  mountain:'<path d="M3 19 9.5 8l3.5 6 2-3 6 8z"/><path d="M7.9 10.7l1.6 1.1 1.5-1"/>',
   timer:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 2.5h4"/>',
   share:'<path d="M12 15V4M8 8l4-4 4 4M6 11v8h12v-8"/>',
 };
@@ -1464,7 +1489,7 @@ function progressCard(now){const P=ls('esm_plog',{}),cut=dayKey(plusDays(now,-60
   const med=medStats(now);
   return`<p class="h2">YOUR PROGRESS</p><div class="card stack">${rows}
     ${med.monthDays?`<div class="prog" style="--acc:#4a7fd4"><span class="row"><span class="dot"></span><b class="grow">Meditation</b><span class="small">${med.monthDays} day${med.monthDays>1?'s':''}${med.monthMin?` · ${fmt(med.monthMin)} min`:''} this month</span></span></div>`:''}
-    <button class="btn primary" data-act="tab" data-v="practice">${ico('mala')} Practise</button></div>`;}
+    ${mileRow()}<button class="btn primary" data-act="tab" data-v="practice">${ico('mala')} Practise</button></div>`;}
 
 // ── Meditation timer ──
 // Settings in esm_medtimer. Uses the shared sitting timer (esm_sit, the pill, the bell, diary minutes).
@@ -1621,6 +1646,7 @@ const gcalLink=e=>{const end=new Date(`${e.date}T${e.time||'08:00'}:00`);end.set
   const p=new URLSearchParams({action:'TEMPLATE',text:e.title,dates:`${icsDT(e.date,e.time||'08:00')}/${icsDT(dayKey(end),`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}`,details:e.desc||''});
   if(e.rrule)p.set('recur','RRULE:'+e.rrule);return'https://calendar.google.com/calendar/render?'+p.toString();};
 const APP_URL='https://slicedharma.com/ngondro/';
+const KOFI='https://ko-fi.com/raccoonhands';
 // What a day is, in one line, for a reminder's title.
 function dayTitle(k){const d=noonOf(new Date(k+'T12:00')),o=observedAusp(d)[0],e=eventsOn(d).find(x=>x.kind==='fest');return e?e.name.split(',')[0]:o?o.a.name:'Practice';}
 function reminderEvent(r){return{uid:`${r.id}@slicedharma.com`,date:r.date,time:r.time,mins:r.mins||30,title:r.friend?`Practise together: ${r.title}`:r.title,
@@ -1735,6 +1761,7 @@ function ovPractice(){
     ${pd.lastDate?`<p class="small">Last practised ${fmtD(pd.lastDate)}.</p>`:''}
     ${isCur?'':`<button class="btn soft wide" data-act="setcur" data-id="${id}">${ico('star')} Show this on Today</button>`}
     ${ABOUT_PR[id]?`<div class="card"><p class="h2" style="margin:0 0 6px">ABOUT THIS PRACTICE</p><p>${ABOUT_PR[id]}</p></div>`:''}
+    ${id==='prostr'?`<div class="card" id="prostrnote">${PROSTR_NOTE}</div>`:''}
     ${p.img?`<button class="btn soft wide" data-act="image" data-id="${id}">${ico('image')} ${id==='refuge'||id==='prostr'?'View the refuge tree':'View the image'}</button>`:''}
     <div class="card" id="beadgrid"><p class="small" style="margin-bottom:8px">Each circle is ${fmt(p.cv)}.</p></div>
     ${p.custom?`<button class="btn link" data-act="delpr" data-id="${id}">${ico('trash')} Delete this practice</button>`:''}
@@ -1886,6 +1913,7 @@ function pageTexts(){
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
   ${TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?`<p class="h2">${label}</p>
   <div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`:'';}).join('')}
+  ${LOCKED.length?`<p class="h2">TEXTS THAT NEED TRANSMISSION</p><div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`:''}
   <p class="h2">CHANT ALONG</p>
   <div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}</div>
   <p class="h2">PRACTICE TEXTS</p>
@@ -1928,7 +1956,7 @@ function pageLearn(){
 function ovPractices(){return`${topbar('The practices')}<div class="ovbody"><div class="col">
   <p class="sub">The four special preliminaries (ngöndro) prepare the mind for deeper practice. Each is traditionally done 111,111 times.</p>
   ${allPR().filter(p=>ABOUT_PR[p.id]).map(p=>`<div class="card" style="--acc:${p.acc}"><div class="row" style="margin-bottom:6px"><span class="dot"></span><b style="font-size:var(--fs-lg)">${esc(p.name)}</b></div>
-    <p>${ABOUT_PR[p.id]}</p>${mantraOf(p)?`<p class="mantra" style="margin-top:8px">${mantraHTML(mantraOf(p))}</p>`:''}</div>`).join('')}
+    <p>${ABOUT_PR[p.id]}</p>${p.id==='prostr'?`<div style="margin-top:10px">${PROSTR_NOTE}</div>`:''}${mantraOf(p)?`<p class="mantra" style="margin-top:8px">${mantraHTML(mantraOf(p))}</p>`:''}</div>`).join('')}
   <p class="small">These are short introductions only. Please learn the practices from a qualified teacher.</p></div></div>`;}
 function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`;
   return`${topbar('About')}<div class="ovbody"><div class="col prose">
@@ -1956,6 +1984,9 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>These guides are written in plain words for this app from the teachers’ own instructions. They are reminders, not replacements for a teacher.</p>
   <p><b>The Three Aa</b> follows James Low’s instructions (Simply Being, “The Happy Twins” retreat, 2019), in the Dzogchen tradition of Garab Dorje, also taught widely by Chögyal Namkhai Norbu. <b>Vajra breathing</b> follows the OM AH HUM vajra recitation as taught by His Eminence Garchen Rinpoche. <b>The beautiful breath</b> follows Ajahn Brahm’s The Basic Method of Meditation (Buddhist Society of Western Australia).</p>
   <div class="links">${L('James Low · Simply Being','https://simplybeing.co.uk/')}${L('Garchen Buddhist Institute','https://garchen.net/')}${L('Ajahn Brahm · BSWA','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/')}</div>
+  <p class="h2" style="margin-top:18px">SUPPORT</p>
+  <p>The app is free, with no adverts, and always will be. Hosting is free on Cloudflare; the costs are the domain name and the time it takes. If it helps you and you would like to, you can support it on Ko-fi. Please give to your teacher and your centre first.</p>
+  <div class="links">${L('Support on Ko-fi',KOFI)}</div>
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -2407,6 +2438,7 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   <p class="h2" style="margin:0">CALENDAR</p><div class="list">${item('caldays','Which days to show',calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(' · ')||'None',{ico:'cal'})}${calTib()?item('calabout','Skipped and doubled days',calRule()==='after'?'The day after · the first day (as tibetanbuddhistcalendar.org)':'The day before · the second day (as FPMT)',{ico:'cal'}):''}</div>
   <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('push','Notifications',pushCfg().on?'On · words for today, evening nudge':'Words for today, and a gentle evening nudge',{ico:'phone'})}${item('daily','A daily reminder','In your phone’s own calendar',{ico:'cal'})}${calTib()?item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
   <button class="btn soft wide" data-act="shareapp">${ico('share')} Share this app with a friend</button>
+  <a class="btn link" href="${KOFI}" target="_blank" rel="noopener" style="align-self:center">Support the app on Ko-fi ↗</a>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add this app to your phone</button>`}
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The welcome: a pop-up at most once a day (esm_welcome_day), until "Don't show this again" (esm_seen).
@@ -2517,7 +2549,32 @@ function sheetCalDays(){const on=calDays();
 function suDone(){lsSet('esm_seen',true);ST.su=null;ST.sheet=null;}
 // ── Share a quote as an image (Phase 5). Drawn on the phone (canvas), in the current theme's colours.
 // It must carry the credit line (cr in quotes.js: translator and licence), so only credited quotes are offered.
-async function quoteCanvas(q,fmt){const W=1080,H=fmt==='story'?1920:1350,c=document.createElement('canvas');c.width=W;c.height=H;
+// Brocade: a dark panel framed by a woven-silk-like border of cloud scrolls (drawn here, our own pattern),
+// light centred text. Plain: the app's own theme colours.
+function brocade(x,W,H,inset){const bg='#15120e',gold='rgba(190,150,78,.55)',rust='rgba(150,62,40,.5)',jade='rgba(70,110,90,.45)';
+  x.fillStyle=bg;x.fillRect(0,0,W,H);x.lineCap='round';
+  const S=86;let row=0;
+  for(let y=-S/2;y<H+S;y+=S*.72,row++)for(let cx=(row%2?S/2:0)-S/2;cx<W+S;cx+=S){
+    const k=(row*7+Math.round(cx/S)*3)%5;x.strokeStyle=k===0?rust:k===3?jade:gold;x.lineWidth=2.6;const s=S*.62;
+    x.beginPath();x.arc(cx-s*.36,y,s*.28,Math.PI*.95,Math.PI*1.95);x.arc(cx,y-s*.12,s*.34,Math.PI*1.1,Math.PI*1.9);x.arc(cx+s*.36,y,s*.28,Math.PI*1.05,Math.PI*2.05);x.stroke();
+    x.beginPath();for(let a=0;a<3.6*Math.PI;a+=.18){const r=s*.04+a*s*.022;x.lineTo(cx+Math.cos(a+Math.PI)*r,y+s*.16+Math.sin(a+Math.PI)*r);}x.stroke();
+    x.fillStyle=gold;x.beginPath();x.arc(cx+S/2,y+S*.36,2.4,0,7);x.fill();}
+  x.fillStyle='#0c0b09';x.fillRect(inset,inset,W-2*inset,H-2*inset);
+  x.strokeStyle='rgba(190,150,78,.8)';x.lineWidth=2;x.strokeRect(inset-10,inset-10,W-2*inset+20,H-2*inset+20);x.lineWidth=1;x.strokeRect(inset-18,inset-18,W-2*inset+36,H-2*inset+36);}
+async function quoteCanvasBrocade(q,fmt){const W=1080,H=fmt==='story'?1920:1350,c=document.createElement('canvas');c.width=W;c.height=H;
+  const x=c.getContext('2d'),UI='"Atkinson Hyperlegible Next", system-ui, sans-serif',inset=fmt==='story'?150:170;
+  try{await Promise.all([document.fonts.load(`300 50px ${UI}`),document.fonts.load(`600 30px ${UI}`)]);}catch{}
+  brocade(x,W,H,inset);const maxW=W-2*inset-110;x.textAlign='center';
+  const wrap=(t,font)=>{x.font=font;const out=[];String(t).split('\n').forEach(par=>{let line='';par.split(' ').forEach(w=>{const tr=line?line+' '+w:w;if(line&&x.measureText(tr).width>maxW){out.push(line);line=w;}else line=tr;});out.push(line);});return out;};
+  const credLines=q.cr?wrap(q.cr,`400 24px ${UI}`):[],room=H-2*inset-230-credLines.length*34;let fs=64,lines;
+  for(;fs>28;fs-=2){lines=wrap(q.t,`300 ${fs}px ${UI}`);if(lines.length*fs*1.36<=room)break;}
+  const lh=fs*1.36,block=lines.length*lh+70+40+credLines.length*34;let y=(H-block)/2+fs*.85;
+  x.fillStyle='#efe8da';x.font=`300 ${fs}px ${UI}`;lines.forEach(l=>{x.fillText(l,W/2,y);y+=lh;});
+  y+=34;x.fillStyle='#d2ae62';x.font=`600 30px ${UI}`;wrap(q.a,`600 30px ${UI}`).forEach(l=>{x.fillText(l,W/2,y);y+=40;});
+  x.fillStyle='#a69a84';x.font=`400 24px ${UI}`;credLines.forEach(l=>{x.fillText(l,W/2,y);y+=34;});
+  x.fillStyle='#8c816d';x.font=`600 22px ${UI}`;x.fillText(`${APP_NAME} · slicedharma.com`,W/2,H-inset-34);
+  return new Promise(r=>c.toBlob(b=>r(b),'image/png'));}
+async function quoteCanvas(q,fmt,style){if(style!=='plain')return quoteCanvasBrocade(q,fmt);const W=1080,H=fmt==='story'?1920:1350,c=document.createElement('canvas');c.width=W;c.height=H;
   const x=c.getContext('2d'),cs=getComputedStyle(document.documentElement),v=k=>cs.getPropertyValue(k).trim(),DISP='Fraunces, Georgia, serif',UI='"Atkinson Hyperlegible Next", system-ui, sans-serif';
   try{await Promise.all([document.fonts.load(`500 60px ${DISP}`),document.fonts.load(`700 30px ${UI}`)]);}catch{}
   x.fillStyle=v('--bg')||'#f7f2e6';x.fillRect(0,0,W,H);x.strokeStyle=v('--line')||'#e2d6bf';x.lineWidth=3;x.strokeRect(56,56,W-112,H-112);
@@ -2535,7 +2592,7 @@ async function quoteCanvas(q,fmt){const W=1080,H=fmt==='story'?1920:1350,c=docum
   return new Promise(r=>c.toBlob(b=>r(b),'image/png'));}
 let shqURL=null;
 async function drawShareQuote(){const S=ST.shq,img=document.getElementById('shqimg');if(!S||!img)return;
-  const b=await quoteCanvas(QUOTES[S.qi],S.fmt);if(shqURL)URL.revokeObjectURL(shqURL);shqURL=URL.createObjectURL(b);S.blob=b;
+  const b=await quoteCanvas(QUOTES[S.qi],S.fmt,S.style);if(shqURL)URL.revokeObjectURL(shqURL);shqURL=URL.createObjectURL(b);S.blob=b;
   const el=document.getElementById('shqimg');if(el)el.src=shqURL;}
 function sheetShareQuote(){const S=ST.shq,q=QUOTES[S.qi];
   if(q.cr==null)return`<div class="grab"></div><h2 class="h1">Share this quote</h2><p>This one ${/liturgy|Immeasurables|bodhicitta|Tungma|Gampopa|Dedication/.test(q.a)?'is from the practice liturgy, shared by the centre for personal practice':'has a translation we are still confirming the licence for'}, so the app doesn’t make it into an image. Most of the others can be shared.</p>
@@ -2543,8 +2600,9 @@ function sheetShareQuote(){const S=ST.shq,q=QUOTES[S.qi];
   return`<div class="grab"></div><h2 class="h1">Share this quote</h2>
   <img id="shqimg" class="shqimg" alt="${esc(q.t)} (${esc(q.a)})">
   <div class="seg" style="grid-template-columns:1fr 1fr">${[['post','Post'],['story','Story']].map(([k,l])=>`<button class="opt${S.fmt===k?' on':''}" data-act="shqfmt" data-v="${k}">${l}</button>`).join('')}</div>
+  <div class="seg" style="grid-template-columns:1fr 1fr">${[['brocade','Brocade'],['plain','Plain']].map(([k,l])=>`<button class="opt${(S.style||'brocade')===k?' on':''}" data-act="shqstyle" data-v="${k}">${l}</button>`).join('')}</div>
   <button class="btn primary wide" data-act="shqshare">${ico('share')} Share the image</button>
-  <p class="small">The translator and licence are written on the image${/CC BY-NC/.test(q.cr)?': it’s free to share, not to sell':''}. The colours follow your theme.</p>
+  <p class="small">The translator and licence are written on the image${/CC BY-NC/.test(q.cr)?': it’s free to share, not to sell':''}. ${(S.style||'brocade')==='plain'?' The colours follow your theme.':''}</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 async function shareQuoteImage(){const S=ST.shq;if(!S)return;if(!S.blob)await drawShareQuote();
   const f=new File([S.blob],`words-for-today-${S.fmt}.png`,{type:'image/png'}),q=QUOTES[S.qi];
@@ -2554,6 +2612,59 @@ async function shareQuoteImage(){const S=ST.shq;if(!S)return;if(!S.blob)await dr
 async function shareApp(){const text=`${APP_NAME}: a free app for daily Buddhist practice. Meditation timer, mala counter, practice diary and calendar. No account, no adverts.`;
   if(navigator.share){try{await navigator.share({title:APP_NAME,text,url:APP_URL});}catch(e){}return;}
   try{await navigator.clipboard.writeText(`${text} ${APP_URL}`);toast('Link copied. Paste it to a friend.');}catch{toast(APP_URL);}}
+// ── Milestones (Phase 5): private moments, never a leaderboard; each ends with dedicating and rejoicing.
+// esm_milestones = {id: date reached}. Existing users get what they've already reached marked quietly.
+const MILES=[['first','hands','Your first practice','The first step. Everything begins here.',s=>s.days>=1],
+  ['sit1','sitter','Your first meditation','A first sit with the timer or the diary.',s=>s.med>=1],
+  ['d7','sprout','7 days of practice','Seven days on which you practised. They add up whenever you come back; nothing is ever lost.',s=>s.days>=7],
+  ['d30','bigtree','30 days of practice','Thirty days of practice. A habit taking root.',s=>s.days>=30],
+  ['d108','sun','108 days of practice','108 days, one for each bead of a mala.',s=>s.days>=108],
+  ['c1000','heart','1,000 counted','A thousand mantras, prostrations or offerings, all together.',s=>s.count>=1000],
+  ['c10000','hearts','10,000 counted','Ten thousand. Steady effort, a little at a time.',s=>s.count>=10000],
+  ['done','mountain','A practice completed','You reached the end of a practice’s count. May it benefit all beings.',s=>s.done>=1]];
+function mileStats(){const days=new Set([...Object.keys(ls('esm_log',{})),...Object.keys(journal())]);
+  const pr=allPR();return{days:days.size,med:medStats(new Date()).total,count:pr.reduce((t,p)=>t+(getPD(p.id).counter||0),0),done:pr.filter(p=>(getPD(p.id).counter||0)>=p.target).length};}
+function checkMiles(){let got=ls('esm_milestones',null);const st=mileStats(),now=MILES.filter(m=>m[4](st)).map(m=>m[0]);
+  if(!got){got={};now.forEach(id=>got[id]=dayKey());lsSet('esm_milestones',got);return null;}   // first run: mark quietly
+  const nw=now.filter(id=>!got[id]);if(!nw.length)return null;nw.forEach(id=>got[id]=dayKey());lsSet('esm_milestones',got);return nw[nw.length-1];}   // several at once: show the biggest
+function sheetMile(){const m=MILES.find(x=>x[0]===ST.sarg);if(!m)return'';
+  return`<div class="grab"></div><div class="mile-ico" aria-hidden="true">${ico(m[1],1.4)}</div><h2 class="h1" style="text-align:center">${m[2]}</h2><p style="text-align:center">${m[3]}</p>
+  <p class="small" style="text-align:center">Rejoicing in good actions, your own and others’, is itself part of the practice.</p>
+  <button class="btn primary wide" data-act="mileded">Dedicate it to all beings</button>
+  <button class="btn soft wide" data-act="mileshare">${ico('share')} Rejoice with a friend</button>
+  <button class="btn link" data-act="miles" style="align-self:center">All milestones</button>`;}
+function sheetMiles(){const got=ls('esm_milestones',{})||{};
+  return`<div class="grab"></div><h2 class="h1">Milestones</h2><p class="small">Private to you. They stay with you: nothing is lost if you take a break.</p>
+  <div class="miles">${MILES.map(([id,ic,t,d])=>`<div class="mile${got[id]?' on':''}"><span class="mi">${ico(ic,1.5)}</span><span><b>${t}</b><span class="small">${got[id]?`Reached ${fmtD(got[id]+'T12:00')}`:'Not yet'}</span></span></div>`).join('')}</div>
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+function mileRow(){const got=ls('esm_milestones',{})||{},on=MILES.filter(m=>got[m[0]]);if(!on.length)return'';
+  return`<button class="milerow" data-act="miles" aria-label="Milestones: ${on.length} of ${MILES.length}">${on.map(m=>`<span>${ico(m[1],1.5)}</span>`).join('')}<span class="small">${on.length} of ${MILES.length} milestones</span></button>`;}
+
+// ── Texts that need transmission (decision 7): an honour question, then a password from the teacher or the
+// app. Texts are stored ENCRYPTED (AES-GCM, key from the password via PBKDF2, all on the phone), so they aren't
+// readable in the page source. Add one with tools/lock-text.html and paste its line into LOCKED.
+// The section stays hidden until LOCKED has a text.
+const LOCKED=[];
+const TEXTS_EMAIL='texts@slicedharma.com';
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function unlockText(t,pass){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(t.salt),iterations:t.iter||250000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+  return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(t.iv)},key,b64d(t.data))));}
+function sheetLocked(){const t=LOCKED.find(x=>x.id===ST.sarg);if(!t)return'';const ok=(ls('esm_locked_ok',{})||{})[t.id],need=t.need||'reading transmission (lung)';
+  const mail=`mailto:${TEXTS_EMAIL}?subject=${encodeURIComponent('Access to '+t.title)}&body=${encodeURIComponent('Hello,\n\nI would like access to “'+t.title+'” in the Dharma Practice app.\nI received the '+need+' from (teacher, place, year): \n\nThank you.')}`;
+  if(ok==='no')return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p>Traditionally this text is practised after receiving the ${esc(need)} from a qualified teacher. Your teacher or centre can tell you when it is next given.</p>
+    <button class="btn soft wide" data-act="lockedreset">I have received it now</button><button class="btn soft wide" data-act="closesheet">Close</button>`;
+  if(!ok)return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p>Traditionally this text is practised after receiving the ${esc(need)} from a qualified teacher.</p><p><b>Have you received it?</b></p>
+    <button class="btn primary wide" data-act="lockedyes">Yes, I have</button><button class="btn soft wide" data-act="lockedno">Not yet</button>`;
+  return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p class="small">Enter the password your teacher or centre gave you.</p>
+    <input id="lockedpass" type="password" autocomplete="off" aria-label="Password">
+    <button class="btn primary wide" data-act="lockedopen">Open the text</button>
+    <p class="small">No password? <a href="${mail}">Email ${TEXTS_EMAIL}</a> and say where and from whom you received the ${esc(need)}.</p>
+    <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+async function openLocked(t,pass){try{const o=await unlockText(t,pass);const P=ls('esm_locked_pass',{})||{};P[t.id]=pass;lsSet('esm_locked_pass',P);
+    const id='locked_'+t.id;if(!PRAYERS.some(x=>x.id===id))PRAYERS.push({...o,id,group:'locked',title:t.title,sub:o.sub||t.sub||''});
+    ST.sheet=null;ST.ov='prayer';ST.arg=id;ST.verse=0;render();}
+  catch(e){toast('That password didn’t open it. Please check it and try again.');}}
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
   <div class="list">${allPR().map(p=>{const c=getPD(p.id).counter||0;return item('setcur',esc(p.name),`${fmt(c)} of ${fmt(p.target)}`,{attrs:`data-id="${p.id}" style="--acc:${p.acc}"`,right:currentId()===p.id?'<span class="tag ok">Now</span>':''});}).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -2653,7 +2764,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null;
 // Drag a sheet down by its top bar to close it.
@@ -2703,7 +2814,7 @@ function render(){
   if(keep.p!=null){const p=content.querySelector('.page');if(p)p.scrollTop=keep.p;}
   if(keep.o!=null){const o=content.querySelector('.ovbody');if(o)o.scrollTop=keep.o;}
   // Post-render hooks
-  if(ST.tab==='today')initQuotes();
+  if(ST.tab==='today'){initQuotes();if(!ST.sheet&&!ST.ov){const nm=checkMiles();if(nm){ST.sheet='mile';ST.sarg=nm;render();return;}}}
   if(ST.sheet){initSheetDrag();const s=content.querySelector('.sheet');if(s&&!opening&&keepSheet)s.scrollTop=keepSheet;}
   if(ST.ov==='practice'){const g=document.getElementById('beadgrid'),p=findPR(ST.arg);if(g&&p)g.appendChild(renderGrid(p,getPD(p.id).counter||0));}
   if(ST.ov==='tree')mountRefuge(document.getElementById('ov'));
@@ -2873,10 +2984,20 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tourgo':{const w=TOUR[Math.min(ST.tour||0,TOUR.length-1)][2];ST.sheet=null;ST.ov=null;
       if(w==='settings'){ST.tab='today';ST.sheet='settings';}else ST.tab=w;break;}
     case'caldays':sheet('caldays');break;
-    case'sharequote':ST.shq={qi:quoteOrder()[ST.qi],fmt:(ST.shq&&ST.shq.fmt)||'post'};sheet('sharequote');break;
+    case'sharequote':ST.shq={qi:quoteOrder()[ST.qi],fmt:(ST.shq&&ST.shq.fmt)||'post',style:ls('esm_shq_style','brocade')};sheet('sharequote');break;
     case'shqfmt':ST.shq={...ST.shq,fmt:el.dataset.v,blob:null};break;
+    case'shqstyle':ST.shq={...ST.shq,style:el.dataset.v,blob:null};lsSet('esm_shq_style',el.dataset.v);break;
     case'shqshare':shareQuoteImage();return;
     case'shareapp':shareApp();return;
+    case'miles':sheet('miles');break;
+    case'mileded':ST.sheet=null;ST.ov='dedicate';break;
+    case'mileshare':{const m=MILES.find(x=>x[0]===ST.sarg),text=`${m?m[2]:'A milestone'} with ${APP_NAME}. May it benefit all beings.`;
+      if(navigator.share)navigator.share({title:APP_NAME,text,url:APP_URL}).catch(()=>{});else navigator.clipboard.writeText(`${text} ${APP_URL}`).then(()=>toast('Copied. Paste it to a friend.')).catch(()=>{});return;}
+    case'locked':sheet('locked',id);break;
+    case'lockedyes':case'lockedno':{const O=ls('esm_locked_ok',{})||{};O[ST.sarg]=a==='lockedyes'?'yes':'no';lsSet('esm_locked_ok',O);
+      const t=LOCKED.find(x=>x.id===ST.sarg),pw=(ls('esm_locked_pass',{})||{})[ST.sarg];if(a==='lockedyes'&&t&&pw){openLocked(t,pw);return;}break;}
+    case'lockedreset':{const O=ls('esm_locked_ok',{})||{};delete O[ST.sarg];lsSet('esm_locked_ok',O);break;}
+    case'lockedopen':{const t=LOCKED.find(x=>x.id===ST.sarg),pw=val('lockedpass');if(t&&pw)openLocked(t,pw);return;}
     case'caldaytog':{const on=calDays(),v=el.dataset.v;lsSet('esm_caldays',on.includes(v)?on.filter(x=>x!==v):[...on,v]);break;}
     case'mantraedit':sheet('mantra',id);break;
     case'mantrasave':{const M=ls('esm_mantra',{});M[ST.sarg]=val('mantrain').toUpperCase();lsSet('esm_mantra',M);ST.sheet=null;toast('Words saved');return;}
@@ -3232,7 +3353,11 @@ dailySnapshot();
 if(hasPracticeData())keepStorage();
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
-if(!ST.sheet&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){lsSet('esm_welcome_day',dayKey());
+// Links into the app: #practice=prostr opens a practice; #texts, #learn, #practice open a tab; #practices the explainers.
+{const m=location.hash.match(/^#(practice|texts|learn|practices|calendar)(?:=([\w-]+))?$/);
+  if(m){if(m[1]==='practice'&&m[2]&&findPR(m[2])){ST.tab='practice';ST.ov='practice';ST.arg=m[2];}else if(m[1]==='practices'){ST.tab='learn';ST.ov='practices';}
+    else if(m[1]==='calendar')ST.ov='cal';else ST.tab=m[1];ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
+if(!ST.sheet&&!ST.seenLink&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){lsSet('esm_welcome_day',dayKey());
   if(hasPracticeData()||ls('esm_tradition',null))ST.sheet='welcome';else{ST.su={step:0};ST.sheet='setup';}}
 if(history.state&&history.state.dp)hGuard=true;
 // A sitting timer from before a reload: carry on, or (if it ended long ago) let it go.

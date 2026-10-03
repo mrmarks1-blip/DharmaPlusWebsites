@@ -402,6 +402,21 @@ the Dana page; reference posts for quote images; the logo; Phase 6 design direct
 source; prostration alternatives for people who can't do full ones (needs a teacher's word: ask Lama Rabsang);
 milestones (Eight Auspicious Symbols) are a design job for Phase 6.
 
+### 2026-10-03, third round (Gareth's answers)
+- **Restricted texts:** built and ready, hidden until a text is added. Honour question → password → the text, stored
+  encrypted (AES-GCM, PBKDF2); add texts with `tools/lock-text.html`. "No password?" emails texts@slicedharma.com
+  (forwarding still to be verified by Gareth). No texts yet, by Gareth's choice.
+- **Quote images:** "Brocade" style after the Art of Buddha Dharma post he sent (dark panel, our own drawn border,
+  light centred text); "Plain" kept as an option.
+- **Ko-fi** (ko-fi.com/raccoonhands): a plain link in About (with an honest costs note), Settings and the home page
+  footer. The floating Ko-fi widget was not used: it loads Ko-fi's script on every open (third-party tracking, breaks
+  the "no trackers" promise, doesn't work offline) and floats over practice screens. Gareth can still choose it.
+- **Prostrations for every body:** note under Prostrations (practice page and Learn → The practices), Gareth's
+  wording on modified prostrations + Lama Zopa Rinpoche's advice (lamayeshe.com). Links into the app now work:
+  `/ngondro/#practice=prostr`, `#texts`, `#learn`, `#practices`, `#calendar`.
+- **Milestones:** private; everyday icons (praying hands, sitter, sprout, tree, sun, hearts, mountain), not the
+  Eight Auspicious Symbols (Gareth). Each ends with "Dedicate it to all beings" / "Rejoice with a friend".
+
 ## 5. New web tech worth using (checked October 2026; re-check support before relying on it)
 
 | Tech | Use here | Notes |

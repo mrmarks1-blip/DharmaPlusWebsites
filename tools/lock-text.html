@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lock a text</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; color: #211910; background: #f7f2e6; }
+  label { display: block; margin-top: 14px; font-weight: 600; }
+  input, textarea, select { width: 100%; box-sizing: border-box; font: inherit; padding: 8px; border: 1px solid #c9b99c; border-radius: 8px; background: #fffbf2; }
+  textarea { min-height: 220px; }
+  button { margin-top: 16px; font: inherit; font-weight: 700; padding: 10px 18px; border: 0; border-radius: 10px; background: #b35e0b; color: #fff; cursor: pointer; }
+  .note { color: #56463a; font-size: 14px; }
+  #out { min-height: 120px; font-family: ui-monospace, monospace; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Lock a text for the app</h1>
+<p class="note">For texts that need transmission (Texts → "Texts that need transmission"). Runs only in this browser: nothing is sent anywhere. Not part of the website (tools/ is in .assetsignore).</p>
+<p class="note">1. Fill this in. 2. Press Lock. 3. Copy the line below into <code>const LOCKED=[ … ];</code> in <code>ngondro/index.html</code> (one line per text, with a comma after each). 4. Give the password to the people who may read it.</p>
+
+<label for="id">Short id (letters, no spaces)</label><input id="id" placeholder="e.g. chenrezig-sadhana">
+<label for="title">Title</label><input id="title" placeholder="e.g. The Chenrezig sādhana">
+<label for="sub">One line under the title (optional)</label><input id="sub" placeholder="e.g. Practised after the empowerment">
+<label for="need">What is needed first</label>
+<select id="need"><option value="reading transmission (lung)">Reading transmission (lung)</option><option value="empowerment (wang)">Empowerment (wang)</option><option value="empowerment, transmission and instructions">Empowerment, transmission and instructions</option></select>
+<label for="text">The text</label>
+<textarea id="text" placeholder="Plain text: leave a blank line between verses.
+
+Or paste a prayer in the app's own format (JSON): {&quot;couplets&quot;:[{&quot;t&quot;:&quot;Tibetan&quot;,&quot;p&quot;:&quot;phonetics&quot;,&quot;e&quot;:&quot;English&quot;}, …]}"></textarea>
+<label for="pass">Password</label><input id="pass" type="text" autocomplete="off" placeholder="Something not easy to guess">
+<button id="go">Lock</button>
+<label for="out">Paste this line into LOCKED</label><textarea id="out" readonly></textarea>
+
+<script>
+const b64 = u => btoa(String.fromCharCode(...u));
+document.getElementById('go').onclick = async () => {
+  const v = id => document.getElementById(id).value.trim();
+  const id = v('id').toLowerCase().replace(/[^a-z0-9-]/g, '-'), title = v('title'), pass = v('pass'), raw = v('text');
+  if (!id || !title || !pass || !raw) { alert('Please fill in the id, title, text and password.'); return; }
+  let body;
+  try { body = JSON.parse(raw); if (!Array.isArray(body.couplets)) throw 0; }
+  catch { body = { couplets: raw.split(/\n\s*\n/).map(x => ({ x: x.trim() })).filter(c => c.x) }; }
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), iter = 250000;
+  const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: iter, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+  const data = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(JSON.stringify(body))));
+  const entry = { id, title, sub: v('sub') || undefined, need: v('need'), iter, salt: b64(salt), iv: b64(iv), data: b64(data) };
+  document.getElementById('out').value = '  ' + JSON.stringify(entry) + ',';
+};
+</script>
+</body>
+</html>
