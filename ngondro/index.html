@@ -242,8 +242,13 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .quote cite { font-style:normal; color:var(--ink-2); font-size:var(--fs-sm); }
 .qnav { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:4px; }
 .qnav .small { text-align:center; }
-.qlbl { display:inline-flex; align-items:center; gap:2px; }
-.qlbl .iconbtn { width:40px; height:40px; color:var(--ink-3); }
+.qhead { margin:0; font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); }
+.qcard .qnav { padding-top:12px; border-top:1px solid var(--line); }
+.qarrows { display:flex; gap:8px; }
+.qshare { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 18px 0 12px; border-radius:999px; font-weight:700; color:var(--accent-ink);
+  background:var(--glow); border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line)); }
+.qshare svg { width:24px; height:24px; }
+.qshare:active { transform:scale(.97); }
 .mile-ico { width:96px; height:96px; margin:4px auto 0; color:var(--accent); }
 .mile-ico svg { width:100%; height:100%; }
 .miles { display:flex; flex-direction:column; gap:8px; }
@@ -358,11 +363,38 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .gcal .cday { position:relative; gap:2px; min-height:60px; padding:4px 0; }
 .gcal .cday b { font-size:16px; }
 .gcal .cday span { font-size:11px; }
-.gcal .cday i { display:block; width:14px; height:14px; border-radius:50%; }
-.gcal .cday i.none { border:1.5px solid var(--line); }
-.gcal .cday.fe::after, .gcal .cday.an::after { position:absolute; top:2px; right:4px; font-size:11px; color:var(--accent-ink); }
+.gcal { gap:5px; }
+.gcal .cday { justify-content:flex-start; padding-top:7px; }
+.gcal .cday > span { display:flex; align-items:center; gap:3px; min-height:13px; }
+.gcal .cday .cm svg { display:block; }
+.gcal .cday i { display:block; width:12px; height:12px; border-radius:50%; margin-top:auto; margin-bottom:4px; }
+.gcal .cday.fe::after, .gcal .cday.an::after { position:absolute; top:3px; right:5px; font-size:11px; line-height:1; color:var(--accent-ink); }
 .gcal .cday.fe::after { content:'★'; }
-.gcal .cday.an::after { content:'•'; font-size:16px; line-height:10px; }
+.gcal .cday.an::after { content:''; width:6px; height:6px; border-radius:50%; background:var(--ink-2); }
+.calkey { display:flex; flex-wrap:wrap; justify-content:center; gap:8px 14px; font-size:13px; color:var(--ink-2); padding:4px 4px 0; }
+.calkey > span { display:inline-flex; align-items:center; gap:6px; }
+.calkey b { font-size:11px; font-weight:400; color:var(--ink-2); }
+.calkey em { font-style:normal; color:var(--accent-ink); }
+.calkey i { display:inline-block; width:14px; height:14px; border-radius:4px; }
+.calkey .k-sp { background:var(--glow); border:1px solid var(--accent); }
+.calkey .k-an { width:7px; height:7px; border-radius:50%; background:var(--ink-2); }
+.calkey .k-rm { width:0; height:0; border-radius:0; border-top:9px solid var(--info); border-right:9px solid transparent; }
+.calkey .k-ring { border-radius:50%; background:conic-gradient(#4a7fd4 0 50%,#c9713c 0); }
+.legend .ki { flex:none; width:18px; height:18px; display:inline-grid; place-items:center; font-style:normal; color:var(--accent-ink); }
+.legend .ki svg { width:18px; height:18px; }
+.legend .ka::before { content:''; width:12px; height:12px; border-radius:4px; background:var(--glow); border:1px solid var(--accent); }
+.legend .kn::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ink-2); }
+.legend .kr { color:var(--info); }
+.card.legend > div, .calmore .legend > div { align-items:flex-start; gap:10px; }
+.card.legend .ki { margin-top:3px; }
+.card.legend > div > time, .calmore .legend > div > time { min-width:3.6em; }
+.legend time + span { flex:1; min-width:0; }
+.calmore { border-top:1px solid var(--line); padding-top:4px; }
+.calmore summary { display:flex; justify-content:space-between; gap:8px; list-style:none; }
+.calmore summary::-webkit-details-marker { display:none; }
+.calmore summary svg { width:20px; height:20px; transform:rotate(90deg); transition:transform .2s; }
+.calmore[open] summary svg { transform:rotate(-90deg); }
+.calmore .legend { margin-top:8px; }
 .list.plain .item { padding-left:0; padding-right:0; }
 .tcard { padding:0; overflow:hidden; display:flex; flex-direction:column; }
 .tc-top { display:flex; align-items:center; gap:14px; padding:14px 16px; text-align:left; width:100%; }
@@ -1432,6 +1464,7 @@ const I={
   mountain:'<path d="M3 19 9.5 8l3.5 6 2-3 6 8z"/><path d="M7.9 10.7l1.6 1.1 1.5-1"/>',
   timer:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 2.5h4"/>',
   share:'<path d="M12 15V4M8 8l4-4 4 4M6 11v8h12v-8"/>',
+  lotusup:'<path d="M12 6.5c1.9 2 2.5 4.2 2.5 6s-1 3.4-2.5 4.7c-1.5-1.3-2.5-2.9-2.5-4.7s.6-4 2.5-6z"/><path d="M12 17.2c-2.7.4-5.6-.5-7.7-3.3 2.5-1 5.2-.7 7.7 3.3zM12 17.2c2.7.4 5.6-.5 7.7-3.3-2.5-1-5.2-.7-7.7 3.3z"/><path d="M7 20.3h10M16.8 3.2h4v4M20.8 3.2l-4.2 4.2"/>',
 };
 const ico=(n,w)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]||''}</svg>`;
 
@@ -1701,8 +1734,9 @@ function pageToday(){
   const out=[`<div class="row"><div class="greet grow">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>`];
   // Words for today — one quote at a time; swipe or use the arrows.
   const U=uses();
-  if(U.includes('words'))out.push(`<div class="card qcard" id="qcard">${quoteHTML()}
-    <div class="qnav"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><span class="small qlbl">Words for today<button class="iconbtn" data-act="sharequote" aria-label="Share this quote">${ico('share')}</button></span><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div></div>`);
+  if(U.includes('words'))out.push(`<div class="card qcard" id="qcard"><p class="qhead">Words for today</p>${quoteHTML()}
+    <div class="qnav"><div class="qarrows"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div>
+      <button class="qshare" data-act="sharequote">${ico('lotusup',1.6)}<span>Share</span></button></div></div>`);
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
@@ -2183,9 +2217,14 @@ function ovCal(){const T=calTib();
   const t0=tibDate(days[0]),t1=tibDate(days[dim-1]);
   const tibSpan=t0.month===t1.month&&t0.leap===t1.leap?`${ordinal(t0.month)} Tibetan month`:`${ordinal(t0.month)}–${ordinal(t1.month)} Tibetan months`;
   const counts={};days.forEach(x=>{const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
-  const list=days.flatMap(x=>[...(T?observedAusp(x):[]).map(o=>({x,k:'a',o})),...(T?eventsOn(x):[]).map(e=>({x,k:'e',e})),...otherDays(x).map(o=>({x,k:'o',o})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'e',e:{kind:'west',name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
-  const li=({x,k,o,e})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'})}</time><span>${k==='o'?`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${o.major?`<b>${esc(o.name)}</b>`:esc(o.name)}</button>`:k==='a'?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>`
-    :`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${e.kind==='fest'?`<b>${esc(e.name)}</b>`:`${e.kind==='west'?'':'Anniversary · '}${esc(e.name)}`}</button>`}</span></div>`;
+  const list=days.flatMap(x=>[...(T?observedAusp(x):[]).map(o=>({x,k:'a',o})),...(T?eventsOn(x):[]).map(e=>({x,k:'e',e})),...otherDays(x).map(o=>({x,k:'o',o})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'r',e:{name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
+  // Living teachers (dates ending "-)") are birthdays; the rest, anniversaries.
+  const evName=e=>e.kind==='fest'?`<b>${esc(e.name)}</b>`:`${/-\)$/.test(e.name)?'Birthday':'Anniversary'} · ${esc(e.name)}`;
+  const kIco=({k,o,e})=>k==='a'?`<i class="ki ka" aria-hidden="true"></i>`:k==='o'?`<i class="ki ko" aria-hidden="true">${moonSVG(o.major&&/full/.test(o.name)?SYN/2:o.major?0:SYN/4,16)}</i>`
+    :k==='r'?`<i class="ki kr" aria-hidden="true">${ico('cal')}</i>`:e.kind==='fest'?`<i class="ki kf" aria-hidden="true">★</i>`:`<i class="ki kn" aria-hidden="true"></i>`;
+  const li=({x,k,o,e},i,arr)=>`<div>${kIco({k,o,e})}<time>${i&&dayKey(arr[i-1].x)===dayKey(x)?'':x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'})}</time><span>${k==='o'?`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${o.major?`<b>${esc(o.name)}</b>`:esc(o.name)}</button>`:k==='a'?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>`
+    :`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${k==='r'?esc(e.name):evName(e)}</button>`}</span></div>`;
+  const cur=!ST.calOff,up=cur?list.filter(i=>dayKey(i.x)>=todayK):list,top=up.slice(0,3);
   return`${topbar('Calendar')}<div class="ovbody"><div class="col">
     <div class="row" style="justify-content:space-between"><button class="iconbtn" data-act="calprev" aria-label="Previous month">${ico('back')}</button>
       <div style="text-align:center"><b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b>${T?`<div class="small">${tibSpan} · ${t1.element} ${t1.animal} year</div>`:''}</div>
@@ -2194,10 +2233,12 @@ function ovCal(){const T=calTib();
     <div class="cal gcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
       ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=(T?observedAusp(x).length:0)+otherDays(x).filter(o=>o.major).length,ev=T?eventsOn(x):[],fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k),rm=reminders().some(r=>r.date===k);
         return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}${T?`, Tibetan day ${tibDay(x)}`:''}${sp?', a practice day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
-          <b>${x.getDate()}</b><span>${T?tibDay(x):''}${mm?` ${mm}`:''}</span>${ring?`<i style="${ring}"></i>`:'<i class="none"></i>'}</button>`;}).join('')}</div>
-    <p class="small" style="text-align:center">${T?'Big number: the date. Small: the Tibetan day (○ full moon, ● new moon). Gold: an auspicious day; ★ a festival; • an anniversary;':'○ full moon, ● new moon. Gold: a practice day;'} a blue corner: your reminder. The ring shows what you practised.</p>
-    <p class="h2">THIS MONTH</p>
-    <div class="card legend">${list.map(li).join('')||'<p class="small">Nothing special this month.</p>'}</div>
+          <b>${x.getDate()}</b><span>${T?tibDay(x):''}${mm?`<span class="cm">${moonSVG(mm==='○'?SYN/2:0,11)}</span>`:''}</span>${ring?`<i style="${ring}"></i>`:''}</button>`;}).join('')}</div>
+    <div class="calkey" aria-label="Key">${T?'<span><b>12</b>Tibetan day</span>':''}<span><i class="k-sp"></i>${T?'Auspicious day':'Practice day'}</span>${T?'<span><em>★</em>Festival</span><span><i class="k-an"></i>Anniversary</span>':''}
+      <span>${moonSVG(SYN/2,13)}Full moon</span><span>${moonSVG(0,13)}New moon</span><span><i class="k-rm"></i>Your reminder</span><span><i class="k-ring"></i>Practised</span></div>
+    <p class="h2">${cur?'COMING UP':'THIS MONTH'}</p>
+    <div class="card legend">${top.map(li).join('')||`<p class="small">${cur?'Nothing more this month.':'Nothing special this month.'}</p>`}
+      ${list.length>top.length?`<details class="calmore"><summary><span>All ${list.length} days in ${first.toLocaleDateString('en-GB',{month:'long'})}</span>${ico('chev')}</summary><div class="legend">${list.map(li).join('')}</div></details>`:''}</div>
     <p class="h2">YOUR PRACTICE DIARY</p>
     <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
     <p class="small">Tap a day to tick what you practised. Counts you add to a practice tick it automatically.</p>
