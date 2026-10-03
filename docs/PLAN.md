@@ -248,7 +248,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
 
 ### Phase 2 · Reminders and notifications (linked to the calendar)
 Climb the ladder: calendar files first, push only for what calendar files can't do.
-- [ ] **2a. Calendar files (no server).** Build `.ics` in the browser (a Blob; the format is plain text):
+- [x] **2a. Calendar files (no server).** Built 2026-10-03: Remind me / invite a friend on calendar days, "Did you practise together?", daily reminder (Settings), subscribable feed `ngondro/practice-days.ics` (2026–2028; regenerate yearly with `tools/make-feed.html`; `.gitattributes` keeps its CRLF). Also on Today's card. Build `.ics` in the browser (a Blob; the format is plain text):
   - "Remind me" on any day → a one-off event with an alarm (`VALARM`), shared via the Web Share
     API (`navigator.share({files})`) or downloaded; plus an "Add to Google Calendar" link
     (`https://calendar.google.com/calendar/render?action=TEMPLATE&text=…&dates=…&details=…`).
@@ -272,7 +272,7 @@ Climb the ladder: calendar files first, push only for what calendar files can't 
     (check which is maintained at the time; don't hand-roll RFC 8291 encryption).
   - iPhone: push only works once the app is on the Home Screen (iOS 16.4+). Say so in the opt-in.
   - Opt-in only, from Settings or setup; one tap to stop.
-- [ ] **In-app fallback:** whatever happens, the Today page greets with the day's reminder.
+- [x] **In-app fallback:** whatever happens, the Today page greets with the day's reminder.
 
 ### Phase 3 · First-run setup, goals and a short tour
 - [ ] Setup (every step skippable, 4 screens max): welcome → **your tradition** (or "none / just

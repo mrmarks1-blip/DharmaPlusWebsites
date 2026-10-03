@@ -2566,10 +2566,11 @@ function closeTop(){
     if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.ov=null;ST.verse=0;return true;}
   if(ST.tab!=='today'){ST.tab='today';return true;}
   return false;}
-function syncHistory(){const deep=!!(ST.sheet||ST.ov||ST.tab!=='today');
+// While our own history.back() is still in flight (hSkip), wait: popstate calls this again.
+function syncHistory(){if(hSkip)return;const deep=!!(ST.sheet||ST.ov||ST.tab!=='today');
   if(deep&&!hGuard){history.pushState({dp:1},'');hGuard=true;}
   else if(!deep&&hGuard){hGuard=false;hSkip=true;history.back();}}
-window.addEventListener('popstate',()=>{if(hSkip){hSkip=false;return;}hGuard=false;
+window.addEventListener('popstate',()=>{if(hSkip){hSkip=false;syncHistory();return;}hGuard=false;
   const r=closeTop();if(r==='dom')syncHistory();else if(r)render();});
 function render(){
   const content=document.getElementById('content'),nav=document.getElementById('nav');
