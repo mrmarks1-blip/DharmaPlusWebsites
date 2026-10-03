@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Dharma Practice",
   "short_name": "Dharma Practice",
-  "description": "A gentle companion for Ngöndro and daily Dharma practice: count your practice, chant the prayers, and follow the Tibetan calendar.",
+  "description": "A gentle companion for daily Buddhist practice: a meditation timer, a counter for Ngöndro and mantras, the prayers, and the practice-day calendar.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

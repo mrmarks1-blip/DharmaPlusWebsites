@@ -1891,6 +1891,8 @@ function pageTexts(){
   <p class="h2">PRACTICE TEXTS</p>
   <div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
     <span class="s">A printable A4 booklet. Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
+  <details><summary>Caring for Dharma texts</summary><p style="margin-top:6px">Traditionally, Dharma texts are treated with respect, because they show the path to freedom. Lama Zopa Rinpoche advises keeping them, printed or on a phone, off the floor and off places where people sit or walk; not stepping over them or putting other things on top of them; and when a printed text is worn out, burning it rather than putting it in the bin.</p>
+    <a class="linkbtn" href="https://fpmt.org/edu-news/caring-for-dharma-materials-in-the-digital-age/" target="_blank" rel="noopener" style="margin-top:8px">FPMT: Caring for Dharma materials ↗</a></details>
   <p class="small">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
   <div class="list">${SAD.map(s=>`<div class="item" style="flex-wrap:wrap;cursor:default"><span class="grow"><span class="t">${esc(s.name)}</span><span class="s">${esc(s.sub)}</span></span>
     <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>
