@@ -285,17 +285,17 @@ Climb the ladder: calendar files first, push only for what calendar files can't 
   preset, e.g. Metta phrases, Nembutsu, Chenrezig mani).
 
 ### Phase 4 · Meditations that work with eyes closed
-- [ ] **Shared:** soft sound cues (pre-recorded or synthesised tones; Gareth or a teacher could record
+- [x] **Shared:** synthesised cue tones (`tone()`) and the phone's own voice (`say()`, Web Speech); recorded cues still an option later. soft sound cues (pre-recorded or synthesised tones; Gareth or a teacher could record
   short spoken cues, with permission) so the screen can be ignored; Wake Lock already on.
-- [ ] **Three Aa with the microphone:** detect the start and end of each sounded "Aaa" on the
+- [x] **Three Aa with the microphone:** opt-in (`esm_aa_mic`), permission explained first, loudness only, nothing recorded; tap still works. detect the start and end of each sounded "Aaa" on the
   device (getUserMedia + an AnalyserNode volume threshold, no recording, nothing leaves the
   phone) and move on by itself; tap stays as the fallback. Explain the mic permission first.
-- [ ] **Nine-Round:** audio cues for in/out/change nostril; pace follows the user (Gareth's rule:
+- [x] **Nine-Round:** no more automatic 5–6 s steps; tap to move on; tones / voice / silent (`esm_nr_cue`); a gentle 'stop if overwhelming' note. audio cues for in/out/change nostril; pace follows the user (Gareth's rule:
   breath tools follow the breath, never impose a pace). Keep the full text.
-- [ ] **Beautiful breath (Ajahn Brahm):** fewer words on screen, a stage reminder by sound,
+- [x] **Beautiful breath (Ajahn Brahm):** 'when to move on' behind a tap; soft bell on each new stage; timer already built in. fewer words on screen, a stage reminder by sound,
   integrated sitting timer, "move on when…" signs on demand.
-- [ ] **Counting the breath:** eyes-closed mode (tap anywhere, a soft click on 10), session summary.
-- [ ] Vajra breathing: keep as is (Gareth likes it).
+- [x] **Counting the breath:** eyes-closed mode (`esm_cnt_eyes`), soft sound at ten, summary + diary minutes at the end. eyes-closed mode (tap anywhere, a soft click on 10), session summary.
+- [x] Vajra breathing: kept as is (Gareth likes it).
 
 ### Phase 5 · Sharing, milestones, generosity
 - [ ] **Share a quote as an image:** draw on a `<canvas>` (1080×1350 post, 1080×1920 story) with the
