@@ -162,20 +162,23 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
 - [→] **A16 accessibility pass**: moved to Phase 6 (Gareth, 2026-10-03), so one full audit covers the new design.
 
 ### Phase 1 · One calendar, a calmer Today
-- [ ] **Unified calendar** (replace `ovJournal` + `ovCalendar` with one month view; keep both features):
+
+**Phase 1 built 2026-10-03 (not yet released; Gareth to review).** Choices made without him: one Gregorian month calendar (`ovCal`) replaces both old views; day-sheet reminder/share actions wait for Phase 2; festivals/anniversaries follow the day-before/second-day rule and the main month in leap years (docs/calendar-research.md); Today's practice card became 'Your progress' with a single Practise button (start/edit live on the Practice page, as planned); the timer's bells are synthesised (bowl, small bell, deep gong); motivation/dedication on by default (no tradition setting until Phase 3); the streak never 'breaks'; refuge-tree numbers: tap the picture, they stay 6 s. Simply Being: two pointed pieces linked, more candidates listed in docs/link-audit.md.
+
+- [x] **Unified calendar** (replace `ovJournal` + `ovCalendar` with one month view; keep both features):
   Gregorian month grid (familiar) with the Tibetan day number small in each cell, moon phase,
   observance dot(s), diary ring colours, and marks for reminders/appointments. Header shows the
   Tibetan month(s) the grid spans. Tap a day → one day sheet: observance(s) with meaning +
   practices + "according to which calendar", hair cutting, diary ticks, appointments, and actions
   (remind me · add to my phone's calendar · share · invite a friend). Keep the diary legend and CSV export.
-- [ ] **Today, unified:** one calendar card (date, Tibetan date + script, moon, today's or the next
+- [x] **Today, unified:** one calendar card (date, Tibetan date + script, moon, today's or the next
   practice day inline with its sentence, the week strip with diary rings, "Open calendar").
-- [ ] **"Your practice" → progress.** Show the practices with recent progress as monthly bars:
+- [x] **"Your practice" → progress.** Show the practices with recent progress as monthly bars:
   this month's count vs what's needed this month (from `esm_plog` and the finish date via
   `paceFromDate()`). Plain CSS/SVG, no chart library. One button: "Practise" → Practice page.
   Start/edit/change amount live on the Practice page. Ponytail: ship one chart style; add a pie/ring
   option later only if people ask.
-- [ ] **Meditation timer** (Gareth, 2026-10-02): one plain "Meditation timer" card on **Today** and
+- [x] **Meditation timer** (Gareth, 2026-10-02): one plain "Meditation timer" card on **Today** and
   **Practice**, not tied to any meditation. Preset buttons (5 · 10 · 20 · 30 · 45 min) plus an editable
   time (a number field or −/+ steppers, remembers the last one used). Reuses the existing timer
   (`sitStart`/`esm_sit`, bell, the pill, "ended while you were away", diary minutes), so it's mostly UI.
@@ -189,7 +192,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
   - **Bell choice:** the current bell plus one or two more; a recorded bowl only if openly licensed.
   - **Named presets** ("Morning sit, 20 min, 2 interval bells").
   - **Minutes in progress:** days and minutes this week/month in the Phase 1 progress view.
-- [ ] **Meditation streak, kindly done** (Gareth is OK with a streak, if it's plain and kind).
+- [x] **Meditation streak, kindly done** (Gareth is OK with a streak, if it's plain and kind).
   A simple black-and-white strip of days that fills in as you sit, beside overall progress (total
   days, total minutes). A missed day never "breaks" or "loses" anything: it says e.g. *"4 days of
   meditation complete · 1 day since your last sit"* with a quote about beginning again.
@@ -200,7 +203,7 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
     time is now", is usually called a Chinese proverb but its origin is unknown. Gareth is happy to
     use quotes like this: credit them gently and honestly, e.g. *"Proverb, origin unknown"* or
     *"Often attributed to …"*, never as a Buddhist saying. Don't invent attributions.
-- [ ] **Kinds of meditation** on the Meditation timer area: short swipeable cards (like the quote
+- [x] **Kinds of meditation** on the Meditation timer area: short swipeable cards (like the quote
   card), each with what it is, its other names, and its styles; tap → fuller instructions and
   links. Start with:
   - **Vipassanā** (insight; Tib. *lhagthong*; e.g. Mahasi noting, Goenka body-sweeping, insight in
@@ -219,23 +222,23 @@ browser and Gareth has seen it. Commit per task on `v10-redesign`; push to `main
     summarise in our words and link, quote only openly licensed text.
   - Each card links to one good wiki page (Rigpa Wiki / Wikipedia, checked in the link audit) and,
     where there is one, a **short, pointed James Low / Simply Being piece** on that exact topic.
-- [ ] **Vajrasound** (vajrasound.com, confirmed by Gareth: Buddhist chants and prayers
+- [x] **Vajrasound** (vajrasound.com, confirmed by Gareth: Buddhist chants and prayers
   recited in English, made to chant along with; also on Bandcamp). Link to it from Texts / prayers.
   Ask them before using any recordings in the app (they invite contact and submissions).
-- [ ] **More Simply Being links overall:** go through simplybeing.co.uk and pick short articles or
+- [x] **More Simply Being links overall:** go through simplybeing.co.uk and pick short articles or
   excerpts that answer one question each (not long retreat talks). Record them in
   `docs/link-audit.md` with where in the app each one belongs. Link only; don't copy text.
-- [ ] **Practice page top tile** mirrors the session's hide-number look: the coloured sphere,
+- [x] **Practice page top tile** mirrors the session's hide-number look: the coloured sphere,
   "spiced up" (slow conic-gradient drift with CSS `@property`, respects reduced motion).
-- [ ] **Refuge tree numbers, gently reworked** (Gareth, 2026-10-03). Today: with numbers hidden, pressing
+- [x] **Refuge tree numbers, gently reworked** (Gareth, 2026-10-03). Today: with numbers hidden, pressing
   the picture shows them only while your finger is down (`peek` in `mountRefuge`), so they vanish before you
   can tap one; with numbers shown, 97 solid 26px circles cover most of the thangka. Ideas to try (show
   Gareth, pick one): tap the picture → numbers fade in and **stay** a few seconds so they can be tapped;
   tap a figure directly (invisible tap areas) opens its drawer without needing numbers at all; smaller,
   semi-transparent markers that get bigger only when zoomed in; show numbers only for the zoomed-in area.
   Never crop the image.
-- [ ] **Festivals and anniversaries** (A7), each with its source (tibetanbuddhistcalendar.org/yearly-events-overview lists the Düchen, Gutor, Local Deities' Day and ~100 masters' anniversaries by Tibetan month/day; check each against a second source), and the per-system labelling (A6).
-- [ ] **About the Tibetan calendar**, rewritten (our words, not copied) to cover what
+- [x] **Festivals and anniversaries** (A7), each with its source (tibetanbuddhistcalendar.org/yearly-events-overview lists the Düchen, Gutor, Local Deities' Day and ~100 masters' anniversaries by Tibetan month/day; check each against a second source), and the per-system labelling (A6).
+- [x] **About the Tibetan calendar**, rewritten (our words, not copied) to cover what
   tibetanbuddhistcalendar.org's About covers, plus more, in expandable `<details>` sections:
   Phugpa vs Tsurphu; how skipped/doubled days work and whose rules we follow; the Men-Tsee-Khang;
   credit to tibetanbuddhistcalendar.org and its open-source date library (it's theirs:
