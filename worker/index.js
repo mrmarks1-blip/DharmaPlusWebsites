@@ -22,6 +22,10 @@ async function schema(db) {
       id TEXT PRIMARY KEY, endpoint TEXT NOT NULL, p256dh TEXT NOT NULL, auth TEXT NOT NULL,
       tz TEXT NOT NULL, quote_time TEXT, nudge_time TEXT,
       last_done TEXT, last_quote TEXT, last_nudge TEXT, created TEXT NOT NULL)`),
+    // Shared counts ("group accumulations"): a name, what is counted, a target and the total. No names of members.
+    db.prepare(`CREATE TABLE IF NOT EXISTS groups (
+      code TEXT PRIMARY KEY, name TEXT NOT NULL, practice TEXT NOT NULL, target INTEGER NOT NULL,
+      total INTEGER NOT NULL DEFAULT 0, adds INTEGER NOT NULL DEFAULT 0, created TEXT NOT NULL, updated TEXT NOT NULL)`),
   ]);
 }
 
@@ -52,10 +56,49 @@ async function send(sub, kind, keys) {
   return !(res.status === 404 || res.status === 410);
 }
 
+// Group codes: 6 letters/digits without look-alikes (no 0/O, 1/I/L).
+const CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const newCode = () => Array.from(crypto.getRandomValues(new Uint8Array(6)), b => CODE_CHARS[b % CODE_CHARS.length]).join('');
+const clean = (s, n) => String(s || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
+const groupOut = g => g && { code: g.code, name: g.name, practice: g.practice, target: g.target, total: g.total, adds: g.adds, updated: g.updated };
+
+async function groups(req, db, path) {
+  if (path === '/api/group' && req.method === 'POST') {          // start a group
+    let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
+    const name = clean(b.name, 60), practice = clean(b.practice, 80), target = Math.floor(Number(b.target));
+    if (!name || !practice || !(target >= 1 && target <= 100000000)) return json({ error: 'fields' }, 400);
+    const now = new Date().toISOString();
+    for (let i = 0; i < 5; i++) {
+      const code = newCode();
+      const r = await db.prepare('INSERT OR IGNORE INTO groups (code, name, practice, target, created, updated) VALUES (?,?,?,?,?,?)')
+        .bind(code, name, practice, target, now, now).run();
+      if (r.meta.changes) return json(groupOut(await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first()));
+    }
+    return json({ error: 'busy' }, 503);
+  }
+  const m = path.match(/^\/api\/group\/([A-Z0-9]{6})(\/add)?$/);
+  if (!m) return null;
+  const code = m[1];
+  if (!m[2] && req.method === 'GET') {                              // see a group
+    const g = await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first();
+    return g ? json(groupOut(g)) : json({ error: 'not found' }, 404);
+  }
+  if (m[2] && req.method === 'POST') {                              // add to the shared count
+    let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
+    const n = Math.floor(Number(b.n));
+    if (!(n >= 1 && n <= 100000)) return json({ error: 'n' }, 400);
+    await db.prepare('UPDATE groups SET total = total + ?, adds = adds + 1, updated = ? WHERE code = ?').bind(n, new Date().toISOString(), code).run();
+    const g = await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first();
+    return g ? json(groupOut(g)) : json({ error: 'not found' }, 404);
+  }
+  return json({ error: 'method' }, 405);
+}
+
 async function api(req, env, path) {
   const db = env.DB;
   await schema(db);
   if (path === '/api/vapid' && req.method === 'GET') return json({ publicKey: (await vapid(db)).publicKey });
+  if (path.startsWith('/api/group')) { const r = await groups(req, db, path); if (r) return r; }
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
   if (Number(req.headers.get('content-length') || 0) > 4000) return json({ error: 'too big' }, 413);
   let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }

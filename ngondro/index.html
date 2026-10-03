@@ -1916,7 +1916,8 @@ function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].i
     <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low</span></span>${chev}</button></div>`,true)}
   ${fold('p_ngondro',other?'NGÖNDRO · TIBETAN PRELIMINARIES':'NGÖNDRO','The four preliminaries'+prog(ng),`<div class="list">${ng.map(prRow).join('')}</div>`,!other)}
   ${fold('p_other','OTHER PRACTICES',names(op.map(p=>p.name))+prog(op),`<div class="list">${op.map(prRow).join('')}
-    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>`,true)}
+    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}
+    ${item('groups','Practise together','A shared count with your sangha or friends'+(myGroups().length?` · ${myGroups().length} group${myGroups().length>1?'s':''}`:''),{ico:'hearts'})}</div>`,true)}
   </div></div>`;}
 
 function ovPractice(){
@@ -2154,6 +2155,7 @@ function pageLearn(){
     ${item('practices','The practices','What each one is, in plain words',{ico:'practice'})}
     ${item('cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',{ico:'cal'})}
     ${item('tour','A short tour','Counting, finish dates, reminders and keeping your practice safe',{ico:'info'})}
+    ${item('dana','Generosity','Supporting the teachers and centres behind this app',{ico:'heart'})}
     ${item('about','About this app','Why it exists, and who to thank',{ico:'info'})}
     ${isStandalone()?'':item('install','Add this app to your phone','Opens like any other app, and works offline',{ico:'phone'})}
   </div></div></div>`;}
@@ -2190,7 +2192,7 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <div class="links">${L('James Low · Simply Being','https://simplybeing.co.uk/')}${L('Garchen Buddhist Institute','https://garchen.net/')}${L('Ajahn Brahm · BSWA','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/')}</div>
   <p class="h2" style="margin-top:18px">SUPPORT</p>
   <p>The app is free, with no adverts, and always will be. Hosting is free on Cloudflare; the costs are the domain name and the time it takes. If it helps you and you would like to, you can support it on Ko-fi. Please give to your teacher and your centre first.</p>
-  <div class="links">${L('Support on Ko-fi',KOFI)}</div>
+  <div class="links"><button class="linkbtn" data-act="dana">Generosity: teachers and centres</button>${L('Support on Ko-fi',KOFI)}</div>
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -3159,6 +3161,53 @@ function sheetBardo(){const d=dayKey();
   <label class="small" for="bardodate">The day they died</label><input id="bardodate" type="date" max="${d}" value="${d}">
   <p class="small">Some count the day of death as the first day, which moves each week a day earlier. Follow your teacher if they say otherwise.</p>
   <button class="btn primary wide" data-act="bardoadd">Mark the weeks</button><button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
+// ── Practising together: shared counts (Gareth: e.g. the Seven-Line Prayer). The server keeps only the group's
+// name, what is counted, the target and the running total; nobody's name. esm_groups = [{code,name,practice,target,mine}].
+const GROUP_PRESETS=[['Seven-Line Prayer','Seven-Line Prayer',1000],['Vajra Guru mantra','OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG',100000],['Mani mantra','OM MANI PEME HUNG',1000000],['Something else','',10000]];
+const myGroups=()=>ls('esm_groups',[])||[];
+async function groupFetch(code,opts){const r=await fetch(`/api/group${code?'/'+code:''}${opts&&opts.add?'/add':''}`,opts&&opts.body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(opts.body)}:undefined);if(!r.ok)throw new Error(r.status);return r.json();}
+function groupSave(g){const L=myGroups().filter(x=>x.code!==g.code);lsSet('esm_groups',[{...(myGroups().find(x=>x.code===g.code)||{}),...g},...L]);}
+async function groupRefresh(){for(const g of myGroups()){try{groupSave(await groupFetch(g.code));}catch{}}if(ST.sheet==='groups'||ST.sheet==='group')render();}
+const groupLink=g=>`${APP_URL}#join=${g.code}`;
+function groupCard(g){const pct=Math.min(100,Math.round((g.total||0)/g.target*100));
+  return`<button class="item" data-act="group" data-v="${g.code}" style="flex-wrap:wrap"><span class="grow"><span class="t">${esc(g.name)}</span><span class="s">${esc(g.practice)} · ${fmt(g.total||0)} of ${fmt(g.target)}</span><span class="minibar" style="display:block"><i style="width:${Math.max(pct,g.total?1:0)}%"></i></span></span>${chev}</button>`;}
+function sheetGroups(){const L=myGroups(),P=ST.gp||0;
+  return`<div class="grab"></div><h2 class="h1">Practise together</h2><p class="small">A shared count for a sangha or friends: everyone adds what they did, and you all see the total. No names, no accounts: just a group code.</p>
+  ${L.length?`<div class="list">${L.map(groupCard).join('')}</div>`:''}
+  <details class="sect"${L.length?'':' open'}><summary><span class="sect-h"><span class="sect-t">START A GROUP</span><span class="sect-s">e.g. 1,000 Seven-Line Prayers for a teacher’s long life</span></span><span class="sect-c">${ico('chev')}</span></summary><div class="sect-b">
+    <label class="small" for="gname">Name of the group</label><input id="gname" type="text" maxlength="60" placeholder="e.g. Brynmawr sangha, for Lama Rabsang’s long life">
+    <div class="jchips">${GROUP_PRESETS.map(([l],i)=>`<button class="jchip${P===i?' on':''}" data-act="gpreset" data-v="${i}" style="--c:var(--accent)"><i></i>${l}</button>`).join('')}</div>
+    <label class="small" for="gprac">What you will count</label><input id="gprac" type="text" maxlength="80" value="${esc(GROUP_PRESETS[P][1])}">
+    <label class="small" for="gtarget">Together, how many?</label><input id="gtarget" type="number" inputmode="numeric" min="1" value="${GROUP_PRESETS[P][2]}">
+    <button class="btn primary wide" data-act="gcreate">Start the group</button></div></details>
+  <details class="sect"><summary><span class="sect-h"><span class="sect-t">JOIN A GROUP</span><span class="sect-s">With the code someone shared</span></span><span class="sect-c">${ico('chev')}</span></summary><div class="sect-b">
+    <input id="gcode" type="text" maxlength="6" placeholder="e.g. K7P2QX" style="text-transform:uppercase;letter-spacing:.2em" value="${esc(ST.gjoin||'')}">
+    <button class="btn primary wide" data-act="gjoin">Join</button></div></details>
+  <p class="small">The server keeps only each group’s name, what is counted, the target and the total. It needs the internet.</p>
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'';const pct=Math.min(100,Math.round((g.total||0)/g.target*100));
+  return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p class="mantra" style="font-size:var(--fs-lg)">${mantraHTML(g.practice.toUpperCase()===g.practice?g.practice:esc(g.practice))}</p>
+  <div><div class="bignum" style="font-size:calc(44px * var(--scale))">${fmt(g.total||0)}</div><p class="sub">of ${fmt(g.target)} together · ${pct}%${g.adds?` · added ${fmt(g.adds)} times`:''}</p></div>
+  <div class="bar"><i style="width:${Math.max(pct,g.total?1:0)}%"></i></div>
+  ${(g.total||0)>=g.target?'<p class="done-line">✦ The goal is reached. Rejoice, and dedicate it to all beings ✦</p>':''}
+  <p class="h2" style="margin:0">ADD WHAT YOU DID</p>
+  <div class="sitopts">${[7,21,108,1000].map(n=>`<button class="opt" data-act="gadd" data-v="${n}">+ ${fmt(n)}</button>`).join('')}</div>
+  <div class="btns"><input id="gaddn" type="number" inputmode="numeric" min="1" max="100000" placeholder="Or type a number" aria-label="How many"><button class="btn primary" data-act="gadd">Add</button></div>
+  <button class="btn soft wide" data-act="ginvite">${ico('share')} Invite others · code ${g.code}</button>
+  <button class="btn link" data-act="gleave" style="align-self:center">Remove from this phone</button>`;}
+async function groupAdd(code,n){try{const g=await groupFetch(code,{add:1,body:{n}});groupSave(g);toast(`Added ${fmt(n)}. Together: ${fmt(g.total)}`);render();}
+  catch{toast('Couldn’t reach the server. Please try again when you’re online.');}}
+// Generosity (dāna): the centres and teachers whose work this app draws on, first; the app itself last.
+function ovDana(){const G=(t,s,u,l)=>`<div class="card stack"><b style="font-size:var(--fs-lg)">${t}</b><p>${s}</p><a class="btn soft" href="${u}" target="_blank" rel="noopener">${l} ↗</a></div>`;
+  return`${topbar('Generosity')}<div class="ovbody"><div class="col">
+  <p class="sub">Generosity (dāna) is the first of the six perfections. If this app helps you, please give first to your own teacher and centre. These are some of the people whose work it rests on.</p>
+  ${G('Palpung Changchub Dargyeling, Brynmawr','A Karma Kagyu centre in Wales, under His Eminence the Tai Situpa, with resident teacher Lama Rabsang. The prayers in this app come from their prayer book.','https://www.palpung.org.uk/donate','Give to Palpung')}
+  ${G('Simply Being · James Low','James Low’s talks, retreats and texts, free to listen to and download. The Three Aa and the Seven-Line Prayer explanation follow his teaching.','https://simplybeing.co.uk/dana/','Give to Simply Being')}
+  ${G('Lama Lena Teachings','Lama Lena keeps the Dharma free: all her teachings are offered at no cost, sustained by students’ generosity.','https://lamalenateachings.com/give-dana/','Give dana to Lama Lena')}
+  ${G('Lotsawa House','Free translations of Tibetan Buddhist texts. Many of the prayers and quotes in this app are theirs.','https://www.lotsawahouse.org/donations','Support Lotsawa House')}
+  <p class="h2">THIS APP</p>
+  <p class="small">The app is free, with no adverts, and always will be. If you would also like to help with its costs: <a href="${KOFI}" target="_blank" rel="noopener">Ko-fi ↗</a></p>
+  </div></div>`;}
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
   <div class="list">${allPR().map(p=>{const c=getPD(p.id).counter||0;return item('setcur',esc(p.name),`${fmt(c)} of ${fmt(p.target)}`,{attrs:`data-id="${p.id}" style="--acc:${p.acc}"`,right:currentId()===p.id?'<span class="tag ok">Now</span>':''});}).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -3255,10 +3304,10 @@ function sheetInstall(){
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
-const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
+const OVERLAYS={dana:ovDana,aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -3545,6 +3594,18 @@ document.getElementById('app').addEventListener('click',e=>{
     // texts
     case'prayer':ST.ov='prayer';ST.arg=id;ST.verse=0;break;
     case'prayabout':sheet('prayabout',el.dataset.v);break;
+    case'groups':sheet('groups');groupRefresh();break;
+    case'dana':ST.ov='dana';break;
+    case'group':sheet('group',el.dataset.v);groupRefresh();break;
+    case'gpreset':ST.gp=+el.dataset.v;break;
+    case'gcreate':{const name=val('gname').trim(),practice=val('gprac').trim(),target=parseInt(val('gtarget'));if(!name||!practice||!(target>0)){toast('Please give the group a name, what you’ll count, and a number');return;}
+      groupFetch('',{body:{name,practice,target}}).then(g=>{groupSave({...g,mine:1});ST.sarg=g.code;ST.sheet='group';render();toast('Group started. Invite others with the code '+g.code);}).catch(()=>toast('Couldn’t reach the server. Please try again when you’re online.'));return;}
+    case'gjoin':{const code=val('gcode').trim().toUpperCase();if(!/^[A-Z0-9]{6}$/.test(code)){toast('The code is 6 letters and numbers');return;}
+      groupFetch(code).then(g=>{groupSave(g);ST.gjoin=null;ST.sarg=g.code;ST.sheet='group';render();}).catch(()=>toast('No group with that code, or no internet.'));return;}
+    case'gadd':{const n=parseInt(el.dataset.v||val('gaddn'));if(!(n>0&&n<=100000))return;groupAdd(ST.sarg,n);return;}
+    case'ginvite':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return;const text=`Join our shared practice “${g.name}”: ${g.practice}, ${fmt(g.target)} together. In the ${APP_NAME} app, open Practise together and enter the code ${g.code}, or tap:`;
+      if(navigator.share)navigator.share({title:g.name,text,url:groupLink(g)}).catch(()=>{});else navigator.clipboard.writeText(`${text} ${groupLink(g)}`).then(()=>toast('Invitation copied')).catch(()=>{});return;}
+    case'gleave':lsSet('esm_groups',myGroups().filter(x=>x.code!==ST.sarg));sheet('groups');break;
     case'bardoadd':{const ds=val('bardodate'),nm=val('bardoname').trim();if(!ds){toast('Please choose the date they died');return;}
       lsSet('esm_bardo',[...bardoList().filter(b=>b.date!==ds||b.name!==nm),{date:ds,name:nm}]);ST.sheet=null;toast('The 49 days are marked in your calendar');break;}
     case'bardodel':lsSet('esm_bardo',bardoList().filter((b,i)=>i!==+el.dataset.v));break;
@@ -3869,6 +3930,7 @@ document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.dataset&&d.datas
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
 // Links into the app: #practice=prostr opens a practice; #texts, #learn, #practice open a tab; #practices the explainers.
+{const jm=location.hash.match(/^#join=([A-Za-z0-9]{6})$/);if(jm){ST.tab='practice';ST.sheet='groups';ST.gjoin=jm[1].toUpperCase();ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
 {const m=location.hash.match(/^#(practice|texts|learn|practices|calendar)(?:=([\w-]+))?$/);
   if(m){if(m[1]==='practice'&&m[2]&&findPR(m[2])){ST.tab='practice';ST.ov='practice';ST.arg=m[2];}else if(m[1]==='practices'){ST.tab='learn';ST.ov='practices';}
     else if(m[1]==='calendar')ST.ov='cal';else ST.tab=m[1];ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
