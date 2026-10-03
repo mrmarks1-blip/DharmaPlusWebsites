@@ -119,6 +119,7 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
    SHELL
 ═══════════════════════════════════════════ */
 #app { position:fixed; inset:0; display:flex; flex-direction:column; }
+#app.immersive #nav { display:none; }
 #content { flex:1; position:relative; overflow:hidden; }
 #nav { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); background:var(--surface); padding:6px 4px calc(8px + var(--safe-b)); flex-shrink:0; z-index:20; }
 .tab { display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 2px; min-height:58px; border-radius:12px; color:var(--ink-2); font-size:13px; font-weight:700; }
@@ -498,6 +499,48 @@ input[type=time] { font:inherit; font-size:var(--fs-lg); padding:8px 10px; borde
 /* The thigle follows the voice: --lv (0–1) comes from the microphone, or a slow swell without it.
    Each Aa starts a little larger (r1–r3); the third melts into rainbow light, then white, then sky. */
 @property --lv { syntax:'<number>'; inherits:true; initial-value:0; }
+@property --s { syntax:'<number>'; inherits:true; initial-value:1; }
+@property --mic { syntax:'<number>'; inherits:true; initial-value:0; }
+.aaintro { gap:16px; }
+.aaintro .aring.small { --aring:min(34vw,130px); align-self:center; margin-top:6px; }
+.aaintro .card p + p { margin-top:8px; }
+.aastage { position:absolute; inset:0; z-index:40; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; overflow:hidden;
+  background:radial-gradient(circle at 50% 42%,#18234a,#05070f 78%); color:#e9ecf5; cursor:default; user-select:none; -webkit-user-select:none; }
+.aastage .aring { --s:1; --lv:.1; transform:scale(calc(var(--s) + var(--base) + var(--mic) * .25)); transition:none; z-index:1; }
+.aastage.ph-in .aring { animation:aain 3s ease-in-out forwards; }
+.aastage.ph-aa .aring { animation:aaopen 10s ease-in-out forwards; }
+@keyframes aain { from { --s:1; --lv:.15; } to { --s:.84; --lv:.04; } }
+@keyframes aaopen { 0% { --s:.84; --lv:.04; } 45% { --s:1.3; --lv:.9; } 100% { --s:1; --lv:.15; } }
+.aastage .aring .aorb { box-shadow:0 0 calc(30px + var(--lv) * 90px) calc(6px + var(--lv) * 34px) rgba(255,255,255,calc(.25 + var(--lv) * .5)); }
+.aastage .aring .aorb b { text-shadow:0 0 calc(16px + var(--lv) * 40px) rgba(255,255,255,.95); }
+.aacue { min-height:1.6em; font-size:calc(21px * var(--scale)); letter-spacing:.06em; color:rgba(233,236,245,.82); transition:opacity .65s ease; z-index:1; }
+.aacue.fade { opacity:0; }
+.aadots { display:flex; gap:10px; z-index:1; transition:opacity 1s; }
+.aadots i { width:7px; height:7px; border-radius:50%; background:rgba(233,236,245,.25); transition:background 1s; }
+.aadots i.on { background:rgba(233,236,245,.85); }
+.aax { position:absolute; top:calc(10px + var(--safe-t)); left:10px; width:48px; height:48px; display:grid; place-items:center; color:rgba(233,236,245,.4); z-index:3; transition:opacity 2s; }
+.aax svg { width:22px; height:22px; }
+.aasky { position:absolute; inset:0; opacity:0; transition:opacity 3s ease; background:linear-gradient(180deg,#eef6ff,#cfe3f6 55%,#9fc4e8); }
+.aablack { position:absolute; inset:0; background:#000; opacity:0; transition:opacity 7s ease; pointer-events:none; z-index:2; }
+.aatapnote { position:absolute; bottom:calc(30px + var(--safe-b)); left:0; right:0; text-align:center; font-size:13px; letter-spacing:.08em; color:rgba(255,255,255,.32); opacity:0; transition:opacity 3s 5s; z-index:3; }
+.aastage.ph-melt .aring { animation:aamelt 4.4s cubic-bezier(.45,0,.6,1) forwards; }
+.aastage.ph-melt .aring::before { animation:aahalo 4.4s ease-in-out forwards; }
+.aastage.ph-melt .aorb { position:relative; }
+.aastage.ph-melt .aorb::after { content:''; position:absolute; inset:0; border-radius:50%; opacity:0; animation:aaorbw 4.4s ease-in forwards; background:radial-gradient(circle at 50% 45%,#fff 0%,#fffdf6 55%,#f4f1ea 100%); }
+.aastage.ph-melt .aorb b { position:relative; z-index:1; animation:aaletter 4.2s ease-in-out forwards; }
+.aastage.ph-melt { animation:aabg 4.4s ease-in forwards; }
+.aastage.ph-melt::after { content:''; position:absolute; inset:-20%; pointer-events:none; opacity:0; animation:aawhite 4.4s ease-in forwards; background:radial-gradient(circle at 50% 42%,#fff 0%,#fff 30%,rgba(255,255,255,.85) 45%,rgba(255,255,255,0) 72%); }
+.aastage.ph-melt .aacue, .aastage.ph-melt .aadots { opacity:0; }
+.aastage.ph-sky, .aastage.ph-dark { background:#fff; }
+.aastage.ph-sky .aasky, .aastage.ph-dark .aasky { opacity:1; }
+.aastage.ph-sky .aring, .aastage.ph-dark .aring, .aastage.ph-sky .aadots, .aastage.ph-dark .aadots { opacity:0; }
+.aastage.ph-sky::after { content:''; position:absolute; inset:0; background:#fff; pointer-events:none; animation:aaclear 3s ease-out forwards; z-index:2; }
+.aastage.ph-sky .aacue, .aastage.ph-dark .aacue { color:#33465f; }
+.aastage.ph-sky .aax, .aastage.ph-dark .aax { color:rgba(40,60,90,.35); }
+.aastage.ph-dark .aablack { opacity:1; }
+.aastage.ph-dark .aatapnote { opacity:1; }
+.aastage.ph-sky, .aastage.ph-dark { cursor:pointer; }
+@media (prefers-reduced-motion: reduce) { .aastage .aring { animation:none !important; } }
 .aring { position:relative; isolation:isolate; --base:0; transform:scale(calc(1 + var(--base) + var(--lv) * .3));
   filter:saturate(calc(1 + var(--lv) * .8)) brightness(calc(1 + var(--lv) * .2)); transition:transform 1.1s ease-out, filter 1.1s ease-out, opacity 3s ease-out; }
 .aring.live { transition:transform .12s linear, filter .12s linear; }
@@ -1285,7 +1328,9 @@ const THREE_AA_INFO=[
   'The Three Aa is a guru yoga from the Dzogchen teachings, which trace back to Garab Dorje. This guide follows James Low’s instructions, given at his 2019 retreat “The Happy Twins”. The guru yoga of the white A was also taught widely by Chögyal Namkhai Norbu.',
   'The white Aa stands for emptiness: the open ground of everything. The five-coloured light streaming from it is everything that can arise from that ground. Guru yoga is also about trust: the guru is the one awake to that ground, and so is inseparable from your own nature.',
   'Sounding Aa lets everything dissolve back into its source. It is not an antidote to thoughts, and it is not a formal ritual that has to be done perfectly. It simply helps you slip out of holding on.',
-  'If you practise on your own, James Low suggests doing the Three Aa, sitting for about five minutes, taking a short break, and then doing it again.',
+  'If you practise on your own, James Low suggests doing the Three Aa, sitting for about five minutes, taking a short break, and then doing it again. “If you get very lost after a few minutes you can just say another Aa.”',
+  'It can be done over and over, in short bursts through the day. In recent retreats at Emerson College, James Low has encouraged moving between sits, even putting on energetic music to get the body moving, and then sitting and doing it again.',
+  'Breath: let it rise from low in the belly, so the Aa can be long and open. If the breath feels tight, James Low suggests some yoga breathing exercises.',
 ];
 const THREE_AA=[
   {k:'prep',t:'Sit comfortably',d:'Sit upright and relaxed. Let the breath come and go by itself, from low in the belly.'},
@@ -1812,8 +1857,8 @@ function pagePractice(){const all=allPR();
     ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
     ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>
-  <p class="h2">GURU YOGA</p><div class="list">
-    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">After James Low · a few minutes</span></span>${chev}</button></div>
+  <p class="h2">OPEN SITTING</p><div class="list">
+    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low · the white A, as also taught by Chögyal Namkhai Norbu</span></span>${chev}</button></div>
   </div></div>`;}
 
 function ovPractice(){
@@ -2398,7 +2443,7 @@ function sitBox(choices,doneMsg,doneExtra=''){
   if(ST.sit)return`<div class="sitbox"><span class="small">Time left</span><b id="sitleft" class="sitleft sitlive">${mmss(sitLeft())}</b><button class="btn link" data-act="sitclear">Stop the timer</button></div>`;
   return`<div class="sitbox"><span class="small">Timer with a soft bell (optional)</span><div class="sitopts">${choices.map(m=>`<button class="opt" data-act="sit" data-v="${m}">${m} min</button>`).join('')}</div></div>`;}
 const MED_INFO={
-  threeaa:{t:'About the Three Aa',p:()=>THREE_AA_INFO,links:[['James Low · Simply Being','https://simplybeing.co.uk/audio-recordings/year/audio2019/james-low-germany-eifel-2019-october-the-happy-twins/']]},
+  threeaa:{t:'About the Three Aa',p:()=>THREE_AA_INFO,links:[['James Low on the Three Aa (transcript)','https://simplybeing.co.uk/texts-and-transcripts/three-aa-practice-extract-from-the-happy-twins-eifel-2019/'],['Emerson College retreats (audio)','https://simplybeing.co.uk/audio-recordings/retreats/open-to-life-emerson-college-june-2025/'],['Simply Being','https://simplybeing.co.uk/']]},
   vajra:{t:'About vajra breathing',p:()=>VAJRA_INFO,words:true,links:[['Garchen Rinpoche on OM AH HUM','https://drikungdharmasurya.org/2014/04/vajra-recitation/']]},
   brahm:{t:'About the beautiful breath',p:()=>BRAHM_INFO,links:[['The Basic Method of Meditation (free book)','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/']]},
   count:{t:'About counting the breath',p:()=>COUNT_INFO,links:[]},
@@ -2409,22 +2454,54 @@ function sheetInfo(){const m=MED_INFO[ST.sarg];return`<div class="grab"></div><h
   ${m.draft?'<p class="note">This guide is a draft, waiting to be checked.</p>':''}<button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const medTop=(title,key,tag='')=>`<div class="ovtop"><button class="iconbtn" data-act="closemed" aria-label="Close">${ico('close')}</button><div class="title">${title}${tag}</div><button class="iconbtn" data-act="medinfo" data-v="${key}" aria-label="About this practice">${ico('info')}</button></div>`;
 function openMed(ov){ST.ov=ov;keepAwake(true);}
-function closeMed(){vjReset();keepAwake(false);}
+function closeMed(){vjReset();aaCancel();keepAwake(false);}
 
 // ── Three Aa ──
-function ovThreeAa(){const st=THREE_AA[ST.wa],s=st.k==='sound'?{...st,...THREE_AA_SOUND}:st,lat=ST.aForm==='latin',rest=st.k==='rest';
-  return`${medTop('Three Aa','threeaa')}
-  <div class="breath wa${rest?' sky':''}${ST.waMelt?' melt':''}${rest&&ST.waFromWhite?' fromwhite':''}" data-act="${rest?'':'wanext'}">
-    <p class="small">${st.r?`Aa ${st.r} of 3`:rest?'Resting':'Getting ready'}</p>
-    <div class="aring${st.k==='sound'?` sound r${st.r}${ls('esm_aa_mic',false)?'':' swell'}`:''}${rest?' open':''}" id="aring" style="--lv:${ST.aaLv||0}"><div class="aorb"><b class="${lat?'lat':''}"${lat?'':' lang="bo"'}>${lat?'A':'ཨ'}</b></div></div>
-    ${st.k==='see'?`<div class="seg" style="grid-template-columns:1fr 1fr;width:100%;max-width:300px" aria-label="Show the letter as"><button class="opt${lat?'':' on'}" data-act="aform" data-v="tib" style="font-family:var(--f-tib);font-size:22px" aria-label="Tibetan A">ཨ</button><button class="opt${lat?' on':''}" data-act="aform" data-v="latin" style="font-family:var(--f-display);font-size:22px" aria-label="Capital A">A</button></div>`:''}
-    <p class="bstep">${s.t}</p><p class="bdesc">${s.d}</p>
-    ${rest?sitBox([5,10,20],'Time for a short break. Then, if you like, the Three Aa again.','<button class="opt" data-act="wathree">Three Aa again</button>'):st.k==='sound'?(ls('esm_aa_mic',false)?`<p class="small">Listening: the light follows your voice, and it moves on by itself when your Aa ends.</p>`:''):'<p class="small">Tap anywhere when you are ready</p>'}
-    ${st.k==='sound'||st.k==='prep'?`<button class="btn link" data-act="aamic" style="padding:0">${ls('esm_aa_mic',false)?'Stop listening (tap instead)':'Let the app listen for your Aa'}</button>`:''}
-  </div>
-  <div class="vnav">${rest?`<button class="btn soft" data-act="waagain">Aa again</button><button class="btn primary" data-act="medfinish">Finish</button>`
-    :`<button class="btn soft" data-act="waback">Back</button><button class="btn primary" data-act="wanext">${st.k==='sound'?'Aa finished':'Next'}</button>`}</div>`;}
-
+// The Three Aa, guided (Gareth, 2026-10-03): a calm start screen; then, with no tapping, three rounds of
+// "breathe in" (3 s, the light draws in) and "Aaa" (10 s, it opens and settles back); the third melts into
+// rainbow light, white, then open sky; then the screen fades to black with a faint "tap to continue", and the
+// phone may sleep. The microphone (optional) only adds to the light; it never moves things on.
+const AA_IN=3000,AA_SOUND=10000,AA_MELT=4400,AA_SKY=16000;
+let aaT=null;
+const aaLetter=()=>ST.aForm==='latin'?'<b class="lat">A</b>':'<b lang="bo">ཨ</b>';
+function ovThreeAa(){const restI=THREE_AA.findIndex(x=>x.k==='rest'),R=ST.aaRun;
+  if(R)return`<div class="aastage ph-${R.ph} r${R.r}" id="aastage" data-act="aatap">
+    <div class="aasky" aria-hidden="true"></div>
+    <button class="aax" data-act="aastop" aria-label="Stop">${ico('close')}</button>
+    <div class="aring" id="aring"><div class="aorb">${aaLetter()}</div></div>
+    <p class="aacue" id="aacue" aria-live="polite">${aaCue(R)}</p>
+    <p class="aadots" id="aadots" aria-hidden="true">${[1,2,3].map(k=>`<i class="${k<R.r||(k===R.r&&R.ph==='aa')?'on':''}"></i>`).join('')}</p>
+    <div class="aablack" aria-hidden="true"></div><p class="aatapnote">Tap to continue</p></div>`;
+  if(ST.wa===restI){const st=THREE_AA[restI];
+    return`${medTop('Three Aa','threeaa')}<div class="breath wa sky"><div class="aring open"><div class="aorb">${aaLetter()}</div></div>
+      <p class="bstep">${st.t}</p><p class="bdesc">${st.d}</p>
+      <p class="bdesc small">Do it again and again, in short bursts through the day. James Low suggests the Three Aa, about five minutes of sitting, a little break, then again. Between sits, move: stretch, walk, put on some lively music and get the body moving, then sit and sound Aa again.</p>
+      ${sitBox([5,10,20],'Time for a little break. Then, if you like, the Three Aa again.','')}</div>
+      <div class="vnav"><button class="btn soft" data-act="aabegin">Three Aa again</button><button class="btn primary" data-act="medfinish">Finish</button></div>`;}
+  const lat=ST.aForm==='latin',mic=ls('esm_aa_mic',false);
+  return`${medTop('Three Aa','threeaa')}<div class="ovbody"><div class="col aaintro">
+    <div class="aring small"><div class="aorb">${aaLetter()}</div></div>
+    <p class="sub" style="text-align:center">Guru yoga of the white A, from the Dzogchen teachings</p>
+    <div class="card stack"><p><b>Sit comfortably.</b> Upright and relaxed, the breath coming and going by itself, from low in the belly.</p>
+      <p><b>The white Aa.</b> About two arms’ length in front of you, imagine a white Aa, standing for emptiness, the open ground of everything. From it streams light of five colours: white, red, blue, green and yellow.</p>
+      <p><b>Three times:</b> breathe in as the light draws in, then let a long, open “Aaa” rise from the belly as it opens, aloud or silently. Let memories, plans and thoughts dissolve back into their source.</p>
+      <p><b>Then rest,</b> sky to sky.</p></div>
+    <p class="small" style="text-align:center">Once you begin, nothing needs a tap: you can close your eyes. About 45 seconds, then open sitting.</p>
+    <div class="seg" style="grid-template-columns:1fr 1fr;max-width:300px;align-self:center;width:100%" aria-label="Show the letter as"><button class="opt${lat?'':' on'}" data-act="aform" data-v="tib" style="font-family:var(--f-tib);font-size:22px" aria-label="Tibetan A">ཨ</button><button class="opt${lat?' on':''}" data-act="aform" data-v="latin" style="font-family:var(--f-display);font-size:22px" aria-label="Capital A">A</button></div>
+    <div class="list">${item('aamic','Let the light follow your voice',mic?'On · uses the microphone; nothing is recorded':'Off · optional, uses the microphone',{ico:'breath',right:`<span class="tag${mic?' ok':''}">${mic?'On':'Off'}</span>`})}</div>
+    <button class="btn primary wide" data-act="aabegin">Begin</button>
+  </div></div>`;}
+const aaCue=R=>({in:'Breathe in',aa:'Aaa…',melt:'',sky:'Sky to sky',dark:''})[R.ph];
+// Move to a phase without re-rendering (so nothing jumps): classes change, the cue text cross-fades.
+function aaPhase(ph,r){const R=ST.aaRun;if(!R)return;R.ph=ph;if(r)R.r=r;const st=document.getElementById('aastage');if(!st){render();return;}
+  st.className=`aastage ph-${ph} r${R.r}`;const cue=document.getElementById('aacue'),txt=aaCue(R);
+  if(cue&&cue.textContent!==txt){cue.classList.add('fade');setTimeout(()=>{if(cue.isConnected){cue.textContent=txt;cue.classList.remove('fade');}},650);}
+  const d=document.getElementById('aadots');if(d)d.innerHTML=[1,2,3].map(k=>`<i class="${k<R.r||(k===R.r&&ph==='aa')?'on':''}"></i>`).join('');}
+function aaBegin(){clearTimeout(aaT);ST.sheet=null;ST.aaRun={ph:'in',r:1};keepAwake(true);render();if(ls('esm_aa_mic',false))aaListen();aaRound(1);}
+function aaRound(r){aaPhase('in',r);tone('in');buzz(10);
+  aaT=setTimeout(()=>{aaPhase('aa');aaT=setTimeout(()=>{if(r<3)aaRound(r+1);else aaMelt();},AA_SOUND);},AA_IN);}
+function aaMelt(){aaStop();aaPhase('melt');aaT=setTimeout(()=>{aaPhase('sky');aaT=setTimeout(()=>{aaPhase('dark');keepAwake(false);},AA_SKY);},AA_MELT);}
+function aaCancel(){clearTimeout(aaT);aaT=null;aaStop();ST.aaRun=null;}
 // ── Three Aa: listen for the sounded Aa (optional). The microphone level is measured on the phone,
 // moment by moment; nothing is recorded, stored or sent. When the sound starts and then stops, the
 // practice moves on by itself; tapping still works. esm_aa_mic remembers the choice.
@@ -2434,19 +2511,12 @@ async function aaListen(){if(aaMic)return;try{const stream=await navigator.media
     const buf=new Float32Array(an.fftSize),M={stream,an,floor:null,t0:performance.now(),on:0,off:0,heard:false,raf:0};aaMic=M;
     const step=()=>{if(aaMic!==M)return;an.getFloatTimeDomainData(buf);let r=0;for(const v of buf)r+=v*v;r=Math.sqrt(r/buf.length);const now=performance.now();
       if(now-M.t0<600){M.floor=Math.max(M.floor||0,r);}else{const fl=Math.max(M.floor,.003);
-        if(r>fl*3){M.on=M.on||now;M.off=0;if(now-M.on>250)M.heard=true;}else{M.on=0;if(M.heard){M.off=M.off||now;if(now-M.off>700){M.heard=false;M.off=0;aaHeardEnd();}}}
         const tg=Math.max(0,Math.min(1,Math.log(Math.max(1,r/fl))/Math.log(30)));M.sm=(M.sm||0)+(tg-(M.sm||0))*(tg>(M.sm||0)?.3:.06);
-        const ring=document.getElementById('aring');if(ring){ring.classList.add('live');ring.style.setProperty('--lv',M.sm.toFixed(3));}}
+        const ring=document.getElementById('aring');if(ring)ring.style.setProperty('--mic',M.sm.toFixed(3));}
       M.raf=requestAnimationFrame(step);};M.raf=requestAnimationFrame(step);
   }catch(e){lsSet('esm_aa_mic',false);toast('The microphone isn’t available, so tap when the sound has finished.');render();}}
 function aaStop(){if(!aaMic)return;cancelAnimationFrame(aaMic.raf);aaMic.stream.getTracks().forEach(t=>t.stop());aaMic=null;}
-function aaHeardEnd(){if(ST.ov!=='threeaa'||THREE_AA[ST.wa].k!=='sound'||ST.waMelt)return;buzz(15);aaKeepLevel();if(waMeltStart())return;ST.wa++;render();}
-// Carry the thigle's current size into the next step, so it settles back smoothly instead of jumping.
-function aaKeepLevel(){const r=document.getElementById('aring');ST.aaLv=r?parseFloat(getComputedStyle(r).getPropertyValue('--lv'))||0:0;}
-// After the third Aa: the ring opens out, the white A melts into five-coloured light, then white, then open sky.
-function waMeltStart(){const st=THREE_AA[ST.wa];if(!(st.k==='sound'&&st.r===3)||matchMedia('(prefers-reduced-motion: reduce)').matches)return false;
-  ST.waMelt=1;aaStop();render();
-  setTimeout(()=>{ST.waMelt=0;if(ST.ov!=='threeaa')return;ST.wa++;ST.aaLv=0;ST.waFromWhite=1;render();ST.waFromWhite=0;},4400);return true;}
+function aaHeardEnd(){}   // the guided run keeps its own time; the voice only brightens the light
 // ── Vajra breathing (OM AH HUM): hold while breathing in and resting, let go to breathe out ──
 let vjAhT=null,vjDownAt=0;
 function vjReset(){clearTimeout(vjAhT);if(ST.vj)ST.vj.phase='';}
@@ -2982,6 +3052,7 @@ window.addEventListener('popstate',()=>{if(hSkip){hSkip=false;syncHistory();retu
   const r=closeTop();if(r==='dom')syncHistory();else if(r)render();});
 function render(){
   const content=document.getElementById('content'),nav=document.getElementById('nav');
+  document.getElementById('app').classList.toggle('immersive',!!(ST.ov==='threeaa'&&ST.aaRun));
   // Keep scroll positions when re-rendering the same view (e.g. after a quick add).
   const view=ST.tab+'|'+ST.ov+'|'+ST.arg,pg=content.querySelector('.page'),ob=content.querySelector('.ovbody');
   const keep=view===lastView?{p:pg&&pg.scrollTop,o:ob&&ob.scrollTop}:{};lastView=view;
@@ -3009,8 +3080,7 @@ function render(){
   if(ST.ov==='tree')mountRefuge(document.getElementById('ov'));
   if(ST.sheet==='sharequote'){const im=document.getElementById('shqimg');if(im&&!im.src){if(ST.shq.blob&&shqURL)im.src=shqURL;else drawShareQuote();}}
   if(ST.ov==='breath')runBreath();
-  if(ST.ov==='threeaa'&&ls('esm_aa_mic',false)&&THREE_AA[ST.wa].k==='sound'&&!ST.sheet&&!ST.waMelt)aaListen();else aaStop();
-  if(ST.ov==='threeaa'){const r=document.getElementById('aring');if(r&&ST.aaLv){requestAnimationFrame(()=>requestAnimationFrame(()=>{r.style.setProperty('--lv',0);}));ST.aaLv=0;}}
+  if(!(ST.ov==='threeaa'&&ST.aaRun&&(ST.aaRun.ph==='in'||ST.aaRun.ph==='aa')))aaStop();
   const hb=document.getElementById('holdreset');
   if(hb){hb.addEventListener('pointerdown',holdStart);['pointerup','pointerleave','pointercancel'].forEach(ev=>hb.addEventListener(ev,holdStop));hb.addEventListener('contextmenu',e=>e.preventDefault());}
   const rf=document.getElementById('restorefile');if(rf)rf.addEventListener('change',readRestoreFile);
@@ -3296,20 +3366,18 @@ document.getElementById('app').addEventListener('click',e=>{
     // meditation
     case'threeaa':case'vajra':case'brahm':case'count':
       if(ST.sit&&ST.sit.ov===a){openMed(a);break;}   // back to a sitting that's still going: keep its place
-      if(a==='threeaa')ST.wa=0;if(a==='vajra')Object.assign(ST.vj,{phase:'',count:0});if(a==='count')ST.cnt={n:0,rounds:0};openMed(a);break;
+      if(a==='threeaa'){ST.wa=0;aaCancel();}if(a==='vajra')Object.assign(ST.vj,{phase:'',count:0});if(a==='count')ST.cnt={n:0,rounds:0};openMed(a);break;
     case'medinfo':sheet('info',el.dataset.v);break;
     case'closemed':closeMed();ST.ov=null;break;
     case'medfinish':sitStop();closeMed();ST.ov='dedicate';break;
     case'sitback':if(!ST.sit)break;ST.sheet=null;if(ST.sit.ov)openMed(ST.sit.ov);else sitStop();break;
     case'sit':sitStart(+el.dataset.v);break;
     case'sitclear':sitStop();break;
-    case'wanext':if(THREE_AA[ST.wa].k==='rest'||ST.waMelt)return;aaKeepLevel();if(waMeltStart())return;ST.wa++;break;
-    case'waback':if(ST.waMelt)return;ST.aaLv=0;ST.wa=Math.max(0,ST.wa-1);break;
     case'aamic':if(ls('esm_aa_mic',false)){lsSet('esm_aa_mic',false);aaStop();}else{ST.sheet='aamic';}break;
     case'aamicok':lsSet('esm_aa_mic',true);ST.sheet=null;break;
-    case'waagain':sitStop();ST.wa=THREE_AA.findIndex(s=>s.k==='sound')+2;break;   // one more Aa, then rest again
-    case'wathree':sitStop();ST.wa=THREE_AA.findIndex(s=>s.k==='sound');break;     // the Three Aa again
-    case'aform':ST.aForm=el.dataset.v;lsSet('esm_a_form',ST.aForm);break;
+    case'aabegin':sitStop();ST.wa=0;aaBegin();return;
+    case'aastop':aaCancel();ST.wa=0;keepAwake(false);break;
+    case'aatap':{const R=ST.aaRun;if(!R||(R.ph!=='sky'&&R.ph!=='dark'))return;aaCancel();ST.wa=THREE_AA.findIndex(x=>x.k==='rest');keepAwake(true);break;}    case'aform':ST.aForm=el.dataset.v;lsSet('esm_a_form',ST.aForm);break;
     case'vjmode':vjReset();ST.vj.mode=el.dataset.v;lsSet('esm_vj_mode',ST.vj.mode);sitStop();break;
     case'bbgo':ST.bb=+el.dataset.v;lsSet('esm_bb',ST.bb);break;
     case'bbnext':ST.bb=Math.min(BRAHM.length-1,ST.bb+1);lsSet('esm_bb',ST.bb);bell(mt().bell,.4);break;
