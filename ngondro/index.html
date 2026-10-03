@@ -555,9 +555,11 @@ input[type=time] { font:inherit; font-size:var(--fs-lg); padding:8px 10px; borde
 .aadots { display:flex; gap:10px; z-index:1; transition:opacity 1s; }
 .aadots i { width:7px; height:7px; border-radius:50%; background:rgba(233,236,245,.25); transition:background 1s; }
 .aadots i.on { background:rgba(233,236,245,.85); }
-.aax { position:absolute; top:calc(10px + var(--safe-t)); left:10px; width:48px; height:48px; display:grid; place-items:center; color:rgba(233,236,245,.4); z-index:3; transition:opacity 2s; }
+.aax { position:absolute; top:calc(10px + var(--safe-t)); right:10px; width:48px; height:48px; display:grid; place-items:center; color:rgba(233,236,245,.6); z-index:4; opacity:.25; transition:opacity 2s; }
+.aastage.ph-melt .aax, .aastage.ph-dark .aax { opacity:0; pointer-events:none; }
+.aastage.ph-sky .aax { opacity:1; transition:opacity 3s 6s; }
 .aax svg { width:22px; height:22px; }
-.aasky { position:absolute; inset:0; opacity:0; transition:opacity 3s ease; background:linear-gradient(180deg,#eef6ff,#cfe3f6 55%,#9fc4e8); }
+.aasky { position:absolute; inset:0; opacity:0; transition:opacity 6s ease; background:radial-gradient(ellipse at 50% 40%,#13213f,#05080f 70%,#000); }
 .aablack { position:absolute; inset:0; background:#000; opacity:0; transition:opacity 7s ease; pointer-events:none; z-index:2; }
 .aatapnote { position:absolute; bottom:calc(30px + var(--safe-b)); left:0; right:0; text-align:center; font-size:13px; letter-spacing:.08em; color:rgba(255,255,255,.32); opacity:0; transition:opacity 3s 5s; z-index:3; }
 .aastage.ph-melt .aring { animation:aamelt 4.4s cubic-bezier(.45,0,.6,1) forwards; }
@@ -568,14 +570,15 @@ input[type=time] { font:inherit; font-size:var(--fs-lg); padding:8px 10px; borde
 .aastage.ph-melt { animation:aabg 4.4s ease-in forwards; }
 .aastage.ph-melt::after { content:''; position:absolute; inset:-20%; pointer-events:none; opacity:0; animation:aawhite 4.4s ease-in forwards; background:radial-gradient(circle at 50% 42%,#fff 0%,#fff 30%,rgba(255,255,255,.85) 45%,rgba(255,255,255,0) 72%); }
 .aastage.ph-melt .aacue, .aastage.ph-melt .aadots { opacity:0; }
-.aastage.ph-sky, .aastage.ph-dark { background:#fff; }
-.aastage.ph-sky .aasky, .aastage.ph-dark .aasky { opacity:1; }
+.aastage.ph-sky, .aastage.ph-dark { background:#000; transition:background 2s; }
+.aastage.ph-sky .aasky { opacity:1; }
 .aastage.ph-sky .aring, .aastage.ph-dark .aring, .aastage.ph-sky .aadots, .aastage.ph-dark .aadots { opacity:0; }
-.aastage.ph-sky::after { content:''; position:absolute; inset:0; background:#fff; pointer-events:none; animation:aaclear 3s ease-out forwards; z-index:2; }
-.aastage.ph-sky .aacue, .aastage.ph-dark .aacue { color:#33465f; }
-.aastage.ph-sky .aax, .aastage.ph-dark .aax { color:rgba(40,60,90,.35); }
-.aastage.ph-dark .aablack { opacity:1; }
-.aastage.ph-dark .aatapnote { opacity:1; }
+.aastage.ph-dark::after { content:''; position:absolute; inset:0; background:#fff; pointer-events:none; animation:aaclear 2.5s ease-out forwards; z-index:2; }
+.aastage.ph-sky .aacue { animation:aafadein 5s ease forwards; opacity:0; }
+@keyframes aafadein { to { opacity:1; } }
+.aastage.ph-sky .aacue { color:rgba(233,236,245,.85); }
+.aastage.ph-dark .aacue { opacity:0; }
+.aastage.ph-sky .aatapnote { opacity:1; transition:opacity 3s 8s; }
 .aastage.ph-sky, .aastage.ph-dark { cursor:pointer; }
 @media (prefers-reduced-motion: reduce) { .aastage .aring { animation:none !important; } }
 .aring { position:relative; isolation:isolate; --base:0; transform:scale(calc(1 + var(--base) + var(--lv) * .3));
@@ -1893,7 +1896,7 @@ function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].i
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
     ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>`)}
   ${fold('p_open','OPEN SITTING','The Three Aa',`<div class="list">
-    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low · the white A, as also taught by Chögyal Namkhai Norbu</span></span>${chev}</button></div>`,true)}
+    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low</span></span>${chev}</button></div>`,true)}
   ${fold('p_ngondro',other?'NGÖNDRO · TIBETAN PRELIMINARIES':'NGÖNDRO','The four preliminaries'+prog(ng),`<div class="list">${ng.map(prRow).join('')}</div>`,!other)}
   ${fold('p_other','OTHER PRACTICES',names(op.map(p=>p.name))+prog(op),`<div class="list">${op.map(prRow).join('')}
     ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>`,true)}
@@ -2444,6 +2447,9 @@ function bell(kind='bowl',vol=1,times=1){for(let i=1;i<times;i++)setTimeout(()=>
   (BELL_TONES[kind]||BELL_TONES.bowl).map(([dl,fr,g])=>[dl,fr,g*vol]).forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
     o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,t);o.frequency.exponentialRampToValueAtTime(fr*.5,t+3);
     gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+.04);gn.gain.exponentialRampToValueAtTime(.001,t+5);o.start(t);o.stop(t+6);});}catch{}}
+function softBowl(vol=.5,f=196){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
+  [[1,.5],[2.76,.22],[5.4,.08],[8.9,.03]].forEach(([r,a])=>[-.7,.7].forEach(dt=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f*r+dt*r;
+    o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a*vol*.5,t+.12);g.gain.exponentialRampToValueAtTime(.0005,t+(r>3?3.5:8));o.start(t);o.stop(t+8.5);}));}catch{}}
 // ── Cues for eyes-closed practice: soft tones (synthesised) or the phone's own voice ──
 // Tones: in rises, out falls, hold is a single soft note, change is two notes. Off with Settings > Sounds.
 function tone(kind){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
@@ -2503,7 +2509,7 @@ function closeMed(){vjReset();aaCancel();keepAwake(false);}
 // "breathe in" (3 s, the light draws in) and "Aaa" (10 s, it opens and settles back); the third melts into
 // rainbow light, white, then open sky; then the screen fades to black with a faint "tap to continue", and the
 // phone may sleep. The microphone (optional) only adds to the light; it never moves things on.
-const AA_IN=3000,AA_SOUND=10000,AA_MELT=4400,AA_SKY=16000;
+const AA_IN=3000,AA_SOUND=10000,AA_MELT=4400,AA_BLACK=20000,AA_MIN=2500,AA_MAX=25000;
 let aaT=null;
 const aaLetter=()=>ST.aForm==='latin'?'<b class="lat">A</b>':'<b lang="bo">ཨ</b>';
 function ovThreeAa(){const restI=THREE_AA.findIndex(x=>x.k==='rest'),R=ST.aaRun;
@@ -2523,7 +2529,7 @@ function ovThreeAa(){const restI=THREE_AA.findIndex(x=>x.k==='rest'),R=ST.aaRun;
   const lat=ST.aForm==='latin',mic=ls('esm_aa_mic',false);
   return`${medTop('Three Aa','threeaa')}<div class="ovbody"><div class="col aaintro">
     <div class="aring small"><div class="aorb">${aaLetter()}</div></div>
-    <p class="sub" style="text-align:center">Guru yoga of the white A, from the Dzogchen teachings</p>
+    <p class="sub" style="text-align:center">Guru yoga of the white A, from the Dzogchen teachings. As taught by James Low; also taught by Chögyal Namkhai Norbu.</p>
     <div class="card stack"><p><b>Sit comfortably.</b> Upright and relaxed, the breath coming and going by itself, from low in the belly.</p>
       <p><b>The white Aa.</b> About two arms’ length in front of you, imagine a white Aa, standing for emptiness, the open ground of everything. From it streams light of five colours: white, red, blue, green and yellow.</p>
       <p><b>Three times:</b> breathe in as the light draws in, then let a long, open “Aaa” rise from the belly as it opens, aloud or silently. Let memories, plans and thoughts dissolve back into their source.</p>
@@ -2540,9 +2546,13 @@ function aaPhase(ph,r){const R=ST.aaRun;if(!R)return;R.ph=ph;if(r)R.r=r;const st
   if(cue&&cue.textContent!==txt){cue.classList.add('fade');setTimeout(()=>{if(cue.isConnected){cue.textContent=txt;cue.classList.remove('fade');}},650);}
   const d=document.getElementById('aadots');if(d)d.innerHTML=[1,2,3].map(k=>`<i class="${k<R.r||(k===R.r&&ph==='aa')?'on':''}"></i>`).join('');}
 function aaBegin(){clearTimeout(aaT);ST.sheet=null;ST.aaRun={ph:'in',r:1};keepAwake(true);render();if(ls('esm_aa_mic',false))aaListen();aaRound(1);}
-function aaRound(r){aaPhase('in',r);tone('in');buzz(10);
-  aaT=setTimeout(()=>{aaPhase('aa');aaT=setTimeout(()=>{if(r<3)aaRound(r+1);else aaMelt();},AA_SOUND);},AA_IN);}
-function aaMelt(){aaStop();aaPhase('melt');aaT=setTimeout(()=>{aaPhase('sky');aaT=setTimeout(()=>{aaPhase('dark');keepAwake(false);},AA_SKY);},AA_MELT);}
+function aaRound(r){aaPhase('in',r);softBowl(.55);buzz(10);
+  aaT=setTimeout(()=>{aaPhase('aa');const next=()=>{clearTimeout(aaT);aaVoiceEnd=null;if(r<3)aaRound(r+1);else aaMelt();};
+    if(aaMic){const t0=Date.now();aaVoiceEnd=()=>{if(Date.now()-t0>=AA_MIN)next();};aaT=setTimeout(next,AA_MAX);}   // with the mic: as long as your Aa
+    else aaT=setTimeout(next,AA_SOUND);},AA_IN);}
+// After the third Aa: it melts into light and white, then black for 20 s; then "Sky to sky" fades in, and a small ×.
+function aaMelt(){aaStop();aaPhase('melt');aaT=setTimeout(()=>{aaPhase('dark');aaT=setTimeout(()=>{aaPhase('sky');aaT=setTimeout(()=>keepAwake(false),9000);},AA_BLACK);},AA_MELT);}
+let aaVoiceEnd=null;
 function aaCancel(){clearTimeout(aaT);aaT=null;aaStop();ST.aaRun=null;}
 // ── Three Aa: listen for the sounded Aa (optional). The microphone level is measured on the phone,
 // moment by moment; nothing is recorded, stored or sent. When the sound starts and then stops, the
@@ -2553,6 +2563,7 @@ async function aaListen(){if(aaMic)return;try{const stream=await navigator.media
     const buf=new Float32Array(an.fftSize),M={stream,an,floor:null,t0:performance.now(),on:0,off:0,heard:false,raf:0};aaMic=M;
     const step=()=>{if(aaMic!==M)return;an.getFloatTimeDomainData(buf);let r=0;for(const v of buf)r+=v*v;r=Math.sqrt(r/buf.length);const now=performance.now();
       if(now-M.t0<600){M.floor=Math.max(M.floor||0,r);}else{const fl=Math.max(M.floor,.003);
+        if(r>fl*3){M.on=M.on||now;M.off=0;if(now-M.on>250)M.heard=true;}else{M.on=0;if(M.heard){M.off=M.off||now;if(now-M.off>700){M.heard=false;M.off=0;if(aaVoiceEnd)aaVoiceEnd();}}}
         const tg=Math.max(0,Math.min(1,Math.log(Math.max(1,r/fl))/Math.log(30)));M.sm=(M.sm||0)+(tg-(M.sm||0))*(tg>(M.sm||0)?.3:.06);
         const ring=document.getElementById('aring');if(ring)ring.style.setProperty('--mic',M.sm.toFixed(3));}
       M.raf=requestAnimationFrame(step);};M.raf=requestAnimationFrame(step);
@@ -3542,7 +3553,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'aamicok':lsSet('esm_aa_mic',true);ST.sheet=null;break;
     case'aabegin':sitStop();ST.wa=0;aaBegin();return;
     case'aastop':aaCancel();ST.wa=0;keepAwake(false);break;
-    case'aatap':{const R=ST.aaRun;if(!R||(R.ph!=='sky'&&R.ph!=='dark'))return;aaCancel();ST.wa=THREE_AA.findIndex(x=>x.k==='rest');keepAwake(true);break;}    case'aform':ST.aForm=el.dataset.v;lsSet('esm_a_form',ST.aForm);break;
+    case'aatap':{const R=ST.aaRun;if(!R||R.ph!=='sky')return;aaCancel();ST.wa=THREE_AA.findIndex(x=>x.k==='rest');keepAwake(true);break;}    case'aform':ST.aForm=el.dataset.v;lsSet('esm_a_form',ST.aForm);break;
     case'vjmode':vjReset();ST.vj.mode=el.dataset.v;lsSet('esm_vj_mode',ST.vj.mode);sitStop();break;
     case'bbgo':ST.bb=+el.dataset.v;lsSet('esm_bb',ST.bb);break;
     case'bbnext':ST.bb=Math.min(BRAHM.length-1,ST.bb+1);lsSet('esm_bb',ST.bb);bell(mt().bell,.4);break;
