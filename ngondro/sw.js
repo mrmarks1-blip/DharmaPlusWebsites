@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-9';
+const CACHE = 'dp-v10-10';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
@@ -20,6 +20,8 @@ const SHELL = [
   './icon-192.png',
   './icon-512.png',
   './icon-512-maskable.png',
+  './apple-touch-icon.png',
+  './favicon-32.png',
 ];
 
 // The quotes, for the daily "words for today" notification (the same file the app uses).

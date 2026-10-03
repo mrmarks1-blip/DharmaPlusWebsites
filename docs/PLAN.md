@@ -417,6 +417,20 @@ milestones (Eight Auspicious Symbols) are a design job for Phase 6.
 - **Milestones:** private; everyday icons (praying hands, sitter, sprout, tree, sun, hearts, mountain), not the
   Eight Auspicious Symbols (Gareth). Each ends with "Dedicate it to all beings" / "Rejoice with a friend".
 
+### 2026-10-03, fourth round
+- **Three Aa guided:** start screen → 3 × (3 s in-breath, 10 s Aa), no taps; mic only brightens the light; melt → sky
+  → slow fade to black, "Tap to continue", wake lock released. Moved to "Open sitting". Wording on repeating:
+  James Low's Eifel 2019 transcript ("you can just say another Aa"; Three Aa, five minutes, a little break, again).
+  Moving between sits / energetic music: Gareth heard it at a recent Emerson College retreat (audio only, no
+  transcript); credited to that, linked to the 2025 audio. **Ask Gareth which year/session** to link precisely.
+- **Share images:** 22 drawn backgrounds; swipe/arrows; thumbnail strip; fixed the squashed sheet (all sheets).
+- **Folding sections** on Texts and Practice (snippet always shown; esm_fold remembers).
+- **New logo** (white ཨ in a five-coloured thigle) via `tools/make-icons.py`; favicon, apple-touch-icon, og-image.
+  Other candidates shown to Gareth: OM AH HUM in the thigle; ensō with ཨ.
+- **Google listing:** title, description, canonical, Open Graph, JSON-LD (WebSite "Sliced Dharma"), robots.txt,
+  sitemap.xml. Google still shows the old WordPress tagline until it re-crawls: Gareth to add the site in
+  Google Search Console (DNS TXT verification in Cloudflare; Claude can add the record) and request indexing.
+
 ## 5. New web tech worth using (checked October 2026; re-check support before relying on it)
 
 | Tech | Use here | Notes |
