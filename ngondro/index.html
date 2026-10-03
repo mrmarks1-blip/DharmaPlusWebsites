@@ -3187,7 +3187,7 @@ function sheetGroups(){const L=myGroups(),P=ST.gp||0;
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'';const pct=Math.min(100,Math.round((g.total||0)/g.target*100));
   return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p class="mantra" style="font-size:var(--fs-lg)">${mantraHTML(g.practice.toUpperCase()===g.practice?g.practice:esc(g.practice))}</p>
-  <div><div class="bignum" style="font-size:calc(44px * var(--scale))">${fmt(g.total||0)}</div><p class="sub">of ${fmt(g.target)} together · ${pct}%${g.adds?` · added ${fmt(g.adds)} times`:''}</p></div>
+  <div><div class="bignum" style="font-size:calc(44px * var(--scale))">${fmt(g.total||0)}</div><p class="sub">of ${fmt(g.target)} together · ${pct}%${g.adds?` · added ${g.adds===1?'once':fmt(g.adds)+' times'}`:''}</p></div>
   <div class="bar"><i style="width:${Math.max(pct,g.total?1:0)}%"></i></div>
   ${(g.total||0)>=g.target?'<p class="done-line">✦ The goal is reached. Rejoice, and dedicate it to all beings ✦</p>':''}
   <p class="h2" style="margin:0">ADD WHAT YOU DID</p>
