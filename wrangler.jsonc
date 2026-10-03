@@ -1,0 +1,23 @@
+// Cloudflare Worker for slicedharma.com: the static site (assets) plus a small push server (/api/*).
+// Deployed by Cloudflare's Git build: pushing to main runs `npx wrangler deploy` with this file;
+// other branches run `npx wrangler versions upload` (a preview version, not live).
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "dharma-plus-websites",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    // Only the push server runs code; every other request is a plain file.
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "dharma-push", "database_id": "06d31160-6a05-4f01-97d3-854bcee0c388" }
+  ],
+  // Every 15 minutes: send the "words for today" and evening nudges that are due.
+  "triggers": { "crons": ["*/15 * * * *"] },
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true }
+}

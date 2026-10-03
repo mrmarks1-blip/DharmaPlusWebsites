@@ -1,10 +1,11 @@
-const CACHE = 'dp-v10-7';
+const CACHE = 'dp-v10-8';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
 const SHELL = [
   './',
   './index.html',
+  './quotes.js',
   './manifest.json',
   './fonts/atkinson-latin.woff2',
   './fonts/atkinson-latin-ext.woff2',
@@ -20,6 +21,9 @@ const SHELL = [
   './icon-512.png',
   './icon-512-maskable.png',
 ];
+
+// The quotes, for the daily "words for today" notification (the same file the app uses).
+importScripts('./quotes.js');
 
 self.addEventListener('install', e => {
   // Add each file independently so one 404 can't fail the whole install.
@@ -42,6 +46,7 @@ const put = (req, res) => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  if (new URL(req.url).pathname.startsWith('/api/')) return;   // the push server: never cached
   if (req.mode === 'navigate' || req.destination === 'document') {
     // Page: network-first so edits show up when online; cache when offline.
     e.respondWith(fetch(req).then(res => put(req, res))
@@ -59,4 +64,26 @@ self.addEventListener('fetch', e => {
       return net;
     }));
   }
+});
+
+// ── Notifications (opt-in, from Settings > Reminders). The server only says which kind to show;
+// the words are chosen here on the phone, so the server never holds any texts.
+const dayNum = () => { const d = new Date(); return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000); };
+self.addEventListener('push', e => {
+  let kind = 'quote';
+  try { kind = (e.data && e.data.json().kind) || 'quote'; } catch {}
+  const all = QUOTES, cont = QUOTES.filter(q => q.cont);
+  const q = kind === 'nudge' ? cont[dayNum() % cont.length] : all[dayNum() % all.length];
+  const title = kind === 'nudge' ? 'A moment of practice today?' : kind === 'test' ? 'Notifications are on' : 'Words for today';
+  const body = kind === 'test' ? 'This is how your daily notifications will look.' : `${q.t.replace(/
+/g, ' ')}
+— ${q.a}`;
+  e.waitUntil(self.registration.showNotification(title, { body, icon: './icon-192.png', badge: './icon-192.png', tag: 'dharma-' + kind, data: { kind } }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    const open = list.find(c => c.url.includes('/ngondro/'));
+    return open ? open.focus() : self.clients.openWindow('./');
+  }));
 });

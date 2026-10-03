@@ -11,3 +11,12 @@ README.md
 .gitignore
 .assetsignore
 .gitattributes
+# The push server's code and config (not files for the browser):
+worker/
+wrangler.jsonc
+node_modules/
+.wrangler/
+package.json
+package-lock.json
+.git/
+.github/
