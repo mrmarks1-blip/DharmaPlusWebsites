@@ -1424,23 +1424,24 @@ const when=i=>i===0?'today':i===1?'tomorrow':`in ${i} days`;
 // ═══════════════════════════════════════════════════════════
 // The day in one card: date and Tibetan date, today's (or the next) auspicious day, festivals and
 // anniversaries, hair cutting, and this week's practice diary.
-function todayCard(now){const t=tibDate(now),obs=observedAusp(now),ev=eventsOn(now),hr=hairRec(t.day);
+function todayCard(now){const T=calTib(),C=uses().includes('cal'),t=tibDate(now),obs=T&&C?observedAusp(now):[],ev=T&&C?eventsOn(now):[],hr=hairRec(t.day),oth=C?otherDays(now):[];
   const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),days=[...Array(7)].map((_,i)=>plusDays(mon,i));
   const selDate=noonOf(new Date(sel+'T12:00')),label=sel===dayKey(now)?'today':selDate.toLocaleDateString('en-GB',{weekday:'long'});
   const n=days.filter(x=>Object.keys(dayActs(dayKey(x))).length).length;
   let ausp='';
   if(obs.length)ausp=obs.map(o=>`<div class="tc-ausp glow"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:6px">${o.note}</p>`:''}
     ${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('');
-  else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];ausp=`<div class="tc-ausp"><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
+  else if(T&&C){const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];ausp=`<div class="tc-ausp"><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
     <b style="display:block">${ns.o.a.name}</b>${w?`<p>${w.t}</p>`:''}${DAY_INFO[ns.o.td]?`<button class="btn link" data-act="aday" data-v="${ns.o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`;}}
-  const dbl='';
+  let dbl=oth.map(o=>`<div class="tc-ausp${o.major?' glow':''}"><b>Today: ${esc(o.name)}</b><p>${o.t}</p><a class="btn link" href="${o.u}" target="_blank" rel="noopener" style="padding-left:0">Read more ↗</a></div>`).join('');
+  if(C&&!T&&!oth.length){const no=nextOther(now);if(no)dbl=`<div class="tc-ausp"><span class="small">Next · ${no.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(no.i)}</span><b style="display:block">${esc(no.o.name)}</b></div>`;}
   const evs=ev.length?`<button class="tc-ev" data-act="day" data-d="${dayKey(now)}">${ev.filter(e=>e.kind==='fest').map(e=>`<b>★ ${esc(e.name)}</b>`).join('')}${ev.some(e=>e.kind!=='fest')?`<span class="small">Anniversary: ${ev.filter(e=>e.kind!=='fest').map(e=>esc(e.name.replace(/\s*\(.*\)$/,''))).join(', ')}</span>`:''}</button>`:'';
   return`<div class="card tcard">
     <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),48)}<span class="grow"><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
-      <span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span>
-      <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span><span class="small">${phaseText(now)}</span></span>${chev}</button>
+      ${T?`<span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span>
+      <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span>`:''}<span class="small">${phaseText(now)}</span></span>${chev}</button>
     ${ausp}${dbl}${evs}${reminders().filter(r=>r.date===dayKey(now)).map(r=>`<button class="tc-ev" data-act="day" data-d="${r.date}"><b>${ico('cal')} ${r.time} · ${esc(r.title)}</b>${r.friend?'<span class="small">Practising with a friend</span>':''}</button>`).join('')}
-    <div class="tc-hair"><span class="small">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></div>
+    ${T&&C?`<div class="tc-hair"><span class="small">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></div>`:''}
     <div class="tc-week"><div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
       <p class="small">Tap what you practised ${label}:</p>${jChips(sel)}
       <div class="row" style="justify-content:space-between;flex-wrap:wrap"><span class="small">${n?`${n} day${n>1?'s':''} of practice this week.`:'Your practice days will show here.'}</span><button class="btn link" data-act="cal">Open calendar</button></div></div>
@@ -1669,12 +1670,15 @@ function pageToday(){
   const now=noonOf(new Date());
   const out=[`<div class="row"><div class="greet grow">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>`];
   // Words for today — one quote at a time; swipe or use the arrows.
-  out.push(`<div class="card qcard" id="qcard">${quoteHTML()}
+  const U=uses();
+  if(U.includes('words'))out.push(`<div class="card qcard" id="qcard">${quoteHTML()}
     <div class="qnav"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><span class="small">Words for today</span><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div></div>`);
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
-  out.push(remAskCard(),todayCard(now),progressCard(now),medTimerCard(now));
+  // Progress shows if they count, or have counted lately; the timer if they meditate (both always on Practice).
+  const counted=Object.keys(ls('esm_plog',{})).some(k=>k>=dayKey(plusDays(now,-60)));
+  out.push(remAskCard(),todayCard(now),U.includes('count')||counted?progressCard(now):'',U.includes('med')||(ST.sit&&ST.sit.ov==='sit')?medTimerCard(now):'');
   // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
   if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
     <p>Your counts live only on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
@@ -1694,7 +1698,8 @@ function pagePractice(){const all=allPR();
   <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
   ${medTimerCard(noonOf(new Date()))}
   ${medKindsRow()}
-  <p class="h2">NGÖNDRO</p><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div>
+  ${['theravada','zen','pureland'].includes(ls('esm_tradition'))?`<details class="fold"><summary class="h2">NGÖNDRO · TIBETAN PRELIMINARIES</summary><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div></details>`
+    :`<p class="h2">NGÖNDRO</p><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div>`}
   <p class="h2">OTHER PRACTICES</p><div class="list">${all.filter(p=>p.group!=='ngondro').map(prRow).join('')}
     ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
   <p class="h2">BREATH</p><div class="list">
@@ -1833,8 +1838,11 @@ const ACT_SUGGEST=[
   {id:'a_loving',name:'Loving Eyes',color:'#c05b80',pr:'loving'},
   {id:'prayers',name:'Prayers',color:'#7a2230'},
   {id:'study',name:'Study',color:'#9a8050'},
+  {id:'chanting',name:'Chanting',color:'#4bb3c4'},
+  {id:'dana',name:'Generosity',color:'#2f7a45'},
 ];
-const acts=()=>ls('esm_activities',null)||ACT_SUGGEST.slice(0,4);
+// Until someone edits their activities: Tibetan-flavoured, unless they chose another tradition at setup.
+const acts=()=>ls('esm_activities',null)||(['theravada','zen','pureland','none'].includes(ls('esm_tradition'))?ACT_SUGGEST.filter(a=>['meditation','chanting','study','dana'].includes(a.id)):ACT_SUGGEST.slice(0,4));
 const journal=()=>ls('esm_journal',{});
 const dayActs=k=>journal()[k]||{};
 function setAct(k,id,v){const j=journal(),d={...(j[k]||{})};if(v==null||v===false)delete d[id];else{d[id]=v;if(k===dayKey())pushDone();}
@@ -1907,6 +1915,7 @@ function pageLearn(){
   <div class="list">
     ${item('practices','The practices','What each one is, in plain words',{ico:'practice'})}
     ${item('cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',{ico:'cal'})}
+    ${item('tour','A short tour','Counting, finish dates, reminders and keeping your practice safe',{ico:'info'})}
     ${item('about','About this app','Why it exists, and who to thank',{ico:'info'})}
     ${isStandalone()?'':item('install','Add this app to your phone','Opens like any other app, and works offline',{ico:'phone'})}
   </div></div></div>`;}
@@ -2099,6 +2108,28 @@ const WEST=[
   [12, 25, "6th Ling Rinpoche (1903-1983)"],
   [12, 25, "Shechen Rabjam Rinpoche (1967-)"],
 ];
+// ── Other traditions' days (Phase 7). Which kinds show is the person's choice (esm_caldays), by default
+// from their tradition (esm_tradition). Sources checked 2026-10-03:
+// Uposatha: Wikipedia "Uposatha": kept on the new moon, full moon and the two quarter moons (many keep only
+// new and full); lay people take the eight precepts, visit the monastery, listen to the Dhamma, meditate.
+// We go by the moon's actual phase; local monastery calendars (Thai, Burmese, Sri Lankan) can differ by a day.
+// Japanese Buddhist days, on Western dates since the Meiji era: Rōhatsu 8 Dec (Wikipedia "Bodhi Day"),
+// Hanamatsuri 8 Apr (Wikipedia "Buddha's Birthday"), Nehan-e 15 Feb (Sōtō Zen temples; Wikipedia "Parinirvana Day").
+const CALKINDS=[['tib','Tibetan auspicious days','The 8th, 10th, 15th, 25th, 30th, festivals and anniversaries (Phugpa calendar)'],
+  ['upo','Uposatha (Theravāda)','New, full and quarter moons'],['jp','Japanese Buddhist days (Zen, Pure Land)','Nirvana Day, Hanamatsuri, Rōhatsu']];
+const calDays=()=>{const v=ls('esm_caldays',null);if(Array.isArray(v))return v;const t=ls('esm_tradition',null);
+  return t==='theravada'?['upo']:t==='zen'||t==='pureland'?['jp']:['tib'];};
+const calTib=()=>calDays().includes('tib');
+const UPO={'New Moon':'new moon','First Quarter':'first-quarter moon','Full Moon':'full moon','Last Quarter':'last-quarter moon'};
+const UPO_T='The observance day. Many lay people take the eight precepts, visit the monastery to make offerings and listen to the Dhamma, or give more time to meditation at home. Many keep only the full and new moons. The app goes by the moon itself; your monastery’s calendar may differ by a day.';
+const JP_DAYS=[[2,15,'Nehan-e, Nirvana Day','The Buddha’s passing into parinirvāṇa. In Japanese temples, especially Zen, a great painting of the Buddha lying among the sāla trees is hung and a ceremony of gratitude is held.','Parinirvana Day'],
+  [4,8,'Hanamatsuri, the Buddha’s birthday','The flower festival. People pour sweet tea (ama-cha) over a small statue of the baby Buddha decorated with flowers, as if bathing a newborn.',"Buddha's Birthday"],
+  [12,8,'Rōhatsu, Bodhi Day','The Buddha’s enlightenment. In Zen it is usual for monks and lay people to sit in meditation through the night before.','Bodhi Day']];
+function otherDays(date){const d=noonOf(date),on=calDays(),out=[];
+  if(on.includes('upo')){const ph=moonPhaseOn(d);if(UPO[ph])out.push({kind:'upo',name:`Uposatha · ${UPO[ph]}`,t:UPO_T,u:WP('Uposatha'),major:ph==='Full Moon'||ph==='New Moon'});}
+  if(on.includes('jp'))JP_DAYS.filter(j=>j[0]===d.getMonth()+1&&j[1]===d.getDate()).forEach(j=>out.push({kind:'jp',name:j[2],t:j[3],u:WP(j[4]),major:true}));
+  return out;}
+function nextOther(from){for(let i=1;i<370;i++){const d=plusDays(from,i),o=otherDays(d).filter(x=>x.major);if(o.length)return{d,i,o:o[0]};}}
 function eventsOn(date){const d=noonOf(date),n=tibCount(d),out=[];
   keptCounts(d).forEach(c=>{const md=tibMD(c);if(md.leap)return;const sk=c!==n;
     FESTS.filter(f=>f.m===md.m&&f.d===md.d).forEach(f=>out.push({kind:'fest',...f,sk}));
@@ -2109,34 +2140,35 @@ function eventsOn(date){const d=noonOf(date),n=tibCount(d),out=[];
 // would keep a day elsewhere, say so plainly.
 const moonMark=d=>{const p=moonPhaseOn(d);return p==='Full Moon'?'○':p==='New Moon'?'●':'';};
 function calMonth(){const b=new Date();b.setDate(1);b.setMonth(b.getMonth()+(ST.calOff||0));return{y:b.getFullYear(),m:b.getMonth()};}
-function ovCal(){
+function ovCal(){const T=calTib();
   const{y,m}=calMonth(),first=new Date(y,m,1,12),dim=new Date(y,m+1,0).getDate(),lead=(first.getDay()+6)%7,todayK=dayKey(),A=acts();
   const days=[...Array(dim)].map((_,i)=>new Date(y,m,i+1,12)),cells=[...Array(lead).fill(null),...days];
   const t0=tibDate(days[0]),t1=tibDate(days[dim-1]);
   const tibSpan=t0.month===t1.month&&t0.leap===t1.leap?`${ordinal(t0.month)} Tibetan month`:`${ordinal(t0.month)}–${ordinal(t1.month)} Tibetan months`;
   const counts={};days.forEach(x=>{const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
-  const list=days.flatMap(x=>[...observedAusp(x).map(o=>({x,k:'a',o})),...eventsOn(x).map(e=>({x,k:'e',e})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'e',e:{kind:'west',name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
-  const li=({x,k,o,e})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'})}</time><span>${k==='a'?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>`
+  const list=days.flatMap(x=>[...(T?observedAusp(x):[]).map(o=>({x,k:'a',o})),...(T?eventsOn(x):[]).map(e=>({x,k:'e',e})),...otherDays(x).map(o=>({x,k:'o',o})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'e',e:{kind:'west',name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
+  const li=({x,k,o,e})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'})}</time><span>${k==='o'?`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${o.major?`<b>${esc(o.name)}</b>`:esc(o.name)}</button>`:k==='a'?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>`
     :`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${e.kind==='fest'?`<b>${esc(e.name)}</b>`:`${e.kind==='west'?'':'Anniversary · '}${esc(e.name)}`}</button>`}</span></div>`;
   return`${topbar('Calendar')}<div class="ovbody"><div class="col">
     <div class="row" style="justify-content:space-between"><button class="iconbtn" data-act="calprev" aria-label="Previous month">${ico('back')}</button>
-      <div style="text-align:center"><b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b><div class="small">${tibSpan} · ${t1.element} ${t1.animal} year</div></div>
+      <div style="text-align:center"><b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b>${T?`<div class="small">${tibSpan} · ${t1.element} ${t1.animal} year</div>`:''}</div>
       <button class="iconbtn" data-act="calnext" aria-label="Next month">${ico('chev')}</button></div>
     ${ST.calOff?`<button class="btn link" data-act="caltoday" style="align-self:center">Back to this month</button>`:''}
     <div class="cal gcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
-      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=observedAusp(x).length,ev=eventsOn(x),fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k),rm=reminders().some(r=>r.date===k);
-        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}, Tibetan day ${tibDay(x)}${sp?', auspicious day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
-          <b>${x.getDate()}</b><span>${tibDay(x)}${mm?` ${mm}`:''}</span>${ring?`<i style="${ring}"></i>`:'<i class="none"></i>'}</button>`;}).join('')}</div>
-    <p class="small" style="text-align:center">Big number: the date. Small: the Tibetan day (○ full moon, ● new moon). Gold: an auspicious day; ★ a festival; • an anniversary; a blue corner: your reminder. The ring shows what you practised.</p>
+      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=(T?observedAusp(x).length:0)+otherDays(x).filter(o=>o.major).length,ev=T?eventsOn(x):[],fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k),rm=reminders().some(r=>r.date===k);
+        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}${T?`, Tibetan day ${tibDay(x)}`:''}${sp?', a practice day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
+          <b>${x.getDate()}</b><span>${T?tibDay(x):''}${mm?` ${mm}`:''}</span>${ring?`<i style="${ring}"></i>`:'<i class="none"></i>'}</button>`;}).join('')}</div>
+    <p class="small" style="text-align:center">${T?'Big number: the date. Small: the Tibetan day (○ full moon, ● new moon). Gold: an auspicious day; ★ a festival; • an anniversary;':'○ full moon, ● new moon. Gold: a practice day;'} a blue corner: your reminder. The ring shows what you practised.</p>
     <p class="h2">THIS MONTH</p>
     <div class="card legend">${list.map(li).join('')||'<p class="small">Nothing special this month.</p>'}</div>
     <p class="h2">YOUR PRACTICE DIARY</p>
     <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
     <p class="small">Tap a day to tick what you practised. Counts you add to a practice tick it automatically.</p>
     <div class="btns even"><button class="btn soft" data-act="acts">${ico('edit')} Activities</button><button class="btn soft" data-act="exportcsv">${ico('save')} Spreadsheet</button></div>
-    <div class="list">${item('feed','Auspicious days in your calendar','Subscribe once in your phone’s calendar',{ico:'cal'})}
+    <div class="list">${item('caldays','Which days to show',calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(' · ')||'None',{ico:'cal'})}
+      ${T?`${item('feed','Auspicious days in your calendar','Subscribe once in your phone’s calendar',{ico:'cal'})}
       ${item('calabout','About the Tibetan calendar','How it works, whose rules, and the hair-cutting days',{ico:'info'})}
-      ${linkItem('https://tibetanbuddhistcalendar.org/month','Tibetan Buddhist Calendar','The full calendar online, by Rigpa students')}</div>
+      ${linkItem('https://tibetanbuddhistcalendar.org/month','Tibetan Buddhist Calendar','The full calendar online, by Rigpa students')}`:''}</div>
   </div></div>`;}
 // About the Tibetan calendar: our words, from the sources in docs/calendar-research.md.
 function ovCalAbout(){const L=(l,u)=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`,D=(t,b,open)=>`<details${open?' open':''}><summary>${t}</summary>${b}</details>`;
@@ -2159,16 +2191,17 @@ function ovCalAbout(){const L=(l,u)=>`<a class="linkbtn" href="${u}" target="_bl
   ${D('With thanks',`<p>Tibetan dates are computed with Svante Janson’s <i>Tibetan Calendar Mathematics</i>, as in the open-source <i>tibetan-date-calculator</i> library by the makers of tibetanbuddhistcalendar.org (Rigpa students, inspired by the Rigpa calendar, published every year since the late 1970s). Festivals and anniversaries come from their yearly list. Checked against their calendar for every day from 2025 to 2030.</p>
     <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('tibetanbuddhistcalendar.org','https://tibetanbuddhistcalendar.org/about')}${L('Study Buddhism: the Tibetan calendar','https://studybuddhism.com/en/advanced-studies/history-culture/tibetan-astrology/the-tibetan-calendar')}</div>`)}
   </div></div>`;}
-function sheetDay(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=tibDate(d),obs=observedAusp(d),ev=eventsOn(d),hr=hairRec(t.day),fut=k>dayKey();
+function sheetDay(){const T=calTib(),k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=tibDate(d),obs=T?observedAusp(d):[],ev=T?eventsOn(d):[],oth=otherDays(d),hr=hairRec(t.day),fut=k>dayKey();
   const fest=ev.filter(e=>e.kind==='fest'),ann=ev.filter(e=>e.kind!=='fest');
   return`<div class="grab"></div><h2 class="h1">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
-  <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
+  <div class="row">${moonSVG(moonAge(d),44)}<div>${T?`<b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</div>`:''}<div class="small">${phaseText(d)}</div></div></div>
+  ${oth.map(o=>`<div class="card${o.major?' glow':''}"><b>${esc(o.name)}</b><p>${o.t}</p><a class="linkbtn" href="${o.u}" target="_blank" rel="noopener" style="margin-top:8px">Read more ↗</a></div>`).join('')}
   ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('')}
   ${fest.map(f=>`<div class="card glow"><b>★ ${esc(f.name)}</b><p>${f.t}</p>${f.sk?`<p class="note" style="margin-top:8px">Its day is skipped this year, so it is kept today. ${altSkip()}</p>`:''}
     <p class="small" style="margin-top:6px">${FEST_NOTE}</p><a class="linkbtn" href="${f.u}" target="_blank" rel="noopener" style="margin-top:8px">Read more ↗</a></div>`).join('')}
   ${ann.length?`<div class="card"><p class="small" style="margin-bottom:6px">Anniversaries</p><div class="list plain">${ann.map(a=>a.u?`<a class="item" href="${a.u}" target="_blank" rel="noopener"><span class="grow"><span class="t">${esc(a.name)}</span>${a.sk?'<span class="s">Kept today: its day is skipped</span>':''}${a.note?`<span class="s">${esc(a.note)}</span>`:''}</span><span class="chev">${ico('link')}</span></a>`:`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(a.name)}</span></span></div>`).join('')}</div>
     <p class="small" style="margin-top:6px">From tibetanbuddhistcalendar.org’s list of anniversaries and birthdays.</p></div>`:''}
-  <div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>
+  ${T?`<div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>`:''}
   ${fut?'':`<p class="h2" style="margin:0">WHAT YOU PRACTISED</p>${jChips(k)}`}
   ${k>=dayKey()?`<button class="btn primary wide" data-act="remind" data-d="${k}">${ico('cal')} Remind me · invite a friend</button>`:''}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -2359,19 +2392,21 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
   <p class="small" style="margin:0">Remind me to send a copy</p>
   <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">YOUR PRACTICE</p><div class="list">${item('setup','Your tradition and Today page',(TRADS.find(t=>t[0]===ls('esm_tradition'))||[,'Not chosen'])[1]+' · '+uses().length+' of 4 on Today',{ico:'practice'})}</div>
   <p class="h2" style="margin:0">APPEARANCE</p><div class="seg">${[['light','Light'],['dark','Dark'],['auto','Automatic']].map(([k,l])=>`<button class="opt${cur===k?' on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>
   <button class="item" data-act="morethemes" style="border:1px solid var(--line);border-radius:var(--r)"><span class="grow"><span class="t">More colour themes</span><span class="s">${others.map(o=>o[1]).join(', ')}</span></span><span class="chev" style="transform:rotate(${open?90:0}deg)">${ico('chev')}</span></button>
   ${open?`<div class="themes">${others.map(([k,l])=>`<button class="theme-card${cur===k?' on':''}" data-theme="${k}" data-act="theme" data-v="${k}"><b>${l}</b><span class="sw"><i></i><i></i><i></i></span></button>`).join('')}</div>`:''}
   <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
   <p class="h2" style="margin:0">SOUNDS</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">CALENDAR</p><div class="list">${item('calabout','Skipped and doubled days',calRule()==='after'?'The day after · the first day (as tibetanbuddhistcalendar.org)':'The day before · the second day (as FPMT)',{ico:'cal'})}</div>
-  <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('push','Notifications',pushCfg().on?'On · words for today, evening nudge':'Words for today, and a gentle evening nudge',{ico:'phone'})}${item('daily','A daily reminder','In your phone’s own calendar',{ico:'cal'})}${item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'})}</div>
+  <p class="h2" style="margin:0">CALENDAR</p><div class="list">${item('caldays','Which days to show',calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(' · ')||'None',{ico:'cal'})}${calTib()?item('calabout','Skipped and doubled days',calRule()==='after'?'The day after · the first day (as tibetanbuddhistcalendar.org)':'The day before · the second day (as FPMT)',{ico:'cal'}):''}</div>
+  <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('push','Notifications',pushCfg().on?'On · words for today, evening nudge':'Words for today, and a gentle evening nudge',{ico:'phone'})}${item('daily','A daily reminder','In your phone’s own calendar',{ico:'cal'})}${calTib()?item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add this app to your phone</button>`}
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The welcome: a pop-up at most once a day (esm_welcome_day), until "Don't show this again" (esm_seen).
 function sheetWelcome(){return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
   <p>An unofficial companion for Ngöndro and daily practice, made to lower the barrier and cut through to the heart of the teachings.</p>
   <button class="btn primary wide" data-act="closesheet">Begin</button>
+  <button class="btn soft wide" data-act="setup">Set it up for me: tradition, Today page, a goal</button>
   <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
   <button class="btn link" data-act="seen" style="align-self:center">Don’t show this again</button>`;}
@@ -2415,6 +2450,64 @@ function sheetPush(){const c=pushCfg(),ios=isIOS();
     :`<button class="btn primary wide" data-act="pushon">Turn on notifications</button>`}
   <p class="small">To send them, our server keeps only this phone’s notification address, its time zone and these times. Never your practice, counts or name. Turning them off deletes it.</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+// ── First-run setup (Phase 3): welcome → tradition → what to use → a goal → reminders. Every step can be
+// skipped. Saves esm_tradition, esm_uses (what Today shows), esm_caldays (via the tradition's default);
+// finishing sets esm_seen, so the daily welcome stops. Settings → "Your tradition and Today page" reopens it.
+const TRADS=[['tibetan','Tibetan Buddhism','Kagyu, Nyingma, Sakya, Gelug, Jonang…'],['theravada','Theravāda','Thai Forest, Burmese, Sri Lankan, insight meditation…'],
+  ['zen','Zen / Chan','Sōtō, Rinzai, Chan, Seon, Thiền…'],['pureland','Pure Land','Jōdo Shū, Jōdo Shinshū, Chinese Pure Land…'],['other','Another, or several',''],['none','None, or just exploring','']];
+const USES=[['words','Words for today','A quote each day, from many teachers'],['cal','The calendar','Practice days, festivals and the moon'],
+  ['count','Count a practice','Mantras, prostrations, anything you count'],['med','Meditation timer','Bells, presets, and a kind streak']];
+const uses=()=>{const v=ls('esm_uses',null);return Array.isArray(v)?v:USES.map(u=>u[0]);};
+// Goal suggestions by tradition. Built-in practices by id; others become the person's own practice.
+const GOALS={tibetan:[{pr:'vajraguru'},{pr:'loving'},{pr:'prostr'}],
+  pureland:[{mk:{name:'Nembutsu',mantra:'NAMU AMIDA BUTSU',target:10000},sub:'Japanese Pure Land'},{mk:{name:'Amitābha’s name',mantra:'NAMO AMITUOFO',target:10000},sub:'Chinese Pure Land'}]};
+function goalList(){return(GOALS[ls('esm_tradition')]||GOALS.tibetan.slice(0,ls('esm_tradition')==='other'||ls('esm_tradition')==null?2:0))
+  .map((g,i)=>{const p=g.pr&&findPR(g.pr);return{i,pr:g.pr,mk:g.mk,name:p?p.name:g.mk.name,mantra:p?mantraOf(p):g.mk.mantra,target:p?p.target:g.mk.target,sub:g.sub||''};});}
+function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null),U=uses(),dots=`<p class="small" style="text-align:center;margin:0">Step ${S.step} of 4</p>`;
+  const skip=`<button class="btn link" data-act="sunext" style="align-self:center">Skip this step</button>`;
+  if(S.step===0)return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
+    <p>An unofficial companion for daily practice: a meditation timer, a counter for mantras and prostrations, a practice diary, words from many teachers, and the Tibetan calendar. It began with Ngöndro and is for anyone, whatever their school.</p>
+    <p class="small">Everything stays on this phone. No account, no tracking.</p>
+    <button class="btn primary wide" data-act="sunext">Set up in a minute</button>
+    <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
+    ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
+    <button class="btn link" data-act="closesheet" style="align-self:center">Not now, just look around</button>`;
+  if(S.step===1)return`<div class="grab"></div>${dots}<h2 class="h1">Your tradition</h2><p class="small">This only changes what is shown first: the calendar days, the suggested practices. Everything stays open to you, and you can change it in Settings.</p>
+    <div class="list">${TRADS.map(([k,t,sub])=>`<button class="item" data-act="sutrad" data-v="${k}" role="radio" aria-checked="${tr===k}"><span class="grow"><span class="t">${t}</span>${sub?`<span class="s">${sub}</span>`:''}</span>${tr===k?'<span class="tag ok">Chosen</span>':chev}</button>`).join('')}</div>${skip}`;
+  if(S.step===2)return`<div class="grab"></div>${dots}<h2 class="h1">What would you like to use?</h2><p class="small">Choose any. This sets what shows on Today; everything is still on the other pages.</p>
+    <div class="list">${USES.map(([k,t,sub])=>`<button class="item" data-act="suuse" data-v="${k}" role="checkbox" aria-checked="${U.includes(k)}"><span class="grow"><span class="t">${t}</span><span class="s">${sub}</span></span><span class="tag${U.includes(k)?' ok':''}">${U.includes(k)?'Yes':'No'}</span></button>`).join('')}</div>
+    ${U.includes('cal')?`<p class="small">The calendar will show: ${calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(', ')}. You can add others in Settings.</p>`:''}
+    <button class="btn primary wide" data-act="sunext">Next</button>`;
+  if(S.step===3){const G=goalList(),g=S.goal;
+    return`<div class="grab"></div>${dots}<h2 class="h1">A goal? (optional)</h2><p class="small">Something to count, with a finish date if you like: the app works out how many a day. The meditation timer and diary need no goal.</p>
+    <div class="list">${G.map(x=>`<button class="item" data-act="sugoal" data-v="${x.i}" role="radio" aria-checked="${g===x.i}"><span class="grow"><span class="t">${esc(x.name)} · ${fmt(x.target)}</span><span class="s">${x.mantra?mantraHTML(x.mantra):''}${x.sub?` · ${esc(x.sub)}`:''}</span></span>${g===x.i?'<span class="tag ok">Chosen</span>':''}</button>`).join('')}
+      <button class="item" data-act="sugoal" data-v="own" role="radio" aria-checked="${g==='own'}"><span class="grow"><span class="t">Something of my own</span><span class="s">Any mantra, recitation or bows</span></span>${g==='own'?'<span class="tag ok">Chosen</span>':''}</button></div>
+    ${g==='own'?`<label class="small" for="sgname">Name</label><input id="sgname" type="text" maxlength="40" placeholder="e.g. Green Tara">
+      <label class="small" for="sgmantra">Words (optional)</label><input id="sgmantra" type="text" maxlength="80" placeholder="e.g. OM TARE TUTTARE TURE SOHA">
+      <label class="small" for="sgtarget">How many</label><input id="sgtarget" type="number" inputmode="numeric" min="1" value="1000">`:''}
+    ${g!=null?`<label class="small" for="sgdate">Finish by (optional)</label><input id="sgdate" type="date" min="${dayKey()}">
+      <button class="btn primary wide" data-act="susetgoal">Set this goal</button>`:''}
+    ${tr==='tibetan'||tr==null?'<p class="small">Some practices are traditionally begun only after receiving the transmission (lung) from a teacher.</p>':''}${skip}`;}
+  return`<div class="grab"></div>${dots}<h2 class="h1">Reminders (optional)</h2><p class="small">Gentle ones only. You can change these any time in Settings.</p>
+    <div class="list">${item('supush','Notifications','Words each morning; an evening nudge only on days you haven’t practised',{ico:'phone'})}
+      ${item('sudaily','A daily reminder in your calendar','At a time you choose, in your phone’s own calendar',{ico:'cal'})}
+      ${calTib()&&U.includes('cal')?item('sufeed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
+    <button class="btn primary wide" data-act="sudone">Finish</button>
+    <button class="btn soft wide" data-act="sutour">Finish and take a short tour</button>`;}
+const TOUR=[['Counting a session','On the Practice page, tap “Count a session”, then tap anywhere on the screen, once for each mantra, prostration or round. You can hide the number: the colour changes with each tap instead. When you finish, choose which practice to add it to.','practice'],
+  ['A finish date','Open a practice and choose “Set a finish date”. The app works out how many a day you need, and sets the + button to that. Change the date any time and the daily amount changes with it.','practice'],
+  ['Reminders','In Settings (the cog at the top of Today), under Reminders: notifications with words for the morning and a gentle evening nudge, a daily reminder in your own calendar, and the auspicious days in your calendar.','settings'],
+  ['Keep your practice safe','Your counts and diary live only on this phone. Now and then, open Settings and choose “Send a copy to myself”. On a new phone, “Restore my practice from a copy” brings it all back.','settings']];
+function sheetTour(){const i=Math.min(ST.tour||0,TOUR.length-1),[t,b]=TOUR[i],last=i===TOUR.length-1;
+  return`<div class="grab"></div><p class="small" style="text-align:center;margin:0">${i+1} of ${TOUR.length}</p><h2 class="h1">${t}</h2><p>${b}</p>
+  <button class="btn soft wide" data-act="tourgo">Show me</button>
+  <div class="btns even"><button class="btn soft" data-act="tourprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closesheet':'tournext'}">${last?'Done':'Next'}</button></div>`;}
+function sheetCalDays(){const on=calDays();
+  return`<div class="grab"></div><h2 class="h1">Which days to show</h2><p class="small">On Today and in the calendar. Choose as many as you like.</p>
+  <div class="list">${CALKINDS.map(([k,t,sub])=>`<button class="item" data-act="caldaytog" data-v="${k}" role="checkbox" aria-checked="${on.includes(k)}"><span class="grow"><span class="t">${t}</span><span class="s">${sub}</span></span><span class="tag${on.includes(k)?' ok':''}">${on.includes(k)?'On':'Off'}</span></button>`).join('')}</div>
+  <p class="small">Uposatha days follow the moon itself; your monastery’s calendar may differ by a day. Vesak is not shown, because its date differs from country to country.</p>
+  <button class="btn primary wide" data-act="closesheet">Done</button>`;}
+function suDone(){lsSet('esm_seen',true);ST.su=null;ST.sheet=null;}
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
   <div class="list">${allPR().map(p=>{const c=getPD(p.id).counter||0;return item('setcur',esc(p.name),`${fmt(c)} of ${fmt(p.target)}`,{attrs:`data-id="${p.id}" style="--acc:${p.acc}"`,right:currentId()===p.id?'<span class="tag ok">Now</span>':''});}).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -2514,7 +2607,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null;
 // Drag a sheet down by its top bar to close it.
@@ -2708,6 +2801,32 @@ document.getElementById('app').addEventListener('click',e=>{
     case'veil':case'closesheet':ST.sheet=null;ST.restore=null;break;
     case'closeov':if(['aday','calabout','sit'].includes(ST.ov)){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
     case'seen':lsSet('esm_seen',true);ST.sheet=null;break;
+    case'setup':ST.su={step:1};sheet('setup');break;
+    case'sunext':ST.su.step++;ST.su.goal=null;break;
+    case'sutrad':{const old=ls('esm_tradition',null);lsSet('esm_tradition',el.dataset.v);if(old!==el.dataset.v)localStorage.removeItem('esm_caldays');ST.su.step=2;break;}
+    case'suuse':{const U=uses(),v=el.dataset.v;lsSet('esm_uses',U.includes(v)?U.filter(x=>x!==v):[...U,v]);break;}
+    case'sugoal':ST.su.goal=el.dataset.v==='own'?'own':+el.dataset.v;break;
+    case'susetgoal':{const g=ST.su.goal,G=goalList();let gid;
+      if(g==='own'){const name=val('sgname'),target=parseInt(val('sgtarget'));if(!name||!(target>0)){toast('Please give it a name and a number');return;}
+        gid='c'+Date.now().toString(36);lsSet('esm_custom',[...customPR(),{id:gid,name,target,mantra:val('sgmantra').toUpperCase()||undefined}]);}
+      else{const x=G[g];if(!x)return;if(x.pr)gid=x.pr;else{const have=customPR().find(c=>c.name===x.name);gid=have?have.id:'c'+Date.now().toString(36);
+        if(!have)lsSet('esm_custom',[...customPR(),{id:gid,name:x.name,target:x.target,mantra:x.mantra}]);}}
+      lsSet('esm_current',gid);if(!uses().includes('count'))lsSet('esm_uses',[...uses(),'count']);const ds=val('sgdate'),p=findPR(gid);
+      if(ds&&ds>=dayKey()){const pd=getPD(gid),pace=paceFromDate(pd.counter||0,ds,p.target);if(pace>0){savePD(gid,{...pd,pace});toast(`${p.name}: ${fmt(pace)} a day. The + button is set to that.`);}}
+      else toast(`${p.name} now shows on Today`);
+      ST.su.step=4;ST.su.goal=null;break;}
+    case'sudone':suDone();break;
+    case'sutour':suDone();ST.tour=0;sheet('tour');break;
+    case'supush':suDone();sheet('push');break;
+    case'sudaily':suDone();sheet('daily');break;
+    case'sufeed':suDone();sheet('feed');break;
+    case'tour':ST.tour=0;sheet('tour');break;
+    case'tournext':ST.tour=(ST.tour||0)+1;break;
+    case'tourprev':ST.tour=Math.max(0,(ST.tour||0)-1);break;
+    case'tourgo':{const w=TOUR[Math.min(ST.tour||0,TOUR.length-1)][2];ST.sheet=null;ST.ov=null;
+      if(w==='settings'){ST.tab='today';ST.sheet='settings';}else ST.tab=w;break;}
+    case'caldays':sheet('caldays');break;
+    case'caldaytog':{const on=calDays(),v=el.dataset.v;lsSet('esm_caldays',on.includes(v)?on.filter(x=>x!==v):[...on,v]);break;}
     case'mantraedit':sheet('mantra',id);break;
     case'mantrasave':{const M=ls('esm_mantra',{});M[ST.sarg]=val('mantrain').toUpperCase();lsSet('esm_mantra',M);ST.sheet=null;toast('Words saved');return;}
     case'mantrareset':{const M=ls('esm_mantra',{});delete M[ST.sarg];lsSet('esm_mantra',M);ST.sheet=null;break;}
@@ -3062,7 +3181,8 @@ dailySnapshot();
 if(hasPracticeData())keepStorage();
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
-if(!ST.sheet&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){lsSet('esm_welcome_day',dayKey());ST.sheet='welcome';}
+if(!ST.sheet&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){lsSet('esm_welcome_day',dayKey());
+  if(hasPracticeData()||ls('esm_tradition',null))ST.sheet='welcome';else{ST.su={step:0};ST.sheet='setup';}}
 if(history.state&&history.state.dp)hGuard=true;
 // A sitting timer from before a reload: carry on, or (if it ended long ago) let it go.
 if(ST.sit){if(!ST.sit.done){sitT=setInterval(sitTick,1000);sitTick();}if(ST.sit&&Date.now()-sitEnd()>6*3600000)sitStop();}   // reloaded on our back-button entry: reuse it
