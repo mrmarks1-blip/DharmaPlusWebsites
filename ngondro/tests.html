@@ -109,10 +109,10 @@ const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[
 (async()=>{const out=document.getElementById('out');
   // Pull the calendar code out of the app itself, so this always tests what ships.
   let cal;
-  try{const src=await (await fetch('./index.html',{cache:'no-store'})).text();
+  try{const src=await (await fetch('./index.html?fresh='+Date.now(),{cache:'no-store'})   /* the query skips the app's offline cache */).text();
     const a=src.indexOf('const AUSP={'),b=src.indexOf('function doy(');
     if(a<0||b<a)throw new Error('Could not find the calendar code (looked for "const AUSP={" … "function doy(").');
-    cal=new Function("const ALT_SKIP='',ALT_DOUBLE='';"+src.slice(a,b)+';return{AUSP,tibDay,tibDate,observedAusp};')();   // note texts live elsewhere in the app
+    cal=new Function("const noonOf=d=>{const x=new Date(d);x.setHours(12,0,0,0);return x;},plusDays=(d,k)=>{const x=noonOf(d);x.setDate(x.getDate()+k);return x;};"+src.slice(a,b)+';return{AUSP,tibDay,tibDate,observedAusp,calRule};')();   // note texts live elsewhere in the app
   }catch(e){out.innerHTML=`<div class="verdict bad">Could not load the calendar code</div><p>${esc(e.message)}</p>`;return;}
 
   // 1. Every civil day: Tibetan day number and month.
@@ -127,26 +127,25 @@ const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[
   const losarBad=LOSAR.filter(s=>{const t=cal.tibDate(civil(s));return!(t.day===1&&t.month===1&&!t.leap);});
 
   // 3. For information: where the two skipped/doubled-day rules put an auspicious day differently.
-  //    This app: skipped → the day BEFORE, doubled → the SECOND day. Men-Tsee-Khang: skipped → day AFTER, doubled → FIRST.
+  //    Default (tibetanbuddhistcalendar.org): skipped → the day AFTER, doubled → the FIRST. Other choice (FPMT): the day BEFORE, the SECOND.
   const diffs=[];
   for(let i=1;i<days.length-1;i++){const[d,td]=days[i],prev=days[i-1][1],next=days[i+1][1];
     if(prev!==td)for(let k=prev%30+1;k!==td;k=k%30+1)if(cal.AUSP[k])   // k was skipped: it fell between yesterday and today
       diffs.push([cal.AUSP[k].name,'skipped',days[i-1][0],d]);
     if(td===next&&cal.AUSP[td])diffs.push([cal.AUSP[td].name,'doubled',days[i+1][0],d]);}
   // Check the app really does what it says for those days.
-  const ruleBad=diffs.filter(([name,kind,appDay])=>!cal.observedAusp(appDay).some(o=>o.a.name===name));
+  const rule=cal.calRule();   // the test page shares the app's local settings when run locally
+  const ruleBad=diffs.filter(([name,kind,before,after])=>!cal.observedAusp(rule==='after'?after:before).some(o=>o.a.name===name));
 
   const total=bad.length+losarBad.length+ruleBad.length;
   out.innerHTML=`<div class="verdict ${total?'bad':'ok'}">${total?`${total} problem${total>1?'s':''}`:'All good'}</div>
   <div class="row ${bad.length?'bad':'ok'}">${bad.length?'✗':'✓'} ${n} days checked against the site: ${bad.length?`${bad.length} differ`:'all match'}.</div>
   ${bad.slice(0,50).map(x=>`<div class="row bad soft">${esc(x)}</div>`).join('')}
   <div class="row ${losarBad.length?'bad':'ok'}">${losarBad.length?'✗':'✓'} Losar 2025–2030 (${LOSAR.map(s=>nice(civil(s))).join(', ')})${losarBad.length?': wrong for '+losarBad.join(', '):''}.</div>
-  <div class="row ${ruleBad.length?'bad':'ok'}">${ruleBad.length?'✗':'✓'} The app keeps each skipped/doubled auspicious day where its rule says${ruleBad.length?': not for '+ruleBad.map(r=>r[0]+' '+iso(r[2])).join(', '):''}.</div>
-  <h2 style="font-size:18px;margin-top:24px">For information: where the rules disagree</h2>
-  <p class="soft">The app keeps a skipped day's event on the day <b>before</b> and a doubled day's on the <b>second</b>
-  day. The Men-Tsee-Khang rule, as described in PLAN.md (A6), uses the day <b>after</b> and the <b>first</b>. The right-hand
-  column is worked out from that description, not yet checked against the days the site itself marks. Not a failure: it's the A6 research list.</p>
-  <div class="wrap"><table><tr><th>Day</th><th>Why</th><th>This app</th><th>Men-Tsee-Khang rule</th></tr>
+  <div class="row ${ruleBad.length?'bad':'ok'}">${ruleBad.length?'✗':'✓'} The app keeps each skipped/doubled auspicious day where its rule (${rule==='after'?'the default: day after, first day':'day before, second day'}) says${ruleBad.length?': not for '+ruleBad.map(r=>r[0]+' '+iso(r[2])).join(', '):''}.</div>
+  <h2 style="font-size:18px;margin-top:24px">For information: where the two rules disagree</h2>
+  <p class="soft">Calendars disagree on which day keeps a skipped or doubled auspicious day. The app lets people choose; the default follows tibetanbuddhistcalendar.org (day after, first day); the other choice follows the FPMT calendar (day before, second day). See docs/calendar-research.md.</p>
+  <div class="wrap"><table><tr><th>Day</th><th>Why</th><th>Day before / second (FPMT)</th><th>Day after / first (default)</th></tr>
   ${diffs.map(([name,kind,a,b])=>`<tr><td>${esc(name)}</td><td>${kind}</td><td>${nice(a)}</td><td>${nice(b)}</td></tr>`).join('')}</table></div>`;
 })();
 </script>

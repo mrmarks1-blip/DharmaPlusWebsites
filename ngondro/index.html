@@ -251,6 +251,7 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .bigtile svg { width:40px; height:40px; flex-shrink:0; }
 .bignum { font-size:calc(46px * var(--scale)); font-weight:600; line-height:1; font-variant-numeric:tabular-nums; }
 .done-line { font-family:var(--f-display); font-size:var(--fs-lg); color:var(--accent-ink); }
+.mantra .sa { font-size:.72em; }
 .mantra { font-weight:700; letter-spacing:.14em; color:var(--maroon); font-size:var(--fs-sm); }
 .grid-svg { width:100%; display:block; }
 .grid-svg circle { fill:none; stroke:var(--accent); stroke-opacity:.35; stroke-width:.8; }
@@ -559,6 +560,7 @@ const PR=[
   {id:'mandala',  name:'Mandala Offering',sub:'Mandala offerings',      target:111111, cv:1000, bg:3, acc:'#40a880', img:'mandala.jpg'},
   {id:'guruyoga', name:'Guru Yoga',       sub:'Guru Yoga mantras',      target:111111, cv:1000, bg:4, acc:'#c89040', img:'guru.jpg',        mantra:'KARMAPA KHENNO'},
   {id:'phowa',    name:'Phowa Prep.',     sub:'Om Ami Dewa Hrih',       target:500000, cv:5000, bg:5, acc:'#5878d8', img:'phowa.jpg',       mantra:'OM AMI DEWA HRIH'},
+  {id:'vajraguru',name:'Vajra Guru mantra',sub:'Guru Rinpoche’s mantra',target:1000,cv:10,bg:4,acc:'#b8873a',mantra:'OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG'},
   {id:'loving',   name:'Loving Eyes',     sub:'Om Mani Peme Hung',      target:1000000,cv:10000,bg:6, acc:'#c85880', img:'lovingeyes.jpg',  mantra:'OM MANI PEME HUNG'},
 ];
 const COLS=12;
@@ -1073,18 +1075,29 @@ function moonSVG(age,sz){
   }
   return`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}" xmlns="http://www.w3.org/2000/svg"><circle cx="${cx}" cy="${cy}" r="${r}" fill="${dark}"/>${inner}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(240,220,160,0.2)" stroke-width="0.8"/></svg>`;}
 
-// Special days actually observed on a civil date, applying the usual rules
-// (FPMT "Dharma Practice Days explained"): a special day that falls on a
-// SKIPPED date is kept on the day before; one on a DOUBLED date is kept on
-// the second of the two days. Returns [{td, a, note}].
+// Which civil day keeps an auspicious day whose number is skipped or doubled. Calendars disagree
+// (docs/calendar-research.md), so it's the user's choice (esm_cal_rule):
+//   'after'  (default, as tibetanbuddhistcalendar.org): skipped → the day after; doubled → the first day.
+//   'before' (as the FPMT calendar): skipped → the day before; doubled → the second day.
+const calRule=()=>{try{return localStorage.getItem('esm_cal_rule')==='"before"'?'before':'after';}catch{return'after';}};
+const altSkip=()=>calRule()==='after'?'Some calendars (e.g. FPMT’s) keep it the day before instead.':'Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the day after instead.';
+const altDouble=()=>calRule()==='after'?'Some calendars (e.g. FPMT’s) keep it on the second of the two days instead.':'Some calendars (e.g. tibetanbuddhistcalendar.org) keep it on the first of the two days instead.';
+// Auspicious days kept on a civil date. Returns [{td, a, note}].
 function observedAusp(date){
-  const d=new Date(date);d.setHours(12,0,0,0);
-  const nx=new Date(d);nx.setDate(nx.getDate()+1);
-  const td=tibDay(d),tn=tibDay(nx),out=[];
-  if(tn===td)return out;                      // first of a doubled pair: kept tomorrow
-  if(AUSP[td])out.push({td,a:AUSP[td]});
-  for(let k=td%30+1;k!==tn;k=k%30+1)          // numbers skipped before tomorrow
-    if(AUSP[k])out.push({td:k,a:AUSP[k],note:`Day ${k} is skipped this month, so it is kept today. ${ALT_SKIP}`});
+  const d=noonOf(date),td=tibDay(d),tn=tibDay(plusDays(d,1)),ty=tibDay(plusDays(d,-1)),out=[],after=calRule()==='after';
+  const dbl=k=>`Day ${k} falls twice this month; it is kept on the ${after?'first':'second'} of the two days. ${altDouble()}`;
+  const skip=k=>`Day ${k} is skipped this month, so it is kept today. ${altSkip()}`;
+  if(after){
+    if(ty===td)return out;                      // second of a doubled pair: kept yesterday
+    if(AUSP[td])out.push({td,a:AUSP[td],note:tn===td?dbl(td):''});
+    for(let k=ty%30+1;k!==td;k=k%30+1)          // numbers skipped since yesterday: kept today
+      if(AUSP[k])out.push({td:k,a:AUSP[k],note:skip(k)});
+  }else{
+    if(tn===td)return out;                      // first of a doubled pair: kept tomorrow
+    if(AUSP[td])out.push({td,a:AUSP[td],note:ty===td?dbl(td):''});
+    for(let k=td%30+1;k!==tn;k=k%30+1)          // numbers skipped before tomorrow: kept today
+      if(AUSP[k])out.push({td:k,a:AUSP[k],note:skip(k)});
+  }
   return out;
 }
 // Tibetan day repeats tomorrow (first of a doubled pair)?
@@ -1110,6 +1123,7 @@ const ABOUT_PR={
   guruyoga:'Receiving blessing. Meditating on the lama, here as the 16th Karmapa, and receiving the blessing of body, speech and mind while reciting KARMAPA KHENNO.',
   phowa:'Preparation for phowa, the practice of conscious dying, reciting the mantra of Buddha Amitābha.',
   loving:'Loving Eyes (Chenrezig, Avalokiteśvara), the Buddha of compassion, and his six-syllable mantra.',
+  vajraguru:'The mantra of Guru Rinpoche (Padmasambhava). The words are written as they are often taught; if your teacher says them differently, change them to match.',
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -1389,6 +1403,10 @@ function allPR(){
     ...customPR().map(c=>({...c,group:'custom',custom:true,acc:c.acc||'#9a7a52',cv:Math.max(1,Math.ceil(c.target/111))}))];
 }
 const findPR=id=>allPR().find(p=>p.id===id);
+// The words of a practice's mantra, as the person prefers them (esm_mantra = {id: text}).
+const mantraOf=p=>(ls('esm_mantra',{})[p.id])??p.mantra??'';
+// Written in capitals; in a word "AA" the second A is set smaller (as in OM AA HUNG).
+const mantraHTML=m=>esc(m).replace(/\bAA\b/g,'A<span class="sa">A</span>');
 function getPD(id){return ST.prData[id]||{counter:0,pace:100,lastDate:null,undo:[]};}
 function savePD(id,d){ST.prData={...ST.prData,[id]:d};lsSet('esm_pr_data',ST.prData);}
 const paceOf=id=>{const p=getPD(id).pace;return p>0?p:100;};
@@ -1544,7 +1562,7 @@ function todayCard(now){const t=tibDate(now),obs=observedAusp(now),ev=eventsOn(n
     ${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('');
   else{const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];ausp=`<div class="tc-ausp"><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
     <b style="display:block">${ns.o.a.name}</b>${w?`<p>${w.t}</p>`:''}${DAY_INFO[ns.o.td]?`<button class="btn link" data-act="aday" data-v="${ns.o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`;}}
-  const dbl=doubledToday(now)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice this month, so ${AUSP[t.day].name} is kept tomorrow. ${ALT_DOUBLE.replace('instead','(today) instead')}</p>`:'';
+  const dbl='';
   const evs=ev.length?`<button class="tc-ev" data-act="day" data-d="${dayKey(now)}">${ev.filter(e=>e.kind==='fest').map(e=>`<b>★ ${esc(e.name)}</b>`).join('')}${ev.some(e=>e.kind!=='fest')?`<span class="small">Anniversary: ${ev.filter(e=>e.kind!=='fest').map(e=>esc(e.name.replace(/\s*\(.*\)$/,''))).join(', ')}</span>`:''}</button>`:'';
   return`<div class="card tcard">
     <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),48)}<span class="grow"><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
@@ -1770,7 +1788,7 @@ function sheetFeed(){return`<div class="grab"></div><h2 class="h1">Auspicious da
   <p>Subscribe once, and the auspicious days, festivals and anniversaries appear in your phone’s own calendar, and stay up to date.</p>
   <a class="btn primary wide" href="${FEED_WEBCAL}">${ico('cal')} Subscribe (iPhone, Mac, Outlook)</a>
   <a class="btn soft wide" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(FEED_WEBCAL)}" target="_blank" rel="noopener">Subscribe in Google Calendar ↗</a>
-  <p class="small">On Android, use Google Calendar. The dates follow the Phugpa calendar and this app’s rules for skipped and doubled days (see About the Tibetan calendar). Times are not set: they are all-day events, without alerts.</p>
+  <p class="small">On Android, use Google Calendar. The dates follow the Phugpa calendar, with tibetanbuddhistcalendar.org’s rule for skipped and doubled days (the day after, the first day), whatever you choose in the app. Times are not set: they are all-day events, without alerts.</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -1782,10 +1800,6 @@ function pageToday(){
   // Words for today — one quote at a time; swipe or use the arrows.
   out.push(`<div class="card qcard" id="qcard">${quoteHTML()}
     <div class="qnav"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><span class="small">Words for today</span><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div></div>`);
-  if(!ls('esm_seen'))out.push(`<div class="card glow stack"><b style="font-size:var(--fs-lg)">Welcome to ${APP_NAME}</b>
-    <p>An unofficial companion for Ngöndro and daily practice, made to lower the barrier and cut through to the heart of the teachings.</p>
-    <div class="btns even"><button class="btn primary" data-act="seen">Begin</button>${isStandalone()?'':`<button class="btn soft" data-act="install">${ico('phone')} Add to phone</button>`}</div>
-    ${hasPracticeData()?'':`<button class="btn link" data-act="restore" style="align-self:flex-start;padding-left:0">Moving from another phone? Restore your practice</button>`}</div>`);
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
@@ -1825,13 +1839,14 @@ function ovPractice(){
   const id=ST.arg,p=findPR(id);if(!p)return topbar('Practice');
   const pd=getPD(id),c=pd.counter||0,pct=Math.floor(c/p.target*100),done=c>=p.target,pace=paceOf(id),fin=proj(c,pace,p.target,pd.lastDate),isCur=currentId()===id;
   return`${topbar(esc(p.name))}<div class="ovbody"><div class="col" style="--acc:${p.acc}">
-    ${p.mantra?`<p class="mantra">${esc(p.mantra)}</p>`:''}
+    ${mantraOf(p)?`<p class="mantra">${mantraHTML(mantraOf(p))}</p>`:''}
     <div><div class="bignum">${fmt(c)}</div><p class="sub">of ${fmt(p.target)} · ${pct}%</p></div>
     <div class="bar"><i style="width:${Math.max(pct,c?1:0)}%"></i></div>
     ${done?`<p class="done-line">✦ ${NGONDRO.includes(id)?'This practice is complete':'Complete'} ✦</p>`:`<div class="btns"><button class="btn primary" data-act="start" data-id="${id}">${ico('mala')} Start session</button><button class="btn soft" data-act="quick" data-id="${id}">+ ${fmt(pace)}</button></div>`}
     <div class="list">
       ${item('pace','Change the + amount',`Now ${fmt(pace)} each time`,{ico:'plus',attrs:`data-id="${id}"`})}
       ${item('edit','Edit the total','Type in the correct number',{ico:'edit',attrs:`data-id="${id}"`})}
+      ${item('mantraedit',mantraOf(p)?'Change the words':'Add the words of the mantra',mantraOf(p)?'As you were taught them':'Shown above the count',{ico:'texts',attrs:`data-id="${id}"`})}
       ${item('add','Add a number','For practice counted elsewhere, e.g. on a mala',{ico:'plus',attrs:`data-id="${id}"`})}
       ${(pd.undo||[]).length?item('undo','Undo last change',`Back to ${fmt(pd.undo[pd.undo.length-1].counter)}`,{ico:'undo',attrs:`data-id="${id}"`,right:''}):''}
       ${done?'':item('date','Set a finish date','Works out how many a day you need',{ico:'cal',attrs:`data-id="${id}"`})}
@@ -2027,7 +2042,7 @@ function pageLearn(){
 function ovPractices(){return`${topbar('The practices')}<div class="ovbody"><div class="col">
   <p class="sub">The four special preliminaries (ngöndro) prepare the mind for deeper practice. Each is traditionally done 111,111 times.</p>
   ${allPR().filter(p=>ABOUT_PR[p.id]).map(p=>`<div class="card" style="--acc:${p.acc}"><div class="row" style="margin-bottom:6px"><span class="dot"></span><b style="font-size:var(--fs-lg)">${esc(p.name)}</b></div>
-    <p>${ABOUT_PR[p.id]}</p>${p.mantra?`<p class="mantra" style="margin-top:8px">${esc(p.mantra)}</p>`:''}</div>`).join('')}
+    <p>${ABOUT_PR[p.id]}</p>${mantraOf(p)?`<p class="mantra" style="margin-top:8px">${mantraHTML(mantraOf(p))}</p>`:''}</div>`).join('')}
   <p class="small">These are short introductions only. Please learn the practices from a qualified teacher.</p></div></div>`;}
 function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`;
   return`${topbar('About')}<div class="ovbody"><div class="col prose">
@@ -2060,12 +2075,14 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
 // auspicious days, festivals, anniversaries and the practice diary in each cell.
 // ═══════════════════════════════════════════════════════════
 // Festivals and anniversaries are dated by Tibetan month and day. They follow the same rule as the
-// monthly days (skipped → the day before, doubled → the second day), and in a year with a leap month
+// monthly days (calRule: by default skipped → the day after, doubled → the first day), and in a year with a leap month
 // they fall in the main month, not the leap one (docs/calendar-research.md).
 // Tibetan month/day for a lunar-day count, as tibDate() works it out for a civil date.
 function tibMD(n){const mc=Math.floor((n-1)/30),x=Math.ceil((65*mc+123)/67);return{m:((x-1)%12)+1,d:(n%30)||30,leap:Math.ceil((65*(mc+1)+123)/67)===x};}
 // The lunar days a civil day keeps: its own, plus any skipped before tomorrow. None on the first of a doubled pair.
-function keptCounts(date){const d=noonOf(date),n=tibCount(d),n1=tibCount(plusDays(d,1));if(n1===n)return[];const out=[n];for(let k=n+1;k<n1;k++)out.push(k);return out;}
+function keptCounts(date){const d=noonOf(date),n=tibCount(d);
+  if(calRule()==='after'){const np=tibCount(plusDays(d,-1));if(np===n)return[];const out=[];for(let k=np+1;k<=n;k++)out.push(k);return out;}
+  const n1=tibCount(plusDays(d,1));if(n1===n)return[];const out=[n];for(let k=n+1;k<n1;k++)out.push(k);return out;}
 const RWK=t=>`https://www.rigpawiki.org/index.php?title=${encodeURIComponent(t.replace(/ /g,'_'))}`;
 // Festivals: dates from tibetanbuddhistcalendar.org, checked against Rigpa Wiki and Kunkhyen Tenpe Nyima
 // (Vajra Wisdom, via Shambhala Publications). Text in our words.
@@ -2217,8 +2234,6 @@ function eventsOn(date){const d=noonOf(date),n=tibCount(d),out=[];
   return out;}
 // When the other rule (tibetanbuddhistcalendar.org: skipped → the day after, doubled → the first)
 // would keep a day elsewhere, say so plainly.
-const ALT_SKIP='Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the day after instead.';
-const ALT_DOUBLE='Some calendars (e.g. tibetanbuddhistcalendar.org) keep it on the first of the two days instead.';
 const moonMark=d=>{const p=moonPhaseOn(d);return p==='Full Moon'?'○':p==='New Moon'?'●':'';};
 function calMonth(){const b=new Date();b.setDate(1);b.setMonth(b.getMonth()+(ST.calOff||0));return{y:b.getFullYear(),m:b.getMonth()};}
 function ovCal(){
@@ -2256,11 +2271,12 @@ function ovCalAbout(){const L=(l,u)=>`<a class="linkbtn" href="${u}" target="_bl
   <p class="sub">The Tibetan calendar follows both the moon and the sun. This app works it out on your phone, so it keeps working without the internet.</p>
   ${D('How the months work',`<p>Each month runs from new moon to new moon: day 15 is the full moon and day 30 the new moon. A Tibetan day takes the number of the lunar day that is under way at daybreak.</p>
     <p>Because lunar days are a little shorter than solar days, now and then two lunar days end between one daybreak and the next. One number is then <b>skipped</b>. Sometimes no lunar day ends at all, and a number is <b>doubled</b>. About every three years a whole <b>leap month</b> is added to keep the months in step with the seasons.</p>`,true)}
-  ${D('Skipped and doubled auspicious days',`<p>When an auspicious day is skipped or doubled, calendars do not all agree which day to keep it on:</p>
+  ${D('Skipped and doubled auspicious days (your choice)',`<p>When an auspicious day is skipped or doubled, calendars do not all agree which day to keep it on:</p>
     <ul class="steps"><li>The FPMT calendar (based on the Men-Tsee-Khang’s) keeps a skipped day on the day <b>before</b>, and a doubled day on the <b>second</b> (or the first, if that’s easier).</li>
     <li>Alexander Berzin (Study Buddhism) gives the day <b>before</b> for a skipped day and the <b>first</b> for a doubled one.</li>
     <li>tibetanbuddhistcalendar.org, following the Rigpa calendar, uses the day <b>after</b> and the <b>first</b>.</li></ul>
-    <p>This app keeps the day before and the second day, and on the days where the other rule would differ, it says so. If your teacher or centre keeps them differently, follow them.</p>
+    <p>You can choose. The app starts with tibetanbuddhistcalendar.org’s rule, and on the days where the other rule would differ, it says so. If your teacher or centre keeps them differently, follow them.</p>
+    <div class="list">${[['after','The day after · the first day','As tibetanbuddhistcalendar.org (the default)'],['before','The day before · the second day','As the FPMT calendar']].map(([v,t,s])=>`<button class="item" data-act="calrule" data-v="${v}" role="radio" aria-checked="${calRule()===v}"><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span>${calRule()===v?'<span class="tag ok">Chosen</span>':''}</button>`).join('')}</div>
     <p>Festivals and anniversaries follow the same rule. In a year with a leap month, they are kept in the main month.</p>`)}
   ${D('Phugpa and Tsurphu',`<p>There are two main Tibetan calendar systems. The <b>Phugpa</b> system, from 1447, is the one most Tibetans use, including the Dalai Lama and the Men-Tsee-Khang. This app uses it.</p>
     <p>The <b>Tsurphu</b> system comes from the Third Karmapa, Rangjung Dorje, and is still the official calendar of the Karma Kagyu. The two usually agree, but can differ by a day, and sometimes by a whole month: in 2014 Tsurphu Losar was on 31 January, Phugpa Losar on 2 March. A Tsurphu option may come later.</p>`)}
@@ -2275,8 +2291,7 @@ function sheetDay(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=tibDate(d),
   return`<div class="grab"></div><h2 class="h1">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h2>
   <div class="row">${moonSVG(moonAge(d),44)}<div><b>Tibetan day ${t.day}</b><div class="tibdate" lang="bo">${tibDateScript(d,t.day)}</div><div class="small">${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</div><div class="small">${phaseText(d)}</div></div></div>
   ${obs.map(o=>`<div class="card glow special"><b>${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:8px">${o.note}</p>`:''}${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('')}
-  ${doubledToday(d)&&AUSP[t.day]?`<p class="note">Day ${t.day} falls twice, so ${AUSP[t.day].name} is kept the next day. ${ALT_DOUBLE.replace('instead','(today) instead')}</p>`:''}
-  ${fest.map(f=>`<div class="card glow"><b>★ ${esc(f.name)}</b><p>${f.t}</p>${f.sk?`<p class="note" style="margin-top:8px">Its day is skipped this year, so it is kept today. ${ALT_SKIP}</p>`:''}
+  ${fest.map(f=>`<div class="card glow"><b>★ ${esc(f.name)}</b><p>${f.t}</p>${f.sk?`<p class="note" style="margin-top:8px">Its day is skipped this year, so it is kept today. ${altSkip()}</p>`:''}
     <p class="small" style="margin-top:6px">${FEST_NOTE}</p><a class="linkbtn" href="${f.u}" target="_blank" rel="noopener" style="margin-top:8px">Read more ↗</a></div>`).join('')}
   ${ann.length?`<div class="card"><p class="small" style="margin-bottom:6px">Anniversaries</p><div class="list plain">${ann.map(a=>a.u?`<a class="item" href="${a.u}" target="_blank" rel="noopener"><span class="grow"><span class="t">${esc(a.name)}</span>${a.sk?'<span class="s">Kept today: its day is skipped</span>':''}${a.note?`<span class="s">${esc(a.note)}</span>`:''}</span><span class="chev">${ico('link')}</span></a>`:`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(a.name)}</span></span></div>`).join('')}</div>
     <p class="small" style="margin-top:6px">From tibetanbuddhistcalendar.org’s list of anniversaries and birthdays.</p></div>`:''}
@@ -2465,20 +2480,33 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   const others=[['temple','Temple'],['night','Night'],['earth','Earth'],['neuro','Focus'],['slate','Slate'],['highc','High contrast'],['neon','Neon']];
   const open=ST.moreThemes||others.some(([k])=>k===cur);
   return`<div class="grab"></div><h2 class="h1">Settings</h2>
-  <p class="h2" style="margin:0">APPEARANCE</p><div class="seg">${[['light','Light'],['dark','Dark'],['auto','Automatic']].map(([k,l])=>`<button class="opt${cur===k?' on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>
-  <button class="item" data-act="morethemes" style="border:1px solid var(--line);border-radius:var(--r)"><span class="grow"><span class="t">More colour themes</span><span class="s">${others.map(o=>o[1]).join(', ')}</span></span><span class="chev" style="transform:rotate(${open?90:0}deg)">${ico('chev')}</span></button>
-  ${open?`<div class="themes">${others.map(([k,l])=>`<button class="theme-card${cur===k?' on':''}" data-theme="${k}" data-act="theme" data-v="${k}"><b>${l}</b><span class="sw"><i></i><i></i><i></i></span></button>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">SOUNDS</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('daily','A daily reminder','In your phone’s own calendar',{ico:'cal'})}${item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'})}</div>
-  <p class="h2" style="margin:0">KEEP YOUR PRACTICE SAFE</p>
+  <p class="h2" style="margin:0">BACKUP AND RESTORE</p>
   <p class="small">Your counts and practice diary are kept only on this phone. ${lastBackupText()}</p>
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>
   <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
   <p class="small" style="margin:0">Remind me to send a copy</p>
   <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">APPEARANCE</p><div class="seg">${[['light','Light'],['dark','Dark'],['auto','Automatic']].map(([k,l])=>`<button class="opt${cur===k?' on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>
+  <button class="item" data-act="morethemes" style="border:1px solid var(--line);border-radius:var(--r)"><span class="grow"><span class="t">More colour themes</span><span class="s">${others.map(o=>o[1]).join(', ')}</span></span><span class="chev" style="transform:rotate(${open?90:0}deg)">${ico('chev')}</span></button>
+  ${open?`<div class="themes">${others.map(([k,l])=>`<button class="theme-card${cur===k?' on':''}" data-theme="${k}" data-act="theme" data-v="${k}"><b>${l}</b><span class="sw"><i></i><i></i><i></i></span></button>`).join('')}</div>`:''}
+  <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">SOUNDS</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">CALENDAR</p><div class="list">${item('calabout','Skipped and doubled days',calRule()==='after'?'The day after · the first day (as tibetanbuddhistcalendar.org)':'The day before · the second day (as FPMT)',{ico:'cal'})}</div>
+  <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('daily','A daily reminder','In your phone’s own calendar',{ico:'cal'})}${item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'})}</div>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add this app to your phone</button>`}
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
+// The welcome: a pop-up at most once a day (esm_welcome_day), until "Don't show this again" (esm_seen).
+function sheetWelcome(){return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
+  <p>An unofficial companion for Ngöndro and daily practice, made to lower the barrier and cut through to the heart of the teachings.</p>
+  <button class="btn primary wide" data-act="closesheet">Begin</button>
+  <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
+  ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
+  <button class="btn link" data-act="seen" style="align-self:center">Don’t show this again</button>`;}
+function sheetMantra(){const p=findPR(ST.sarg);return`<div class="grab"></div><h2 class="h1">The words</h2><p class="small">${esc(p.name)}. Write them as your teacher taught you. Capitals look best; “AA” shows the second A smaller.</p>
+  <input id="mantrain" type="text" maxlength="120" value="${esc(mantraOf(p))}" aria-label="The words of the mantra">
+  <button class="btn primary wide" data-act="mantrasave">Save</button>
+  ${p.mantra&&mantraOf(p)!==p.mantra?`<button class="btn soft wide" data-act="mantrareset">Back to the app’s words</button>`:''}
+  <button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
   <div class="list">${allPR().map(p=>{const c=getPD(p.id).counter||0;return item('setcur',esc(p.name),`${fmt(c)} of ${fmt(p.target)}`,{attrs:`data-id="${p.id}" style="--acc:${p.acc}"`,right:currentId()===p.id?'<span class="tag ok">Now</span>':''});}).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
@@ -2578,7 +2606,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,welcome:sheetWelcome,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null;
 // Drag a sheet down by its top bar to close it.
@@ -2771,7 +2799,10 @@ document.getElementById('app').addEventListener('click',e=>{
       if(['threeaa','vajra','brahm','count'].includes(ST.ov))closeMed();ST.tab=el.dataset.v;ST.ov=null;ST.sheet=null;break;
     case'veil':case'closesheet':ST.sheet=null;ST.restore=null;break;
     case'closeov':if(['aday','calabout','sit'].includes(ST.ov)){closeTop();break;}if(ST.ov==='session')keepAwake(false);ST.ov=null;ST.verse=0;break;
-    case'seen':lsSet('esm_seen',true);break;
+    case'seen':lsSet('esm_seen',true);ST.sheet=null;break;
+    case'mantraedit':sheet('mantra',id);break;
+    case'mantrasave':{const M=ls('esm_mantra',{});M[ST.sarg]=val('mantrain').toUpperCase();lsSet('esm_mantra',M);ST.sheet=null;toast('Words saved');return;}
+    case'mantrareset':{const M=ls('esm_mantra',{});delete M[ST.sarg];lsSet('esm_mantra',M);ST.sheet=null;break;}
     case'settings':sheet('settings');break;
     case'theme':setTheme(el.dataset.v);break;
     case'morethemes':ST.moreThemes=!ST.moreThemes;break;
@@ -2832,6 +2863,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'dailyadd':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);shareICS(icsDoc([dailyEvent(t)]),'daily-practice.ics',{title:'Daily practice reminder'});return;}
     case'dailygcal':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);el.href=gcalLink(dailyEvent(t));return;}
     case'feed':sheet('feed');break;
+    case'calrule':lsSet('esm_cal_rule',el.dataset.v);toast(el.dataset.v==='after'?'Skipped days: the day after. Doubled days: the first.':'Skipped days: the day before. Doubled days: the second.');break;
     // meditation timer
     case'mtset':mtSave({min:+el.dataset.v,open:false});break;
     case'mtopen':mtSave({open:!mt().open});break;
@@ -3116,6 +3148,7 @@ dailySnapshot();
 if(hasPracticeData())keepStorage();
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
+if(!ST.sheet&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){lsSet('esm_welcome_day',dayKey());ST.sheet='welcome';}
 if(history.state&&history.state.dp)hGuard=true;
 // A sitting timer from before a reload: carry on, or (if it ended long ago) let it go.
 if(ST.sit){if(!ST.sit.done){sitT=setInterval(sitTick,1000);sitTick();}if(ST.sit&&Date.now()-sitEnd()>6*3600000)sitStop();}   // reloaded on our back-button entry: reuse it

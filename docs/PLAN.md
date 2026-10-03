@@ -131,6 +131,18 @@ Ordered by how much they hurt users now.
 
 ## 3. Decisions Gareth needs to make (blocking items marked ●)
 
+**Decided 2026-10-03 (second round):** (1) Calendar: people choose the skipped/doubled rule; the default
+matches tibetanbuddhistcalendar.org (skipped → day after, doubled → first); built (`calRule`, `esm_cal_rule`).
+(2) Auspicious days. (3) Server pieces are fine → Phase 2b push is go (needs Gareth's Cloudflare account:
+D1 database, VAPID secrets, cron). (4) Logo: no budget now; make something in the spirit of OM AH HUM in a
+thigle, in our own hand (not imitating Tashi Mannox's calligraphy); Gareth will message him. (6) Traditions:
+include anything that feels right; exclude nothing on purpose. (7) Restricted texts: a password-protected
+section on the honour system; people email to ask; needs an address that isn't Gareth's personal one
+(suggest Cloudflare Email Routing: a free address on slicedharma.com forwarding to his inbox). (8) Buy Me a
+Coffee: yes; Gareth to create the account (we can't) and send the link. (10) Day-one preset: OM AA HUNG
+BENDZA GURU PEMA SIDDHI HUNG (second A smaller), editable; built as the "Vajra Guru mantra" practice.
+Also: welcome becomes a once-a-day pop-up; Backup and restore moved to the top of Settings.
+
 **Decided 2026-10-02:** (1) Calendar: research properly, then show both systems where they disagree, each labelled; Gareth to ask Lama Rabsang which rules Palpung follows. (2) "Special day" → **Auspicious days**. (3) Notifications: calendar files (.ics) first; push decided later.
 
 1. ● **Calendar systems.** Which is the default for Today (Phugpa or Tsurphu), and which skipped/doubled rule (Men-Tsee-Khang or the current one)? Proposal: a setting "My calendar: Phugpa (most schools) / Tsurphu (Karma Kagyu)", default chosen from the tradition picked at setup. Where systems disagree, show both, labelled. Ask a teacher (Lama Rabsang / Palpung) which their centre follows.
