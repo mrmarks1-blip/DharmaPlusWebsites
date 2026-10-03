@@ -267,6 +267,17 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .shqst i { width:24px; height:24px; border-radius:50%; border:1px solid var(--line); }
 .shqst.on { border-color:var(--accent); background:var(--glow); color:var(--accent-ink); }
 .sheet > * { flex-shrink:0; }
+.sect { border-bottom:1px solid var(--line); padding-bottom:6px; }
+.sect > summary { display:flex; align-items:center; gap:10px; list-style:none; min-height:56px; padding:8px 2px; cursor:pointer; color:inherit; font-weight:400; }
+.sect > summary::-webkit-details-marker { display:none; }
+.sect-h { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.sect-t { font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--ink-3); }
+.sect-s { font-size:var(--fs-sm); color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sect[open] .sect-s { display:none; }
+.sect-c { flex:none; width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:var(--sunk); color:var(--ink-2); }
+.sect-c svg { width:18px; height:18px; transform:rotate(90deg); transition:transform .2s; }
+.sect[open] .sect-c svg { transform:rotate(-90deg); }
+.sect-b { padding:4px 0 10px; display:flex; flex-direction:column; gap:10px; }
 .shqfoot { position:sticky; bottom:calc(-22px - var(--safe-b)); margin:0 -20px; padding:10px 20px calc(14px + var(--safe-b)); background:var(--surface); border-top:1px solid var(--line); display:flex; flex-direction:column; gap:10px; z-index:2; }
 .shqimg { max-height:34vh !important; }
 .shqimg { touch-action:pan-y; user-select:none; -webkit-user-select:none; }
@@ -1856,22 +1867,23 @@ function pageToday(){
 function prRow(p){const pd=getPD(p.id),c=pd.counter||0,pct=Math.floor(c/p.target*100),done=c>=p.target;
   return`<button class="item" data-act="practice" data-id="${p.id}" style="--acc:${p.acc}"><span class="dot"></span><span class="grow"><span class="t">${esc(p.name)}</span>
     <span class="s">${fmt(c)} of ${fmt(p.target)}</span>${done?'':`<span class="minibar" style="display:block"><i style="width:${Math.max(pct,c?1:0)}%"></i></span>`}</span>${done?'<span class="tag ok">Complete</span>':chev}</button>`;}
-function pagePractice(){const all=allPR();
+function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].includes(ls('esm_tradition'));
+  const ng=all.filter(p=>p.group==='ngondro'),op=all.filter(p=>p.group!=='ngondro');
+  const prog=list=>{const n=list.filter(p=>(getPD(p.id).counter||0)>0).length;return n?` · ${n} under way`:'';};
   return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
   <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
   ${medTimerCard(noonOf(new Date()))}
-  ${medKindsRow()}
-  ${['theravada','zen','pureland'].includes(ls('esm_tradition'))?`<details class="fold"><summary class="h2">NGÖNDRO · TIBETAN PRELIMINARIES</summary><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div></details>`
-    :`<p class="h2">NGÖNDRO</p><div class="list">${all.filter(p=>p.group==='ngondro').map(prRow).join('')}</div>`}
-  <p class="h2">OTHER PRACTICES</p><div class="list">${all.filter(p=>p.group!=='ngondro').map(prRow).join('')}
-    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
-  <p class="h2">BREATH</p><div class="list">
+  ${fold('p_kinds','KINDS OF MEDITATION',names(MED_KINDS.map(k=>k.name),4),medKindsRow().replace('<p class="h2">KINDS OF MEDITATION</p>',''))}
+  ${fold('p_ngondro',other?'NGÖNDRO · TIBETAN PRELIMINARIES':'NGÖNDRO','The four preliminaries'+prog(ng),`<div class="list">${ng.map(prRow).join('')}</div>`,!other)}
+  ${fold('p_other','OTHER PRACTICES',names(op.map(p=>p.name))+prog(op),`<div class="list">${op.map(prRow).join('')}
+    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>`,true)}
+  ${fold('p_breath','BREATH','Vajra breathing, the beautiful breath, counting, Nine-Round',`<div class="list">
     <button class="item" data-act="vajra"><span class="ico" style="font-family:var(--f-tib);font-size:17px">ཨོཾ</span><span class="grow"><span class="t">Vajra breathing · OM AH HUM</span><span class="s">As taught by Garchen Rinpoche · follows your own breath</span></span>${chev}</button>
     ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
-    ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>
-  <p class="h2">OPEN SITTING</p><div class="list">
-    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low · the white A, as also taught by Chögyal Namkhai Norbu</span></span>${chev}</button></div>
+    ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>`)}
+  ${fold('p_open','OPEN SITTING','The Three Aa',`<div class="list">
+    <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low · the white A, as also taught by Chögyal Namkhai Norbu</span></span>${chev}</button></div>`,true)}
   </div></div>`;}
 
 function ovPractice(){
@@ -2042,21 +2054,25 @@ async function exportCSV(){const f=new File([journalCSV()],`dharma-practice-diar
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Practice diary'});return;}catch(e){if(e&&e.name==='AbortError')return;}}
   const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Spreadsheet saved to your downloads');}
 
+// Folding sections (Gareth: dropdowns so more can be seen, but always show a snippet of what's inside).
+// The heading and a one-line snippet always show; open/closed is remembered per section (esm_fold).
+const names=(arr,n=3)=>arr.slice(0,n).join(', ')+(arr.length>n?` and ${arr.length-n} more`:'');
+function fold(id,title,snippet,body,openDef=false){const F=ls('esm_fold',{})||{},open=F[id]??openDef;
+  return`<details class="sect" data-fold="${id}"${open?' open':''}><summary><span class="sect-h"><span class="sect-t">${title}</span><span class="sect-s">${snippet}</span></span><span class="sect-c" aria-hidden="true">${ico('chev')}</span></summary><div class="sect-b">${body}</div></details>`;}
 function pageTexts(){
+  const groups=TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?fold('t_'+g,label,names(ps.map(p=>p.title)),
+    `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`,g==='daily'):'';}).join('');
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
-  ${TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?`<p class="h2">${label}</p>
-  <div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`:'';}).join('')}
-  ${LOCKED.length?`<p class="h2">TEXTS THAT NEED TRANSMISSION</p><div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`:''}
-  <p class="h2">CHANT ALONG</p>
-  <div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}</div>
-  <p class="h2">PRACTICE TEXTS</p>
-  <div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
+  ${groups}
+  ${LOCKED.length?fold('t_locked','TEXTS THAT NEED TRANSMISSION',names(LOCKED.map(t=>t.title)),`<div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`):''}
+  ${fold('t_chant','CHANT ALONG','Vajrasound: chants and prayers in English',`<div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}</div>`)}
+  ${fold('t_pdf','PRACTICE TEXTS','A printable booklet, and texts from the Palpung library',`<div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
     <span class="s">A printable A4 booklet. Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
-  <details><summary>Caring for Dharma texts</summary><p style="margin-top:6px">Traditionally, Dharma texts are treated with respect, because they show the path to freedom. Lama Zopa Rinpoche advises keeping them, printed or on a phone, off the floor and off places where people sit or walk; not stepping over them or putting other things on top of them; and when a printed text is worn out, burning it rather than putting it in the bin.</p>
-    <a class="linkbtn" href="https://fpmt.org/edu-news/caring-for-dharma-materials-in-the-digital-age/" target="_blank" rel="noopener" style="margin-top:8px">FPMT: Caring for Dharma materials ↗</a></details>
-  <p class="small">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
+  <p class="small" style="margin:12px 0 8px">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
   <div class="list">${SAD.map(s=>`<div class="item" style="flex-wrap:wrap;cursor:default"><span class="grow"><span class="t">${esc(s.name)}</span><span class="s">${esc(s.sub)}</span></span>
-    <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>
+    <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>`)}
+  ${fold('t_care','CARING FOR DHARMA TEXTS','Off the floor, not stepped over, burned when worn out',`<p>Traditionally, Dharma texts are treated with respect, because they show the path to freedom. Lama Zopa Rinpoche advises keeping them, printed or on a phone, off the floor and off places where people sit or walk; not stepping over them or putting other things on top of them; and when a printed text is worn out, burning it rather than putting it in the bin.</p>
+    <a class="linkbtn" href="https://fpmt.org/edu-news/caring-for-dharma-materials-in-the-digital-age/" target="_blank" rel="noopener" style="margin-top:8px">FPMT: Caring for Dharma materials ↗</a>`)}
   </div></div>`;}
 function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar('Prayer');
   const vs=versesOf(pr),n=vs.length,i=Math.min(ST.verse,n-1),v=vs[i],last=i===n-1;
@@ -3731,6 +3747,7 @@ function mountRefuge(ov){
 // ═══════════════════════════════════════════════════════════
 dailySnapshot();
 if(hasPracticeData())keepStorage();
+document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.dataset&&d.dataset.fold){const F=ls('esm_fold',{})||{};F[d.dataset.fold]=d.open;lsSet('esm_fold',F);}},true);
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
 // Links into the app: #practice=prostr opens a practice; #texts, #learn, #practice open a tab; #practices the explainers.
