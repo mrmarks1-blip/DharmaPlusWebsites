@@ -112,7 +112,7 @@ const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[
   try{const src=await (await fetch('./index.html',{cache:'no-store'})).text();
     const a=src.indexOf('const AUSP={'),b=src.indexOf('function doy(');
     if(a<0||b<a)throw new Error('Could not find the calendar code (looked for "const AUSP={" … "function doy(").');
-    cal=new Function(src.slice(a,b)+';return{AUSP,tibDay,tibDate,observedAusp};')();
+    cal=new Function("const ALT_SKIP='',ALT_DOUBLE='';"+src.slice(a,b)+';return{AUSP,tibDay,tibDate,observedAusp};')();   // note texts live elsewhere in the app
   }catch(e){out.innerHTML=`<div class="verdict bad">Could not load the calendar code</div><p>${esc(e.message)}</p>`;return;}
 
   // 1. Every civil day: Tibetan day number and month.
