@@ -275,6 +275,10 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .shqst i { width:24px; height:24px; border-radius:50%; border:1px solid var(--line); }
 .shqst.on { border-color:var(--accent); background:var(--glow); color:var(--accent-ink); }
 .sheet > * { flex-shrink:0; }
+.tourpill { position:absolute; left:50%; bottom:calc(84px + var(--safe-b)); transform:translateX(-50%); z-index:36; display:flex; align-items:center; gap:10px; padding:6px 6px 6px 16px; border-radius:999px;
+  background:var(--surface); border:1px solid var(--accent); box-shadow:0 6px 24px rgba(0,0,0,.22); font-weight:700; white-space:nowrap; }
+.tourpill .btn { min-height:40px; padding:0 14px; }
+.tourpill svg { width:18px; height:18px; }
 .sect { border-bottom:1px solid var(--line); padding-bottom:6px; }
 .sect > summary { display:flex; align-items:center; gap:10px; list-style:none; min-height:56px; padding:8px 2px; cursor:pointer; color:inherit; font-weight:400; }
 .sect > summary::-webkit-details-marker { display:none; }
@@ -288,6 +292,7 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .sect-b { padding:4px 0 10px; display:flex; flex-direction:column; gap:10px; }
 .shqfoot { position:sticky; bottom:calc(-22px - var(--safe-b)); margin:0 -20px; padding:10px 20px calc(14px + var(--safe-b)); background:var(--surface); border-top:1px solid var(--line); display:flex; flex-direction:column; gap:10px; z-index:2; }
 .shqimg { max-height:34vh !important; }
+.shqimg.loading { filter:blur(2px); opacity:.85; }
 .shqimg { touch-action:pan-y; user-select:none; -webkit-user-select:none; }
 .shqnav { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:-4px; }
 .shqnav > span { display:flex; flex-direction:column; align-items:center; text-align:center; }
@@ -1882,9 +1887,6 @@ function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].i
   <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
   ${medTimerCard(noonOf(new Date()))}
   ${fold('p_kinds','KINDS OF MEDITATION',names(MED_KINDS.map(k=>k.name),4),medKindsRow().replace('<p class="h2">KINDS OF MEDITATION</p>',''))}
-  ${fold('p_ngondro',other?'NGÖNDRO · TIBETAN PRELIMINARIES':'NGÖNDRO','The four preliminaries'+prog(ng),`<div class="list">${ng.map(prRow).join('')}</div>`,!other)}
-  ${fold('p_other','OTHER PRACTICES',names(op.map(p=>p.name))+prog(op),`<div class="list">${op.map(prRow).join('')}
-    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>`,true)}
   ${fold('p_breath','BREATH','Vajra breathing, the beautiful breath, counting, Nine-Round',`<div class="list">
     <button class="item" data-act="vajra"><span class="ico" style="font-family:var(--f-tib);font-size:17px">ཨོཾ</span><span class="grow"><span class="t">Vajra breathing · OM AH HUM</span><span class="s">As taught by Garchen Rinpoche · follows your own breath</span></span>${chev}</button>
     ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
@@ -1892,6 +1894,9 @@ function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].i
     ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>`)}
   ${fold('p_open','OPEN SITTING','The Three Aa',`<div class="list">
     <button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low · the white A, as also taught by Chögyal Namkhai Norbu</span></span>${chev}</button></div>`,true)}
+  ${fold('p_ngondro',other?'NGÖNDRO · TIBETAN PRELIMINARIES':'NGÖNDRO','The four preliminaries'+prog(ng),`<div class="list">${ng.map(prRow).join('')}</div>`,!other)}
+  ${fold('p_other','OTHER PRACTICES',names(op.map(p=>p.name))+prog(op),`<div class="list">${op.map(prRow).join('')}
+    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>`,true)}
   </div></div>`;}
 
 function ovPractice(){
@@ -2069,7 +2074,7 @@ function fold(id,title,snippet,body,openDef=false){const F=ls('esm_fold',{})||{}
   return`<details class="sect" data-fold="${id}"${open?' open':''}><summary><span class="sect-h"><span class="sect-t">${title}</span><span class="sect-s">${snippet}</span></span><span class="sect-c" aria-hidden="true">${ico('chev')}</span></summary><div class="sect-b">${body}</div></details>`;}
 function pageTexts(){
   const groups=TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g);return ps.length?fold('t_'+g,label,names(ps.map(p=>p.title)),
-    `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`,g==='daily'):'';}).join('');
+    `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}</div>`):'';}).join('');
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
   ${groups}
   ${LOCKED.length?fold('t_locked','TEXTS THAT NEED TRANSMISSION',names(LOCKED.map(t=>t.title)),`<div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`):''}
@@ -2092,7 +2097,7 @@ function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar
   const mode=`<div class="seg" style="grid-template-columns:1fr 1fr;max-width:var(--col-w);margin:0 auto;padding:0 14px;width:100%"><button class="opt${ST.whole?'':' on'}" data-act="whole" data-v="0">One verse</button><button class="opt${ST.whole?' on':''}" data-act="whole" data-v="1">Whole prayer</button></div>`;
   if(ST.whole)return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="ovbody whole"><div class="col"><p class="sub">${esc(pr.sub)}</p>
     ${vs.map((c,k)=>`${c.sec&&(k===0||vs[k-1].sec!==c.sec)?`<p class="vsec" style="margin-top:10px">${esc(c.sec)}</p>`:''}<div class="vblock">${c.n?`<p class="vsec">${c.n}</p>`:''}${block(c)}</div>`).join('')}</div></div>`;
-  return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="verse"><div class="col">${v.sec?`<p class="vsec">${esc(secOf(v))}</p>`:''}${block(v)}</div></div>
+  return`${topbar(esc(pr.title),{right:hasTib?right:''})}${mode}<div class="verse" data-swl="${last?'':'vnext'}" data-swr="vprev"><div class="col">${v.sec?`<p class="vsec">${esc(secOf(v))}</p>`:''}${block(v)}</div></div>
   <p class="vcount">Verse ${i+1} of ${n}</p>
   <div class="vnav"><button class="btn soft" data-act="vprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closeov':'vnext'}">${last?'Finish':'Next verse'}</button></div>`;}
 
@@ -2353,7 +2358,7 @@ function ovCal(){const T=calTib();
       <div style="text-align:center"><b style="font-size:var(--fs-lg)">${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b>${T?`<div class="small">${tibSpan} · ${t1.element} ${t1.animal} year</div>`:''}</div>
       <button class="iconbtn" data-act="calnext" aria-label="Next month">${ico('chev')}</button></div>
     ${ST.calOff?`<button class="btn link" data-act="caltoday" style="align-self:center">Back to this month</button>`:''}
-    <div class="cal gcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
+    <div class="cal gcal" data-swl="calnext" data-swr="calprev">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
       ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=(T?observedAusp(x).length:0)+otherDays(x).filter(o=>o.major).length,ev=T?eventsOn(x):[],fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k),rm=reminders().some(r=>r.date===k);
         return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}${T?`, Tibetan day ${tibDay(x)}`:''}${sp?', a practice day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
           <b>${x.getDate()}</b><span>${T?tibDay(x):''}${mm?`<span class="cm">${moonSVG(mm==='○'?SYN/2:0,11)}</span>`:''}</span>${ring?`<i style="${ring}"></i>`:''}</button>`;}).join('')}</div>
@@ -2413,7 +2418,7 @@ function sheetDay(){const T=calTib(),k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=
 let brTimer=null;
 function ovBreath(){const st=NINE_ROUND[ST.br],nos=st.k==='in'?st.inS:st.k==='out'?st.outS:null;
   return`<div class="ovtop"><button class="iconbtn" data-act="closebr" aria-label="Close">${ico('close')}</button><div class="title">Nine-Round Breathing</div><button class="iconbtn" data-act="nrtext" aria-label="Read the full instructions">${ico('texts')}</button></div>
-  <div class="breath" data-act="brnext"><p class="small">${st.r?`Round ${st.r} of 9`:st.k==='rest'?'Complete':'Getting ready'}</p>
+  <div class="breath" data-act="brnext" data-swl="brnext" data-swr="brback"><p class="small">${st.r?`Round ${st.r} of 9`:st.k==='rest'?'Complete':'Getting ready'}</p>
     <div class="orb ${st.k==='hold'||st.k==='out'?'in':''}" id="orb"></div>
     ${nos&&nos!=='both'?`<div class="nost"><span class="${nos==='left'?'open':''}">Left</span><span class="${nos==='right'?'open':''}">Right</span></div>`:''}
     <p class="bstep">${st.t}</p><p class="bdesc">${st.d}</p>
@@ -2585,7 +2590,7 @@ function vjUp(){const V=ST.vj;if(V.phase!=='om'&&V.phase!=='ah')return;clearTime
 
 // ── The beautiful breath (Ajahn Brahm): stages, no pressure ──
 function ovBrahm(){const i=ST.bb,s=BRAHM[i],last=i===BRAHM.length-1;
-  return`${medTop('The beautiful breath','brahm')}<div class="ovbody"><div class="col">
+  return`${medTop('The beautiful breath','brahm')}<div class="ovbody" data-swl="${last?'':'bbnext'}" data-swr="bbprev"><div class="col">
     <p class="small">Stage ${i+1} of ${BRAHM.length} · after Ajahn Brahm</p>
     <h2 class="h1" style="font-size:var(--fs-xl)">${s.t}</h2><p style="font-size:var(--fs-lg)">${s.d}</p>
     <details><summary>When to move on</summary><p class="note" style="margin-top:8px">${s.sign}</p></details>
@@ -2734,9 +2739,9 @@ const TOUR=[['Counting a session','On the Practice page, tap “Count a session�
   ['Reminders','In Settings (the cog at the top of Today), under Reminders: notifications with words for the morning and a gentle evening nudge, a daily reminder in your own calendar, and the auspicious days in your calendar.','settings'],
   ['Keep your practice safe','Your counts and diary live only on this phone. Now and then, open Settings and choose “Send a copy to myself”. On a new phone, “Restore my practice from a copy” brings it all back.','settings']];
 function sheetTour(){const i=Math.min(ST.tour||0,TOUR.length-1),[t,b]=TOUR[i],last=i===TOUR.length-1;
-  return`<div class="grab"></div><p class="small" style="text-align:center;margin:0">${i+1} of ${TOUR.length}</p><h2 class="h1">${t}</h2><p>${b}</p>
+  return`<div class="grab"></div><div class="stack" data-swl="${last?'':'tournext'}" data-swr="tourprev"><p class="small" style="text-align:center;margin:0">${i+1} of ${TOUR.length}</p><h2 class="h1">${t}</h2><p>${b}</p>
   <button class="btn soft wide" data-act="tourgo">Show me</button>
-  <div class="btns even"><button class="btn soft" data-act="tourprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closesheet':'tournext'}">${last?'Done':'Next'}</button></div>`;}
+  <div class="btns even"><button class="btn soft" data-act="tourprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closesheet':'tournext'}">${last?'Done':'Next'}</button></div></div>`;}
 function sheetCalDays(){const on=calDays();
   return`<div class="grab"></div><h2 class="h1">Which days to show</h2><p class="small">On Today and in the calendar. Choose as many as you like.</p>
   <div class="list">${CALKINDS.map(([k,t,sub])=>`<button class="item" data-act="caldaytog" data-v="${k}" role="checkbox" aria-checked="${on.includes(k)}"><span class="grow"><span class="t">${t}</span><span class="s">${sub}</span></span><span class="tag${on.includes(k)?' ok':''}">${on.includes(k)?'On':'Off'}</span></button>`).join('')}</div>
@@ -2978,10 +2983,18 @@ async function quoteCanvas(q,fmt,style){if(style!=='plain')return quoteArt(q,fmt
   x.fillStyle=v('--ink-3')||'#7d6b57';x.font=credFont;credLines.forEach(l=>{if(l){x.fillText(l,pad,y);y+=42;}});
   x.font=`700 28px ${UI}`;x.textAlign='center';x.fillText(`${APP_NAME} · slicedharma.com`,W/2,H-92);
   return new Promise(r=>c.toBlob(b=>r(b),'image/png'));}
-let shqURL=null;
-async function drawShareQuote(){const S=ST.shq,img=document.getElementById('shqimg');if(!S||!img)return;
-  const b=await quoteCanvas(QUOTES[S.qi],S.fmt,S.style);if(shqURL)URL.revokeObjectURL(shqURL);shqURL=URL.createObjectURL(b);S.blob=b;
-  const el=document.getElementById('shqimg');if(el)el.src=shqURL;}
+// Each picture (quote|format|style) is drawn once and kept for the session, so swiping back and forth is
+// instant; the neighbours are drawn ahead. While a picture is being drawn its thumbnail stands in.
+const shqFull={},shqJobs={};let shqURL=null;
+const shqKey=S=>`${S.qi}|${S.fmt}|${S.style||'brocade'}`;
+function shqRender(qi,fmt,style){const key=`${qi}|${fmt}|${style}`;if(shqFull[key])return Promise.resolve(shqFull[key]);
+  return shqJobs[key]||(shqJobs[key]=quoteCanvas(QUOTES[qi],fmt,style).then(b=>{shqFull[key]={url:URL.createObjectURL(b),blob:b};return shqFull[key];}));}
+async function drawShareQuote(){const S=ST.shq;if(!S)return;const key=shqKey(S),im=document.getElementById('shqimg');
+  if(im&&!shqFull[key]){const th=shqThumbs[key];if(th&&!im.src)im.src=th;im.classList.add('loading');}
+  const r=await shqRender(S.qi,S.fmt,S.style||'brocade');
+  if(!ST.shq||shqKey(ST.shq)!==key)return;ST.shq.blob=r.blob;
+  const el=document.getElementById('shqimg');if(el){el.src=r.url;el.classList.remove('loading');}
+  const L=shqList(),n=L.indexOf(S.style||'brocade');for(const d of[1,-1,2])await shqRender(S.qi,S.fmt,L[(n+d+L.length)%L.length]);}
 const shqList=()=>[...Object.keys(SHQ_ART),'plain'],shqName=k=>k==='plain'?'Plain':SHQ_ART[k].name;
 const shqThumbs={};let shqThumbJob=0;
 // Thumbnails are drawn one at a time after the sheet opens (small and quick), and kept for this session.
@@ -3007,7 +3020,7 @@ function sheetShareQuote(){const S=ST.shq,q=QUOTES[S.qi];
   <button class="btn primary wide" data-act="shqshare">${ico('lotusup',1.6)} Share the image</button></div>
   <p class="small">The translator and licence are written on the image${/CC BY-NC/.test(q.cr)?': it’s free to share, not to sell':''}.${cur==='plain'?' The colours follow your theme.':''}</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
-async function shareQuoteImage(){const S=ST.shq;if(!S)return;if(!S.blob)await drawShareQuote();
+async function shareQuoteImage(){const S=ST.shq;if(!S)return;if(!S.blob)S.blob=(await shqRender(S.qi,S.fmt,S.style||'brocade')).blob;
   const f=new File([S.blob],`words-for-today-${S.fmt}.png`,{type:'image/png'}),q=QUOTES[S.qi];
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],text:`${q.a} · ${APP_URL}`});}catch(e){}return;}
   const a=document.createElement('a'),u=URL.createObjectURL(f);a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Saved the image to your downloads');}
@@ -3169,7 +3182,7 @@ const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedica
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
   newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
-let lastView='',lastSheet=null,lastToast=null;
+let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
 function initSheetDrag(){const bar=document.getElementById('sheetbar');if(!bar)return;const sh=bar.parentElement;let y0=null,dy=0;
   bar.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;y0=e.clientY;dy=0;try{bar.setPointerCapture(e.pointerId);}catch{}sh.style.transition='none';});
@@ -3200,6 +3213,7 @@ function render(){
   // Keep scroll positions when re-rendering the same view (e.g. after a quick add).
   const view=ST.tab+'|'+ST.ov+'|'+ST.arg,pg=content.querySelector('.page'),ob=content.querySelector('.ovbody');
   const keep=view===lastView?{p:pg&&pg.scrollTop,o:ob&&ob.scrollTop}:{};lastView=view;
+  if(pg&&lastTab)pageScroll[lastTab]=pg.scrollTop;const sameTab=lastTab===ST.tab;lastTab=ST.tab;
   const shEl=content.querySelector('.sheet'),keepSheet=shEl&&ST.sheet===lastSheet?shEl.scrollTop:0;
   nav.innerHTML=TABS.map(([k,l])=>`<button class="tab${ST.tab===k?' on':''}" data-act="tab" data-v="${k}" ${ST.tab===k?'aria-current="page"':''}>${ico(k)}<span>${l}</span></button>`).join('');
   let html=PAGES[ST.tab]();
@@ -3212,17 +3226,18 @@ function render(){
     <div class="sheetbar" id="sheetbar"><span class="grab"></span><button class="xclose" data-act="closesheet" aria-label="Close">${ico('close')}</button></div>
     ${SHEETS[ST.sheet]().replace('<div class="grab"></div>','')}</div></div>`;
   html+=sitPill();
+  if(ST.tourOn!=null&&!ST.sheet)html+=`<div class="tourpill" role="status"><span>Tour · ${ST.tourOn+1} of ${TOUR.length}</span><button class="btn primary" data-act="tourcont">${ST.tourOn>=TOUR.length-1?'Finish':'Next'} ${ico('chev')}</button><button class="iconbtn" data-act="tourend" aria-label="End the tour">${ico('close')}</button></div>`;
   const toastNew=ST.toast&&ST.toast!==lastToast;lastToast=ST.toast;
   if(ST.toast)html+=`<div class="toast${toastNew?' enter':''}" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
   content.innerHTML=html;
-  if(keep.p!=null){const p=content.querySelector('.page');if(p)p.scrollTop=keep.p;}
+  {const p=content.querySelector('.page');if(p){if(keep.p!=null)p.scrollTop=keep.p;else if(sameTab&&pageScroll[ST.tab])p.scrollTop=pageScroll[ST.tab];}}
   if(keep.o!=null){const o=content.querySelector('.ovbody');if(o)o.scrollTop=keep.o;}
   // Post-render hooks
   if(ST.tab==='today'){initQuotes();if(!ST.sheet&&!ST.ov){const nm=checkMiles();if(nm){ST.sheet='mile';ST.sarg=nm;render();return;}}}
   if(ST.sheet){initSheetDrag();const s=content.querySelector('.sheet');if(s&&!opening&&keepSheet)s.scrollTop=keepSheet;}
   if(ST.ov==='practice'){const g=document.getElementById('beadgrid'),p=findPR(ST.arg);if(g&&p)g.appendChild(renderGrid(p,getPD(p.id).counter||0));}
   if(ST.ov==='tree')mountRefuge(document.getElementById('ov'));
-  if(ST.sheet==='sharequote'){const im=document.getElementById('shqimg');if(im&&!im.src){if(ST.shq.blob&&shqURL)im.src=shqURL;else drawShareQuote();}initShqSwipe();fillShqThumbs();}
+  if(ST.sheet==='sharequote'){const im=document.getElementById('shqimg'),f=shqFull[shqKey(ST.shq)];if(im&&!im.src){if(f){im.src=f.url;ST.shq.blob=f.blob;}else drawShareQuote();}initShqSwipe();fillShqThumbs();}
   if(ST.ov==='breath')runBreath();
   if(!(ST.ov==='threeaa'&&ST.aaRun&&(ST.aaRun.ph==='in'||ST.aaRun.ph==='aa')))aaStop();
   const hb=document.getElementById('holdreset');
@@ -3351,8 +3366,10 @@ function checkRestore(text){const o=parseBackup(text);ST.restore=o?{step:1,o}:{s
 // ═══════════════════════════════════════════════════════════
 // EVENTS — one delegated handler for every data-act
 // ═══════════════════════════════════════════════════════════
+let swipeEat=0;
 document.getElementById('app').addEventListener('click',e=>{
   const el=e.target.closest('[data-act]');if(!el)return;
+  if(e.isTrusted&&Date.now()-swipeEat<350)return;
   const a=el.dataset.act,id=el.dataset.id;
   if(a==='veil'&&e.target!==el)return;                 // taps inside a sheet don't close it
   if(a!=='discard')ST.discardArm=false;
@@ -3385,8 +3402,10 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tour':ST.tour=0;sheet('tour');break;
     case'tournext':ST.tour=(ST.tour||0)+1;break;
     case'tourprev':ST.tour=Math.max(0,(ST.tour||0)-1);break;
-    case'tourgo':{const w=TOUR[Math.min(ST.tour||0,TOUR.length-1)][2];ST.sheet=null;ST.ov=null;
+    case'tourgo':{const i=Math.min(ST.tour||0,TOUR.length-1),w=TOUR[i][2];ST.tourOn=i;ST.sheet=null;ST.ov=null;
       if(w==='settings'){ST.tab='today';ST.sheet='settings';}else ST.tab=w;break;}
+    case'tourcont':{const i=ST.tourOn;ST.tourOn=null;if(i==null)break;if(i>=TOUR.length-1){ST.sheet=null;toast('That’s the tour. Enjoy your practice.');break;}ST.tour=i+1;ST.sheet='tour';ST.ov=null;break;}
+    case'tourend':ST.tourOn=null;break;
     case'caldays':sheet('caldays');break;
     case'sharequote':ST.shq={qi:quoteOrder()[ST.qi],fmt:(ST.shq&&ST.shq.fmt)||'post',style:ls('esm_shq_style','brocade')};sheet('sharequote');break;
     case'shqfmt':ST.shq={...ST.shq,fmt:el.dataset.v,blob:null};break;
@@ -3755,6 +3774,14 @@ function mountRefuge(ov){
 // ═══════════════════════════════════════════════════════════
 dailySnapshot();
 if(hasPracticeData())keepStorage();
+// One swipe handler for every Next/Back in the app: a horizontal swipe on an element with data-swl / data-swr
+// acts as if that button were pressed. Strips that scroll sideways keep their own scrolling.
+{let sx=null,sy=0,st=null;const app=document.getElementById('app');
+  app.addEventListener('pointerdown',e=>{const c=e.target.closest('[data-swl],[data-swr]');if(!c||e.target.closest('.kinds,.shqthumbs,.jchips,input,textarea,.qcard,#shqimg')){sx=null;return;}sx=e.clientX;sy=e.clientY;st=c;},{passive:true});
+  app.addEventListener('pointerup',e=>{if(sx==null||!st)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)<50||Math.abs(dx)<Math.abs(dy)*1.3)return;
+    const act=dx<0?st.dataset.swl:st.dataset.swr;if(!act)return;const b=document.createElement('button');b.dataset.act=act;b.hidden=true;app.appendChild(b);b.click();b.remove();
+    swipeEat=Date.now();},{passive:true});
+  app.addEventListener('pointercancel',()=>{sx=null;});}
 document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.dataset&&d.dataset.fold){const F=ls('esm_fold',{})||{};F[d.dataset.fold]=d.open;lsSet('esm_fold',F);}},true);
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
