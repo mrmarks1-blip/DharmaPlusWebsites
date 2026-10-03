@@ -473,10 +473,12 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 .stage > img { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:fill; }
 .zbtns { position:absolute; right:8px; bottom:8px; z-index:20; display:flex; flex-direction:column; gap:6px; }
 .zbtns button { width:40px; height:40px; border-radius:10px; border:1px solid rgba(255,255,255,.3); background:rgba(0,0,0,.5); color:#fff; font-size:20px; line-height:1; }
-.rf-marker { position:absolute; transform:translate(-50%,-50%); width:26px; height:26px; border-radius:50%; background:var(--zc); border:2px solid rgba(255,255,255,.9);
-  display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; z-index:10; transition:transform .2s, opacity .2s;
+.rf-marker { position:absolute; transform:translate(-50%,-50%); width:19px; height:19px; border-radius:50%; background:color-mix(in srgb,var(--zc) 72%,transparent); border:1.5px solid rgba(255,255,255,.75);
+  display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff; z-index:10; transition:transform .2s, opacity .3s;
+  animation:fade .3s;
   box-shadow:0 2px 6px rgba(0,0,0,.65),0 0 0 1px rgba(0,0,0,.3); text-shadow:0 1px 3px rgba(0,0,0,.6); }
-.rf-marker:hover, .rf-marker:active { transform:translate(-50%,-50%) scale(1.3); }
+.rf-marker:hover, .rf-marker:active { transform:translate(-50%,-50%) scale(1.3); opacity:1; }
+.rf-marker::before { content:''; position:absolute; inset:-9px; border-radius:50%; }
 .rf-marker.hidden-marker { display:none; }
 .rf-marker.dim { opacity:.25; }
 .rf-marker.highlighted { box-shadow:0 0 12px rgba(255,255,255,.7),0 3px 10px rgba(0,0,0,.7); transform:translate(-50%,-50%) scale(1.15); }
@@ -2885,15 +2887,17 @@ function mountRefuge(ov){
       h('button',{'aria-label':'Zoom in',onClick:()=>zoomAt(imgWrap.clientWidth/2,imgWrap.clientHeight/2,sc*1.4)},'+'),
       h('button',{'aria-label':'Zoom out',onClick:()=>zoomAt(imgWrap.clientWidth/2,imgWrap.clientHeight/2,sc/1.4)},'−'),
       h('button',{'aria-label':'Reset zoom',onClick:()=>{sc=1;tx=0;ty=0;apply();}},'⤢')));}
-  // Press and hold the picture to peek at the numbers.
-  const peek=show=>()=>{if(!rfMarkersVisible&&!rfFilter.trim())document.querySelectorAll('.rf-marker').forEach(el=>el.classList.toggle('hidden-marker',!show));};
-  imgWrap.addEventListener('touchstart',peek(true),{passive:true});['touchend','touchcancel'].forEach(t=>imgWrap.addEventListener(t,peek(false),{passive:true}));
-  imgWrap.addEventListener('mousedown',peek(true));['mouseup','mouseleave'].forEach(t=>imgWrap.addEventListener(t,peek(false)));
+  // Tap the picture: the numbers fade in and stay a few seconds, long enough to tap one; tap again to hide.
+  // (Drags and pinches don't count as taps: the capture handler above swallows those clicks.)
+  let peekT;const showNums=on=>{if(rfMarkersVisible||rfFilter.trim())return;document.querySelectorAll('.rf-marker').forEach(el=>el.classList.toggle('hidden-marker',!on));};
+  imgWrap.addEventListener('click',ev=>{if(ev.target.closest('.rf-marker,.zbtns')||rfMarkersVisible||rfFilter.trim())return;
+    const on=imgWrap.classList.toggle('peeking');showNums(on);clearTimeout(peekT);
+    if(on)peekT=setTimeout(()=>{imgWrap.classList.remove('peeking');showNums(false);},6000);});
   const index=h('div',{cls:'list'},FIGS.map(fig=>h('button',{cls:'item rf-legend-item','data-figid':fig.id,onClick:()=>openDrawer(fig.id)},
     h('span',{cls:'znum',sty:{'--zc':getZoneColor(fig.tags)}},String(fig.n)),
     h('span',{cls:'grow'},h('span',{cls:'t'},fig.name),fig.sub&&h('span',{cls:'s'},fig.sub)),h('span',{cls:'chev',html:ico('chev')}))));
   const body=h('div',{cls:'ovbody'},
-    h('p',{cls:'small',style:'text-align:center;padding:6px 16px'},'Tap “Show numbers”, or press and hold the picture, then tap a number.'),
+    h('p',{cls:'small',style:'text-align:center;padding:6px 16px'},'Tap the picture to show the numbers for a few seconds, then tap one. Pinch or double-tap to zoom.'),
     imgWrap,
     h('div',{cls:'col'},h('p',{cls:'h2'},`ALL ${FIGS.length} FIGURES`),index,
       h('p',{cls:'h2'},'FIGURE MAP'),h('p',{cls:'small'},'The same numbers as on the picture. Tap any figure.'),renderRefMap()));
