@@ -348,50 +348,53 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .gcal .cday.fe::after { content:'★'; }
 .gcal .cday.an::after { content:'•'; font-size:16px; line-height:10px; }
 .list.plain .item { padding-left:0; padding-right:0; }
-.tcard { padding:0; overflow:hidden; display:flex; flex-direction:column; }
-.tc-top { display:flex; align-items:center; gap:14px; padding:14px 16px; text-align:left; width:100%; }
-.tc-top b { display:block; font-size:var(--fs-lg); }
-.tc-top .small { display:block; }
-.tc-top .chev { color:var(--ink-3); }
-.tc-ausp { padding:12px 16px; border-top:1px solid var(--line); }
-.tc-ausp.glow { background:var(--glow); }
-.tc-ausp b { font-size:var(--fs-lg); }
-.tcard > .note { margin:0 16px 10px; }
-.tc-ev { display:flex; flex-direction:column; gap:2px; text-align:left; padding:10px 16px; border-top:1px solid var(--line); width:100%; }
-.tc-hair { display:flex; flex-direction:column; gap:2px; padding:10px 16px; border-top:1px solid var(--line); background:var(--sunk); }
-.tc-week { display:flex; flex-direction:column; gap:10px; padding:12px 16px 8px; border-top:1px solid var(--line); }
-.prog { display:flex; flex-direction:column; gap:6px; text-align:left; width:100%; }
-.prog .bar i { background:var(--acc,var(--accent)); }
-.prog .dot { background:var(--acc,var(--accent)); }
-.mtime { display:flex; align-items:center; justify-content:center; gap:14px; }
-.mtime label { display:flex; align-items:baseline; gap:6px; }
-.mtime input { width:3.2em; font-size:calc(34px * var(--scale)); font-weight:600; text-align:center; border:0; border-bottom:2px solid var(--line); background:transparent; color:var(--ink); font-variant-numeric:tabular-nums; padding:0; }
-.mtime .iconbtn { font-size:26px; font-weight:700; }
-.mtime .mtopen { font-size:var(--fs-lg); }
-.mtopts { justify-content:center; }
-.mstreak { display:flex; flex-direction:column; gap:8px; padding-top:10px; border-top:1px solid var(--line); }
-.mstreak .strip { display:grid; grid-template-columns:repeat(14,1fr); gap:3px; }
-.mstreak .strip i { aspect-ratio:1; border-radius:3px; border:1.5px solid var(--ink-3); }
-.mstreak .strip i.on { background:var(--ink); border-color:var(--ink); }
-.mstreak .strip i.t { outline:2px solid var(--ink-2); outline-offset:1px; }
-.mquote { margin:0; padding-left:12px; border-left:3px solid var(--line); }
-.mquote p { font-family:var(--f-display); }
-.mquote cite { font-size:var(--fs-sm); color:var(--ink-2); font-style:normal; }
-.sitscreen { position:absolute; inset:0; display:flex; flex-direction:column; background:var(--bg); transition:background .6s; }
-.sitscreen.dim { background:#000; color:#777; }
-.sitscreen.dim .ovtop { opacity:.35; }
-.sitmid { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:0 24px; }
-.sitbig { font-size:calc(44px * var(--scale)); font-weight:600; font-variant-numeric:tabular-nums; }
-.sitscreen.dim .sithint { color:#444; }
-@property --sa { syntax:'<angle>'; inherits:false; initial-value:0deg; }
-.sphere { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:conic-gradient(from var(--sa),#ff6f91,#ffd54a,#5be37a,#4de1e1,#6fa8ff,#b388ff,#ff6f91); box-shadow:0 0 18px rgba(255,255,255,.35), inset 0 0 10px rgba(0,0,0,.15); animation:spin-sa 14s linear infinite; }
-@keyframes spin-sa { to { --sa:360deg; } }
-@media (prefers-reduced-motion: reduce) { .sphere { animation:none; } }
-.kinds { display:grid; grid-auto-flow:column; grid-auto-columns:82%; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
-.kind { scroll-snap-align:start; display:flex; flex-direction:column; gap:6px; text-align:left; padding:16px; border-radius:var(--r-lg); background:var(--surface); border:1px solid var(--line); }
-.kind b { font-family:var(--f-display); font-size:var(--fs-lg); }
-.kind .more { margin-top:auto; color:var(--accent-ink); font-weight:700; display:flex; align-items:center; gap:4px; }
-.kind .more svg { width:16px; height:16px; }
+.tcard { padding:0; overflow:hidden; display:flex; flex-direction:column; }
+.tc-top { display:flex; align-items:center; gap:14px; padding:14px 16px; text-align:left; width:100%; }
+.tc-top b { display:block; font-size:var(--fs-lg); }
+.tc-top .small { display:block; }
+.tc-top .chev { color:var(--ink-3); }
+.tc-ausp { padding:12px 16px; border-top:1px solid var(--line); }
+.tc-ausp.glow { background:var(--glow); }
+.tc-ausp b { font-size:var(--fs-lg); }
+.tcard > .note { margin:0 16px 10px; }
+.tc-ev svg { width:16px; height:16px; vertical-align:-2px; }
+.tc-ev { display:flex; flex-direction:column; gap:2px; text-align:left; padding:10px 16px; border-top:1px solid var(--line); width:100%; }
+.tc-hair { display:flex; flex-direction:column; gap:2px; padding:10px 16px; border-top:1px solid var(--line); background:var(--sunk); }
+.tc-week { display:flex; flex-direction:column; gap:10px; padding:12px 16px 8px; border-top:1px solid var(--line); }
+.prog { display:flex; flex-direction:column; gap:6px; text-align:left; width:100%; }
+.prog .bar i { background:var(--acc,var(--accent)); }
+.prog .dot { background:var(--acc,var(--accent)); }
+.mtime { display:flex; align-items:center; justify-content:center; gap:14px; }
+.mtime label { display:flex; align-items:baseline; gap:6px; }
+.mtime input { width:3.2em; font-size:calc(34px * var(--scale)); font-weight:600; text-align:center; border:0; border-bottom:2px solid var(--line); background:transparent; color:var(--ink); font-variant-numeric:tabular-nums; padding:0; }
+.mtime .iconbtn { font-size:26px; font-weight:700; }
+.mtime .mtopen { font-size:var(--fs-lg); }
+.mtopts { justify-content:center; }
+.mstreak { display:flex; flex-direction:column; gap:8px; padding-top:10px; border-top:1px solid var(--line); }
+.mstreak .strip { display:grid; grid-template-columns:repeat(14,1fr); gap:3px; }
+.mstreak .strip i { aspect-ratio:1; border-radius:3px; border:1.5px solid var(--ink-3); }
+.mstreak .strip i.on { background:var(--ink); border-color:var(--ink); }
+.mstreak .strip i.t { outline:2px solid var(--ink-2); outline-offset:1px; }
+.mquote { margin:0; padding-left:12px; border-left:3px solid var(--line); }
+.mquote p { font-family:var(--f-display); }
+.mquote cite { font-size:var(--fs-sm); color:var(--ink-2); font-style:normal; }
+.sitscreen { position:absolute; inset:0; display:flex; flex-direction:column; background:var(--bg); transition:background .6s; }
+.sitscreen.dim { background:#000; color:#777; }
+.sitscreen.dim .ovtop { opacity:.35; }
+.sitmid { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:0 24px; }
+.sitbig { font-size:calc(44px * var(--scale)); font-weight:600; font-variant-numeric:tabular-nums; }
+.sitscreen.dim .sithint { color:#444; }
+@property --sa { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+.sphere { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:conic-gradient(from var(--sa),#ff6f91,#ffd54a,#5be37a,#4de1e1,#6fa8ff,#b388ff,#ff6f91); box-shadow:0 0 18px rgba(255,255,255,.35), inset 0 0 10px rgba(0,0,0,.15); animation:spin-sa 14s linear infinite; }
+@keyframes spin-sa { to { --sa:360deg; } }
+@media (prefers-reduced-motion: reduce) { .sphere { animation:none; } }
+.kinds { display:grid; grid-auto-flow:column; grid-auto-columns:82%; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+.kind { scroll-snap-align:start; display:flex; flex-direction:column; gap:6px; text-align:left; padding:16px; border-radius:var(--r-lg); background:var(--surface); border:1px solid var(--line); }
+.kind b { font-family:var(--f-display); font-size:var(--fs-lg); }
+.kind .more { margin-top:auto; color:var(--accent-ink); font-weight:700; display:flex; align-items:center; gap:4px; }
+.kind .more svg { width:16px; height:16px; }
+.gcal .cday.rm::before { content:''; position:absolute; top:3px; left:3px; width:0; height:0; border-top:8px solid var(--info); border-right:8px solid transparent; border-top-left-radius:3px; }
+input[type=time] { font:inherit; font-size:var(--fs-lg); padding:8px 10px; border-radius:var(--r); border:1px solid var(--line); background:var(--bg); color:var(--ink); }
 .legend { display:flex; flex-direction:column; gap:10px; }
 .legend > div { display:flex; gap:12px; align-items:baseline; }
 .legend time { min-width:6.2em; font-weight:700; flex-shrink:0; }
@@ -1545,7 +1548,7 @@ function todayCard(now){const t=tibDate(now),obs=observedAusp(now),ev=eventsOn(n
     <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),48)}<span class="grow"><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
       <span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span>
       <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span><span class="small">${phaseText(now)}</span></span>${chev}</button>
-    ${ausp}${dbl}${evs}
+    ${ausp}${dbl}${evs}${reminders().filter(r=>r.date===dayKey(now)).map(r=>`<button class="tc-ev" data-act="day" data-d="${r.date}"><b>${ico('cal')} ${r.time} · ${esc(r.title)}</b>${r.friend?'<span class="small">Practising with a friend</span>':''}</button>`).join('')}
     <div class="tc-hair"><span class="small">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></div>
     <div class="tc-week"><div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
       <p class="small">Tap what you practised ${label}:</p>${jChips(sel)}
@@ -1693,6 +1696,82 @@ function ovMedKind(){const k=MED_KINDS.find(x=>x.id===ST.arg);if(!k)return topba
   </div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
+// REMINDERS — through the phone's own calendar (Phase 2a: no server)
+// ═══════════════════════════════════════════════════════════
+// A calendar file (.ics) is plain text that every phone calendar can import; its alarm (VALARM) is the
+// reminder. Shared with the Web Share API, or downloaded where sharing files isn't possible. Google
+// Calendar can't import alarms from a file, so it gets its own "add event" link.
+// esm_reminders = [{id,date:'YYYY-MM-DD',time:'HH:MM',title,friend:bool,asked:bool}]
+const reminders=()=>ls('esm_reminders',[]);
+const icsEsc=s=>String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');
+// Lines longer than 75 bytes are folded (RFC 5545), counting UTF-8 bytes so letters are never split.
+const icsFold=l=>{const out=[],te=new TextEncoder();let cur='',b=0;for(const ch of l){const n=te.encode(ch).length;if(b+n>74){out.push(cur);cur=' ';b=1;}cur+=ch;b+=n;}out.push(cur);return out.join('\r\n');};
+const icsDT=(k,t)=>k.replace(/-/g,'')+(t?'T'+t.replace(':','')+'00':'');
+const icsStamp=()=>new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
+// e: {uid,date,time?,mins?,title,desc?,url?,rrule?,alarm?} — no time = an all-day event.
+function icsEvent(e){const L=['BEGIN:VEVENT',`UID:${e.uid}`,`DTSTAMP:${icsStamp()}`];
+  if(e.time){const end=new Date(`${e.date}T${e.time}:00`);end.setMinutes(end.getMinutes()+(e.mins||30));
+    L.push(`DTSTART:${icsDT(e.date,e.time)}`,`DTEND:${icsDT(dayKey(end),`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}`);}
+  else L.push(`DTSTART;VALUE=DATE:${icsDT(e.date)}`,`DTEND;VALUE=DATE:${icsDT(dayKey(plusDays(new Date(e.date+'T12:00'),1)))}`);
+  L.push(`SUMMARY:${icsEsc(e.title)}`);if(e.desc)L.push(`DESCRIPTION:${icsEsc(e.desc)}`);if(e.url)L.push(`URL:${e.url}`);if(e.rrule)L.push(`RRULE:${e.rrule}`);
+  if(e.alarm!=null)L.push('BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${icsEsc(e.title)}`,`TRIGGER:${e.alarm}`,'END:VALARM');
+  L.push('END:VEVENT');return L.map(icsFold).join('\r\n');}
+function icsDoc(evs,name){return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Sliced Dharma//Dharma Practice//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',...(name?[`X-WR-CALNAME:${icsEsc(name)}`]:[]),...evs.map(icsEvent),'END:VCALENDAR'].join('\r\n')+'\r\n';}
+async function shareICS(text,file,{title,msg}={}){const f=new File([text],file,{type:'text/calendar'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:title||file,text:msg||''});return true;}catch(e){if(e&&e.name==='AbortError')return false;}}
+  const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=file;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+  toast('Calendar file saved. Open it to add it to your calendar.');return true;}
+const gcalLink=e=>{const end=new Date(`${e.date}T${e.time||'08:00'}:00`);end.setMinutes(end.getMinutes()+(e.mins||30));
+  const p=new URLSearchParams({action:'TEMPLATE',text:e.title,dates:`${icsDT(e.date,e.time||'08:00')}/${icsDT(dayKey(end),`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}`,details:e.desc||''});
+  if(e.rrule)p.set('recur','RRULE:'+e.rrule);return'https://calendar.google.com/calendar/render?'+p.toString();};
+const APP_URL='https://slicedharma.com/ngondro/';
+// What a day is, in one line, for a reminder's title.
+function dayTitle(k){const d=noonOf(new Date(k+'T12:00')),o=observedAusp(d)[0],e=eventsOn(d).find(x=>x.kind==='fest');return e?e.name.split(',')[0]:o?o.a.name:'Practice';}
+function reminderEvent(r){return{uid:`${r.id}@slicedharma.com`,date:r.date,time:r.time,mins:r.mins||30,title:r.friend?`Practise together: ${r.title}`:r.title,
+  desc:(r.friend?'Let’s practise together. ':'')+`${r.title}. Open Dharma Practice: ${APP_URL}`,url:APP_URL,alarm:'-PT15M'};}
+// The "Remind me" sheet for one day.
+function sheetRemind(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=ST.remTime||'08:00',title=ST.remTitle||dayTitle(k),ex=reminders().filter(r=>r.date===k);
+  return`<div class="grab"></div><h2 class="h1">Remind me</h2><p class="sub">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p>
+  <label class="small" for="remtitle">What</label><input id="remtitle" type="text" maxlength="60" value="${esc(title)}">
+  <label class="small" for="remtime">Time</label><input id="remtime" type="time" value="${t}">
+  <p class="small">The reminder goes into your phone’s own calendar, with an alert 15 minutes before. Nothing is sent anywhere else.</p>
+  <button class="btn primary wide" data-act="remadd">${ico('cal')} Add to my calendar</button>
+  <button class="btn soft wide" data-act="remfriend">${ico('link')} Invite a friend to practise together</button>
+  <a class="btn link" id="remgcal" href="#" data-act="remgcal" target="_blank" rel="noopener" style="align-self:center">Use Google Calendar instead ↗</a>
+  ${ex.length?`<p class="h2" style="margin:0">ALREADY SET FOR THIS DAY</p><div class="list">${ex.map(r=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(r.title)}</span><span class="s">${r.time}${r.friend?' · with a friend':''}</span></span><button class="iconbtn" data-act="remdel" data-v="${r.id}" aria-label="Forget this reminder">${ico('trash')}</button></div>`).join('')}</div>
+    <p class="small">Removing it here doesn’t remove it from your calendar.</p>`:''}
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+function remFromForm(friend){const k=ST.sarg,title=val('remtitle')||dayTitle(k),time=val('remtime')||'08:00';
+  const r={id:'r'+Date.now().toString(36),date:k,time,title,friend:!!friend,asked:false};lsSet('esm_reminders',[...reminders().filter(x=>x.date>=dayKey(plusDays(new Date(),-60))),r]);return r;}
+// A friend session in the past that we haven't asked about: "Did it happen?"
+const remToAsk=()=>reminders().filter(r=>r.friend&&!r.asked&&r.date<dayKey());
+function remAskCard(){const r=remToAsk()[0];if(!r)return'';const d=new Date(r.date+'T12:00');
+  return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Did you practise together?</b><p>${esc(r.title)}, ${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}.</p></div>
+    <div class="btns even"><button class="btn primary" data-act="remyes" data-v="${r.id}">Yes, tick my diary</button><button class="btn soft" data-act="remno" data-v="${r.id}">Not this time</button></div></div>`;}
+// Daily practice reminder: one repeating event with an alert at the chosen time.
+function sheetDaily(){const t=ls('esm_daily_time','07:30');
+  return`<div class="grab"></div><h2 class="h1">A daily reminder</h2>
+  <p>Add a repeating event to your phone’s calendar, with an alert each day at the time you choose. Your calendar does the reminding, so it works even when this app is closed.</p>
+  <label class="small" for="dailytime">Time</label><input id="dailytime" type="time" value="${t}">
+  <button class="btn primary wide" data-act="dailyadd">${ico('cal')} Add to my calendar</button>
+  <a class="btn link" href="#" data-act="dailygcal" target="_blank" rel="noopener" style="align-self:center">Use Google Calendar instead ↗</a>
+  <p class="small">To stop it, delete the event in your calendar (choose “all future events”).</p>
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+const dailyEvent=t=>({uid:'daily-practice@slicedharma.com',date:dayKey(),time:t,mins:20,title:'Time to practise',desc:`A gentle reminder for your daily practice. ${APP_URL}`,url:APP_URL,rrule:'FREQ=DAILY',alarm:'PT0M'});
+// The auspicious-days feed: a calendar people subscribe to (webcal), regenerated yearly with tools/make-feed.html.
+const FEED_PATH='ngondro/practice-days.ics',FEED_HTTPS=`https://slicedharma.com/${FEED_PATH}`,FEED_WEBCAL=`webcal://slicedharma.com/${FEED_PATH}`;
+function feedEvents(from,to){const evs=[];for(let d=noonOf(from);d<to;d=plusDays(d,1)){const k=dayKey(d);
+  observedAusp(d).forEach(o=>evs.push({uid:`ausp-${k}-${o.td}@slicedharma.com`,date:k,title:o.a.name,desc:`${(SPECIAL_WHY[o.td]||{}).t||o.a.desc}${o.note?' '+o.note:''} Tibetan day ${o.td}. ${APP_URL}`}));
+  eventsOn(d).forEach((e,i)=>evs.push({uid:`ev-${k}-${i}@slicedharma.com`,date:k,title:e.kind==='fest'?e.name:`Anniversary: ${e.name}`,desc:e.kind==='fest'?`${e.t} ${e.u||''}`:(e.u||'From tibetanbuddhistcalendar.org’s list of anniversaries.')}));}
+  return evs;}
+function sheetFeed(){return`<div class="grab"></div><h2 class="h1">Auspicious days in your calendar</h2>
+  <p>Subscribe once, and the auspicious days, festivals and anniversaries appear in your phone’s own calendar, and stay up to date.</p>
+  <a class="btn primary wide" href="${FEED_WEBCAL}">${ico('cal')} Subscribe (iPhone, Mac, Outlook)</a>
+  <a class="btn soft wide" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(FEED_WEBCAL)}" target="_blank" rel="noopener">Subscribe in Google Calendar ↗</a>
+  <p class="small">On Android, use Google Calendar. The dates follow the Phugpa calendar and this app’s rules for skipped and doubled days (see About the Tibetan calendar). Times are not set: they are all-day events, without alerts.</p>
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+
+// ═══════════════════════════════════════════════════════════
 // TODAY
 // ═══════════════════════════════════════════════════════════
 function pageToday(){
@@ -1708,7 +1787,7 @@ function pageToday(){
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
-  out.push(todayCard(now),progressCard(now),medTimerCard(now));
+  out.push(remAskCard(),todayCard(now),progressCard(now),medTimerCard(now));
   // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
   if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
     <p>Your counts live only on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
@@ -2146,7 +2225,7 @@ function ovCal(){
   const t0=tibDate(days[0]),t1=tibDate(days[dim-1]);
   const tibSpan=t0.month===t1.month&&t0.leap===t1.leap?`${ordinal(t0.month)} Tibetan month`:`${ordinal(t0.month)}–${ordinal(t1.month)} Tibetan months`;
   const counts={};days.forEach(x=>{const d=dayActs(dayKey(x));A.forEach(a=>{if(d[a.id])counts[a.id]=(counts[a.id]||0)+1;});});
-  const list=days.flatMap(x=>[...observedAusp(x).map(o=>({x,k:'a',o})),...eventsOn(x).map(e=>({x,k:'e',e}))]);
+  const list=days.flatMap(x=>[...observedAusp(x).map(o=>({x,k:'a',o})),...eventsOn(x).map(e=>({x,k:'e',e})),...reminders().filter(r=>r.date===dayKey(x)).map(r=>({x,k:'e',e:{kind:'west',name:`${r.time} · ${r.title}${r.friend?' (with a friend)':''}`}}))]);
   const li=({x,k,o,e})=>`<div><time>${x.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'})}</time><span>${k==='a'?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding:0;min-height:0">${o.a.name}</button>`
     :`<button class="btn link" data-act="day" data-d="${dayKey(x)}" style="padding:0;min-height:0;text-align:left">${e.kind==='fest'?`<b>${esc(e.name)}</b>`:`${e.kind==='west'?'':'Anniversary · '}${esc(e.name)}`}</button>`}</span></div>`;
   return`${topbar('Calendar')}<div class="ovbody"><div class="col">
@@ -2155,17 +2234,18 @@ function ovCal(){
       <button class="iconbtn" data-act="calnext" aria-label="Next month">${ico('chev')}</button></div>
     ${ST.calOff?`<button class="btn link" data-act="caltoday" style="align-self:center">Back to this month</button>`:''}
     <div class="cal gcal">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
-      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=observedAusp(x).length,ev=eventsOn(x),fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k);
-        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}, Tibetan day ${tibDay(x)}${sp?', auspicious day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
+      ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=observedAusp(x).length,ev=eventsOn(x),fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k),rm=reminders().some(r=>r.date===k);
+        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}, Tibetan day ${tibDay(x)}${sp?', auspicious day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
           <b>${x.getDate()}</b><span>${tibDay(x)}${mm?` ${mm}`:''}</span>${ring?`<i style="${ring}"></i>`:'<i class="none"></i>'}</button>`;}).join('')}</div>
-    <p class="small" style="text-align:center">Big number: the date. Small: the Tibetan day (○ full moon, ● new moon). Gold: an auspicious day; ★ a festival; • an anniversary. The ring shows what you practised.</p>
+    <p class="small" style="text-align:center">Big number: the date. Small: the Tibetan day (○ full moon, ● new moon). Gold: an auspicious day; ★ a festival; • an anniversary; a blue corner: your reminder. The ring shows what you practised.</p>
     <p class="h2">THIS MONTH</p>
     <div class="card legend">${list.map(li).join('')||'<p class="small">Nothing special this month.</p>'}</div>
     <p class="h2">YOUR PRACTICE DIARY</p>
     <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
     <p class="small">Tap a day to tick what you practised. Counts you add to a practice tick it automatically.</p>
     <div class="btns even"><button class="btn soft" data-act="acts">${ico('edit')} Activities</button><button class="btn soft" data-act="exportcsv">${ico('save')} Spreadsheet</button></div>
-    <div class="list">${item('calabout','About the Tibetan calendar','How it works, whose rules, and the hair-cutting days',{ico:'info'})}
+    <div class="list">${item('feed','Auspicious days in your calendar','Subscribe once in your phone’s calendar',{ico:'cal'})}
+      ${item('calabout','About the Tibetan calendar','How it works, whose rules, and the hair-cutting days',{ico:'info'})}
       ${linkItem('https://tibetanbuddhistcalendar.org/month','Tibetan Buddhist Calendar','The full calendar online, by Rigpa students')}</div>
   </div></div>`;}
 // About the Tibetan calendar: our words, from the sources in docs/calendar-research.md.
@@ -2200,6 +2280,7 @@ function sheetDay(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=tibDate(d),
     <p class="small" style="margin-top:6px">From tibetanbuddhistcalendar.org’s list of anniversaries and birthdays.</p></div>`:''}
   <div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>
   ${fut?'':`<p class="h2" style="margin:0">WHAT YOU PRACTISED</p>${jChips(k)}`}
+  ${k>=dayKey()?`<button class="btn primary wide" data-act="remind" data-d="${k}">${ico('cal')} Remind me · invite a friend</button>`:''}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -2356,6 +2437,7 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   ${open?`<div class="themes">${others.map(([k,l])=>`<button class="theme-card${cur===k?' on':''}" data-theme="${k}" data-act="theme" data-v="${k}"><b>${l}</b><span class="sw"><i></i><i></i><i></i></span></button>`).join('')}</div>`:''}
   <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
   <p class="h2" style="margin:0">SOUNDS</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
+  <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('daily','A daily reminder','In your phone’s own calendar',{ico:'cal'})}${item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'})}</div>
   <p class="h2" style="margin:0">KEEP YOUR PRACTICE SAFE</p>
   <p class="small">Your counts and practice diary are kept only on this phone. ${lastBackupText()}</p>
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>
@@ -2463,7 +2545,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,mt:sheetMT,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,mt:sheetMT,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null;
 // Drag a sheet down by its top bar to close it.
@@ -2702,6 +2784,19 @@ document.getElementById('app').addEventListener('click',e=>{
     case'tree':ST.sheet=null;ST.ov='tree';break;
     case'practices':case'about':ST.ov=a;break;
     case'cal':ST.ov='cal';ST.calOff=0;break;
+    // reminders (calendar files)
+    case'remind':ST.remTime=null;ST.remTitle=null;sheet('remind',el.dataset.d);break;
+    case'remadd':{const r=remFromForm(false);shareICS(icsDoc([reminderEvent(r)]),'reminder.ics',{title:r.title}).then(()=>render());return;}
+    case'remfriend':{const r=remFromForm(true),d=new Date(r.date+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+      shareICS(icsDoc([reminderEvent(r)]),'practise-together.ics',{title:'Practise together',msg:`Shall we practise together on ${d} at ${r.time}? ${r.title}. ${APP_URL}`}).then(()=>render());return;}
+    case'remgcal':el.href=gcalLink({date:ST.sarg,time:val('remtime')||'08:00',title:val('remtitle')||dayTitle(ST.sarg),desc:APP_URL});return;
+    case'remdel':lsSet('esm_reminders',reminders().filter(r=>r.id!==el.dataset.v));break;
+    case'remyes':{const r=reminders().find(x=>x.id===el.dataset.v);lsSet('esm_reminders',reminders().map(x=>x.id===el.dataset.v?{...x,asked:true}:x));if(r)sheet('day',r.date);toast('Tick what you practised that day');break;}
+    case'remno':lsSet('esm_reminders',reminders().map(x=>x.id===el.dataset.v?{...x,asked:true}:x));break;
+    case'daily':sheet('daily');break;
+    case'dailyadd':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);shareICS(icsDoc([dailyEvent(t)]),'daily-practice.ics',{title:'Daily practice reminder'});return;}
+    case'dailygcal':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);el.href=gcalLink(dailyEvent(t));return;}
+    case'feed':sheet('feed');break;
     // meditation timer
     case'mtset':mtSave({min:+el.dataset.v,open:false});break;
     case'mtopen':mtSave({open:!mt().open});break;

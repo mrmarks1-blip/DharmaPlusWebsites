@@ -1,0 +1,5542 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sliced Dharma//Dharma Practice//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Auspicious days · Dharma Practice
+BEGIN:VEVENT
+UID:ev-2026-01-01-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260101
+DTEND;VALUE=DATE:20260102
+SUMMARY:Anniversary: Taklung Tsetrul Rinpoche (1926–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Tsetrul_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260102
+DTEND;VALUE=DATE:20260103
+SUMMARY:Anniversary: Sakya Pandita Kunga Gyaltsen (1182-1251)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sakya_Pandita
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-01-03-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260103
+DTEND;VALUE=DATE:20260104
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260103
+DTEND;VALUE=DATE:20260104
+SUMMARY:Anniversary: Kyabjé Khenchen Jigme Phuntsok Rinpoche (1933-2004)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenchen_Jigme_Phunt
+ sok
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260106
+DTEND;VALUE=DATE:20260107
+SUMMARY:Anniversary: Kyabje Dudjom Rinpoche (1904-1987)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dudjom_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-06-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260106
+DTEND;VALUE=DATE:20260107
+SUMMARY:Anniversary: Khamtrul Döngyü Nyima Rinpoche (1931-1980)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260107
+DTEND;VALUE=DATE:20260108
+SUMMARY:Anniversary: Taklung Thangpa (1142-1210)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Thangpa_Tash
+ i_Pal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-08-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260108
+DTEND;VALUE=DATE:20260109
+SUMMARY:Anniversary: Chadral Rinpoche (1913–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chatral_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260110
+DTEND;VALUE=DATE:20260111
+SUMMARY:Anniversary: Drogön Chögyal Pakpa (1235-1280)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Ch%C3%B6gyal_Pakpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260111
+DTEND;VALUE=DATE:20260112
+SUMMARY:Anniversary: Khenpo Appey (1927-2010)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Appey
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-11-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260111
+DTEND;VALUE=DATE:20260112
+SUMMARY:Anniversary: 4th Dodrupchen\, Tubten Trinlé Pal Zangpo (1927-2022
+ )
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dodrupchen_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-01-13-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260113
+DTEND;VALUE=DATE:20260114
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260114
+DTEND;VALUE=DATE:20260115
+SUMMARY:Anniversary: 1st Jamgön Kongtrul Lodrö Thayé (1813-1899)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamg%C3%B6n_Kongtrul
+ _Lodr%C3%B6_Tay%C3%A9
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-01-17-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260117
+DTEND;VALUE=DATE:20260118
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-01-18-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260118
+DTEND;VALUE=DATE:20260119
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-21-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260121
+DTEND;VALUE=DATE:20260122
+SUMMARY:Anniversary: 1st Chetsang Rinpoche\, Drikung Könchok Ratna (1590-
+ 1655)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-01-26-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260126
+DTEND;VALUE=DATE:20260127
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-01-28-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260128
+DTEND;VALUE=DATE:20260129
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-01-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260129
+DTEND;VALUE=DATE:20260130
+SUMMARY:Anniversary: Kangyur Rinpoche (1898-1975)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kangyur_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-02-01-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260201
+DTEND;VALUE=DATE:20260202
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260204
+DTEND;VALUE=DATE:20260205
+SUMMARY:Anniversary: Kunkhyen Longchen Rabjam (1308-1364)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Longchenpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-04-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260204
+DTEND;VALUE=DATE:20260205
+SUMMARY:Anniversary: 1st Chungtsang Rinpoche (1595-1659)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chungtsang_Rinpoche_
+ Incarnation_Line
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-05-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260205
+DTEND;VALUE=DATE:20260206
+SUMMARY:Anniversary: Neten Chokling Pema Gyurmé (1928-1974)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260206
+DTEND;VALUE=DATE:20260207
+SUMMARY:Anniversary: Gelek Rinpoche (1939-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260207
+DTEND;VALUE=DATE:20260208
+SUMMARY:Anniversary: Dorzong Rinpoche (1943-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260210
+DTEND;VALUE=DATE:20260211
+SUMMARY:Anniversary: Tulku Urgyen Rinpoche (1920–1996)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tulku_Urgyen_Rinpoch
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-02-12-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260212
+DTEND;VALUE=DATE:20260213
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-02-16-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260216
+DTEND;VALUE=DATE:20260217
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260216
+DTEND;VALUE=DATE:20260217
+SUMMARY:Gutor
+DESCRIPTION:The second-to-last day of the year: practices to purify negati
+ vity and avert the obstacles of the past year\, before Losar. https://www
+ .rigpawiki.org/index.php?title=Gutor
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-02-17-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260217
+DTEND;VALUE=DATE:20260218
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260218
+DTEND;VALUE=DATE:20260219
+SUMMARY:Losar\, the Tibetan New Year
+DESCRIPTION:The first day of the year. The days before it are for purifyin
+ g and clearing away the old year\; the whole Losar period is an important
+  time for practice. https://www.rigpawiki.org/index.php?title=Losar
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-18-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260218
+DTEND;VALUE=DATE:20260219
+SUMMARY:Anniversary: 6th Dzogchen Rinpoche\, Jikdral Changchub Dorjé (193
+ 5-1959)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260220
+DTEND;VALUE=DATE:20260221
+SUMMARY:Anniversary: 11th Minling Trichen\, Gyurme Kunzang Wangyal (1931-2
+ 008)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260222
+DTEND;VALUE=DATE:20260223
+SUMMARY:Anniversary: 1st Dzogchen Rinpoche\, Pema Rigdzin (1625-1697)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dzogchen_Pema_Rigdzi
+ n
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-22-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260222
+DTEND;VALUE=DATE:20260223
+SUMMARY:Anniversary: Rigdzin Kunzang Sherab (1636-1699)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rigdzin_Kunzang_Sher
+ ab
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-22-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260222
+DTEND;VALUE=DATE:20260223
+SUMMARY:Anniversary: Khenpo Shenga (1871-1927)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Shenga
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-02-24-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260224
+DTEND;VALUE=DATE:20260225
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-02-26-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260226
+DTEND;VALUE=DATE:20260227
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260226
+DTEND;VALUE=DATE:20260227
+SUMMARY:Anniversary: Tertön Sogyal\, Lerab Lingpa (1856-1926)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Lerab_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-02-26-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260226
+DTEND;VALUE=DATE:20260227
+SUMMARY:Anniversary: 12th Gyalwang Drukpa (1963-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-01-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260301
+DTEND;VALUE=DATE:20260302
+SUMMARY:Anniversary: 1st Dodrupchen\, Jikmé Trinlé Özer (1745-1821)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jikm%C3%A9_Trinl%C3%
+ A9_%C3%96zer
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260302
+DTEND;VALUE=DATE:20260303
+SUMMARY:Anniversary: Jetsün Milarepa (1040-1123)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Milarepa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-03-03-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260303
+DTEND;VALUE=DATE:20260304
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260303
+DTEND;VALUE=DATE:20260304
+SUMMARY:Chotrul Düchen\, the Festival of Miracles
+DESCRIPTION:One of the four great festivals. The first fifteen days of the
+  year recall the fifteen days on which the Buddha showed a different mira
+ cle each day\, at Śrāvastī. https://www.rigpawiki.org/index.php?title=
+ Chotrul_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-03-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260303
+DTEND;VALUE=DATE:20260304
+SUMMARY:Anniversary: Garab Dorjé
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Garab_Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-03-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260303
+DTEND;VALUE=DATE:20260304
+SUMMARY:Anniversary: Marpa Lotsawa (1012-1097)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Marpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260309
+DTEND;VALUE=DATE:20260310
+SUMMARY:Anniversary: Jamyang Khyentsé Wangpo (1820-1892)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamyang_Khyentse_Wan
+ gpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-03-13-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260313
+DTEND;VALUE=DATE:20260314
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260313
+DTEND;VALUE=DATE:20260314
+SUMMARY:Anniversary: Kenchen Pema Tsewang (1931-2002)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-13-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260313
+DTEND;VALUE=DATE:20260314
+SUMMARY:Anniversary: Drubwang Tsoknyi Rinpoche (1966-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-03-17-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260317
+DTEND;VALUE=DATE:20260318
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-03-18-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260318
+DTEND;VALUE=DATE:20260319
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260319
+DTEND;VALUE=DATE:20260320
+SUMMARY:Anniversary: Penor Rinpoche (1932-2009)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Penor_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260320
+DTEND;VALUE=DATE:20260321
+SUMMARY:Anniversary: Orgyen Terdak Lingpa (1646-1714)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Terdak_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260323
+DTEND;VALUE=DATE:20260324
+SUMMARY:Anniversary: Jamyang Shyepa Dorjé Ngawang Tsöndru (1648-1722)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-03-26-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260326
+DTEND;VALUE=DATE:20260327
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260326
+DTEND;VALUE=DATE:20260327
+SUMMARY:Anniversary: Tenga Rinpoche (1932-2012)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tenga_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-03-28-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260328
+DTEND;VALUE=DATE:20260329
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-03-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260329
+DTEND;VALUE=DATE:20260330
+SUMMARY:Anniversary: Jetsün Drakpa Gyaltsen (1147-1216)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drakpa_Gyaltsen
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-04-01-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-01-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:Anniversary: Gyaltön Rinpoche (1908-1970)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gyalt%C3%B6n_Rinpoch
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260404
+DTEND;VALUE=DATE:20260405
+SUMMARY:Anniversary: Chögyam Trungpa Rinpoche (1940-1987)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260406
+DTEND;VALUE=DATE:20260407
+SUMMARY:Anniversary: Chakdzö Tséwang Paljor (1909-1999)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260407
+DTEND;VALUE=DATE:20260408
+SUMMARY:Anniversary: Do Khyentsé (1800-1866)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Do_Khyentse
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260411
+DTEND;VALUE=DATE:20260412
+SUMMARY:Anniversary: 3rd Jamgön Kongtrul Rinpoche (1954-1992)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamg%C3%B6n_Kongtrul
+ _Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-04-12-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260412
+DTEND;VALUE=DATE:20260413
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260413
+DTEND;VALUE=DATE:20260414
+SUMMARY:Anniversary: Jetsün Taranatha (1575-1634)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taranatha
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260414
+DTEND;VALUE=DATE:20260415
+SUMMARY:Anniversary: Garchen Rinpoche (1936-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260415
+DTEND;VALUE=DATE:20260416
+SUMMARY:Anniversary: Shenphen Dawa Rinpoche (1950–2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-04-16-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260416
+DTEND;VALUE=DATE:20260417
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-04-17-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260417
+DTEND;VALUE=DATE:20260418
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260417
+DTEND;VALUE=DATE:20260418
+SUMMARY:Anniversary: Jamyang Loter Wangpo (1847-1914)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Loter_Wangpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-04-21-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260421
+DTEND;VALUE=DATE:20260422
+SUMMARY:Anniversary: Kalu Rinpoche (1905-1989)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kalu_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-04-24-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260424
+DTEND;VALUE=DATE:20260425
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-04-26-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260426
+DTEND;VALUE=DATE:20260427
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-01-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260501
+DTEND;VALUE=DATE:20260502
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260502
+DTEND;VALUE=DATE:20260503
+SUMMARY:Anniversary: Tertön Mingyur Dorjé (1645-1667)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tert%C3%B6n_Mingyur_
+ Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260504
+DTEND;VALUE=DATE:20260505
+SUMMARY:Anniversary: Dezhung Rinpoche (1906-1987)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dezhung_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260509
+DTEND;VALUE=DATE:20260510
+SUMMARY:Anniversary: Jigdral Dagchen Sakya Rinpoche (1929-2016)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jigdal_Dagchen_Sakya
+ _Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260511
+DTEND;VALUE=DATE:20260512
+SUMMARY:Anniversary: Khandro Tsering Chödrön (1929-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khandro_Tsering_Ch%C
+ 3%B6dr%C3%B6n
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-12-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260512
+DTEND;VALUE=DATE:20260513
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-12-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260512
+DTEND;VALUE=DATE:20260513
+SUMMARY:Anniversary: The Great Fifth Dalai Lama (1617-1682)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Fifth_Dalai_Lama
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-15-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260515
+DTEND;VALUE=DATE:20260516
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Day 29 is skipped this month\, so it is ke
+ pt today. Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the d
+ ay after instead. Tibetan day 29. https://slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260515
+DTEND;VALUE=DATE:20260516
+SUMMARY:Anniversary: Gatön Ngawang Lekpa (1867-1941)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gat%C3%B6n_Ngawang_L
+ ekpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-16-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260516
+DTEND;VALUE=DATE:20260517
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260516
+DTEND;VALUE=DATE:20260517
+SUMMARY:Anniversary: Tertön Sangyé Lingpa (1340-1396)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sangye_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260523
+DTEND;VALUE=DATE:20260524
+SUMMARY:The Birth of the Buddha
+DESCRIPTION:The Buddha’s birth\, remembered on the 7th day of the 4th mo
+ nth (Kunkhyen Tenpe Nyima\, Vajra Wisdom). https://www.shambhala.com/tibe
+ tan-practice-days/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-24-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260524
+DTEND;VALUE=DATE:20260525
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-26-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260526
+DTEND;VALUE=DATE:20260527
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-30-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260530
+DTEND;VALUE=DATE:20260531
+SUMMARY:Anniversary: 14th Kunzig Shamar Rinpoche (1952-2014)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Shamar_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-05-31-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260531
+DTEND;VALUE=DATE:20260601
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-05-31-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260531
+DTEND;VALUE=DATE:20260601
+SUMMARY:Saga Dawa Düchen
+DESCRIPTION:One of the four great festivals: the Buddha’s enlightenment 
+ at Bodhgaya and his passing into parinirvāṇa. The whole month of Saga 
+ Dawa is a time of practice and generosity. https://www.rigpawiki.org/inde
+ x.php?title=Saga_Dawa_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260603
+DTEND;VALUE=DATE:20260604
+SUMMARY:Anniversary: Patrul Rinpoche (1808-1887)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Patrul_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-08-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260608
+DTEND;VALUE=DATE:20260609
+SUMMARY:Anniversary: the enlightenment of Mahasiddha Birupa (837-909)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Virupa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-06-10-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260610
+DTEND;VALUE=DATE:20260611
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260610
+DTEND;VALUE=DATE:20260611
+SUMMARY:Anniversary: Drikung Kyobpa Jigten Sumgön (1143-1217)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drikung_Kyobpa_Jikte
+ n_Sumg%C3%B6n
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-10-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260610
+DTEND;VALUE=DATE:20260611
+SUMMARY:Anniversary: Ngorchen Kunga Zangpo (1382-1456)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Ngorchen_Kunga_Zangp
+ o
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-06-14-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260614
+DTEND;VALUE=DATE:20260615
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260614
+DTEND;VALUE=DATE:20260615
+SUMMARY:Anniversary: Jamgön Mipham Rinpoche (1846-1912)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Mipham_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-06-15-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260615
+DTEND;VALUE=DATE:20260616
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260615
+DTEND;VALUE=DATE:20260616
+SUMMARY:Anniversary: Nyala Pema Dündul (1816-1872)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyala_Pema_D%C3%BCnd
+ ul
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260616
+DTEND;VALUE=DATE:20260617
+SUMMARY:Anniversary: Terchen Chokgyur Lingpa (1829-1870)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chokgyur_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260618
+DTEND;VALUE=DATE:20260619
+SUMMARY:Anniversary: Dzongsar Jamyang Khyentse Rinpoche (1961-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260620
+DTEND;VALUE=DATE:20260621
+SUMMARY:Anniversary: Jamyang Khyentsé Chökyi Lodrö (1893-1959)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamyang_Khyentse_Ch%
+ C3%B6kyi_Lodr%C3%B6
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-06-22-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260622
+DTEND;VALUE=DATE:20260623
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-06-24-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260624
+DTEND;VALUE=DATE:20260625
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260624
+DTEND;VALUE=DATE:20260625
+SUMMARY:Anniversary: Dilgo Khyentsé Yangsi Rinpoche (1993-)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Yangsi_Dilgo_Khyents
+ e_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-24-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260624
+DTEND;VALUE=DATE:20260625
+SUMMARY:Anniversary: 7th Dzongchen Pönlop Rinpoche (1965-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260626
+DTEND;VALUE=DATE:20260627
+SUMMARY:Anniversary: 17th Karmapa\, Ogyen Trinley Dorjé (1985-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-06-29-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-06-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:Dzamling Chisang\, Local Deities’ Day
+DESCRIPTION:A day of extensive offerings\, especially smoke offerings (san
+ g)\, to the local deities and spirits of the land\, often made on a hillt
+ op. https://www.rigpawiki.org/index.php?title=Dzamling_Chi_Sang
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260702
+DTEND;VALUE=DATE:20260703
+SUMMARY:Anniversary: Nyoshul Lungtok (1829-1901)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyoshul_Lungtok
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260703
+DTEND;VALUE=DATE:20260704
+SUMMARY:Anniversary: Shechen Gyaltsab Gyurme Pema Namgyal (1871-1926)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Shechen_Gyaltsab_Gyu
+ rme_Pema_Namgyal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260704
+DTEND;VALUE=DATE:20260705
+SUMMARY:Anniversary: Khenpo Ngakchung (1879-1941)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Ngakchung
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260706
+DTEND;VALUE=DATE:20260707
+SUMMARY:Anniversary: His Holiness the 14th Dalai Lama Tenzin Gyatso (1935-
+ )
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-08-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260708
+DTEND;VALUE=DATE:20260709
+SUMMARY:Anniversary: Khenpo Akhyuk Rinpoche (1927-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Akhyuk
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-07-09-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260709
+DTEND;VALUE=DATE:20260710
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Day 25 is skipped this month\, so it is ke
+ pt today. Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the d
+ ay after instead. Tibetan day 25. https://slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260709
+DTEND;VALUE=DATE:20260710
+SUMMARY:Anniversary: Lungtok Shedrup Tenpé Nyima (1920-?)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-07-13-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260713
+DTEND;VALUE=DATE:20260714
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-07-14-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260714
+DTEND;VALUE=DATE:20260715
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260718
+DTEND;VALUE=DATE:20260719
+SUMMARY:Chökhor Düchen
+DESCRIPTION:One of the four great festivals: seven weeks after his enlight
+ enment the Buddha first turned the wheel of Dharma at Sarnath\, teaching 
+ the Four Noble Truths. https://www.rigpawiki.org/index.php?title=Ch%C3%B6
+ khor_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-18-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260718
+DTEND;VALUE=DATE:20260719
+SUMMARY:Anniversary: Drikung Kyabgön Chetsang Rinpoche (1946-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-07-22-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260722
+DTEND;VALUE=DATE:20260723
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-07-24-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260724
+DTEND;VALUE=DATE:20260725
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260728
+DTEND;VALUE=DATE:20260729
+SUMMARY:Anniversary: 3rd Karmapa\, Rangjung Dorjé (1284-1339)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rangjung_Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-07-29-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260729
+DTEND;VALUE=DATE:20260730
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-07-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260729
+DTEND;VALUE=DATE:20260730
+SUMMARY:Anniversary: Gampopa (1079-1153)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gampopa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-08-08-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-08-11-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260811
+DTEND;VALUE=DATE:20260812
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-08-12-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260812
+DTEND;VALUE=DATE:20260813
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260817
+DTEND;VALUE=DATE:20260818
+SUMMARY:Anniversary: Kabjé Trulshik Rinpoche (1924-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Trulshik_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-08-20-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260820
+DTEND;VALUE=DATE:20260821
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-08-22-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260822
+DTEND;VALUE=DATE:20260823
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260822
+DTEND;VALUE=DATE:20260823
+SUMMARY:Anniversary: Jomo Menmo (1248–1283)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jomo_Menmo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260827
+DTEND;VALUE=DATE:20260828
+SUMMARY:Anniversary: Nyoshul Khenpo Jamyang Dorjé (1932-1999)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-27-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260827
+DTEND;VALUE=DATE:20260828
+SUMMARY:Anniversary: Dudjom Sangyum Kusho Rigdzin Wangmo (-2014)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-08-28-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Anniversary: Drapa Ngönshe's discovery of the Four Medical Tantra
+ s (1012-1090)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drapa_Ng%C3%B6nsh%C3
+ %A9
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-28-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Anniversary: Tsarchen Losal Gyatso (1502-1566)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsarchen_Losal_Gyats
+ o
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-28-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Anniversary: Kunkhyen Pema Karpo (1527-1592)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Pema_Karpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-28-3@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Anniversary: Sogyal Rinpoche (1947-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260829
+DTEND;VALUE=DATE:20260830
+SUMMARY:Anniversary: Nyoshul Khenpo Jamyang Dorjé (1932-1999)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyoshul_Khenpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-08-31-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260901
+SUMMARY:Anniversary: Bairo Rinpoche (1933-2017)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Bairo_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+SUMMARY:Anniversary: Chökyi Nyima Rinpoche (1951-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-05-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260905
+DTEND;VALUE=DATE:20260906
+SUMMARY:Anniversary: Kyabjé Menri Trizin Rinpoche (1929-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-09-06-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260906
+DTEND;VALUE=DATE:20260907
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260906
+DTEND;VALUE=DATE:20260907
+SUMMARY:Anniversary: Phagmodrupa (1110-1170)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Phagmodrupa_Dorje_Gy
+ alpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260907
+DTEND;VALUE=DATE:20260908
+SUMMARY:Anniversary: Kyabgön Gongma Trichen Rinpoche (1945-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-09-10-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260910
+DTEND;VALUE=DATE:20260911
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-09-11-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260911
+DTEND;VALUE=DATE:20260912
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-09-19-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260919
+DTEND;VALUE=DATE:20260920
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-09-21-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260921
+DTEND;VALUE=DATE:20260922
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-21-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260921
+DTEND;VALUE=DATE:20260922
+SUMMARY:Anniversary: Neten Chokling Rinpoche (1973-)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Neten_Chokling_Rinpo
+ che
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+SUMMARY:Anniversary: Domang Yangthang Rinpoche (1930-2016)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Yangthang_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-09-26-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260926
+DTEND;VALUE=DATE:20260927
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260927
+DTEND;VALUE=DATE:20260928
+SUMMARY:Anniversary: Namkhai Norbu Rinpoche (1938-2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-09-30-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20260930
+DTEND;VALUE=DATE:20261001
+SUMMARY:Anniversary: Kyabje Dilgo Khyentse Rinpoche (1910-1991)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dilgo_Khyentse_Rinpo
+ che
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-10-05-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-05-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Anniversary: Rigdzin Kumaradza (1266-1343)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kumaradza
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-05-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Anniversary: Katok Tsewang Norbu (1698-1755)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Katok_Tsewang_Norbu
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-10-09-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261009
+DTEND;VALUE=DATE:20261010
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-10-10-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261013
+DTEND;VALUE=DATE:20261014
+SUMMARY:Anniversary: Rigdzin Jigmé Lingpa (1729-1798)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jigme_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-10-18-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261020
+DTEND;VALUE=DATE:20261021
+SUMMARY:Anniversary: 16th Gyalwang Karmapa (1924-1981)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rangjung_Rigp%C3%A9_
+ Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-20-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261020
+DTEND;VALUE=DATE:20261021
+SUMMARY:Anniversary: Khenpo Karthar Rinpoche (1924-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-10-21-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261021
+DTEND;VALUE=DATE:20261022
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261023
+DTEND;VALUE=DATE:20261024
+SUMMARY:Anniversary: Dzigar Kongtrul Rinpoche (1964-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Anniversary: Khön Könchok Gyalpo (1034-1102)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kh%C3%B6n_K%C3%B6nch
+ ok_Gyalpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-25-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Anniversary: Khyungpo Naljor (c. 1050-1140)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khyungpo_Naljor
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-25-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Anniversary: Sachen Kunga Nyingpo (1092-1158)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sachen_Kunga_Nyingpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-10-26-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:Anniversary: Atiśa Dīpaṃkara (982-1054)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Atisha
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-10-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:Anniversary: Lodi Gyari Rinpoche (1949-2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-01-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Lhabab Düchen
+DESCRIPTION:One of the four great festivals: the Buddha’s return to eart
+ h after spending three months teaching in the god realm\, where his mothe
+ r had been reborn. https://www.rigpawiki.org/index.php?title=Lha_Bab_D%C3
+ %BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-11-04-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Anniversary: Adzom Drukpa (1842-1924)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Adzom_Drukpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-11-08-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-11-09-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-11-17-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:Anniversary: Chagdud Tulku Rinpoche (1930-2002)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:Anniversary: 7th Ling Rinpoche (1985-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-11-19-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Anniversary: Tulku Pegyal Rinpoche (1931-2001)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tulku_Pegyal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-19-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Anniversary: Kyabgon Gongma Trizin Rinpoche (1974-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-11-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Anniversary: Yongey Mingyur Rinpoche (1975-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-11-24-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261202
+DTEND;VALUE=DATE:20261203
+SUMMARY:Anniversary: Chamchen Chöjé (1354-1435)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-12-03-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261203
+DTEND;VALUE=DATE:20261204
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261203
+DTEND;VALUE=DATE:20261204
+SUMMARY:Anniversary: Jé Tsongkhapa (1357-1419)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsongkhapa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-12-07-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261207
+DTEND;VALUE=DATE:20261208
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-12-08-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261208
+DTEND;VALUE=DATE:20261209
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-12-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Anniversary: Thinley Norbu Rinpoche (1931-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Thinley_Norbu_Rinpoc
+ he
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Anniversary: Garje Khamtrul Rinpoche Jamyang Döndrup (1928-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-13-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Anniversary: Tsikey Chokling Rinpoche (1953-2020)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsikey_Chokling_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-12-17-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Anniversary: Dzogchen Rinpoche (1964-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-12-19-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Anniversary: Lopön Sönam Tsemo (1142-1182)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=S%C3%B6nam_Tsemo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261222
+DTEND;VALUE=DATE:20261223
+SUMMARY:Anniversary: Taklung Tsetrul Rinpoche (1926–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Tsetrul_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2026-12-23-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Day 15 is skipped this 
+ month\, so it is kept today. Some calendars (e.g. tibetanbuddhistcalendar
+ .org) keep it the day after instead. Tibetan day 15. https://slicedharma.
+ com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:Anniversary: Sakya Pandita Kunga Gyaltsen (1182-1251)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sakya_Pandita
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-23-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:Anniversary: Kyabjé Khenchen Jigme Phuntsok Rinpoche (1933-2004)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenchen_Jigme_Phunt
+ sok
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261226
+SUMMARY:Anniversary: 6th Ling Rinpoche (1903-1983)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-25-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261226
+SUMMARY:Anniversary: Shechen Rabjam Rinpoche (1967-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261226
+DTEND;VALUE=DATE:20261227
+SUMMARY:Anniversary: Kyabje Dudjom Rinpoche (1904-1987)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dudjom_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-26-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261226
+DTEND;VALUE=DATE:20261227
+SUMMARY:Anniversary: Khamtrul Döngyü Nyima Rinpoche (1931-1980)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261227
+DTEND;VALUE=DATE:20261228
+SUMMARY:Anniversary: Taklung Thangpa (1142-1210)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Thangpa_Tash
+ i_Pal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261228
+DTEND;VALUE=DATE:20261229
+SUMMARY:Anniversary: Chadral Rinpoche (1913–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chatral_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-30-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261230
+DTEND;VALUE=DATE:20261231
+SUMMARY:Anniversary: Drogön Chögyal Pakpa (1235-1280)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Ch%C3%B6gyal_Pakpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-31-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Anniversary: Khenpo Appey (1927-2010)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Appey
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2026-12-31-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Anniversary: 4th Dodrupchen\, Tubten Trinlé Pal Zangpo (1927-2022
+ )
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dodrupchen_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-01-02-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270102
+DTEND;VALUE=DATE:20270103
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270103
+DTEND;VALUE=DATE:20270104
+SUMMARY:Anniversary: 1st Jamgön Kongtrul Lodrö Thayé (1813-1899)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamg%C3%B6n_Kongtrul
+ _Lodr%C3%B6_Tay%C3%A9
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-01-06-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270106
+DTEND;VALUE=DATE:20270107
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-01-07-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270107
+DTEND;VALUE=DATE:20270108
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270110
+DTEND;VALUE=DATE:20270111
+SUMMARY:Anniversary: 1st Chetsang Rinpoche\, Drikung Könchok Ratna (1590-
+ 1655)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-01-15-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-01-17-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270117
+DTEND;VALUE=DATE:20270118
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270118
+DTEND;VALUE=DATE:20270119
+SUMMARY:Anniversary: Kangyur Rinpoche (1898-1975)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kangyur_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-01-22-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270122
+DTEND;VALUE=DATE:20270123
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270125
+DTEND;VALUE=DATE:20270126
+SUMMARY:Anniversary: Kunkhyen Longchen Rabjam (1308-1364)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Longchenpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-25-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270125
+DTEND;VALUE=DATE:20270126
+SUMMARY:Anniversary: 1st Chungtsang Rinpoche (1595-1659)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chungtsang_Rinpoche_
+ Incarnation_Line
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270126
+DTEND;VALUE=DATE:20270127
+SUMMARY:Anniversary: Neten Chokling Pema Gyurmé (1928-1974)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270127
+DTEND;VALUE=DATE:20270128
+SUMMARY:Anniversary: Gelek Rinpoche (1939-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-27-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270127
+DTEND;VALUE=DATE:20270128
+SUMMARY:Anniversary: Dorzong Rinpoche (1943-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-01-31-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270131
+DTEND;VALUE=DATE:20270201
+SUMMARY:Anniversary: Tulku Urgyen Rinpoche (1920–1996)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tulku_Urgyen_Rinpoch
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-02-01-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270201
+DTEND;VALUE=DATE:20270202
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-02-05-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270205
+DTEND;VALUE=DATE:20270206
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-05-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270205
+DTEND;VALUE=DATE:20270206
+SUMMARY:Gutor
+DESCRIPTION:The second-to-last day of the year: practices to purify negati
+ vity and avert the obstacles of the past year\, before Losar. https://www
+ .rigpawiki.org/index.php?title=Gutor
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-02-06-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270206
+DTEND;VALUE=DATE:20270207
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270207
+DTEND;VALUE=DATE:20270208
+SUMMARY:Losar\, the Tibetan New Year
+DESCRIPTION:The first day of the year. The days before it are for purifyin
+ g and clearing away the old year\; the whole Losar period is an important
+  time for practice. https://www.rigpawiki.org/index.php?title=Losar
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-07-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270207
+DTEND;VALUE=DATE:20270208
+SUMMARY:Anniversary: 6th Dzogchen Rinpoche\, Jikdral Changchub Dorjé (193
+ 5-1959)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270209
+DTEND;VALUE=DATE:20270210
+SUMMARY:Anniversary: 11th Minling Trichen\, Gyurme Kunzang Wangyal (1931-2
+ 008)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270211
+DTEND;VALUE=DATE:20270212
+SUMMARY:Anniversary: 1st Dzogchen Rinpoche\, Pema Rigdzin (1625-1697)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dzogchen_Pema_Rigdzi
+ n
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-11-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270211
+DTEND;VALUE=DATE:20270212
+SUMMARY:Anniversary: Rigdzin Kunzang Sherab (1636-1699)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rigdzin_Kunzang_Sher
+ ab
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-11-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270211
+DTEND;VALUE=DATE:20270212
+SUMMARY:Anniversary: Khenpo Shenga (1871-1927)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Shenga
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-02-14-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270214
+DTEND;VALUE=DATE:20270215
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-02-16-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270216
+DTEND;VALUE=DATE:20270217
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270216
+DTEND;VALUE=DATE:20270217
+SUMMARY:Anniversary: Tertön Sogyal\, Lerab Lingpa (1856-1926)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Lerab_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-16-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270216
+DTEND;VALUE=DATE:20270217
+SUMMARY:Anniversary: 12th Gyalwang Drukpa (1963-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+SUMMARY:Anniversary: 1st Dodrupchen\, Jikmé Trinlé Özer (1745-1821)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jikm%C3%A9_Trinl%C3%
+ A9_%C3%96zer
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-19-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+SUMMARY:Anniversary: Jetsün Milarepa (1040-1123)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Milarepa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-02-20-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270220
+DTEND;VALUE=DATE:20270221
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270220
+DTEND;VALUE=DATE:20270221
+SUMMARY:Chotrul Düchen\, the Festival of Miracles
+DESCRIPTION:One of the four great festivals. The first fifteen days of the
+  year recall the fifteen days on which the Buddha showed a different mira
+ cle each day\, at Śrāvastī. https://www.rigpawiki.org/index.php?title=
+ Chotrul_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-20-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270220
+DTEND;VALUE=DATE:20270221
+SUMMARY:Anniversary: Garab Dorjé
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Garab_Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-20-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270220
+DTEND;VALUE=DATE:20270221
+SUMMARY:Anniversary: Marpa Lotsawa (1012-1097)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Marpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-02-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270226
+DTEND;VALUE=DATE:20270227
+SUMMARY:Anniversary: Jamyang Khyentsé Wangpo (1820-1892)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamyang_Khyentse_Wan
+ gpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-03-02-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270302
+DTEND;VALUE=DATE:20270303
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-03-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270302
+DTEND;VALUE=DATE:20270303
+SUMMARY:Anniversary: Kenchen Pema Tsewang (1931-2002)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-03-07-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270307
+DTEND;VALUE=DATE:20270308
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-03-08-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270308
+DTEND;VALUE=DATE:20270309
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-03-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270313
+DTEND;VALUE=DATE:20270314
+SUMMARY:Anniversary: Drubwang Tsoknyi Rinpoche (1966-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-03-15-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270315
+DTEND;VALUE=DATE:20270316
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Day 8 is skipped this month\, so it is kept to
+ day. Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the day af
+ ter instead. Tibetan day 8. https://slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-03-17-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270317
+DTEND;VALUE=DATE:20270318
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-03-22-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270322
+DTEND;VALUE=DATE:20270323
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-04-01-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270401
+DTEND;VALUE=DATE:20270402
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270404
+DTEND;VALUE=DATE:20270405
+SUMMARY:Anniversary: Chögyam Trungpa Rinpoche (1940-1987)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-04-05-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270405
+DTEND;VALUE=DATE:20270406
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-04-06-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270406
+DTEND;VALUE=DATE:20270407
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270407
+DTEND;VALUE=DATE:20270408
+SUMMARY:Anniversary: Penor Rinpoche (1932-2009)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Penor_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-08-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270408
+DTEND;VALUE=DATE:20270409
+SUMMARY:Anniversary: Orgyen Terdak Lingpa (1646-1714)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Terdak_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270411
+DTEND;VALUE=DATE:20270412
+SUMMARY:Anniversary: Jamyang Shyepa Dorjé Ngawang Tsöndru (1648-1722)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-04-14-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270414
+DTEND;VALUE=DATE:20270415
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270414
+DTEND;VALUE=DATE:20270415
+SUMMARY:Anniversary: Tenga Rinpoche (1932-2012)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tenga_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-14-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270414
+DTEND;VALUE=DATE:20270415
+SUMMARY:Anniversary: Garchen Rinpoche (1936-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:Anniversary: Shenphen Dawa Rinpoche (1950–2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-04-16-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270416
+DTEND;VALUE=DATE:20270417
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270417
+DTEND;VALUE=DATE:20270418
+SUMMARY:Anniversary: Jetsün Drakpa Gyaltsen (1147-1216)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drakpa_Gyaltsen
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-04-20-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270420
+DTEND;VALUE=DATE:20270421
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270420
+DTEND;VALUE=DATE:20270421
+SUMMARY:Anniversary: Gyaltön Rinpoche (1908-1970)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gyalt%C3%B6n_Rinpoch
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270424
+DTEND;VALUE=DATE:20270425
+SUMMARY:Anniversary: Chakdzö Tséwang Paljor (1909-1999)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270425
+DTEND;VALUE=DATE:20270426
+SUMMARY:Anniversary: Do Khyentsé (1800-1866)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Do_Khyentse
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-04-30-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270430
+DTEND;VALUE=DATE:20270501
+SUMMARY:Anniversary: 3rd Jamgön Kongtrul Rinpoche (1954-1992)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamg%C3%B6n_Kongtrul
+ _Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-01-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270501
+DTEND;VALUE=DATE:20270502
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-02-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270502
+DTEND;VALUE=DATE:20270503
+SUMMARY:Anniversary: Jetsün Taranatha (1575-1634)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taranatha
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-05-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270505
+DTEND;VALUE=DATE:20270506
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-06-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270506
+DTEND;VALUE=DATE:20270507
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270506
+DTEND;VALUE=DATE:20270507
+SUMMARY:Anniversary: Jamyang Loter Wangpo (1847-1914)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Loter_Wangpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270511
+DTEND;VALUE=DATE:20270512
+SUMMARY:Anniversary: Kalu Rinpoche (1905-1989)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kalu_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-13-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270513
+DTEND;VALUE=DATE:20270514
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-15-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270515
+DTEND;VALUE=DATE:20270516
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-20-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270520
+DTEND;VALUE=DATE:20270521
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-21-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270521
+DTEND;VALUE=DATE:20270522
+SUMMARY:Anniversary: Tertön Mingyur Dorjé (1645-1667)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tert%C3%B6n_Mingyur_
+ Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270523
+DTEND;VALUE=DATE:20270524
+SUMMARY:Anniversary: Dezhung Rinpoche (1906-1987)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dezhung_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270527
+DTEND;VALUE=DATE:20270528
+SUMMARY:Anniversary: Jigdral Dagchen Sakya Rinpoche (1929-2016)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jigdal_Dagchen_Sakya
+ _Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270529
+DTEND;VALUE=DATE:20270530
+SUMMARY:Anniversary: Khandro Tsering Chödrön (1929-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khandro_Tsering_Ch%C
+ 3%B6dr%C3%B6n
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-05-30-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270530
+DTEND;VALUE=DATE:20270531
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-05-30-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270530
+DTEND;VALUE=DATE:20270531
+SUMMARY:Anniversary: The Great Fifth Dalai Lama (1617-1682)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Fifth_Dalai_Lama
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-06-03-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270603
+DTEND;VALUE=DATE:20270604
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270603
+DTEND;VALUE=DATE:20270604
+SUMMARY:Anniversary: Gatön Ngawang Lekpa (1867-1941)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gat%C3%B6n_Ngawang_L
+ ekpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-06-04-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270604
+DTEND;VALUE=DATE:20270605
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270604
+DTEND;VALUE=DATE:20270605
+SUMMARY:Anniversary: Tertön Sangyé Lingpa (1340-1396)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sangye_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270611
+DTEND;VALUE=DATE:20270612
+SUMMARY:The Birth of the Buddha
+DESCRIPTION:The Buddha’s birth\, remembered on the 7th day of the 4th mo
+ nth (Kunkhyen Tenpe Nyima\, Vajra Wisdom). https://www.shambhala.com/tibe
+ tan-practice-days/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-06-12-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270612
+DTEND;VALUE=DATE:20270613
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-06-13-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270613
+DTEND;VALUE=DATE:20270614
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Day 10 is skipped this 
+ month\, so it is kept today. Some calendars (e.g. tibetanbuddhistcalendar
+ .org) keep it the day after instead. Tibetan day 10. https://slicedharma.
+ com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270617
+DTEND;VALUE=DATE:20270618
+SUMMARY:Anniversary: 14th Kunzig Shamar Rinpoche (1952-2014)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Shamar_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-06-18-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270618
+DTEND;VALUE=DATE:20270619
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270618
+DTEND;VALUE=DATE:20270619
+SUMMARY:Saga Dawa Düchen
+DESCRIPTION:One of the four great festivals: the Buddha’s enlightenment 
+ at Bodhgaya and his passing into parinirvāṇa. The whole month of Saga 
+ Dawa is a time of practice and generosity. https://www.rigpawiki.org/inde
+ x.php?title=Saga_Dawa_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-18-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270618
+DTEND;VALUE=DATE:20270619
+SUMMARY:Anniversary: Dzongsar Jamyang Khyentse Rinpoche (1961-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270622
+DTEND;VALUE=DATE:20270623
+SUMMARY:Anniversary: Patrul Rinpoche (1808-1887)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Patrul_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270624
+DTEND;VALUE=DATE:20270625
+SUMMARY:Anniversary: 7th Dzongchen Pönlop Rinpoche (1965-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270626
+DTEND;VALUE=DATE:20270627
+SUMMARY:Anniversary: 17th Karmapa\, Ogyen Trinley Dorjé (1985-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270627
+DTEND;VALUE=DATE:20270628
+SUMMARY:Anniversary: the enlightenment of Mahasiddha Birupa (837-909)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Virupa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-06-29-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270629
+DTEND;VALUE=DATE:20270630
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270629
+DTEND;VALUE=DATE:20270630
+SUMMARY:Anniversary: Drikung Kyobpa Jigten Sumgön (1143-1217)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drikung_Kyobpa_Jikte
+ n_Sumg%C3%B6n
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-06-29-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270629
+DTEND;VALUE=DATE:20270630
+SUMMARY:Anniversary: Ngorchen Kunga Zangpo (1382-1456)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Ngorchen_Kunga_Zangp
+ o
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-07-03-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270703
+DTEND;VALUE=DATE:20270704
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270703
+DTEND;VALUE=DATE:20270704
+SUMMARY:Anniversary: Jamgön Mipham Rinpoche (1846-1912)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Mipham_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-07-04-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270704
+DTEND;VALUE=DATE:20270705
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270704
+DTEND;VALUE=DATE:20270705
+SUMMARY:Anniversary: Nyala Pema Dündul (1816-1872)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyala_Pema_D%C3%BCnd
+ ul
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-05-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270705
+DTEND;VALUE=DATE:20270706
+SUMMARY:Anniversary: Terchen Chokgyur Lingpa (1829-1870)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chokgyur_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270706
+DTEND;VALUE=DATE:20270707
+SUMMARY:Anniversary: His Holiness the 14th Dalai Lama Tenzin Gyatso (1935-
+ )
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270709
+DTEND;VALUE=DATE:20270710
+SUMMARY:Anniversary: Jamyang Khyentsé Chökyi Lodrö (1893-1959)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamyang_Khyentse_Ch%
+ C3%B6kyi_Lodr%C3%B6
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-07-11-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270711
+DTEND;VALUE=DATE:20270712
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-07-13-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270713
+DTEND;VALUE=DATE:20270714
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270713
+DTEND;VALUE=DATE:20270714
+SUMMARY:Anniversary: Dilgo Khyentsé Yangsi Rinpoche (1993-)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Yangsi_Dilgo_Khyents
+ e_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-07-18-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270718
+DTEND;VALUE=DATE:20270719
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270718
+DTEND;VALUE=DATE:20270719
+SUMMARY:Dzamling Chisang\, Local Deities’ Day
+DESCRIPTION:A day of extensive offerings\, especially smoke offerings (san
+ g)\, to the local deities and spirits of the land\, often made on a hillt
+ op. https://www.rigpawiki.org/index.php?title=Dzamling_Chi_Sang
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270720
+DTEND;VALUE=DATE:20270721
+SUMMARY:Anniversary: Nyoshul Lungtok (1829-1901)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyoshul_Lungtok
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-21-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270721
+DTEND;VALUE=DATE:20270722
+SUMMARY:Anniversary: Shechen Gyaltsab Gyurme Pema Namgyal (1871-1926)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Shechen_Gyaltsab_Gyu
+ rme_Pema_Namgyal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270722
+DTEND;VALUE=DATE:20270723
+SUMMARY:Anniversary: Khenpo Ngakchung (1879-1941)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Ngakchung
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270726
+DTEND;VALUE=DATE:20270727
+SUMMARY:Anniversary: Khenpo Akhyuk Rinpoche (1927-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Akhyuk
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-07-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270727
+DTEND;VALUE=DATE:20270728
+SUMMARY:Anniversary: Lungtok Shedrup Tenpé Nyima (1920-?)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-07-28-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270728
+DTEND;VALUE=DATE:20270729
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-01-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270801
+DTEND;VALUE=DATE:20270802
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-02-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270802
+DTEND;VALUE=DATE:20270803
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270806
+DTEND;VALUE=DATE:20270807
+SUMMARY:Chökhor Düchen
+DESCRIPTION:One of the four great festivals: seven weeks after his enlight
+ enment the Buddha first turned the wheel of Dharma at Sarnath\, teaching 
+ the Four Noble Truths. https://www.rigpawiki.org/index.php?title=Ch%C3%B6
+ khor_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-06-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270806
+DTEND;VALUE=DATE:20270807
+SUMMARY:Anniversary: Drikung Kyabgön Chetsang Rinpoche (1946-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-09-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270809
+DTEND;VALUE=DATE:20270810
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-11-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270811
+DTEND;VALUE=DATE:20270812
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270816
+DTEND;VALUE=DATE:20270817
+SUMMARY:Anniversary: 3rd Karmapa\, Rangjung Dorjé (1284-1339)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rangjung_Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-17-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270817
+DTEND;VALUE=DATE:20270818
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270817
+DTEND;VALUE=DATE:20270818
+SUMMARY:Anniversary: Gampopa (1079-1153)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gampopa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-27-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270827
+DTEND;VALUE=DATE:20270828
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270827
+DTEND;VALUE=DATE:20270828
+SUMMARY:Anniversary: Nyoshul Khenpo Jamyang Dorjé (1932-1999)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-27-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270827
+DTEND;VALUE=DATE:20270828
+SUMMARY:Anniversary: Dudjom Sangyum Kusho Rigdzin Wangmo (-2014)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-08-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270828
+DTEND;VALUE=DATE:20270829
+SUMMARY:Anniversary: Sogyal Rinpoche (1947-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-30-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270830
+DTEND;VALUE=DATE:20270831
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-08-31-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270831
+DTEND;VALUE=DATE:20270901
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270904
+DTEND;VALUE=DATE:20270905
+SUMMARY:Anniversary: Chökyi Nyima Rinpoche (1951-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-05-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270905
+DTEND;VALUE=DATE:20270906
+SUMMARY:Anniversary: Kabjé Trulshik Rinpoche (1924-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Trulshik_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270907
+DTEND;VALUE=DATE:20270908
+SUMMARY:Anniversary: Kyabgön Gongma Trichen Rinpoche (1945-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-09-08-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270908
+DTEND;VALUE=DATE:20270909
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-09-10-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270910
+DTEND;VALUE=DATE:20270911
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270910
+DTEND;VALUE=DATE:20270911
+SUMMARY:Anniversary: Jomo Menmo (1248–1283)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jomo_Menmo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-09-15-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:Anniversary: Drapa Ngönshe's discovery of the Four Medical Tantra
+ s (1012-1090)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drapa_Ng%C3%B6nsh%C3
+ %A9
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-15-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:Anniversary: Tsarchen Losal Gyatso (1502-1566)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsarchen_Losal_Gyats
+ o
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-15-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270915
+DTEND;VALUE=DATE:20270916
+SUMMARY:Anniversary: Kunkhyen Pema Karpo (1527-1592)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Pema_Karpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270916
+DTEND;VALUE=DATE:20270917
+SUMMARY:Anniversary: Nyoshul Khenpo Jamyang Dorjé (1932-1999)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyoshul_Khenpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270918
+DTEND;VALUE=DATE:20270919
+SUMMARY:Anniversary: Bairo Rinpoche (1933-2017)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Bairo_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270924
+DTEND;VALUE=DATE:20270925
+SUMMARY:Anniversary: Kyabjé Menri Trizin Rinpoche (1929-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-09-25-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270925
+DTEND;VALUE=DATE:20270926
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270925
+DTEND;VALUE=DATE:20270926
+SUMMARY:Anniversary: Phagmodrupa (1110-1170)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Phagmodrupa_Dorje_Gy
+ alpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-09-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270927
+DTEND;VALUE=DATE:20270928
+SUMMARY:Anniversary: Namkhai Norbu Rinpoche (1938-2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-09-29-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270929
+DTEND;VALUE=DATE:20270930
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-09-30-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20270930
+DTEND;VALUE=DATE:20271001
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-10-07-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271007
+DTEND;VALUE=DATE:20271008
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-10-10-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271010
+DTEND;VALUE=DATE:20271011
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271010
+DTEND;VALUE=DATE:20271011
+SUMMARY:Anniversary: Neten Chokling Rinpoche (1973-)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Neten_Chokling_Rinpo
+ che
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271014
+DTEND;VALUE=DATE:20271015
+SUMMARY:Anniversary: Domang Yangthang Rinpoche (1930-2016)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Yangthang_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-10-15-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271015
+DTEND;VALUE=DATE:20271016
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271019
+DTEND;VALUE=DATE:20271020
+SUMMARY:Anniversary: Kyabje Dilgo Khyentse Rinpoche (1910-1991)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dilgo_Khyentse_Rinpo
+ che
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271023
+DTEND;VALUE=DATE:20271024
+SUMMARY:Anniversary: Dzigar Kongtrul Rinpoche (1964-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-10-24-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271024
+DTEND;VALUE=DATE:20271025
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271024
+DTEND;VALUE=DATE:20271025
+SUMMARY:Anniversary: Rigdzin Kumaradza (1266-1343)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kumaradza
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-24-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271024
+DTEND;VALUE=DATE:20271025
+SUMMARY:Anniversary: Katok Tsewang Norbu (1698-1755)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Katok_Tsewang_Norbu
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-10-28-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271028
+DTEND;VALUE=DATE:20271029
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-10-29-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271029
+DTEND;VALUE=DATE:20271030
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-10-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271029
+DTEND;VALUE=DATE:20271030
+SUMMARY:Anniversary: Lodi Gyari Rinpoche (1949-2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-01-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271101
+DTEND;VALUE=DATE:20271102
+SUMMARY:Anniversary: Rigdzin Jigmé Lingpa (1729-1798)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jigme_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-11-06-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271106
+DTEND;VALUE=DATE:20271107
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-07-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271107
+DTEND;VALUE=DATE:20271108
+SUMMARY:Anniversary: 16th Gyalwang Karmapa (1924-1981)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rangjung_Rigp%C3%A9_
+ Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-07-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271107
+DTEND;VALUE=DATE:20271108
+SUMMARY:Anniversary: Khenpo Karthar Rinpoche (1924-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-11-08-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271108
+DTEND;VALUE=DATE:20271109
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271113
+DTEND;VALUE=DATE:20271114
+SUMMARY:Anniversary: Khön Könchok Gyalpo (1034-1102)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kh%C3%B6n_K%C3%B6nch
+ ok_Gyalpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-13-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271113
+DTEND;VALUE=DATE:20271114
+SUMMARY:Anniversary: Khyungpo Naljor (c. 1050-1140)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khyungpo_Naljor
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-13-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271113
+DTEND;VALUE=DATE:20271114
+SUMMARY:Anniversary: Sachen Kunga Nyingpo (1092-1158)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sachen_Kunga_Nyingpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-11-14-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271114
+DTEND;VALUE=DATE:20271115
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271116
+DTEND;VALUE=DATE:20271117
+SUMMARY:Anniversary: Atiśa Dīpaṃkara (982-1054)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Atisha
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271117
+DTEND;VALUE=DATE:20271118
+SUMMARY:Anniversary: Chagdud Tulku Rinpoche (1930-2002)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271118
+DTEND;VALUE=DATE:20271119
+SUMMARY:Anniversary: 7th Ling Rinpoche (1985-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271119
+DTEND;VALUE=DATE:20271120
+SUMMARY:Anniversary: Kyabgon Gongma Trizin Rinpoche (1974-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271120
+DTEND;VALUE=DATE:20271121
+SUMMARY:Lhabab Düchen
+DESCRIPTION:One of the four great festivals: the Buddha’s return to eart
+ h after spending three months teaching in the god realm\, where his mothe
+ r had been reborn. https://www.rigpawiki.org/index.php?title=Lha_Bab_D%C3
+ %BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-20-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271120
+DTEND;VALUE=DATE:20271121
+SUMMARY:Anniversary: Yongey Mingyur Rinpoche (1975-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-11-23-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271123
+DTEND;VALUE=DATE:20271124
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-11-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271123
+DTEND;VALUE=DATE:20271124
+SUMMARY:Anniversary: Adzom Drukpa (1842-1924)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Adzom_Drukpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-11-26-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271126
+DTEND;VALUE=DATE:20271127
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Day 29 is skipped this month\, so it is ke
+ pt today. Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the d
+ ay after instead. Tibetan day 29. https://slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-11-27-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271127
+DTEND;VALUE=DATE:20271128
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-12-06-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271206
+DTEND;VALUE=DATE:20271207
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-12-08-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271208
+DTEND;VALUE=DATE:20271209
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-08-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271208
+DTEND;VALUE=DATE:20271209
+SUMMARY:Anniversary: Tulku Pegyal Rinpoche (1931-2001)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tulku_Pegyal
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-12-13-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271213
+DTEND;VALUE=DATE:20271214
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271217
+DTEND;VALUE=DATE:20271218
+SUMMARY:Anniversary: Dzogchen Rinpoche (1964-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-21-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271221
+DTEND;VALUE=DATE:20271222
+SUMMARY:Anniversary: Chamchen Chöjé (1354-1435)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-12-22-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271222
+DTEND;VALUE=DATE:20271223
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271222
+DTEND;VALUE=DATE:20271223
+SUMMARY:Anniversary: Jé Tsongkhapa (1357-1419)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsongkhapa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-25-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271225
+DTEND;VALUE=DATE:20271226
+SUMMARY:Anniversary: 6th Ling Rinpoche (1903-1983)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-25-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271225
+DTEND;VALUE=DATE:20271226
+SUMMARY:Anniversary: Shechen Rabjam Rinpoche (1967-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-12-26-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271226
+DTEND;VALUE=DATE:20271227
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2027-12-27-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271227
+DTEND;VALUE=DATE:20271228
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-30-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271230
+DTEND;VALUE=DATE:20271231
+SUMMARY:Anniversary: Thinley Norbu Rinpoche (1931-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Thinley_Norbu_Rinpoc
+ he
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-31-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271231
+DTEND;VALUE=DATE:20280101
+SUMMARY:Anniversary: Garje Khamtrul Rinpoche Jamyang Döndrup (1928-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2027-12-31-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20271231
+DTEND;VALUE=DATE:20280101
+SUMMARY:Anniversary: Tsikey Chokling Rinpoche (1953-2020)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsikey_Chokling_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-01-05-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280105
+DTEND;VALUE=DATE:20280106
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-01-07-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280107
+DTEND;VALUE=DATE:20280108
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-08-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280108
+DTEND;VALUE=DATE:20280109
+SUMMARY:Anniversary: Lopön Sönam Tsemo (1142-1182)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=S%C3%B6nam_Tsemo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280110
+DTEND;VALUE=DATE:20280111
+SUMMARY:Anniversary: Taklung Tsetrul Rinpoche (1926–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Tsetrul_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280111
+DTEND;VALUE=DATE:20280112
+SUMMARY:Anniversary: Sakya Pandita Kunga Gyaltsen (1182-1251)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sakya_Pandita
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-01-12-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280112
+DTEND;VALUE=DATE:20280113
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-12-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280112
+DTEND;VALUE=DATE:20280113
+SUMMARY:Anniversary: Kyabjé Khenchen Jigme Phuntsok Rinpoche (1933-2004)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenchen_Jigme_Phunt
+ sok
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280114
+DTEND;VALUE=DATE:20280115
+SUMMARY:Anniversary: Kyabje Dudjom Rinpoche (1904-1987)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dudjom_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-14-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280114
+DTEND;VALUE=DATE:20280115
+SUMMARY:Anniversary: Khamtrul Döngyü Nyima Rinpoche (1931-1980)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280115
+DTEND;VALUE=DATE:20280116
+SUMMARY:Anniversary: Taklung Thangpa (1142-1210)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Thangpa_Tash
+ i_Pal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280116
+DTEND;VALUE=DATE:20280117
+SUMMARY:Anniversary: Chadral Rinpoche (1913–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chatral_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280118
+DTEND;VALUE=DATE:20280119
+SUMMARY:Anniversary: Drogön Chögyal Pakpa (1235-1280)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Ch%C3%B6gyal_Pakpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280119
+DTEND;VALUE=DATE:20280120
+SUMMARY:Anniversary: Khenpo Appey (1927-2010)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Appey
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-19-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280119
+DTEND;VALUE=DATE:20280120
+SUMMARY:Anniversary: 4th Dodrupchen\, Tubten Trinlé Pal Zangpo (1927-2022
+ )
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dodrupchen_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-01-21-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280121
+DTEND;VALUE=DATE:20280122
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-22-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280122
+DTEND;VALUE=DATE:20280123
+SUMMARY:Anniversary: 1st Jamgön Kongtrul Lodrö Thayé (1813-1899)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamg%C3%B6n_Kongtrul
+ _Lodr%C3%B6_Tay%C3%A9
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-01-25-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280125
+DTEND;VALUE=DATE:20280126
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-01-26-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280126
+DTEND;VALUE=DATE:20280127
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-01-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280129
+DTEND;VALUE=DATE:20280130
+SUMMARY:Anniversary: 1st Chetsang Rinpoche\, Drikung Könchok Ratna (1590-
+ 1655)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-02-03-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280203
+DTEND;VALUE=DATE:20280204
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-02-05-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280205
+DTEND;VALUE=DATE:20280206
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280206
+DTEND;VALUE=DATE:20280207
+SUMMARY:Anniversary: Kangyur Rinpoche (1898-1975)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kangyur_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-02-10-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280210
+DTEND;VALUE=DATE:20280211
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280213
+DTEND;VALUE=DATE:20280214
+SUMMARY:Anniversary: Kunkhyen Longchen Rabjam (1308-1364)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Longchenpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-13-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280213
+DTEND;VALUE=DATE:20280214
+SUMMARY:Anniversary: 1st Chungtsang Rinpoche (1595-1659)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chungtsang_Rinpoche_
+ Incarnation_Line
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280214
+DTEND;VALUE=DATE:20280215
+SUMMARY:Anniversary: Neten Chokling Pema Gyurmé (1928-1974)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280215
+DTEND;VALUE=DATE:20280216
+SUMMARY:Anniversary: Gelek Rinpoche (1939-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-15-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280215
+DTEND;VALUE=DATE:20280216
+SUMMARY:Anniversary: Dorzong Rinpoche (1943-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280218
+DTEND;VALUE=DATE:20280219
+SUMMARY:Anniversary: Tulku Urgyen Rinpoche (1920–1996)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tulku_Urgyen_Rinpoch
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-02-19-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280219
+DTEND;VALUE=DATE:20280220
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-02-24-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280224
+DTEND;VALUE=DATE:20280225
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280224
+DTEND;VALUE=DATE:20280225
+SUMMARY:Gutor
+DESCRIPTION:The second-to-last day of the year: practices to purify negati
+ vity and avert the obstacles of the past year\, before Losar. https://www
+ .rigpawiki.org/index.php?title=Gutor
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-02-25-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280225
+DTEND;VALUE=DATE:20280226
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-26-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280226
+DTEND;VALUE=DATE:20280227
+SUMMARY:Losar\, the Tibetan New Year
+DESCRIPTION:The first day of the year. The days before it are for purifyin
+ g and clearing away the old year\; the whole Losar period is an important
+  time for practice. https://www.rigpawiki.org/index.php?title=Losar
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-26-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280226
+DTEND;VALUE=DATE:20280227
+SUMMARY:Anniversary: 6th Dzogchen Rinpoche\, Jikdral Changchub Dorjé (193
+ 5-1959)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-02-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280228
+DTEND;VALUE=DATE:20280229
+SUMMARY:Anniversary: 11th Minling Trichen\, Gyurme Kunzang Wangyal (1931-2
+ 008)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-01-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280301
+DTEND;VALUE=DATE:20280302
+SUMMARY:Anniversary: 1st Dzogchen Rinpoche\, Pema Rigdzin (1625-1697)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dzogchen_Pema_Rigdzi
+ n
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-01-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280301
+DTEND;VALUE=DATE:20280302
+SUMMARY:Anniversary: Rigdzin Kunzang Sherab (1636-1699)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rigdzin_Kunzang_Sher
+ ab
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-01-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280301
+DTEND;VALUE=DATE:20280302
+SUMMARY:Anniversary: Khenpo Shenga (1871-1927)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Shenga
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-03-04-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280304
+DTEND;VALUE=DATE:20280305
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-03-06-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280306
+DTEND;VALUE=DATE:20280307
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280306
+DTEND;VALUE=DATE:20280307
+SUMMARY:Anniversary: Tertön Sogyal\, Lerab Lingpa (1856-1926)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Lerab_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-06-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280306
+DTEND;VALUE=DATE:20280307
+SUMMARY:Anniversary: 12th Gyalwang Drukpa (1963-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280309
+DTEND;VALUE=DATE:20280310
+SUMMARY:Anniversary: 1st Dodrupchen\, Jikmé Trinlé Özer (1745-1821)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jikm%C3%A9_Trinl%C3%
+ A9_%C3%96zer
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-03-10-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280310
+DTEND;VALUE=DATE:20280311
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Day 15 is skipped this 
+ month\, so it is kept today. Some calendars (e.g. tibetanbuddhistcalendar
+ .org) keep it the day after instead. Tibetan day 15. https://slicedharma.
+ com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-10-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280310
+DTEND;VALUE=DATE:20280311
+SUMMARY:Anniversary: Jetsün Milarepa (1040-1123)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Milarepa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-10-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280310
+DTEND;VALUE=DATE:20280311
+SUMMARY:Chotrul Düchen\, the Festival of Miracles
+DESCRIPTION:One of the four great festivals. The first fifteen days of the
+  year recall the fifteen days on which the Buddha showed a different mira
+ cle each day\, at Śrāvastī. https://www.rigpawiki.org/index.php?title=
+ Chotrul_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-10-2@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280310
+DTEND;VALUE=DATE:20280311
+SUMMARY:Anniversary: Garab Dorjé
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Garab_Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-10-3@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280310
+DTEND;VALUE=DATE:20280311
+SUMMARY:Anniversary: Marpa Lotsawa (1012-1097)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Marpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280313
+DTEND;VALUE=DATE:20280314
+SUMMARY:Anniversary: Drubwang Tsoknyi Rinpoche (1966-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-16-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280316
+DTEND;VALUE=DATE:20280317
+SUMMARY:Anniversary: Jamyang Khyentsé Wangpo (1820-1892)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamyang_Khyentse_Wan
+ gpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-03-20-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280320
+DTEND;VALUE=DATE:20280321
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280320
+DTEND;VALUE=DATE:20280321
+SUMMARY:Anniversary: Kenchen Pema Tsewang (1931-2002)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-03-24-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280324
+DTEND;VALUE=DATE:20280325
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-03-25-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280325
+DTEND;VALUE=DATE:20280326
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-27-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280327
+DTEND;VALUE=DATE:20280328
+SUMMARY:Anniversary: Penor Rinpoche (1932-2009)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Penor_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-28-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280328
+DTEND;VALUE=DATE:20280329
+SUMMARY:Anniversary: Orgyen Terdak Lingpa (1646-1714)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Terdak_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-03-31-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280331
+DTEND;VALUE=DATE:20280401
+SUMMARY:Anniversary: Jamyang Shyepa Dorjé Ngawang Tsöndru (1648-1722)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-04-03-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280403
+DTEND;VALUE=DATE:20280404
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-03-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280403
+DTEND;VALUE=DATE:20280404
+SUMMARY:Anniversary: Tenga Rinpoche (1932-2012)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tenga_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-04-04-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280404
+DTEND;VALUE=DATE:20280405
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-04-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280404
+DTEND;VALUE=DATE:20280405
+SUMMARY:Anniversary: Chögyam Trungpa Rinpoche (1940-1987)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-06-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280406
+DTEND;VALUE=DATE:20280407
+SUMMARY:Anniversary: Jetsün Drakpa Gyaltsen (1147-1216)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drakpa_Gyaltsen
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-04-09-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280409
+DTEND;VALUE=DATE:20280410
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280409
+DTEND;VALUE=DATE:20280410
+SUMMARY:Anniversary: Gyaltön Rinpoche (1908-1970)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gyalt%C3%B6n_Rinpoch
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-13-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280413
+DTEND;VALUE=DATE:20280414
+SUMMARY:Anniversary: Chakdzö Tséwang Paljor (1909-1999)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-14-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280414
+DTEND;VALUE=DATE:20280415
+SUMMARY:Anniversary: Do Khyentsé (1800-1866)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Do_Khyentse
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-14-1@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280414
+DTEND;VALUE=DATE:20280415
+SUMMARY:Anniversary: Garchen Rinpoche (1936-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280415
+DTEND;VALUE=DATE:20280416
+SUMMARY:Anniversary: Shenphen Dawa Rinpoche (1950–2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-18-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280418
+DTEND;VALUE=DATE:20280419
+SUMMARY:Anniversary: 3rd Jamgön Kongtrul Rinpoche (1954-1992)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamg%C3%B6n_Kongtrul
+ _Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-04-19-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280419
+DTEND;VALUE=DATE:20280420
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-20-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280420
+DTEND;VALUE=DATE:20280421
+SUMMARY:Anniversary: Jetsün Taranatha (1575-1634)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taranatha
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-04-23-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280423
+DTEND;VALUE=DATE:20280424
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-04-24-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280424
+DTEND;VALUE=DATE:20280425
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280424
+DTEND;VALUE=DATE:20280425
+SUMMARY:Anniversary: Jamyang Loter Wangpo (1847-1914)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Loter_Wangpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-04-29-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280429
+DTEND;VALUE=DATE:20280430
+SUMMARY:Anniversary: Kalu Rinpoche (1905-1989)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kalu_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-02-8@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280502
+DTEND;VALUE=DATE:20280503
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-04-10@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280504
+DTEND;VALUE=DATE:20280505
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-08-15@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280508
+DTEND;VALUE=DATE:20280509
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-09-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280509
+DTEND;VALUE=DATE:20280510
+SUMMARY:Anniversary: Tertön Mingyur Dorjé (1645-1667)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tert%C3%B6n_Mingyur_
+ Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-11-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280511
+DTEND;VALUE=DATE:20280512
+SUMMARY:Anniversary: Dezhung Rinpoche (1906-1987)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dezhung_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-15-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280515
+DTEND;VALUE=DATE:20280516
+SUMMARY:Anniversary: Jigdral Dagchen Sakya Rinpoche (1929-2016)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jigdal_Dagchen_Sakya
+ _Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-17-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280517
+DTEND;VALUE=DATE:20280518
+SUMMARY:Anniversary: Khandro Tsering Chödrön (1929-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khandro_Tsering_Ch%C
+ 3%B6dr%C3%B6n
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-19-25@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280519
+DTEND;VALUE=DATE:20280520
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-19-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280519
+DTEND;VALUE=DATE:20280520
+SUMMARY:Anniversary: The Great Fifth Dalai Lama (1617-1682)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Fifth_Dalai_Lama
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-23-29@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280523
+DTEND;VALUE=DATE:20280524
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-23-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280523
+DTEND;VALUE=DATE:20280524
+SUMMARY:Anniversary: Gatön Ngawang Lekpa (1867-1941)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gat%C3%B6n_Ngawang_L
+ ekpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-24-30@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280524
+DTEND;VALUE=DATE:20280525
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-24-0@slicedharma.com
+DTSTAMP:20261003T001020Z
+DTSTART;VALUE=DATE:20280524
+DTEND;VALUE=DATE:20280525
+SUMMARY:Anniversary: Tertön Sangyé Lingpa (1340-1396)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sangye_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-05-30-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280530
+DTEND;VALUE=DATE:20280531
+SUMMARY:The Birth of the Buddha
+DESCRIPTION:The Buddha’s birth\, remembered on the 7th day of the 4th mo
+ nth (Kunkhyen Tenpe Nyima\, Vajra Wisdom). https://www.shambhala.com/tibe
+ tan-practice-days/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-05-31-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280531
+DTEND;VALUE=DATE:20280601
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-06-02-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280602
+DTEND;VALUE=DATE:20280603
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-06-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280606
+DTEND;VALUE=DATE:20280607
+SUMMARY:Anniversary: 14th Kunzig Shamar Rinpoche (1952-2014)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Shamar_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-06-07-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280607
+DTEND;VALUE=DATE:20280608
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-07-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280607
+DTEND;VALUE=DATE:20280608
+SUMMARY:Saga Dawa Düchen
+DESCRIPTION:One of the four great festivals: the Buddha’s enlightenment 
+ at Bodhgaya and his passing into parinirvāṇa. The whole month of Saga 
+ Dawa is a time of practice and generosity. https://www.rigpawiki.org/inde
+ x.php?title=Saga_Dawa_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-10-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280610
+DTEND;VALUE=DATE:20280611
+SUMMARY:Anniversary: Patrul Rinpoche (1808-1887)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Patrul_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-15-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280615
+DTEND;VALUE=DATE:20280616
+SUMMARY:Anniversary: the enlightenment of Mahasiddha Birupa (837-909)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Virupa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-06-17-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280617
+DTEND;VALUE=DATE:20280618
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-17-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280617
+DTEND;VALUE=DATE:20280618
+SUMMARY:Anniversary: Drikung Kyobpa Jigten Sumgön (1143-1217)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drikung_Kyobpa_Jikte
+ n_Sumg%C3%B6n
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-17-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280617
+DTEND;VALUE=DATE:20280618
+SUMMARY:Anniversary: Ngorchen Kunga Zangpo (1382-1456)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Ngorchen_Kunga_Zangp
+ o
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-18-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280618
+DTEND;VALUE=DATE:20280619
+SUMMARY:Anniversary: Dzongsar Jamyang Khyentse Rinpoche (1961-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-06-21-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280621
+DTEND;VALUE=DATE:20280622
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-21-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280621
+DTEND;VALUE=DATE:20280622
+SUMMARY:Anniversary: Jamgön Mipham Rinpoche (1846-1912)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Mipham_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-06-22-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280622
+DTEND;VALUE=DATE:20280623
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-22-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280622
+DTEND;VALUE=DATE:20280623
+SUMMARY:Anniversary: Nyala Pema Dündul (1816-1872)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyala_Pema_D%C3%BCnd
+ ul
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-23-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280623
+DTEND;VALUE=DATE:20280624
+SUMMARY:Anniversary: Terchen Chokgyur Lingpa (1829-1870)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Chokgyur_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-24-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280624
+DTEND;VALUE=DATE:20280625
+SUMMARY:Anniversary: 7th Dzongchen Pönlop Rinpoche (1965-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-26-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280626
+DTEND;VALUE=DATE:20280627
+SUMMARY:Anniversary: 17th Karmapa\, Ogyen Trinley Dorjé (1985-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-06-28-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280628
+DTEND;VALUE=DATE:20280629
+SUMMARY:Anniversary: Jamyang Khyentsé Chökyi Lodrö (1893-1959)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jamyang_Khyentse_Ch%
+ C3%B6kyi_Lodr%C3%B6
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-06-30-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280630
+DTEND;VALUE=DATE:20280701
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-01-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280701
+DTEND;VALUE=DATE:20280702
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-01-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280701
+DTEND;VALUE=DATE:20280702
+SUMMARY:Anniversary: Dilgo Khyentsé Yangsi Rinpoche (1993-)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Yangsi_Dilgo_Khyents
+ e_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-06-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280706
+DTEND;VALUE=DATE:20280707
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-06-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280706
+DTEND;VALUE=DATE:20280707
+SUMMARY:Dzamling Chisang\, Local Deities’ Day
+DESCRIPTION:A day of extensive offerings\, especially smoke offerings (san
+ g)\, to the local deities and spirits of the land\, often made on a hillt
+ op. https://www.rigpawiki.org/index.php?title=Dzamling_Chi_Sang
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-06-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280706
+DTEND;VALUE=DATE:20280707
+SUMMARY:Anniversary: His Holiness the 14th Dalai Lama Tenzin Gyatso (1935-
+ )
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-08-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280708
+DTEND;VALUE=DATE:20280709
+SUMMARY:Anniversary: Nyoshul Lungtok (1829-1901)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyoshul_Lungtok
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-09-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280709
+DTEND;VALUE=DATE:20280710
+SUMMARY:Anniversary: Shechen Gyaltsab Gyurme Pema Namgyal (1871-1926)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Shechen_Gyaltsab_Gyu
+ rme_Pema_Namgyal
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-10-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280710
+DTEND;VALUE=DATE:20280711
+SUMMARY:Anniversary: Khenpo Ngakchung (1879-1941)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Ngakchung
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-15-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280715
+DTEND;VALUE=DATE:20280716
+SUMMARY:Anniversary: Khenpo Akhyuk Rinpoche (1927-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenpo_Akhyuk
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-16-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280716
+DTEND;VALUE=DATE:20280717
+SUMMARY:Anniversary: Lungtok Shedrup Tenpé Nyima (1920-?)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-17-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280717
+DTEND;VALUE=DATE:20280718
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-21-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280721
+DTEND;VALUE=DATE:20280722
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-22-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280722
+DTEND;VALUE=DATE:20280723
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-25-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280725
+DTEND;VALUE=DATE:20280726
+SUMMARY:Chökhor Düchen
+DESCRIPTION:One of the four great festivals: seven weeks after his enlight
+ enment the Buddha first turned the wheel of Dharma at Sarnath\, teaching 
+ the Four Noble Truths. https://www.rigpawiki.org/index.php?title=Ch%C3%B6
+ khor_D%C3%BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-07-25-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280725
+DTEND;VALUE=DATE:20280726
+SUMMARY:Anniversary: Drikung Kyabgön Chetsang Rinpoche (1946-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-29-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280729
+DTEND;VALUE=DATE:20280730
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-07-31-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280731
+DTEND;VALUE=DATE:20280801
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-04-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280804
+DTEND;VALUE=DATE:20280805
+SUMMARY:Anniversary: 3rd Karmapa\, Rangjung Dorjé (1284-1339)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rangjung_Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-08-05-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280805
+DTEND;VALUE=DATE:20280806
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-05-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280805
+DTEND;VALUE=DATE:20280806
+SUMMARY:Anniversary: Gampopa (1079-1153)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Gampopa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-08-15-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280815
+DTEND;VALUE=DATE:20280816
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-08-19-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280819
+DTEND;VALUE=DATE:20280820
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-08-20-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280820
+DTEND;VALUE=DATE:20280821
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-24-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280824
+DTEND;VALUE=DATE:20280825
+SUMMARY:Anniversary: Kabjé Trulshik Rinpoche (1924-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Trulshik_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-08-27-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280827
+DTEND;VALUE=DATE:20280828
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-27-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280827
+DTEND;VALUE=DATE:20280828
+SUMMARY:Anniversary: Nyoshul Khenpo Jamyang Dorjé (1932-1999)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-27-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280827
+DTEND;VALUE=DATE:20280828
+SUMMARY:Anniversary: Dudjom Sangyum Kusho Rigdzin Wangmo (-2014)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-28-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280828
+DTEND;VALUE=DATE:20280829
+SUMMARY:Anniversary: Sogyal Rinpoche (1947-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-08-29-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280829
+DTEND;VALUE=DATE:20280830
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-08-29-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280829
+DTEND;VALUE=DATE:20280830
+SUMMARY:Anniversary: Jomo Menmo (1248–1283)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jomo_Menmo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-09-03-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280903
+DTEND;VALUE=DATE:20280904
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-03-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280903
+DTEND;VALUE=DATE:20280904
+SUMMARY:Anniversary: Drapa Ngönshe's discovery of the Four Medical Tantra
+ s (1012-1090)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Drapa_Ng%C3%B6nsh%C3
+ %A9
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-03-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280903
+DTEND;VALUE=DATE:20280904
+SUMMARY:Anniversary: Tsarchen Losal Gyatso (1502-1566)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsarchen_Losal_Gyats
+ o
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-03-2@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280903
+DTEND;VALUE=DATE:20280904
+SUMMARY:Anniversary: Kunkhyen Pema Karpo (1527-1592)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Pema_Karpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-04-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280904
+DTEND;VALUE=DATE:20280905
+SUMMARY:Anniversary: Nyoshul Khenpo Jamyang Dorjé (1932-1999)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Nyoshul_Khenpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-04-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280904
+DTEND;VALUE=DATE:20280905
+SUMMARY:Anniversary: Chökyi Nyima Rinpoche (1951-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-07-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280907
+DTEND;VALUE=DATE:20280908
+SUMMARY:Anniversary: Bairo Rinpoche (1933-2017)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Bairo_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-07-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280907
+DTEND;VALUE=DATE:20280908
+SUMMARY:Anniversary: Kyabgön Gongma Trichen Rinpoche (1945-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-13-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280913
+DTEND;VALUE=DATE:20280914
+SUMMARY:Anniversary: Kyabjé Menri Trizin Rinpoche (1929-2017)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-09-14-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280914
+DTEND;VALUE=DATE:20280915
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-14-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280914
+DTEND;VALUE=DATE:20280915
+SUMMARY:Anniversary: Phagmodrupa (1110-1170)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Phagmodrupa_Dorje_Gy
+ alpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-09-17-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280917
+DTEND;VALUE=DATE:20280918
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-09-18-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280918
+DTEND;VALUE=DATE:20280919
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-09-26-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280926
+DTEND;VALUE=DATE:20280927
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-27-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280927
+DTEND;VALUE=DATE:20280928
+SUMMARY:Anniversary: Namkhai Norbu Rinpoche (1938-2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-09-28-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280928
+DTEND;VALUE=DATE:20280929
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-09-28-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20280928
+DTEND;VALUE=DATE:20280929
+SUMMARY:Anniversary: Neten Chokling Rinpoche (1973-)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Neten_Chokling_Rinpo
+ che
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-02-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281002
+DTEND;VALUE=DATE:20281003
+SUMMARY:Anniversary: Domang Yangthang Rinpoche (1930-2016)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Yangthang_Rinpoche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-10-03-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281003
+DTEND;VALUE=DATE:20281004
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-07-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281007
+DTEND;VALUE=DATE:20281008
+SUMMARY:Anniversary: Kyabje Dilgo Khyentse Rinpoche (1910-1991)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Dilgo_Khyentse_Rinpo
+ che
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-10-13-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281013
+DTEND;VALUE=DATE:20281014
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-13-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281013
+DTEND;VALUE=DATE:20281014
+SUMMARY:Anniversary: Rigdzin Kumaradza (1266-1343)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kumaradza
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-13-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281013
+DTEND;VALUE=DATE:20281014
+SUMMARY:Anniversary: Katok Tsewang Norbu (1698-1755)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Katok_Tsewang_Norbu
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-10-17-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281017
+DTEND;VALUE=DATE:20281018
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-10-18-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281018
+DTEND;VALUE=DATE:20281019
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-20-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281020
+DTEND;VALUE=DATE:20281021
+SUMMARY:Anniversary: Rigdzin Jigmé Lingpa (1729-1798)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Jigme_Lingpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-23-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281023
+DTEND;VALUE=DATE:20281024
+SUMMARY:Anniversary: Dzigar Kongtrul Rinpoche (1964-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-10-25-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281025
+DTEND;VALUE=DATE:20281026
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-26-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281026
+DTEND;VALUE=DATE:20281027
+SUMMARY:Anniversary: 16th Gyalwang Karmapa (1924-1981)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Rangjung_Rigp%C3%A9_
+ Dorje
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-26-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281026
+DTEND;VALUE=DATE:20281027
+SUMMARY:Anniversary: Khenpo Karthar Rinpoche (1924-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-10-27-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281027
+DTEND;VALUE=DATE:20281028
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-10-29-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281029
+DTEND;VALUE=DATE:20281030
+SUMMARY:Anniversary: Lodi Gyari Rinpoche (1949-2018)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-01-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281101
+DTEND;VALUE=DATE:20281102
+SUMMARY:Anniversary: Khön Könchok Gyalpo (1034-1102)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Kh%C3%B6n_K%C3%B6nch
+ ok_Gyalpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-01-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281101
+DTEND;VALUE=DATE:20281102
+SUMMARY:Anniversary: Khyungpo Naljor (c. 1050-1140)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khyungpo_Naljor
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-01-2@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281101
+DTEND;VALUE=DATE:20281102
+SUMMARY:Anniversary: Sachen Kunga Nyingpo (1092-1158)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sachen_Kunga_Nyingpo
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-11-02-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281102
+DTEND;VALUE=DATE:20281103
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-05-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281105
+DTEND;VALUE=DATE:20281106
+SUMMARY:Anniversary: Atiśa Dīpaṃkara (982-1054)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Atisha
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-09-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281109
+DTEND;VALUE=DATE:20281110
+SUMMARY:Lhabab Düchen
+DESCRIPTION:One of the four great festivals: the Buddha’s return to eart
+ h after spending three months teaching in the god realm\, where his mothe
+ r had been reborn. https://www.rigpawiki.org/index.php?title=Lha_Bab_D%C3
+ %BCchen
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-11-11-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281111
+DTEND;VALUE=DATE:20281112
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Day 25 is skipped this month\, so it is ke
+ pt today. Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the d
+ ay after instead. Tibetan day 25. https://slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-11-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281111
+DTEND;VALUE=DATE:20281112
+SUMMARY:Anniversary: Adzom Drukpa (1842-1924)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Adzom_Drukpa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-11-15-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281115
+DTEND;VALUE=DATE:20281116
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-11-16-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281116
+DTEND;VALUE=DATE:20281117
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-17-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281117
+DTEND;VALUE=DATE:20281118
+SUMMARY:Anniversary: Chagdud Tulku Rinpoche (1930-2002)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-18-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281118
+DTEND;VALUE=DATE:20281119
+SUMMARY:Anniversary: 7th Ling Rinpoche (1985-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-19-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281119
+DTEND;VALUE=DATE:20281120
+SUMMARY:Anniversary: Kyabgon Gongma Trizin Rinpoche (1974-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-20-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281120
+DTEND;VALUE=DATE:20281121
+SUMMARY:Anniversary: Yongey Mingyur Rinpoche (1975-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-11-24-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281124
+DTEND;VALUE=DATE:20281125
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-11-26-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281126
+DTEND;VALUE=DATE:20281127
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-11-26-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281126
+DTEND;VALUE=DATE:20281127
+SUMMARY:Anniversary: Tulku Pegyal Rinpoche (1931-2001)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tulku_Pegyal
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-01-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281201
+DTEND;VALUE=DATE:20281202
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-10-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281210
+DTEND;VALUE=DATE:20281211
+SUMMARY:Anniversary: Chamchen Chöjé (1354-1435)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-11-25@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281211
+DTEND;VALUE=DATE:20281212
+SUMMARY:Ḍākinī Day
+DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-11-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281211
+DTEND;VALUE=DATE:20281212
+SUMMARY:Anniversary: Jé Tsongkhapa (1357-1419)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsongkhapa
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-14-29@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281214
+DTEND;VALUE=DATE:20281215
+SUMMARY:Dharmapāla Day
+DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
+ gs\, to the Dharma protectors. Day 29 is skipped this month\, so it is ke
+ pt today. Some calendars (e.g. tibetanbuddhistcalendar.org) keep it the d
+ ay after instead. Tibetan day 29. https://slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-15-30@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281215
+DTEND;VALUE=DATE:20281216
+SUMMARY:New Moon
+DESCRIPTION:The new moon: a powerful day for purification\, such as Vajras
+ attva practice and renewing vows (sojong). Tibetan day 30. https://sliced
+ harma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-17-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281217
+DTEND;VALUE=DATE:20281218
+SUMMARY:Anniversary: Dzogchen Rinpoche (1964-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-18-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281218
+DTEND;VALUE=DATE:20281219
+SUMMARY:Anniversary: Thinley Norbu Rinpoche (1931-2011)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Thinley_Norbu_Rinpoc
+ he
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-19-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281219
+DTEND;VALUE=DATE:20281220
+SUMMARY:Anniversary: Garje Khamtrul Rinpoche Jamyang Döndrup (1928-2019)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-19-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281219
+DTEND;VALUE=DATE:20281220
+SUMMARY:Anniversary: Tsikey Chokling Rinpoche (1953-2020)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Tsikey_Chokling_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-24-8@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281224
+DTEND;VALUE=DATE:20281225
+SUMMARY:Medicine Buddha Day
+DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
+ ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-25-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281225
+DTEND;VALUE=DATE:20281226
+SUMMARY:Anniversary: 6th Ling Rinpoche (1903-1983)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-25-1@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281225
+DTEND;VALUE=DATE:20281226
+SUMMARY:Anniversary: Shechen Rabjam Rinpoche (1967-)
+DESCRIPTION:From tibetanbuddhistcalendar.org’s list of anniversaries.
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-26-10@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281226
+DTEND;VALUE=DATE:20281227
+SUMMARY:Guru Rinpoche Day
+DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
+ e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-27-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281227
+DTEND;VALUE=DATE:20281228
+SUMMARY:Anniversary: Lopön Sönam Tsemo (1142-1182)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=S%C3%B6nam_Tsemo
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-29-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281229
+DTEND;VALUE=DATE:20281230
+SUMMARY:Anniversary: Taklung Tsetrul Rinpoche (1926–2015)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Taklung_Tsetrul_Rinp
+ oche
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-30-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281230
+DTEND;VALUE=DATE:20281231
+SUMMARY:Anniversary: Sakya Pandita Kunga Gyaltsen (1182-1251)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Sakya_Pandita
+END:VEVENT
+BEGIN:VEVENT
+UID:ausp-2028-12-31-15@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281231
+DTEND;VALUE=DATE:20290101
+SUMMARY:Full Moon — Amitābha
+DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
+ rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
+ /slicedharma.com/ngondro/
+END:VEVENT
+BEGIN:VEVENT
+UID:ev-2028-12-31-0@slicedharma.com
+DTSTAMP:20261003T001021Z
+DTSTART;VALUE=DATE:20281231
+DTEND;VALUE=DATE:20290101
+SUMMARY:Anniversary: Kyabjé Khenchen Jigme Phuntsok Rinpoche (1933-2004)
+DESCRIPTION:https://www.rigpawiki.org/index.php?title=Khenchen_Jigme_Phunt
+ sok
+END:VEVENT
+END:VCALENDAR

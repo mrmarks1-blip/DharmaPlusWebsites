@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Make the practice-days feed</title>
+<style>
+  body { margin:0; padding:16px; font:16px/1.5 system-ui, sans-serif; max-width:720px; }
+  button { font:inherit; padding:10px 16px; }
+  iframe { width:1px; height:1px; border:0; position:absolute; left:-9999px; }
+  .soft { color:#666; font-size:14px; }
+</style>
+</head>
+<body>
+<h1>Make the practice-days feed</h1>
+<p class="soft">Not deployed (see <code>.assetsignore</code>). Builds <code>ngondro/practice-days.ics</code> from the app's own
+calendar code: auspicious days, festivals and anniversaries from 1 January this year for three years. Regenerate once a
+year: open this page with the local server running, press the button, save the file into <code>ngondro/</code>,
+bump <code>CACHE</code> in <code>ngondro/sw.js</code>, commit and release.</p>
+<button id="go" disabled>Loading the app…</button>
+<p id="out" class="soft"></p>
+<iframe id="app" src="../ngondro/"></iframe>
+<script>
+const app=document.getElementById('app'),go=document.getElementById('go'),out=document.getElementById('out');
+// Build the feed text with the app's own functions (feedEvents, icsDoc).
+window.buildFeed=()=>{const w=app.contentWindow,y=new Date().getFullYear();
+  const evs=w.feedEvents(new Date(y,0,1,12),new Date(y+3,0,1,12));
+  return w.icsDoc(evs,'Auspicious days · Dharma Practice');};
+app.addEventListener('load',()=>{go.disabled=false;go.textContent='Build and download practice-days.ics';});
+go.addEventListener('click',()=>{const t=window.buildFeed(),f=new Blob([t],{type:'text/calendar'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(f);a.download='practice-days.ics';a.click();
+  out.textContent=`${(t.match(/BEGIN:VEVENT/g)||[]).length} events, ${Math.round(t.length/1024)} KB.`;});
+</script>
+</body>
+</html>

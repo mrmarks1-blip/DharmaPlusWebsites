@@ -4,8 +4,10 @@ content/
 design/
 print/
 docs/
+tools/
 ngondro/tests.html
 # Repo housekeeping:
 README.md
 .gitignore
 .assetsignore
+.gitattributes
