@@ -2277,7 +2277,7 @@ function ovCalAbout(){const L=(l,u)=>`<a class="linkbtn" href="${u}" target="_bl
     <li>tibetanbuddhistcalendar.org, following the Rigpa calendar, uses the day <b>after</b> and the <b>first</b>.</li></ul>
     <p>You can choose. The app starts with tibetanbuddhistcalendar.org’s rule, and on the days where the other rule would differ, it says so. If your teacher or centre keeps them differently, follow them.</p>
     <div class="list">${[['after','The day after · the first day','As tibetanbuddhistcalendar.org (the default)'],['before','The day before · the second day','As the FPMT calendar']].map(([v,t,s])=>`<button class="item" data-act="calrule" data-v="${v}" role="radio" aria-checked="${calRule()===v}"><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span>${calRule()===v?'<span class="tag ok">Chosen</span>':''}</button>`).join('')}</div>
-    <p>Festivals and anniversaries follow the same rule. In a year with a leap month, they are kept in the main month.</p>`)}
+    <p>Festivals and anniversaries follow the same rule. In a year with a leap month, they are kept in the main month.</p>`,ST.calRuleOpen)}
   ${D('Phugpa and Tsurphu',`<p>There are two main Tibetan calendar systems. The <b>Phugpa</b> system, from 1447, is the one most Tibetans use, including the Dalai Lama and the Men-Tsee-Khang. This app uses it.</p>
     <p>The <b>Tsurphu</b> system comes from the Third Karmapa, Rangjung Dorje, and is still the official calendar of the Karma Kagyu. The two usually agree, but can differ by a day, and sometimes by a whole month: in 2014 Tsurphu Losar was on 31 January, Phugpa Losar on 2 March. A Tsurphu option may come later.</p>`)}
   ${D('The Men-Tsee-Khang',`<p>The Tibetan Medical and Astro-science Institute, founded in Lhasa in 1916 by the Thirteenth Dalai Lama and re-established in exile in Dharamsala in 1961. Its astrologers prepare the Phugpa almanac that many Tibetan communities and centres follow.</p>`)}
@@ -2886,7 +2886,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'sitpeek':ST.sitPeek=Date.now();setTimeout(()=>{if(ST.ov==='sit')render();},4100);break;
     case'mtend':{const d=mt().dedic;mtEnd();ST.ov=d?'dedicate':null;break;}
     case'mtfinish':{const d=mt().dedic;sitStop();keepAwake(false);ST.ov=d?'dedicate':null;break;}
-    case'calabout':ST.adayBack=ST.ov;ST.ov='calabout';break;
+    case'calabout':ST.calRuleOpen=!!el.closest('.sheet');ST.sheet=null;ST.adayBack=ST.ov;ST.ov='calabout';break;   // from Settings: open at the rule
     case'aday':ST.adayBack=ST.ov==='aday'?ST.adayBack:ST.ov;ST.sheet=null;ST.ov='aday';ST.arg=el.dataset.v;break;
     case'calprev':ST.calOff--;break;
     case'calnext':ST.calOff++;break;
