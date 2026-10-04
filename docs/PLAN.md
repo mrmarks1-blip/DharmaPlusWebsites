@@ -542,3 +542,27 @@ translations.
   medicine-buddha, sojong.
 - Tashi Mannox: licences and commissions available on his artwork pages.
 - Web Install API status: Chrome blog and InfoQ (links in section 5).
+
+---
+
+## Sixth round (4 October 2026), on branch v10-redesign, preview 4031c5bc, not on main yet
+Done:
+- **Texts:** long-life prayers for James Low, Lama Rabsang and Tai Situ Rinpoche (Palpung), transcribed from Gareth's images (Tibetan to be checked). The Prayer of Kuntuzangpo. A Patrul Rinpoche · Garab Dorje section (10 texts, Lotsawa House CC BY-NC).
+- **Seven-Line Prayer:** short intro plus James Low quotes; a blue HUNG in a radiant thigle (Jomolhari, OFL); a closing GURU PEMA SIDDHI HUNG.
+- **Sounds:** recorded bowls, rin, temple bell and gong (Wikimedia Commons, credited in About).
+- **Practice:** the dropdowns start closed; the timer and Practise together each have their own dropdown.
+- **Practise together v2:** shows how many have joined; a meeting plan (in person, Zoom or Meet) with calendar export; minutes groups; a 6-box code; the form keeps what you typed; share falls back to copy.
+- **Today:**
+  - Words for today on a drawn background that changes daily, with a new share icon.
+  - "Wanna practise?" countdown, which can float (picture-in-picture) and ends with a bell and a notification.
+- **Notifications and bells:** several reminders, a mindfulness bell (every 15 min to 3 h, from–until, days) and full-moon days. Done on the server too (worker cron).
+- **The full moon page** (Learn, #fullmoon), covering Tibetan, Theravāda and East Asian traditions, with sources.
+- **The tour:** 13 steps on the real pages; it opens after first-run setup.
+- **Audit:** docs/AUDIT-2026-10.md.
+
+Waiting on Gareth:
+- Check the Tibetan of the three image prayers.
+- What "treasure texts Patrul commented on" means.
+- Steps for "can't add my own practices to the calendar".
+- The audit recommendations.
+- Lama Lena quotes and the Khordong refuge tree (permission).
