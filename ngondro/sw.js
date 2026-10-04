@@ -22,6 +22,11 @@ const SHELL = [
   './icon-512-maskable.png',
   './apple-touch-icon.png',
   './favicon-32.png',
+  './sounds/bowl.mp3',
+  './sounds/bowl-small.mp3',
+  './sounds/rin.mp3',
+  './sounds/temple-bell.mp3',
+  './sounds/gong.mp3',
 ];
 
 // The quotes, for the daily "words for today" notification (the same file the app uses).

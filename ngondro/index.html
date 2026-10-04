@@ -275,9 +275,13 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .shqst i { width:24px; height:24px; border-radius:50%; border:1px solid var(--line); }
 .shqst.on { border-color:var(--accent); background:var(--glow); color:var(--accent-ink); }
 .sheet > * { flex-shrink:0; }
-.seedthig { width:112px; height:112px; margin:0 auto 10px; border-radius:50%; padding:6px; background:conic-gradient(#f4f1ea,#e2574c,#4a7fd4,#4caf6e,#f2c94c,#f4f1ea); }
-.seedthig span { width:100%; height:100%; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 50% 42%,#33406a,#141a2e 72%);
-  font-family:var(--f-tib); font-size:34px; line-height:1; color:#7fadff; text-shadow:0 0 14px rgba(111,160,255,.8); padding-bottom:4px; }
+.seedthig { position:relative; width:180px; height:180px; margin:0 auto 12px; border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#ffffff 0%,#f3f2ff 22%,#c9c8ff 55%,#9d9cf6 82%,#b9b8ff 100%);
+  box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 0 7px rgba(170,168,255,.55),0 0 26px 10px rgba(150,148,255,.55),inset 0 0 18px rgba(255,255,255,.9); overflow:hidden; }
+.seedthig::before { content:''; position:absolute; inset:0; border-radius:50%; opacity:.5;
+  background:repeating-conic-gradient(from 20deg,rgba(255,255,255,.55) 0deg 4deg,rgba(255,255,255,0) 4deg 30deg); mix-blend-mode:screen; filter:blur(3px); }
+.seedthig span { position:relative; width:100%; height:100%; display:grid; place-items:center; font-family:var(--f-tib); font-size:72px; font-weight:700; line-height:1;
+  color:#3a36e8; text-shadow:0 0 6px rgba(255,255,255,.9); padding-top:30px; }
 .jlq { border-left:3px solid var(--accent); padding:4px 0 4px 12px; margin:0; }
 .jlq p { font-size:var(--fs); }
 .sect.hl { border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line)); border-radius:var(--r-lg); padding:0 14px 8px; background:linear-gradient(135deg,var(--glow),transparent 70%); margin:6px 0; }
@@ -2035,7 +2039,7 @@ function progressCard(now){const P=ls('esm_plog',{}),cut=dayKey(plusDays(now,-60
 const MT_DEF={min:20,settle:15,interval:0,bell:'bowl',dim:true,motiv:true,dedic:true,presets:[]};
 const mt=()=>({...MT_DEF,...ls('esm_medtimer',{})});
 const mtSave=o=>lsSet('esm_medtimer',{...mt(),...o});
-const BELLS={bowl:'Singing bowl',bell:'Small bell',gong:'Deep gong'};
+const BELLS={bowl:'Tibetan singing bowl',bowlsmall:'Small singing bowl',bell:'Japanese rin',temple:'Temple bell',gong:'Gong'};
 // Meditation days and minutes from the diary's "Meditation" ticks (the timer adds minutes there).
 function medStats(now){const j=journal(),days=Object.keys(j).filter(k=>j[k].meditation).sort(),pre=dayKey(now).slice(0,8);
   const min=k=>typeof j[k].meditation==='number'?j[k].meditation:0;
@@ -2445,7 +2449,8 @@ function addActAmount(k,id,n){const cur=dayActs(k)[id];setAct(k,id,(typeof cur==
 // A day's ring: equal slices of each ticked activity's colour.
 function dayRing(k){const d=dayActs(k),A=acts().filter(a=>d[a.id]);if(!A.length)return'';const s=360/A.length;
   return A.length===1?`background:${A[0].color}`:`background:conic-gradient(${A.map((a,i)=>`${a.color} ${i*s}deg ${(i+1)*s}deg`).join(',')})`;}
-function chime(){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
+function chime(){playSnd('rin',.22,synthChime);}
+function synthChime(){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
   [[0,1046.5,.1],[.08,1568,.07]].forEach(([dl,f,g])=>{const o=ac.createOscillator(),gn=ac.createGain();o.type='sine';o.frequency.value=f;o.connect(gn);gn.connect(ac.destination);
     gn.gain.setValueAtTime(0,t+dl);gn.gain.linearRampToValueAtTime(g,t+dl+.01);gn.gain.exponentialRampToValueAtTime(.001,t+dl+.7);o.start(t+dl);o.stop(t+dl+.8);});}catch{}}
 const actAmount=v=>typeof v==='number'?fmt(v):'';
@@ -2553,6 +2558,8 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p class="h2" style="margin-top:18px">TEXTS AND TRANSLATIONS</p>
   <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Lama Chönam and Timothy Hinkle (Light of Berotsana), Sean Price, Yeshi Chötso, Abraham Ta-Quan and Sean Ross. A few sayings whose origin is unknown are credited as such. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
   <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
+  <p class="h2" style="margin-top:18px">SOUNDS</p>
+  <p class="small">Recordings from Wikimedia Commons: Tibetan singing bowls (11" and 4.5") by דג בלי מלח, CC BY-SA 4.0; Japanese rin by MichaelMaggs, CC BY-SA 4.0; temple bell (bonshō) by Jnn, CC BY 2.1 JP; gong by stephan, CC0. Trimmed and levelled for the app.</p>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
   <p class="h2" style="margin-top:18px">MEDITATION GUIDES</p>
@@ -2853,17 +2860,36 @@ function runBreath(){clearTimeout(brTimer);const st=NINE_ROUND[ST.br],orb=docume
 // ═══════════════════════════════════════════════════════════
 let audioCtx=null;
 // Three synthesised bells (no recordings, so nothing to license). times: strikes, about 3.5 s apart.
+// ── Recorded sounds (2026-10-04, Gareth: the synthesised ones sounded odd). Openly licensed recordings from
+// Wikimedia Commons, trimmed and levelled (credits in About): Tibetan singing bowls 11" and 4.5" by דג בלי מלח
+// (CC BY-SA 4.0), Japanese rin by MichaelMaggs (CC BY-SA 4.0), temple bell (bonshō) by Jnn (CC BY 2.1 JP), gong by
+// stephan (CC0). Decoded once and kept; the old synthesised tones remain only as a fallback.
+const SOUNDS={bowl:'sounds/bowl.mp3',bowlsmall:'sounds/bowl-small.mp3',rin:'sounds/rin.mp3',temple:'sounds/temple-bell.mp3',gong:'sounds/gong.mp3'};
+const BELL_FILE={bowl:'bowl',bowlsmall:'bowlsmall',bell:'rin',temple:'temple',gong:'gong'};
+const sndBuf={},sndJob={};
+const actx=()=>audioCtx||(audioCtx=new(window.AudioContext||window.webkitAudioContext)());
+function loadSnd(k){if(sndBuf[k])return Promise.resolve(sndBuf[k]);
+  return sndJob[k]||(sndJob[k]=fetch(SOUNDS[k]).then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>actx().decodeAudioData(b,ok,no))).then(b=>sndBuf[k]=b).catch(e=>{delete sndJob[k];throw e;}));}
+function playSnd(k,vol=1,fallback){if(!ls('esm_sound',true))return;try{const ac=actx();if(ac.state==='suspended')ac.resume();
+  loadSnd(k).then(b=>{const src=ac.createBufferSource(),g=ac.createGain();src.buffer=b;g.gain.value=vol;src.connect(g);g.connect(ac.destination);src.start();}).catch(()=>{if(fallback)fallback();});}catch{}}
+// Load the common ones at the first touch, so the first bell isn't late.
+addEventListener('pointerdown',()=>{try{actx();['bowl','bowlsmall','rin'].forEach(k=>loadSnd(k).catch(()=>{}));}catch{}},{once:true});
 const BELL_TONES={bowl:[[0,528,.3],[.12,396,.2],[.26,264,.16]],bell:[[0,1046,.22],[.02,1568,.12],[.05,2093,.06]],gong:[[0,196,.34],[.08,147,.24],[.2,98,.2]]};
-function bell(kind='bowl',vol=1,times=1){for(let i=1;i<times;i++)setTimeout(()=>bell(kind,vol),i*3500);try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx;
+function bell(kind='bowl',vol=1,times=1){for(let i=1;i<times;i++)setTimeout(()=>bell(kind,vol),i*4500);playSnd(BELL_FILE[kind]||'bowl',vol,()=>synthBell(kind,vol));}
+function synthBell(kind='bowl',vol=1){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx;
   (BELL_TONES[kind]||BELL_TONES.bowl).map(([dl,fr,g])=>[dl,fr,g*vol]).forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
     o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,t);o.frequency.exponentialRampToValueAtTime(fr*.5,t+3);
     gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(g,t+.04);gn.gain.exponentialRampToValueAtTime(.001,t+5);o.start(t);o.stop(t+6);});}catch{}}
-function softBowl(vol=.5,f=196){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
+function softBowl(vol=.5,f=196){playSnd('bowlsmall',vol,()=>synthSoftBowl(vol,f));}
+function synthSoftBowl(vol=.5,f=196){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
   [[1,.5],[2.76,.22],[5.4,.08],[8.9,.03]].forEach(([r,a])=>[-.7,.7].forEach(dt=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f*r+dt*r;
     o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a*vol*.5,t+.12);g.gain.exponentialRampToValueAtTime(.0005,t+(r>3?3.5:8));o.start(t);o.stop(t+8.5);}));}catch{}}
 // ── Cues for eyes-closed practice: soft tones (synthesised) or the phone's own voice ──
 // Tones: in rises, out falls, hold is a single soft note, change is two notes. Off with Settings > Sounds.
-function tone(kind){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
+// Breath cues: recorded bowls and the rin, softly; only the tiny counting tick stays synthesised.
+const TONE_SND={in:['bowlsmall',.35],out:['bowl',.3],hold:['rin',.18],change:['rin',.35],ten:['bowlsmall',.45]};
+function tone(kind){const t=TONE_SND[kind];if(t){playSnd(t[0],t[1],()=>synthTone(kind));return;}synthTone(kind);}
+function synthTone(kind){if(!ls('esm_sound',true))return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx,t=ac.currentTime;
   const seq={in:[[0,330,440]],out:[[0,440,330]],hold:[[0,392,392]],change:[[0,523,523],[.25,392,392]],ten:[[0,262,262],[.18,330,330]],tick:[[0,660,660]]}[kind]||[];
   seq.forEach(([dl,f0,f1])=>{const o=ac.createOscillator(),g=ac.createGain(),d=kind==='tick'?.12:.7;o.type='sine';o.connect(g);g.connect(ac.destination);
     o.frequency.setValueAtTime(f0,t+dl);o.frequency.linearRampToValueAtTime(f1,t+dl+d);g.gain.setValueAtTime(0,t+dl);g.gain.linearRampToValueAtTime(kind==='tick'?.05:.12,t+dl+.03);
