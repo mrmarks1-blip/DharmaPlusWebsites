@@ -2753,8 +2753,10 @@ function pageTexts(){
     `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}${lk.map(l=>linkItem(l[3],esc(l[1]),esc(l[2]))).join('')}</div>${g==='longlife'?'<p class="small" style="margin-top:6px">Prayers marked ↗ open on their own sites. More are on the way.</p>':''}`):'';}).join('');
   return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
   <button class="card feature" data-act="prayer" data-id="seven_line"><span class="ftib" lang="bo" aria-hidden="true">ཧཱུྃ</span><span class="grow"><b>The Seven-Line Prayer</b><span class="small">The heart prayer to Guru Rinpoche, with James Low on its meaning</span></span>${chev}</button>
+  <p class="h2" style="margin:8px 0 0">PRAYERS</p>
   ${groups}
   ${LOCKED.length?fold('t_locked','TEXTS THAT NEED TRANSMISSION',names(LOCKED.map(t=>t.title)),`<div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`):''}
+  ${fold('t_more','MORE','Listen · practice texts · when someone has passed',`<div class="stack">
   ${fold('t_listen','LISTEN','Chants and teachings: Vajrasound, C.R. Lama, Lama Lena',`<div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}
     ${linkItem('https://simplybeing.co.uk/texts-and-transcripts/seven-line-prayer-of-padmasambhava/','C.R. Lama: the Seven-Line Prayer','Recited three times (1994), with the text · Simply Being')}
     ${linkItem('https://simplybeing.co.uk/listen-to-rinpoche-2/','Listen to Chhimed Rigdzin Rinpoche','Recordings of C.R. Lama · Simply Being')}
@@ -2767,6 +2769,7 @@ function pageTexts(){
   <p class="small" style="margin:12px 0 8px">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
   <div class="list">${SAD.map(s=>`<div class="item" style="flex-wrap:wrap;cursor:default"><span class="grow"><span class="t">${esc(s.name)}</span><span class="s">${esc(s.sub)}</span></span>
     <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>`)}
+  </div>`)}
   </div></div>`;}
 function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar('Prayer');
   const vs=versesOf(pr),n=vs.length,i=Math.min(ST.verse,n-1),v=vs[i],last=i===n-1;
