@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-11';
+const CACHE = 'dp-v10-12';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
@@ -72,20 +72,28 @@ self.addEventListener('fetch', e => {
 // the words are chosen here on the phone, so the server never holds any texts.
 const dayNum = () => { const d = new Date(); return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000); };
 self.addEventListener('push', e => {
-  let kind = 'quote';
-  try { kind = (e.data && e.data.json().kind) || 'quote'; } catch {}
+  let d = {};
+  try { d = (e.data && e.data.json()) || {}; } catch {}
+  const kind = d.kind || 'quote';
   const all = QUOTES, cont = QUOTES.filter(q => q.cont);
-  const q = kind === 'nudge' ? cont[dayNum() % cont.length] : all[dayNum() % all.length];
-  const title = kind === 'nudge' ? 'A moment of practice today?' : kind === 'test' ? 'Notifications are on' : 'Words for today';
-  const body = kind === 'test' ? 'This is how your daily notifications will look.' : `${q.t.replace(/
-/g, ' ')}
-— ${q.a}`;
-  e.waitUntil(self.registration.showNotification(title, { body, icon: './icon-192.png', badge: './icon-192.png', tag: 'dharma-' + kind, data: { kind } }));
+  const q = kind === 'nudge' || kind === 'rem' ? cont[dayNum() % cont.length] : all[dayNum() % all.length];
+  const words = `${q.t.replace(/\n/g, ' ')}\n— ${q.a}`;
+  const N = {
+    quote: ['Words for today', words],
+    nudge: ['A moment of practice today?', words],
+    test: ['Notifications are on', 'This is how your notifications will look.'],
+    rem: [d.label || 'Time to practise', words],
+    bell: ['A mindfulness bell', 'Pause for a moment. One breath, just as it is.'],
+    moon: ['Full moon today', 'In many traditions a day for practice: in the Tibetan tradition its effects are said to be greatly multiplied. Tap for what you might do.'],
+  }[kind] || ['Dharma Practice', words];
+  e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind, renotify: kind === 'bell', data: { kind } }));
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    const hash = (e.notification.data || {}).kind === 'moon' ? '#fullmoon' : '';
     const open = list.find(c => c.url.includes('/ngondro/'));
-    return open ? open.focus() : self.clients.openWindow('./');
+    if (open) { if (hash) open.navigate('./' + hash).catch(() => {}); return open.focus(); }
+    return self.clients.openWindow('./' + hash);
   }));
 });
