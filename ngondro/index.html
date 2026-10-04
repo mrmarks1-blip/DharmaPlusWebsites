@@ -4191,7 +4191,13 @@ let qOrder=null;
 function quoteOrder(){if(qOrder&&qOrder.length===QUOTES.length)return qOrder;
   const a=QUOTES.map((_,i)=>i);let s=20260930;const r=()=>(s=(s*1103515245+12345)%2147483648)/2147483648;
   for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return qOrder=a;}
-function quoteHTML(anim=''){if(ST.qi==null)ST.qi=doy(new Date())%QUOTES.length;const q=QUOTES[quoteOrder()[ST.qi]];
+// Each time the app is opened (or come back to after a while), the next quote in the shuffled order (Gareth, 2026-10-04).
+// esm_qlast remembers where we were, so every quote comes round before any repeats.
+function nextOpenQuote(){const L=ls('esm_qlast',null);ST.qi=((L==null?doy(new Date()):L+1)+QUOTES.length)%QUOTES.length;lsSet('esm_qlast',ST.qi);}
+let qHidden=0;
+document.addEventListener('visibilitychange',()=>{if(document.hidden){qHidden=Date.now();return;}
+  if(qHidden&&Date.now()-qHidden>5*60000&&ST.tab==='today'&&!ST.ov&&!ST.sheet&&document.getElementById('qcard')){nextOpenQuote();const f=document.getElementById('quote');if(f)f.outerHTML=quoteHTML(' from-right');}});
+function quoteHTML(anim=''){if(ST.qi==null)nextOpenQuote();const q=QUOTES[quoteOrder()[ST.qi]];
   return`<figure class="quote${q.t.length>200?' long':''}${anim}" id="quote" aria-live="polite"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`;}
 function goQuote(dir){ST.qi=(ST.qi+dir+QUOTES.length)%QUOTES.length;const f=document.getElementById('quote');if(f)f.outerHTML=quoteHTML(dir>0?' from-right':' from-left');}
 function initQuotes(){const c=document.getElementById('qcard');if(!c)return;let x0=null,y0=0;
