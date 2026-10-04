@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-12';
+const CACHE = 'dp-v10-13';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
@@ -92,6 +92,7 @@ self.addEventListener('push', e => {
     bell: ['A mindfulness bell', 'Pause for a moment. One breath, just as it is.'],
     moon: ['Full moon today', 'In many traditions a day for practice: in the Tibetan tradition its effects are said to be greatly multiplied. Tap for what you might do.'],
   }[kind] || ['Dharma Practice', words];
+  if (kind === 'bell') self.clients.matchAll({ type: 'window' }).then(l => l.forEach(c => c.postMessage({ kind: 'bell' })));
   e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind, renotify: kind === 'bell', data: { kind } }));
 });
 self.addEventListener('notificationclick', e => {
