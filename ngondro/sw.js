@@ -11,6 +11,7 @@ const SHELL = [
   './fonts/atkinson-latin-ext.woff2',
   './fonts/fraunces-latin.woff2',
   './fonts/fraunces-latin-ext.woff2',
+  './fonts/jomolhari-seeds.woff2',
   './refuge-tree.jpg',
   './dm.jpg',
   './mandala.jpg',
