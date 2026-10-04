@@ -305,10 +305,19 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .card.feature { display:flex; align-items:center; gap:14px; text-align:left; border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); background:linear-gradient(135deg,var(--glow),var(--surface)); }
 .card.feature b { display:block; font-size:var(--fs-lg); }
 .ftib { font-family:var(--f-tib); font-size:34px; line-height:1; color:var(--accent-ink); width:52px; height:52px; display:grid; place-items:center; border-radius:50%; background:var(--surface); border:1px solid var(--line); flex:none; }
-.tourpill { position:absolute; left:50%; bottom:calc(84px + var(--safe-b)); transform:translateX(-50%); z-index:36; display:flex; align-items:center; gap:10px; padding:6px 6px 6px 16px; border-radius:999px;
-  background:var(--surface); border:1px solid var(--accent); box-shadow:0 6px 24px rgba(0,0,0,.22); font-weight:700; white-space:nowrap; }
-.tourpill .btn { min-height:40px; padding:0 14px; }
-.tourpill svg { width:18px; height:18px; }
+.tourcard { position:absolute; left:12px; right:12px; bottom:calc(80px + var(--safe-b)); z-index:36; max-width:520px; margin:0 auto; padding:14px 16px 16px;
+  border-radius:20px; background:var(--surface); border:1px solid var(--accent); box-shadow:0 10px 36px rgba(0,0,0,.28); display:flex; flex-direction:column; gap:8px; animation:tourIn .25s ease-out; }
+.tourcard b { font-size:var(--fs-lg); }
+.tourcard p { margin:0; }
+.tourcard .row .iconbtn { width:36px; height:36px; min-height:36px; }
+.tourdots { display:flex; gap:5px; justify-content:center; }
+.tourdots i { width:6px; height:6px; border-radius:50%; background:var(--line); }
+.tourdots i.on { background:var(--accent); width:16px; border-radius:3px; }
+@keyframes tourIn { from { opacity:0; transform:translateY(12px); } }
+body.touring .page { padding-bottom:300px; }
+.tourhi { position:relative; z-index:1; scroll-margin-top:16px; border-radius:16px; box-shadow:0 0 0 3px var(--accent),0 0 0 9px color-mix(in srgb,var(--accent) 25%,transparent) !important; animation:tourPulse 1.6s ease-in-out infinite; }
+@keyframes tourPulse { 50% { box-shadow:0 0 0 3px var(--accent),0 0 0 14px color-mix(in srgb,var(--accent) 8%,transparent); } }
+@media (prefers-reduced-motion:reduce) { .tourhi, .tourcard { animation:none; } }
 .sect { border-bottom:1px solid var(--line); padding-bottom:6px; }
 .sect > summary { display:flex; align-items:center; gap:10px; list-style:none; min-height:56px; padding:8px 2px; cursor:pointer; color:inherit; font-weight:400; }
 .sect > summary::-webkit-details-marker { display:none; }
@@ -2262,11 +2271,12 @@ function pageToday(){
   if(U.includes('words'))out.push(`<div class="card qcard" id="qcard"><p class="qhead">Words for today</p>${quoteHTML()}
     <div class="qnav"><div class="qarrows"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div>
       <button class="qshare" data-act="sharequote">${ico('sharenodes',1.8)}<span>Share</span></button></div></div>`);
-  out.push(practiseCard());
   if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
     <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
   // Progress shows if they count, or have counted lately; the timer if they meditate (both always on Practice).
+  // The countdown nudge waits while a session or a sit is already under way.
+  if(!(ST.tap.count>0)&&!(ST.sit&&!ST.sit.done))out.splice(U.includes('words')?2:1,0,practiseCard());
   const counted=Object.keys(ls('esm_plog',{})).some(k=>k>=dayKey(plusDays(now,-60)));
   out.push(remAskCard(),todayCard(now),U.includes('count')||counted?progressCard(now):'',U.includes('med')||(ST.sit&&ST.sit.ov==='sit')?medTimerCard(now):'');
   // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
@@ -2542,8 +2552,8 @@ function pageLearn(){
   <div class="list">
     ${item('practices','The practices','What each one is, in plain words',{ico:'practice'})}
     ${item('cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',{ico:'cal'})}
-    ${item('tour','A short tour','Counting, finish dates, reminders and keeping your practice safe',{ico:'info'})}
     ${item('fullmoon','The full moon','What it means in each tradition, and what you might do',{ico:'cal'})}
+    ${item('tour','A tour of the app','Thirteen short steps, page by page',{ico:'info'})}
     ${item('dana','Generosity','Supporting the teachers and centres behind this app',{ico:'heart'})}
     ${item('about','About this app','Why it exists, and who to thank',{ico:'info'})}
     ${isStandalone()?'':item('install','Add this app to your phone','Opens like any other app, and works offline',{ico:'phone'})}
@@ -2575,6 +2585,8 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
   <p class="h2" style="margin-top:18px">SOUNDS</p>
   <p class="small">Recordings from Wikimedia Commons: Tibetan singing bowls (11" and 4.5") by דג בלי מלח, CC BY-SA 4.0; Japanese rin by MichaelMaggs, CC BY-SA 4.0; temple bell (bonshō) by Jnn, CC BY 2.1 JP; gong by stephan, CC0. Trimmed and levelled for the app.</p>
+  <p class="h2" style="margin-top:18px">FONTS</p>
+  <p class="small">The seed syllables are set in Jomolhari by Christopher J. Fynn, under the SIL Open Font License.</p>
   <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
   <p class="h2" style="margin-top:18px">MEDITATION GUIDES</p>
@@ -3110,6 +3122,7 @@ function sheetWelcome(){return`<div class="grab"></div><h2 class="h1">Welcome to
   <p>An unofficial companion for Ngöndro and daily practice, made to lower the barrier and cut through to the heart of the teachings.</p>
   <button class="btn primary wide" data-act="closesheet">Begin</button>
   <button class="btn soft wide" data-act="setup">Set it up for me: tradition, Today page, a goal</button>
+  ${ls('esm_toured')?'':'<button class="btn soft wide" data-act="tour">A tour of the app</button>'}
   <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
   <button class="btn link" data-act="seen" style="align-self:center">Don’t show this again</button>`;}
@@ -3218,15 +3231,32 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
       ${item('sudaily','A daily reminder in your calendar','At a time you choose, in your phone’s own calendar',{ico:'cal'})}
       ${calTib()&&U.includes('cal')?item('sufeed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
     <button class="btn primary wide" data-act="sudone">Finish</button>
-    <button class="btn soft wide" data-act="sutour">Finish and take a short tour</button>`;}
-const TOUR=[['Counting a session','On the Practice page, tap “Count a session”, then tap anywhere on the screen, once for each mantra, prostration or round. You can hide the number: the colour changes with each tap instead. When you finish, choose which practice to add it to.','practice'],
-  ['A finish date','Open a practice and choose “Set a finish date”. The app works out how many a day you need, and sets the + button to that. Change the date any time and the daily amount changes with it.','practice'],
-  ['Reminders','In Settings (the cog at the top of Today), under Reminders: notifications with words for the morning and a gentle evening nudge, a daily reminder in your own calendar, and the auspicious days in your calendar.','settings'],
-  ['Keep your practice safe','Your counts and diary live only on this phone. Now and then, open Settings and choose “Send a copy to myself”. On a new phone, “Restore my practice from a copy” brings it all back.','settings']];
-function sheetTour(){const i=Math.min(ST.tour||0,TOUR.length-1),[t,b]=TOUR[i],last=i===TOUR.length-1;
-  return`<div class="grab"></div><div class="stack" data-swl="${last?'':'tournext'}" data-swr="tourprev"><p class="small" style="text-align:center;margin:0">${i+1} of ${TOUR.length}</p><h2 class="h1">${t}</h2><p>${b}</p>
-  <button class="btn soft wide" data-act="tourgo">Show me</button>
-  <div class="btns even"><button class="btn soft" data-act="tourprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closesheet':'tournext'}">${last?'Done':'Next'}</button></div></div>`;}
+    <button class="btn soft wide" data-act="sutour">Finish and take the tour</button>`;}
+// ── The tour (2026-10-04, Gareth: "a popup for first time users… run through all of the app bit by bit").
+// Each step: [title, words, tab, the part to light up]. It opens by itself once, after first-run setup (esm_toured).
+const TOUR=[
+  ['Words for today','A teaching for each day, on a different background. Swipe for another. Tap Share to send it as an image.','today','#qcard'],
+  ['A nudge to sit','Choose how long until you sit. On some phones the countdown can float over other apps; when it’s time, a bell.','today','.cdcard'],
+  ['The day','Today in the Tibetan calendar: the moon, auspicious days, and anything you’ve planned. Tap for more.','today','.tcard'],
+  ['Settings','The cog: your tradition and what Today shows; notifications, reminders and a mindfulness bell; and keeping a copy of your practice.','today','[data-act="settings"]'],
+  ['Counting a session','Tap “Count a session”, then tap anywhere on the screen, once for each mantra, prostration or round. At the end, choose which practice it goes to.','practice','.bigtile'],
+  ['Practise together','A shared count with your sangha or friends. Start one, or join with a six-letter code. Plan when you meet, in person or online, and add it to your calendar.','practice','[data-fold="p_together"]'],
+  ['Meditation timer','Set the length and the bells, then sit. Each sit goes in your diary.','practice','[data-fold="p_timer"]'],
+  ['Breath and open sitting','Guided breathing, from vajra breathing to counting the breath, and the Three Aa, as taught by James Low.','practice','[data-fold="p_breath"]'],
+  ['Ngöndro and other practices','Open a practice to count, keep notes, and set a finish date: the app works out how many a day you need.','practice','[data-fold="p_ngondro"]'],
+  ['Texts','Prayers to chant one verse at a time: swipe or tap to move on, and choose Tibetan, the sounds, or the meaning.','texts','.card.feature'],
+  ['Sections','Long-life prayers for the teachers, Patrul Rinpoche and Garab Dorje, smoke offerings, and what to do when someone has died. Tap a heading to open it.','texts','[data-fold="t_longlife"]'],
+  ['Learn','The refuge tree, the practices in plain words, the Tibetan calendar, the full moon, and how to support the teachers.','learn','.page .card'],
+  ['Keep your practice safe','Your counts and diary live only on this phone. Now and then, open Settings and choose “Send a copy to myself”. On a new phone, “Restore my practice” brings it all back.','today','[data-act="settings"]']];
+function tourCard(){const i=ST.tourOn,[t,b]=TOUR[i],last=i===TOUR.length-1;
+  return`<div class="tourcard" role="dialog" aria-label="Tour" data-swl="${last?'':'tournext'}" data-swr="tourprev"><div class="row"><span class="small grow">${i+1} of ${TOUR.length}</span><button class="iconbtn" data-act="tourend" aria-label="End the tour">${ico('close')}</button></div>
+  <b>${t}</b><p>${b}</p>
+  <div class="tourdots" aria-hidden="true">${TOUR.map((_,n)=>`<i${n===i?' class="on"':''}></i>`).join('')}</div>
+  <div class="btns even"><button class="btn soft" data-act="tourprev"${i?'':' disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="tournext">${last?'Finish':'Next'}</button></div></div>`;}
+function tourGo(i){if(i<0)return;if(i>=TOUR.length){ST.tourOn=null;lsSet('esm_toured',true);toast('That’s the tour. Enjoy your practice. It’s in Learn if you want it again.');return;}
+  ST.tourOn=i;ST.sheet=null;ST.ov=null;ST.tab=TOUR[i][2];}
+function tourHi(){document.body.classList.toggle('touring',ST.tourOn!=null&&!ST.sheet&&!ST.ov);if(ST.tourOn==null||ST.sheet||ST.ov)return;
+  const el=content.querySelector(TOUR[ST.tourOn][3]);if(!el)return;el.classList.add('tourhi');el.scrollIntoView({block:'start',behavior:'smooth'});}
 function sheetCalDays(){const on=calDays();
   return`<div class="grab"></div><h2 class="h1">Which days to show</h2><p class="small">On Today and in the calendar. Choose as many as you like.</p>
   <div class="list">${CALKINDS.map(([k,t,sub])=>`<button class="item" data-act="caldaytog" data-v="${k}" role="checkbox" aria-checked="${on.includes(k)}"><span class="grow"><span class="t">${t}</span><span class="s">${sub}</span></span><span class="tag${on.includes(k)?' ok':''}">${on.includes(k)?'On':'Off'}</span></button>`).join('')}</div>
@@ -3584,6 +3614,7 @@ const BARDO_LINKS=[['Garchen Rinpoche: Dying & Death Instructions (PDF)','https:
 function bardoBody(){const L=bardoList();
   return`<p>In the Tibetan tradition, the time after a death is a time to help: through prayer, practice and dedicating merit to the person who has died. It is traditionally said to last up to 49 days.</p>
   <p>Garchen Rinpoche advises reciting the Wishing Prayer of Dewachen (Sukhāvatī) and/or the Prayer of Kuntuzangpo every day for the 49 days, or at the very least every seventh day after the passing. The mantras of Amitābha and Chenrezig (OM MANI PEME HUNG) can be recited too, and everything dedicated to them.</p>
+  <button class="btn soft wide" data-act="prayer" data-id="kuntuzangpo">${ico('texts')} The Prayer of Kuntuzangpo, here in the app</button>
   <div class="links">${BARDO_LINKS.map(([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div>
   ${L.length?`<div class="list">${L.map((b,i)=>{const nx=bardoDays(b).find(x=>x.d>=noonOf(new Date()));return`<div class="item" style="cursor:default"><span class="grow"><span class="t">${b.name?esc(b.name):'Someone dear to you'}</span><span class="s">${nx?`Week ${nx.k} of 7 · ${nx.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}`:'The 49 days are complete'}</span></span><button class="iconbtn" data-act="bardodel" data-v="${i}" aria-label="Remove">${ico('trash')}</button></div>`;}).join('')}</div>`:''}
   <button class="btn soft wide" data-act="bardo">${ico('cal')} Mark the seven weeks in my calendar</button>
@@ -3823,7 +3854,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={dana:ovDana,fullmoon:ovFullMoon,aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,tour:sheetTour,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -3869,13 +3900,14 @@ function render(){
     <div class="sheetbar" id="sheetbar"><span class="grab"></span><button class="xclose" data-act="closesheet" aria-label="Close">${ico('close')}</button></div>
     ${SHEETS[ST.sheet]().replace('<div class="grab"></div>','')}</div></div>`;
   html+=sitPill();
-  if(ST.tourOn!=null&&!ST.sheet)html+=`<div class="tourpill" role="status"><span>Tour · ${ST.tourOn+1} of ${TOUR.length}</span><button class="btn primary" data-act="tourcont">${ST.tourOn>=TOUR.length-1?'Finish':'Next'} ${ico('chev')}</button><button class="iconbtn" data-act="tourend" aria-label="End the tour">${ico('close')}</button></div>`;
+  if(ST.tourOn!=null&&!ST.sheet&&!ST.ov)html+=tourCard();
   const toastNew=ST.toast&&ST.toast!==lastToast;lastToast=ST.toast;
   if(ST.toast)html+=`<div class="toast${toastNew?' enter':''}" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
   content.innerHTML=html;
   {const p=content.querySelector('.page');if(p){if(keep.p!=null)p.scrollTop=keep.p;else if(sameTab&&pageScroll[ST.tab])p.scrollTop=pageScroll[ST.tab];}}
   if(keep.o!=null){const o=content.querySelector('.ovbody');if(o)o.scrollTop=keep.o;}
   // Post-render hooks
+  tourHi();
   if(ST.tab==='today'){initQuotes();paintQuoteBg();if(!ST.sheet&&!ST.ov){const nm=checkMiles();if(nm){ST.sheet='mile';ST.sarg=nm;render();return;}}}
   if(ST.sheet){initSheetDrag();const s=content.querySelector('.sheet');if(s&&!opening&&keepSheet)s.scrollTop=keepSheet;}
   if(ST.ov==='practice'){const g=document.getElementById('beadgrid'),p=findPR(ST.arg);if(g&&p)g.appendChild(renderGrid(p,getPD(p.id).counter||0));}
@@ -4037,18 +4069,15 @@ document.getElementById('app').addEventListener('click',e=>{
       if(ds&&ds>=dayKey()){const pd=getPD(gid),pace=paceFromDate(pd.counter||0,ds,p.target);if(pace>0){savePD(gid,{...pd,pace});toast(`${p.name}: ${fmt(pace)} a day. The + button is set to that.`);}}
       else toast(`${p.name} now shows on Today`);
       ST.su.step=4;ST.su.goal=null;break;}
-    case'sudone':suDone();break;
-    case'sutour':suDone();ST.tour=0;sheet('tour');break;
+    case'sudone':suDone();if(!ls('esm_toured'))tourGo(0);break;
+    case'sutour':suDone();tourGo(0);break;
     case'supush':suDone();sheet('push');break;
     case'sudaily':suDone();sheet('daily');break;
     case'sufeed':suDone();sheet('feed');break;
-    case'tour':ST.tour=0;sheet('tour');break;
-    case'tournext':ST.tour=(ST.tour||0)+1;break;
-    case'tourprev':ST.tour=Math.max(0,(ST.tour||0)-1);break;
-    case'tourgo':{const i=Math.min(ST.tour||0,TOUR.length-1),w=TOUR[i][2];ST.tourOn=i;ST.sheet=null;ST.ov=null;
-      if(w==='settings'){ST.tab='today';ST.sheet='settings';}else ST.tab=w;break;}
-    case'tourcont':{const i=ST.tourOn;ST.tourOn=null;if(i==null)break;if(i>=TOUR.length-1){ST.sheet=null;toast('That’s the tour. Enjoy your practice.');break;}ST.tour=i+1;ST.sheet='tour';ST.ov=null;break;}
-    case'tourend':ST.tourOn=null;break;
+    case'tour':tourGo(0);break;
+    case'tournext':tourGo(ST.tourOn+1);break;
+    case'tourprev':tourGo(Math.max(0,ST.tourOn-1));break;
+    case'tourend':ST.tourOn=null;lsSet('esm_toured',true);break;
     case'caldays':sheet('caldays');break;
     case'sharequote':ST.shq={qi:quoteOrder()[ST.qi],fmt:(ST.shq&&ST.shq.fmt)||'post',style:ls('esm_qart',true)===false?ls('esm_shq_style','brocade'):qbgStyle()};sheet('sharequote');break;
     case'shqfmt':ST.shq={...ST.shq,fmt:el.dataset.v,blob:null};break;
