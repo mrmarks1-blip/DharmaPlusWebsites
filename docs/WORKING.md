@@ -15,7 +15,7 @@ Codes in brackets (A1, C5…) point back to the review checklist in `docs/archiv
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 4,800 lines, **CRLF line endings** (keep them; never use sed on it) |
-| Service worker | `practice/sw.js`. Live: `dp-v10-17` (main 86bea35). The branch has `dp-v10-18` (not live yet). Next after that: `dp-v10-19`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-18` (main 23d7190, 5 Nov 2026). Next release: `dp-v10-19`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Push server, groups | `worker/` + D1 database `dharma-push` + a 15-minute cron (`wrangler.jsonc`) |
 | Home page | `index.html` ("Sliced Dharma") |
@@ -119,7 +119,7 @@ stay as they are. They aren't protected, so later work can change or remove them
 
 ## 6. To do
 
-Built on 2026-11-05, on the branch and not live yet (SW `dp-v10-18`): quick-add memory, share-image random
+Live since 2026-11-05 (main 23d7190, SW `dp-v10-18`): quick-add memory, share-image random
 background and prompt, tap-count backgrounds, Ko-fi wording, and the Generosity additions (section 5).
 
 Waiting on Gareth to choose:
