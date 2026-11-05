@@ -15,7 +15,7 @@ Codes in brackets (A1, C5…) point back to the review checklist in `docs/archiv
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 4,800 lines, **CRLF line endings** (keep them; never use sed on it) |
-| Service worker | `practice/sw.js`. Live: `dp-v10-18` (main 23d7190, 5 Nov 2026). Next release: `dp-v10-19`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-19` (main 3646112, 5 Nov 2026). Next release: `dp-v10-20`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Push server, groups | `worker/` + D1 database `dharma-push` + a 15-minute cron (`wrangler.jsonc`) |
 | Home page | `index.html` ("Sliced Dharma") |
@@ -42,6 +42,8 @@ Codes in brackets (A1, C5…) point back to the review checklist in `docs/archiv
 - **Keep the brand name easy to swap (A7).** Gareth isn't sold on "Sliced Dharma".
 - **Test at phone size before calling anything done (A8):** 375×812 and 375×667.
 - **Don't assume (A9).** Research, ask Gareth, and say when unsure.
+- **Treat saved data as untrusted.** Restoring a backup file writes any `esm_` value, and a file can be doctored.
+  Check stored values against known choices before putting them into the page (see `sessBgOK` for the pattern).
 
 ---
 
