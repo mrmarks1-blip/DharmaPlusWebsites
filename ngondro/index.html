@@ -2570,6 +2570,7 @@ function ovPractice(){
       ${item('add','Add a number','For practice counted elsewhere, e.g. on a mala',{ico:'plus',attrs:`data-id="${id}"`})}
       ${(pd.undo||[]).length?item('undo','Undo last change',`Back to ${fmt(pd.undo[pd.undo.length-1].counter)}`,{ico:'undo',attrs:`data-id="${id}"`,right:''}):''}
       ${done?'':item('date','Set a finish date','Works out how many a day you need',{ico:'cal',attrs:`data-id="${id}"`})}
+      ${pushSupported()?item('premfor','Remind me each day',pushCfg().rem.some(r=>r.pr===id)?'Set · change the time or days':'At a time you choose, with words for the day',{ico:'phone',attrs:`data-id="${id}"`}):''}
     </div>
     ${fin&&!done?`<p class="note">At ${fmt(pace)} a day you will finish around ${fmtD(fin)}.</p>`:''}
     ${pd.lastDate?`<p class="small">Last practised ${fmtD(pd.lastDate)}.</p>`:''}
@@ -3399,7 +3400,9 @@ const pushCfg=()=>({on:false,quoteTime:'08:00',nudgeTime:'20:00',quote:true,nudg
 const WD=['S','M','T','W','T','F','S'],WD_ORDER=[1,2,3,4,5,6,0];
 // Full-moon days for the next year, by this phone's own moon calendar.
 function fullMoonDates(n=400){const out=[];for(let i=0;i<n;i++){const d=plusDays(new Date(),i);if(moonPhaseOn(d)==='Full Moon')out.push(dayKey(d));}return out;}
-function pushSched(c){return{rem:c.rem.filter(r=>r.t),bell:c.bell&&c.bell.on?c.bell:null,moons:c.moon&&c.moon.on?fullMoonDates():[],moonTime:c.moon&&c.moon.on?c.moon.time:null};}
+// A reminder's title is the person's own words, or "Time for practice". If it is for one practice (r.pr), a tap opens it.
+const remTitle=r=>r.label||'Time for practice';
+function pushSched(c){return{rem:c.rem.filter(r=>r.t).map(r=>({id:r.id,t:r.t,d:r.d,label:remTitle(r),pr:r.pr&&findPR(r.pr)?r.pr:''})),bell:c.bell&&c.bell.on?c.bell:null,moons:c.moon&&c.moon.on?fullMoonDates():[],moonTime:c.moon&&c.moon.on?c.moon.time:null};}
 const pushSupported=()=>'serviceWorker'in navigator&&'PushManager'in window&&'Notification'in window;
 const b64u=s=>{const b=atob(s.replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(b,c=>c.charCodeAt(0));};
 async function pushSubscribe(test){const c=pushCfg(),reg=await navigator.serviceWorker.ready;
@@ -3430,7 +3433,9 @@ function sheetPush(){const c=pushCfg(),ios=isIOS();
   return`<div class="grab"></div><h2 class="h1">Notifications from the app</h2>
   <div class="list">${row('quote','Words for today','A different quote each morning','quoteTime')}${row('nudge','An evening nudge','Only on days you haven’t practised, with a word of encouragement','nudgeTime')}</div>
   <p class="h2" style="margin:0">REMINDERS</p>
-  ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${r.t}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="e.g. Morning practice" aria-label="What it’s for"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>${days(r.d,'premday',i)}</div>`).join('')}
+  ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${r.t}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="Time for practice" aria-label="What it’s for"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>
+    <label class="small">Practice <select data-pf="rem.${i}.pr"><option value="">Any practice</option>${allPR().map(p=>`<option value="${esc(p.id)}"${r.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>${days(r.d,'premday',i)}</div>`).join('')}
+  <p class="small">Each reminder comes with a few words from the quotes. Tapping it opens the practice.</p>
   <button class="btn soft wide" data-act="premadd">${ico('plus')} Add a reminder</button>
   <p class="h2" style="margin:0">MINDFULNESS BELL</p>
   <div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pbelltog" style="text-align:left" role="switch" aria-checked="${B.on}"><span class="t">A bell through the day</span><span class="s">A moment to pause and come back to the breath</span></button><span class="tag${B.on?' ok':''}">${B.on?'On':'Off'}</span></div>
@@ -4478,6 +4483,8 @@ document.getElementById('app').addEventListener('click',e=>{
     case'pushoff':pushOff();return;
     case'pushtoggle':{const c=pushReadForm();lsSet('esm_push',{...c,[el.dataset.v]:!c[el.dataset.v]});break;}
     case'premadd':{const c=pushReadForm();c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);break;}
+    case'premfor':{const c=pushCfg(),id=el.dataset.id;if(!c.rem.some(r=>r.pr===id)){c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:'',pr:id});lsSet('esm_push',c);}
+      sheet('push');toast(c.on?'Choose the time and days, then Save':'Choose the time and days, then turn on notifications');break;}
     case'premdel':{const c=pushReadForm();c.rem.splice(+el.dataset.v,1);lsSet('esm_push',c);break;}
     case'premday':{const c=pushReadForm(),r=c.rem[+el.dataset.v],w=+el.dataset.w;r.d=r.d.includes(w)?r.d.filter(x=>x!==w):[...r.d,w];lsSet('esm_push',c);break;}
     case'pbelltog':{const c=pushReadForm();c.bell.on=!c.bell.on;lsSet('esm_push',c);break;}
@@ -4582,7 +4589,7 @@ document.getElementById('app').addEventListener('click',e=>{
   }
   render();
 });
-document.getElementById('app').addEventListener('change',e=>{if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
+document.getElementById('app').addEventListener('change',e=>{if(/^rem\.\d+\.pr$/.test(e.target.dataset.pf||'')){pushReadForm();render();return;}if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
 // Counting taps: pointerdown on the tap zone (instant, and works for fast repeated taps).
 document.getElementById('app').addEventListener('pointerdown',e=>{
   if(ST.sheet)return;
@@ -4795,7 +4802,10 @@ if(history.state&&history.state.dp)hGuard=true;
 if(location.hash==='#fullmoon'){ST.ov='fullmoon';history.replaceState(null,'',location.pathname+location.search);}
 if(pushCfg().on&&pushSupported()&&Date.now()-(ls('esm_push_sync',0)||0)>20*86400000)navigator.serviceWorker.ready.then(()=>pushSubscribe(false)).catch(()=>{});
 // A mindfulness bell that arrives while the app is open rings with the chosen sound.
-if('serviceWorker'in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.kind==='bell'&&!document.hidden)bell(pushCfg().bell.sound||'bell',.7);});
+if('serviceWorker'in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.kind==='bell'&&!document.hidden)bell(pushCfg().bell.sound||'bell',.7);
+  // A tapped notification while the app is already open: go to that practice (or the full-moon page).
+  if(e.data&&e.data.kind==='open'){const h=String(e.data.hash||''),m=h.match(/^#practice=([\w-]+)$/);ST.sheet=null;
+    if(m&&findPR(m[1])){ST.tab='practice';ST.ov='practice';ST.arg=m[1];}else if(h==='#fullmoon')ST.ov='fullmoon';render();}});
 // A sitting timer from before a reload: carry on, or (if it ended long ago) let it go.
 if(ST.sit){if(!ST.sit.done){sitT=setInterval(sitTick,1000);sitTick();}if(ST.sit&&Date.now()-sitEnd()>6*3600000)sitStop();}   // reloaded on our back-button entry: reuse it
 render();

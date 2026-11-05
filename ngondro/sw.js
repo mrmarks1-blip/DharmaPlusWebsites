@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-15';
+const CACHE = 'dp-v10-16';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
@@ -82,25 +82,28 @@ self.addEventListener('push', e => {
   try { d = (e.data && e.data.json()) || {}; } catch {}
   const kind = d.kind || 'quote';
   const all = QUOTES, cont = QUOTES.filter(q => q.cont);
-  const q = kind === 'nudge' || kind === 'rem' ? cont[dayNum() % cont.length] : all[dayNum() % all.length];
+  // Reminders get a fresh quote each time, so two reminders in a day don't repeat the same words.
+  const q = kind === 'rem' ? cont[Math.floor(Math.random() * cont.length)] : kind === 'nudge' ? cont[dayNum() % cont.length] : all[dayNum() % all.length];
   const words = `${q.t.replace(/\n/g, ' ')}\n— ${q.a}`;
   const N = {
     quote: ['Words for today', words],
     nudge: ['A moment of practice today?', words],
     test: ['Notifications are on', 'This is how your notifications will look.'],
-    rem: [d.label || 'Time to practise', words],
+    rem: [d.label || 'Time for practice', words],
     bell: ['A mindfulness bell', 'Pause for a moment. One breath, just as it is.'],
     moon: ['Full moon today', 'In many traditions a day for practice: in the Tibetan tradition its effects are said to be greatly multiplied. Tap for what you might do.'],
   }[kind] || ['Dharma Practice', words];
   if (kind === 'bell') self.clients.matchAll({ type: 'window' }).then(l => l.forEach(c => c.postMessage({ kind: 'bell' })));
-  e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind, renotify: kind === 'bell', data: { kind } }));
+  e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind + (d.pr ? '-' + d.pr : ''), renotify: kind === 'bell', data: { kind, pr: d.pr || '' } }));
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
-    const hash = (e.notification.data || {}).kind === 'moon' ? '#fullmoon' : '';
+    const n = e.notification.data || {};
+    const hash = n.kind === 'moon' ? '#fullmoon' : n.pr ? '#practice=' + n.pr : '';
     const open = list.find(c => c.url.includes('/ngondro/'));
-    if (open) { if (hash) open.navigate('./' + hash).catch(() => {}); return open.focus(); }
+    // Already open: the page itself moves to the practice (a hash change alone wouldn't reload it).
+    if (open) { if (hash) open.postMessage({ kind: 'open', hash }); return open.focus(); }
     return self.clients.openWindow('./' + hash);
   }));
 });

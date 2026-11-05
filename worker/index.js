@@ -165,7 +165,7 @@ function cleanSched(s) {
   if (!s || typeof s !== 'object') return null;
   const days = d => Array.isArray(d) ? d.filter(x => Number.isInteger(x) && x >= 0 && x <= 6).slice(0, 7) : [0, 1, 2, 3, 4, 5, 6];
   const rem = (Array.isArray(s.rem) ? s.rem : []).slice(0, 12).filter(r => r && TIME.test(r.t))
-    .map(r => ({ id: clean(r.id, 12) || 'r', t: r.t, d: days(r.d), label: clean(r.label, 80) }));
+    .map(r => ({ id: clean(r.id, 12) || 'r', t: r.t, d: days(r.d), label: clean(r.label, 80), pr: /^[\w-]{1,40}$/.test(r.pr) ? r.pr : '' }));
   const bell = s.bell && TIME.test(s.bell.from) && TIME.test(s.bell.to) && [15, 30, 45, 60, 90, 120, 180].includes(Number(s.bell.every))
     ? { every: Number(s.bell.every), from: s.bell.from, to: s.bell.to, d: days(s.bell.d) } : null;
   const moons = (Array.isArray(s.moons) ? s.moons : []).filter(x => DATE.test(x)).slice(0, 30);
@@ -204,7 +204,7 @@ async function tick(env, now = new Date()) {
       // The schedule: extra reminders, mindfulness bells, full moons. `sent` remembers what went out today.
       if (sub.sched) {
         const S = JSON.parse(sub.sched), sent = sub.sent ? JSON.parse(sub.sent) : {}, todo = [];
-        for (const r of S.rem || []) if (r.d.includes(local.wd) && due(r.t, sent['r' + r.id], local)) todo.push(['rem', { label: r.label }, 'r' + r.id, local.date]);
+        for (const r of S.rem || []) if (r.d.includes(local.wd) && due(r.t, sent['r' + r.id], local)) todo.push(['rem', { label: r.label, pr: r.pr || '' }, 'r' + r.id, local.date]);
         const B = S.bell;
         if (B && B.d.includes(local.wd) && local.mins >= mins(B.from) && local.mins <= mins(B.to)) {
           const slot = Math.floor((local.mins - mins(B.from)) / B.every), at = mins(B.from) + slot * B.every, key = `${local.date} ${slot}`;
