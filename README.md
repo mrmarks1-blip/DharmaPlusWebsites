@@ -7,7 +7,7 @@ No build step, no dependencies — just HTML/CSS/JS served as files.
 
 ```
 /                ← landing page (index.html)
-/ngondro/        ← ESM Ngöndro app (PWA)  →  /ngondro/
+/practice/        ← ESM Ngöndro app (PWA)  →  /practice/
 ```
 
 To add a new thing: create a folder with its own `index.html`, then add a card

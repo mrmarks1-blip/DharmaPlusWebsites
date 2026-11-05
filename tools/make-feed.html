@@ -14,10 +14,10 @@
 </head>
 <body>
 <h1>Make the practice-days feed</h1>
-<p class="soft">Not deployed (see <code>.assetsignore</code>). Builds <code>ngondro/practice-days.ics</code> from the app's own
+<p class="soft">Not deployed (see <code>.assetsignore</code>). Builds <code>practice/practice-days.ics</code> from the app's own
 calendar code: auspicious days, festivals and anniversaries from 1 January this year for three years. Regenerate once a
-year: open this page with the local server running, press the button, save the file into <code>ngondro/</code>,
-bump <code>CACHE</code> in <code>ngondro/sw.js</code>, commit and release.</p>
+year: open this page with the local server running, press the button, save the file into <code>practice/</code>,
+bump <code>CACHE</code> in <code>practice/sw.js</code>, commit and release.</p>
 <button id="go" disabled>Loading the app…</button>
 <p id="out" class="soft"></p>
 <iframe id="app"></iframe>
@@ -30,7 +30,7 @@ window.buildFeed=()=>{const w=app.contentWindow,y=new Date().getFullYear();
 app.addEventListener('load',()=>{if(!app.src)return;go.disabled=false;go.textContent='Build and download practice-days.ics';});
 // Load the app's current code, not the copy in its offline cache.
 (async()=>{try{for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();for(const k of await caches.keys())await caches.delete(k);}catch{}
-  app.src='../ngondro/?fresh='+Date.now();})();
+  app.src='../practice/?fresh='+Date.now();})();
 go.addEventListener('click',()=>{const t=window.buildFeed(),f=new Blob([t],{type:'text/calendar'}),a=document.createElement('a');
   a.href=URL.createObjectURL(f);a.download='practice-days.ics';a.click();
   out.textContent=`${(t.match(/BEGIN:VEVENT/g)||[]).length} events, ${Math.round(t.length/1024)} KB.`;});

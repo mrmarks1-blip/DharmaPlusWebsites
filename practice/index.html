@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f2e6">
 <meta name="description" content="Free, simple tools for daily Buddhist practice, whatever your school: a meditation timer, a mala counter for Ngöndro and mantras, a practice diary, daily prayers and practice-day calendars. No account, no adverts.">
-<link rel="canonical" href="https://slicedharma.com/ngondro/">
+<link rel="canonical" href="https://slicedharma.com/practice/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Sliced Dharma">
 <meta property="og:title" content="Dharma Practice · Sliced Dharma">
 <meta property="og:description" content="Free, simple tools for daily Buddhist practice, whatever your school: a meditation timer, a mala counter for Ngöndro and mantras, a practice diary, daily prayers and practice-day calendars. No account, no adverts.">
-<meta property="og:url" content="https://slicedharma.com/ngondro/">
-<meta property="og:image" content="https://slicedharma.com/ngondro/og-image.png">
+<meta property="og:url" content="https://slicedharma.com/practice/">
+<meta property="og:image" content="https://slicedharma.com/practice/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -133,7 +133,10 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 #nav { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); background:var(--surface); padding:6px 4px calc(8px + var(--safe-b)); flex-shrink:0; z-index:20; }
 .tab { display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 2px; min-height:58px; border-radius:12px; color:var(--ink-2); font-size:13px; font-weight:700; }
 .tab svg { width:26px; height:26px; }
-.tab.on { color:var(--accent-ink); background:var(--glow); }
+/* Phone nav: the highlight is a pill behind the icon only (Material 3 navigation bar). */
+.tab .ind { display:grid; place-items:center; width:60px; height:32px; border-radius:16px; }
+.tab.on { color:var(--ink); }
+.tab.on .ind { color:var(--accent-ink); background:var(--glow); }
 .page { position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; }
 .col { max-width:var(--col-w); margin:0 auto; padding:calc(20px + var(--safe-t)) var(--gutter) 40px; display:flex; flex-direction:column; gap:16px; }
 .col > .gap-s { margin-top:-6px; }
@@ -147,7 +150,10 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .small { font-size:var(--fs-sm); color:var(--ink-2); }
 .row { display:flex; align-items:center; gap:12px; }
 .grow { flex:1; min-width:0; }
-.card { background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:16px; }
+/* Cards sit on a tone a step off the page instead of a hairline border (Material 3 surface levels).
+   Worked out per element, so Settings' theme previews are right. Dark-ground themes keep the border. */
+.card { background:color-mix(in srgb,var(--bg),var(--ink) 5%); border:1px solid transparent; border-radius:var(--r-lg); padding:16px; }
+:is([data-theme="highc"],[data-theme="neon"],[data-theme="neuro"],[data-theme="night"]) .card { border-color:var(--line); }
 .card.glow { background:var(--glow); border-color:color-mix(in srgb,var(--accent) 35%,transparent); }
 .stack { display:flex; flex-direction:column; gap:12px; }
 .iconbtn { width:var(--tap); height:var(--tap); border-radius:var(--r); border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; color:var(--ink-2); flex-shrink:0; }
@@ -155,7 +161,9 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .btn { min-height:54px; border-radius:var(--r); padding:12px 18px; font-weight:700; font-size:var(--fs); display:inline-flex; align-items:center; justify-content:center; gap:8px; text-align:center; }
 .btn svg { width:22px; height:22px; flex-shrink:0; }
 .btn.primary { background:var(--accent); color:var(--on-accent); }
-.btn.soft { background:var(--sunk); color:var(--ink); border:1px solid var(--line); }
+/* Second actions: a quiet saffron tone (Material 3 tonal button). High contrast keeps its border. */
+.btn.soft { background:color-mix(in srgb,var(--accent) 15%,var(--bg)); color:var(--ink); border:1px solid transparent; }
+[data-theme="highc"] .btn.soft { border-color:var(--line); }
 .btn.danger { background:var(--bad); color:var(--bg); }
 .btn.link { min-height:var(--tap); padding:8px 4px; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; font-weight:700; }
 .btn.wide { width:100%; }
@@ -726,12 +734,30 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 .prose p { line-height:1.65; margin-bottom:12px; max-width:62ch; }
 
 /* ═══════════════════════════════════════════
+   PRESS FEEDBACK — one rule for every pressable thing (Material 3 state layer).
+   An inset shadow in the text colour sits over the background, so it works in
+   every theme and keeps gradients and art underneath.
+═══════════════════════════════════════════ */
+:is(.btn,.iconbtn,.jchip,.opt,.linkbtn,.qshare,.item,.tab .ind) { transition:box-shadow .15s; }
+@media (hover:hover) {
+  :is(.btn,.iconbtn,.jchip,.opt,.linkbtn,.qshare,.item):hover,
+  .tab:hover .ind { box-shadow:inset 0 0 0 100vmax color-mix(in srgb,currentColor 8%,transparent); }
+}
+:is(.btn,.iconbtn,.jchip,.opt,.linkbtn,.qshare,.item):active,
+.tab:active .ind { box-shadow:inset 0 0 0 100vmax color-mix(in srgb,currentColor 14%,transparent); }
+.btn.link:is(:hover,:active) { box-shadow:none; }
+
+/* ═══════════════════════════════════════════
    DESKTOP — left sidebar, centred content
 ═══════════════════════════════════════════ */
 @media (min-width: 768px) {
   #app { flex-direction:row; }
   #nav { order:-1; width:var(--nav-w); grid-template-columns:none; grid-auto-rows:min-content; align-content:start; gap:4px; border-top:0; border-right:1px solid var(--line); padding:20px 10px; }
   .tab { flex-direction:row; justify-content:flex-start; gap:12px; padding:12px 14px; font-size:16px; min-height:52px; }
+  /* Sidebar: the whole row is highlighted, as before. */
+  .tab .ind { width:auto; height:auto; }
+  .tab.on { color:var(--accent-ink); background:var(--glow); }
+  .tab.on .ind { background:none; }
   .veil { align-items:center; }
   .sheet { border-radius:24px; max-height:86%; }
   .fchips { flex-wrap:wrap; justify-content:center; }
@@ -2451,7 +2477,7 @@ async function shareICS(text,file,{title,msg}={}){const f=new File([text],file,{
 const gcalLink=e=>{const end=new Date(`${e.date}T${e.time||'08:00'}:00`);end.setMinutes(end.getMinutes()+(e.mins||30));
   const p=new URLSearchParams({action:'TEMPLATE',text:e.title,dates:`${icsDT(e.date,e.time||'08:00')}/${icsDT(dayKey(end),`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}`,details:e.desc||''});
   if(e.rrule)p.set('recur','RRULE:'+e.rrule);return'https://calendar.google.com/calendar/render?'+p.toString();};
-const APP_URL='https://slicedharma.com/ngondro/';
+const APP_URL='https://slicedharma.com/practice/';
 const KOFI='https://ko-fi.com/raccoonhands';
 // What a day is, in one line, for a reminder's title.
 function dayTitle(k){const d=noonOf(new Date(k+'T12:00')),o=observedAusp(d)[0],e=eventsOn(d).find(x=>x.kind==='fest');return e?e.name.split(',')[0]:o?o.a.name:'Practice';}
@@ -4157,7 +4183,7 @@ function render(){
   const keep=view===lastView?{p:pg&&pg.scrollTop,o:ob&&ob.scrollTop}:{};lastView=view;
   if(pg&&lastTab)pageScroll[lastTab]=pg.scrollTop;const sameTab=lastTab===ST.tab;lastTab=ST.tab;
   const shEl=content.querySelector('.sheet'),keepSheet=shEl&&ST.sheet===lastSheet?shEl.scrollTop:0;
-  nav.innerHTML=TABS.map(([k,l])=>`<button class="tab${ST.tab===k?' on':''}" data-act="tab" data-v="${k}" ${ST.tab===k?'aria-current="page"':''}>${ico(k)}<span>${l}</span></button>`).join('');
+  nav.innerHTML=TABS.map(([k,l])=>`<button class="tab${ST.tab===k?' on':''}" data-act="tab" data-v="${k}" ${ST.tab===k?'aria-current="page"':''}><span class="ind">${ico(k)}</span><span>${l}</span></button>`).join('');
   let html=PAGES[ST.tab]();
   if(ST.ov)html+=`<div class="overlay${ST.ov==='session'?' session':''}" id="ov">${OVERLAYS[ST.ov]()}</div>`;
   // Sheets slide in only when they first open (re-renders inside a sheet mustn't

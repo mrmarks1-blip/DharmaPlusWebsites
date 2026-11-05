@@ -220,12 +220,28 @@ async function tick(env, now = new Date()) {
   }
 }
 
+// The app moved from /ngondro/ to /practice/ (2026-11-05). Phones that installed it earlier keep
+// opening /ngondro/, so that address serves the same files rather than redirecting: their app,
+// offline copy and reminders carry on unchanged, and counts are shared (same site, same storage).
+// Search engines are told to use /practice/ instead.
+async function oldAddress(req, env) {
+  const url = new URL(req.url);
+  url.pathname = url.pathname.replace(/^\/ngondro/, '/practice');
+  const res = await env.ASSETS.fetch(new Request(url, req));
+  const out = new Response(res.body, res);
+  const loc = out.headers.get('location');
+  if (loc) out.headers.set('location', loc.replace(/^(https?:\/\/[^/]+)?\/practice/, '$1/ngondro'));
+  out.headers.set('x-robots-tag', 'noindex');
+  return out;
+}
+
 export default {
   async fetch(req, env) {
     const path = new URL(req.url).pathname;
     if (path.startsWith('/api/')) {
       try { return await api(req, env, path); } catch (e) { console.log('api error', String(e)); return json({ error: 'server' }, 500); }
     }
+    if (path === '/ngondro' || path.startsWith('/ngondro/')) return oldAddress(req, env);
     return env.ASSETS.fetch(req);   // everything else is the static site
   },
   async scheduled(event, env, ctx) { ctx.waitUntil(tick(env, new Date(event.scheduledTime))); },

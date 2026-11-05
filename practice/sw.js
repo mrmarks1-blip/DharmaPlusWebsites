@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-16';
+const CACHE = 'dp-v10-17';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
@@ -101,7 +101,8 @@ self.addEventListener('notificationclick', e => {
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
     const n = e.notification.data || {};
     const hash = n.kind === 'moon' ? '#fullmoon' : n.pr ? '#practice=' + n.pr : '';
-    const open = list.find(c => c.url.includes('/ngondro/'));
+    // The app is served at /practice/ and, for phones that installed it earlier, /ngondro/.
+    const open = list.find(c => c.url.startsWith(self.registration.scope));
     // Already open: the page itself moves to the practice (a hash change alone wouldn't reload it).
     if (open) { if (hash) open.postMessage({ kind: 'open', hash }); return open.focus(); }
     return self.clients.openWindow('./' + hash);

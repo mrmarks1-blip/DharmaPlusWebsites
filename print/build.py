@@ -4,7 +4,7 @@ Run from anywhere:  python print/build.py
 It writes print/booklet.html. To make the PDF, serve the repo folder
 (e.g. the .claude/launch.json "v10" server on :8740) and run with --pdf:
     python print/build.py --pdf
-which prints http://localhost:8740/print/booklet.html to ngondro/<PDF_NAME>.
+which prints http://localhost:8740/print/booklet.html to practice/<PDF_NAME>.
 
 Text follows the source booklet (Ngondro_Daily_Practice_Karma_Kagyu-22-01-26-1.pdf,
 compiled from Lama Rabsang's teachings, 2025). Design: "B · Clear and large".
@@ -203,19 +203,19 @@ COVER = f'''<section class="page cover">
 <h1>{E(TITLE)}</h1>
 <p class="sub">Instructions on the one hundred and eleven thousand prostrations, for removing obstacles of body, speech and mind</p>
 <p class="trad">Karma Kagyu tradition · For the benefit of all beings</p>
-<div class="art"><img src="../ngondro/refuge-tree.jpg" alt="The Karma Kagyu refuge tree"></div>
+<div class="art"><img src="../practice/refuge-tree.jpg" alt="The Karma Kagyu refuge tree"></div>
 </section>'''
 
 LAST = '''<section class="page tree">
-<div class="art"><img src="../ngondro/refuge-tree.jpg" alt="The Karma Kagyu refuge tree"></div>
+<div class="art"><img src="../practice/refuge-tree.jpg" alt="The Karma Kagyu refuge tree"></div>
 <p class="cap">The Karma Kagyu refuge tree</p>
 <p class="colophon">Unofficially compiled from teachings beautifully given by Lama Rabsang in 2025.<br>May his words send ripples of love and awakening throughout the ten directions and three times.</p>
 </section>'''
 
 CSS = '''
-@font-face{font-family:'Atkinson Hyperlegible Next';font-weight:200 800;src:url(../ngondro/fonts/atkinson-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Atkinson Hyperlegible Next';font-weight:200 800;src:url(../ngondro/fonts/atkinson-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F}
-@font-face{font-family:'Noto Serif Tibetan';font-weight:400 700;src:url(../ngondro/fonts/noto-serif-tibetan.woff2) format('woff2');unicode-range:U+0F00-0FFF}
+@font-face{font-family:'Atkinson Hyperlegible Next';font-weight:200 800;src:url(../practice/fonts/atkinson-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Atkinson Hyperlegible Next';font-weight:200 800;src:url(../practice/fonts/atkinson-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F}
+@font-face{font-family:'Noto Serif Tibetan';font-weight:400 700;src:url(../practice/fonts/noto-serif-tibetan.woff2) format('woff2');unicode-range:U+0F00-0FFF}
 @page{size:A4;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;background:#8a8378}
@@ -269,7 +269,7 @@ def build():
 def pdf(url="http://localhost:8740/print/booklet.html"):
     exe = next(p for p in [r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
                            r"C:\Program Files\Google\Chrome\Application\chrome.exe"] if pathlib.Path(p).exists())
-    out = ROOT / "ngondro" / PDF_NAME
+    out = ROOT / "practice" / PDF_NAME
     out.unlink(missing_ok=True)
     import tempfile, time
     with tempfile.TemporaryDirectory() as prof:  # own profile, so an open browser window doesn't swallow the job

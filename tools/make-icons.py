@@ -1,11 +1,11 @@
 """Draws the app logo: a white Tibetan A (ཨ) in a five-coloured thigle on night blue.
 Run from the repo root:  python tools/make-icons.py   (needs Pillow: python -m pip install pillow)
-Writes ngondro/icon-192.png, icon-512.png, icon-512-maskable.png, apple-touch-icon.png, favicon-32.png,
-and ngondro/icon-preview-*.png (other designs, for choosing; not linked anywhere)."""
+Writes practice/icon-192.png, icon-512.png, icon-512-maskable.png, apple-touch-icon.png, favicon-32.png,
+and practice/icon-preview-*.png (other designs, for choosing; not linked anywhere)."""
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import os
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ngondro')
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'practice')
 FONT = os.path.join(ROOT, 'fonts', 'noto-serif-tibetan.woff2')
 RAINBOW = ['#f2c94c', '#4caf6e', '#4a7fd4', '#e2574c', '#f4f1ea']   # outside → in: yellow, green, blue, red, white
 S = 1024  # draw large, then scale down for smooth edges
