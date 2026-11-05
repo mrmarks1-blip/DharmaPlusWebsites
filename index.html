@@ -61,17 +61,36 @@
   .app-head h2{font-family:var(--f-display);font-weight:600;font-size:26px;line-height:1.2}
   .app-head p{color:var(--ink-3);font-size:15px;margin-top:2px}
   .app > p{color:var(--ink-2)}
-  .feats{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .feats li{background:var(--sunk);border-radius:14px;padding:12px 14px;font-size:16px;line-height:1.35}
-  .feats b{display:block;font-size:16px;color:var(--ink)}
-  .feats span{color:var(--ink-3);font-size:14px}
+  /* What's inside: a plain list with icons, not boxes, so nothing looks like a button. */
+  .inside{font-size:13px;font-weight:700;letter-spacing:1.4px;color:var(--ink-3);margin-bottom:-6px}
+  .feats{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;padding:4px 0}
+  .feats li{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.35}
+  .feats svg{width:22px;height:22px;flex:none;color:var(--accent);margin-top:1px}
+  .feats b{display:block;font-size:16px;font-weight:600;color:var(--ink)}
+  .feats span{color:var(--ink-3);font-size:15px}
   .btns{display:flex;flex-wrap:wrap;gap:10px}
   .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border-radius:14px;
     font:600 17px/1 var(--f-body);text-decoration:none;flex:1 1 200px;transition:transform .15s ease,filter .15s ease}
   .btn:active{transform:scale(.98)}
   .btn.primary{background:var(--accent);color:var(--on-accent)}
   .btn.primary:hover{filter:brightness(1.06)}
-  .btn.soft{background:var(--sunk);color:var(--ink);border:1px solid var(--line)}
+  .btn.soft{background:var(--surface);color:var(--accent-ink);border:1.5px solid var(--accent);cursor:pointer}
+  .btn.soft:hover{background:var(--glow)}
+  .btn svg{width:20px;height:20px;margin-right:8px}
+
+  /* Desktop: 'Add it to your phone' shows a QR code to scan. */
+  dialog.qr{margin:auto;border:0;border-radius:24px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow);
+    padding:28px 26px 24px;width:min(380px,calc(100vw - 32px));text-align:center}
+  dialog.qr::backdrop{background:rgba(33,25,16,.45)}
+  dialog.qr h3{font-family:var(--f-display);font-weight:600;font-size:24px;line-height:1.2}
+  dialog.qr .code{width:220px;height:220px;margin:18px auto 14px;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+  dialog.qr .code svg{width:100%;height:100%;display:block}
+  dialog.qr p{color:var(--ink-2);font-size:16px;line-height:1.45}
+  dialog.qr .url{font-weight:600;color:var(--ink);margin-top:6px}
+  dialog.qr .x{position:absolute;top:12px;right:12px;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:var(--ink-3);cursor:pointer}
+  dialog.qr .x:hover{background:var(--sunk)}
+  dialog.qr .x svg{width:20px;height:20px}
+  dialog.qr .done{margin-top:18px;width:100%;flex:none}
   .facts{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--ink-3);font-size:14px}
   .facts span::before{content:'✓ ';color:var(--accent)}
 
@@ -86,7 +105,7 @@
   footer a{color:var(--accent-ink)}
   footer .ded{font-family:var(--f-display);font-style:italic;font-size:17px;color:var(--ink-2);margin-bottom:10px}
 
-  @media (max-width:420px){ .feats{grid-template-columns:1fr} .app{padding:20px} }
+  @media (max-width:480px){ .feats{grid-template-columns:1fr} .app{padding:20px} }
   @media (prefers-reduced-motion:reduce){ .btn{transition:none} }
 </style>
 </head>
@@ -100,7 +119,7 @@
   <section class="hero">
     <span class="tib" lang="bo" aria-hidden="true">ཨོཾ་ཨཱཿཧཱུྃ།</span>
     <h1>Simple tools for daily practice</h1>
-    <p>Free companions for Buddhist practice, whatever your school, made to be easy for everyone, including people who don’t get on with technology.</p>
+    <p>Free and easy to use, whatever your school, even if you don’t get on with technology.</p>
   </section>
 
   <main>
@@ -109,16 +128,19 @@
         <img src="ngondro/icon-192.png" alt="" width="72" height="72">
         <div><h2 id="app-title">Dharma Practice</h2><p>For daily practice, from a quiet sit to the Ngöndro</p></div>
       </div>
-      <p>Sit with a gentle meditation timer, count your mantras and prostrations, keep a practice diary, read the daily prayers, see the practice days of your tradition, and explore the refuge tree, all in one calm place.</p>
+      <p>Everything for your daily sit and practice in one calm place. Open it, practise, and put it down again.</p>
+      <p class="inside">WHAT’S INSIDE</p>
       <ul class="feats">
-        <li><b>Meditate</b><span>A timer with bells, and a kind streak</span></li><li><b>Count</b><span>Tap to count, or add a mala at a time</span></li>
-        <li><b>Texts</b><span>Prayers in Tibetan, phonetics and English</span></li>
-        <li><b>Diary</b><span>Tick what you practised each day</span></li><li><b>Calendar</b><span>Auspicious days, uposatha and the moon</span></li>
-        <li><b>Learn</b><span>Who’s who in the refuge tree</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 2.5h4"/></svg><div><b>Meditate</b><span>A timer with gentle bells</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5" stroke-dasharray="1.6 2.2" stroke-width="2.6"/><circle cx="12" cy="3.6" r="1.6" fill="currentColor"/></svg><div><b>Count</b><span>Mantras and prostrations, a mala at a time</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.3 5.3 8 4.8 5.5 4.8v12.7c2.5 0 4.8.5 6.5 1.7 1.7-1.2 4-1.7 6.5-1.7V4.8C16 4.8 13.7 5.3 12 6.5z"/><path d="M12 6.5v12.7"/></svg><div><b>Prayers</b><span>In Tibetan, phonetics and English</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg><div><b>Diary</b><span>Tick off what you practised each day</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div><b>Calendar</b><span>Special practice days and the moon</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-6M12 16.5l-2.6-1.8M12 17.5l2.6-2"/><path d="M12 3c-3 0-5 2.2-5 4.6-1.6.6-2.5 2-2.5 3.5 0 2.2 1.8 3.9 4 3.9h7c2.2 0 4-1.7 4-3.9 0-1.5-.9-2.9-2.5-3.5C17 5.2 15 3 12 3z"/></svg><div><b>Learn</b><span>Who’s who in the refuge tree</span></div></li>
       </ul>
       <div class="btns">
         <a class="btn primary" href="./ngondro/">Open Dharma Practice</a>
-        <a class="btn soft" href="./ngondro/#install">Add it to your phone</a>
+        <a class="btn soft" id="phone" href="./ngondro/#install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>Add it to your phone</a>
       </div>
       <div class="facts"><span>Free</span><span>No account</span><span>No ads</span><span>Works offline</span></div>
     </article>
@@ -139,6 +161,21 @@
     <p>Made by Gareth Lewis · <span id="yr"></span> · <a href="https://ko-fi.com/raccoonhands" target="_blank" rel="noopener">Support it on Ko-fi</a></p>
   </footer>
 </div>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<dialog class="qr" id="qr" aria-labelledby="qr-title">
+  <button class="x" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <h3 id="qr-title">Put it on your phone</h3>
+  <div class="code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges" role="img" aria-label="QR code for slicedharma.com/ngondro"><path fill="#fffbf2" d="M0 0h33v33h-33z"/><path class="qrline" stroke="#211910" d="M2 2.5h7m2 0h1m4 0h7m1 0h7m-29 1h1m5 0h1m1 0h1m1 0h2m1 0h5m4 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m4 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m3 0h1m1 0h1m4 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m5 0h1m1 0h2m1 0h3m2 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-20 1h1m2 0h3m2 0h1m-17 1h3m1 0h2m2 0h1m1 0h2m1 0h5m7 0h2m-28 1h3m1 0h1m2 0h3m4 0h1m3 0h9m1 0h1m-25 1h1m1 0h1m4 0h2m1 0h1m1 0h1m5 0h1m1 0h4m-27 1h1m1 0h1m1 0h1m2 0h3m7 0h1m1 0h1m2 0h2m3 0h1m-28 1h3m1 0h2m1 0h5m2 0h1m1 0h1m3 0h1m1 0h1m2 0h3m-26 1h1m4 0h2m2 0h1m1 0h1m2 0h1m1 0h1m2 0h2m1 0h2m1 0h1m-29 1h2m2 0h1m1 0h3m2 0h3m1 0h2m1 0h4m1 0h3m1 0h2m-27 1h2m1 0h1m1 0h1m1 0h1m3 0h2m3 0h2m4 0h2m1 0h2m-29 1h3m1 0h4m1 0h2m2 0h1m1 0h1m2 0h1m1 0h1m2 0h3m-25 1h4m2 0h1m3 0h1m4 0h1m1 0h1m1 0h1m2 0h1m1 0h1m-26 1h1m1 0h9m1 0h1m2 0h2m5 0h2m1 0h1m-23 1h1m1 0h1m1 0h3m3 0h1m1 0h5m1 0h3m2 0h1m-26 1h8m1 0h2m1 0h1m1 0h4m1 0h7m1 0h1m-21 1h1m1 0h2m1 0h2m1 0h1m1 0h3m3 0h2m2 0h1m-29 1h7m2 0h1m4 0h1m4 0h2m1 0h1m1 0h1m1 0h2m-28 1h1m5 0h1m1 0h3m2 0h1m2 0h1m3 0h1m3 0h1m2 0h2m-29 1h1m1 0h3m1 0h1m3 0h1m1 0h2m3 0h1m2 0h8m-28 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m1 0h1m1 0h1m4 0h2m2 0h1m-29 1h1m1 0h3m1 0h1m1 0h4m1 0h1m4 0h1m1 0h1m2 0h1m1 0h2m1 0h1m-29 1h1m5 0h1m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m-28 1h7m3 0h4m1 0h1m2 0h6m3 0h1"/></svg></div>
+  <p>Point your phone’s camera at the square, then tap the link that appears.</p>
+  <p>Or type this into your phone’s browser:</p>
+  <p class="url">slicedharma.com/ngondro</p>
+  <button class="btn primary done" type="button" data-close>Done</button>
+</dialog>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+// On a computer, show a QR code to scan; on a phone, go straight to the install steps in the app.
+(()=>{const d=document.getElementById('qr'),b=document.getElementById('phone');
+  b.addEventListener('click',e=>{if(!matchMedia('(hover:hover) and (pointer:fine)').matches||!d.showModal)return;e.preventDefault();d.showModal();});
+  d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))d.close();});})();
+</script>
 </body>
 </html>
