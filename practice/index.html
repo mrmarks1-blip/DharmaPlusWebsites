@@ -2650,8 +2650,10 @@ const beadText=c=>c?`Mala ${Math.floor((c-1)/108)+1} · bead ${((c-1)%108)+1}`:'
 // Before this there was one on/off switch for the practice's own picture (esm_sess_img), still used as the default.
 const SESS_PICS=[['refuge-tree.jpg','Refuge tree'],['dm.jpg','Diamond Mind'],['mandala.jpg','Mandala'],['guru.jpg','Guru Yoga'],['phowa.jpg','Phowa'],['lovingeyes.jpg','Loving Eyes']];
 const SESS_BGA={faint:.22,medium:.45,clear:.75};
-let sessPhotoC;const sessPhoto=()=>sessPhotoC===undefined?(sessPhotoC=ls('esm_sess_photo',null)):sessPhotoC;
-function sessBg(pid){const m=ls('esm_sess_bg',{}),v=m[pid||'_'],p=findPR(pid);if(v&&(v!=='photo'||sessPhoto()))return v;return p&&p.img&&ST.showImg?'pic:'+p.img:'none';}
+// Stored values can come from a restored backup file, so only known choices and a real JPEG data URL are used.
+let sessPhotoC;const sessPhoto=()=>{if(sessPhotoC===undefined){const u=ls('esm_sess_photo',null);sessPhotoC=typeof u==='string'&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(u)?u:null;}return sessPhotoC;};
+const sessBgOK=v=>typeof v==='string'&&(v==='none'||(v==='photo'&&!!sessPhoto())||(v.startsWith('pic:')&&SESS_PICS.some(([f])=>f===v.slice(4)))||(v.startsWith('art:')&&Object.hasOwn(SHQ_ART,v.slice(4))));
+function sessBg(pid){const m=ls('esm_sess_bg',{}),v=m&&m[pid||'_'],p=findPR(pid);if(sessBgOK(v))return v;const d=p&&p.img&&ST.showImg?'pic:'+p.img:'none';return sessBgOK(d)?d:'none';}
 function artBg(k,scale){const A=SHQ_ART[k],W=1080,H=1920,c=document.createElement('canvas');c.width=Math.round(W*scale);c.height=Math.round(H*scale);const x=c.getContext('2d');x.scale(scale,scale);x.lineCap='round';x.lineJoin='round';
   return(async()=>{try{await Promise.all((A.fonts||[]).map(f=>document.fonts.load(f,f.includes('Tibetan')?'ཨོཾ':'Aa')));}catch{}
     A.draw(x,W,H,rng(4242+k.length),60);return new Promise(r=>c.toBlob(b=>r(b?URL.createObjectURL(b):null),'image/jpeg',.85));})();}
@@ -4493,8 +4495,8 @@ document.getElementById('app').addEventListener('click',e=>{
     case'toghide':ST.hideCount=!ST.hideCount;lsSet('esm_tap_hide',ST.hideCount);break;
     case'togimg':ST.showImg=!ST.showImg;lsSet('esm_sess_img',ST.showImg);break;
     case'sessbg':sheet('sessbg');break;
-    case'setsbg':{const m=ls('esm_sess_bg',{});m[ST.tap.pid||'_']=el.dataset.v;lsSet('esm_sess_bg',m);ST.sheet=null;break;}
-    case'setsbga':lsSet('esm_sess_bga',el.dataset.v);break;
+    case'setsbg':{if(!sessBgOK(el.dataset.v))break;const m=ls('esm_sess_bg',{});m[ST.tap.pid||'_']=el.dataset.v;lsSet('esm_sess_bg',m);ST.sheet=null;break;}
+    case'setsbga':if(SESS_BGA[el.dataset.v])lsSet('esm_sess_bga',el.dataset.v);break;
     case'finish':sheet('finish',ST.tap.pid||currentId());break;
     case'finishto':ST.sarg=id;break;
     case'addsession':{const n=ST.tap.count,got=addTo(id,n);ST.tap={count:0,ci:0,pid:id};saveTap();ST.sheet=null;ST.ov='dedicate';keepAwake(false);
