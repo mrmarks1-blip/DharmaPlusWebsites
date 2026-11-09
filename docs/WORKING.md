@@ -74,8 +74,11 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
   encouraging quote, and a tap opens that practice.
 - **Analytics only with a clear purpose (C5, changed).** Some measurement is fine if it really serves improving the
   app. Nothing intrusive or creepy. Every piece needs a reason that's easy to explain to the user, and that reason
-  is shown to them (in About or where it applies). None is in the app yet, and About currently promises no
-  trackers, so update that wording if any is ever added. The Ko-fi floating widget is still out (third-party
+  is shown to them (in About or where it applies). Since 2026-11-09 (SW `dp-v10-21`): Cloudflare Web Analytics on
+  dharmasoup.org only (site token in `index.html` and `practice/index.html`, loaded only when the host is
+  dharmasoup.org). Reason: to see whether anyone besides Gareth uses the beta. No cookies; it records page, rough
+  country, browser/device. About and the welcome sheet say so. slicedharma.com also has an older automatic
+  Web Analytics site (home page only), which ends with the domain. The Ko-fi floating widget is still out (third-party
   script on every open, doesn't work offline).
 - **Generosity (C6, changed).** The app has running costs. Generosity covers a range of causes, still to be
   researched, **including funding for the app itself**. It should feel free and joyful, never a nag.

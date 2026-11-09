@@ -177,6 +177,8 @@ document.getElementById('yr').textContent=new Date().getFullYear();
 (()=>{const d=document.getElementById('qr'),b=document.getElementById('phone');
   b.addEventListener('click',e=>{if(!matchMedia('(hover:hover) and (pointer:fine)').matches||!d.showModal)return;e.preventDefault();d.showModal();});
   d.addEventListener('click',e=>{if(e.target===d||e.target.closest('[data-close]'))d.close();});})();
+// A simple visit count (Cloudflare Web Analytics): no cookies, nothing that identifies anyone. Only on the real site.
+if(/(^|\.)dharmasoup\.org$/.test(location.hostname)){const s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.dataset.cfBeacon='{"token": "a8acf81a1443453180445fe59cf7e157"}';document.head.appendChild(s);}
 </script>
 </body>
 </html>

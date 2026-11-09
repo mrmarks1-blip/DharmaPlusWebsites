@@ -3074,7 +3074,7 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>A Karma Kagyu Buddhist centre in Wales, under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident teacher Lama Rabsang. They offer teachings, retreats and an extensive library of free practice texts. Prayer texts in this app are reproduced from their Prayer Book for personal practice. Please support them.</p>
   <div class="links">${L('Website','https://www.palpung.org.uk/')}${L('Free texts','https://www.palpung.org.uk/resources')}${L('Upcoming events','https://www.palpung.org.uk/upcoming')}${L('Donate','https://www.palpung.org.uk/donate')}</div>
   <p class="h2" style="margin-top:18px">YOUR PRIVACY</p>
-  <p>Your practice, counts and diary stay on this phone, unless you turn on automatic backup. That keeps a locked copy online, which only your backup code can open. There are no accounts, adverts or trackers. If you turn on notifications, our server keeps only this phone’s notification address, its time zone and the times you chose, so it can send them; turning notifications off deletes that.</p>
+  <p>Your practice, counts and diary stay on this phone, unless you turn on automatic backup. That keeps a locked copy online, which only your backup code can open. There are no accounts, adverts or cookies. To see whether the app is being used, we count visits with Cloudflare Web Analytics, which records the page, rough country and type of device, never who you are or what you practise. If you turn on notifications, our server keeps only this phone’s notification address, its time zone and the times you chose, so it can send them; turning notifications off deletes that.</p>
   <p class="h2" style="margin-top:18px">WITH GRATITUDE</p>
   <p>The practice counter was inspired by the sangha of East Side Mandala, Lublin, Poland, and jwaga's original Android app. May they swiftly attain enlightenment for the benefit of all beings.</p>
   <div class="links">${L('East Side Mandala','https://lublin.buddyzm.pl/')}${L('Original app on GitHub','https://github.com/jwaga/esmnyndrovnik')}</div>
@@ -3716,7 +3716,7 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
   const skip=`<button class="btn link" data-act="sunext" style="align-self:center">Skip this step</button>`;
   if(S.step===0)return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
     <p>An unofficial companion for daily practice: a meditation timer, a counter for mantras and prostrations, a practice diary, words from many teachers, and the Tibetan calendar. It began with Ngöndro and is for anyone, whatever their school.</p>
-    <p class="small">Everything stays on this phone unless you turn on automatic backup. No account, no tracking.</p>
+    <p class="small">Everything stays on this phone unless you turn on automatic backup. No account, no cookies, just a simple visit count.</p>
     <button class="btn primary wide" data-act="sunext">Set up in a minute</button>
     <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
     ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
@@ -5183,6 +5183,8 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(doc
 let lastW=innerWidth,rzT;
 addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{if(innerWidth!==lastW){lastW=innerWidth;if(ST.ov!=='tree')render();}},150);});
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+// A simple visit count (Cloudflare Web Analytics): no cookies, nothing that identifies anyone. Only on the real site.
+if(/(^|\.)dharmasoup\.org$/.test(location.hostname)){const s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.dataset.cfBeacon='{"token": "a8acf81a1443453180445fe59cf7e157"}';document.head.appendChild(s);}
 </script>
 </body>
 </html>
