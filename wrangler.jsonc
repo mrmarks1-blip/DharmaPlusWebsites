@@ -15,8 +15,8 @@
   "d1_databases": [
     { "binding": "DB", "database_name": "dharma-push", "database_id": "06d31160-6a05-4f01-97d3-854bcee0c388" }
   ],
-  // Every 15 minutes: send the "words for today" and evening nudges that are due.
-  "triggers": { "crons": ["*/15 * * * *"] },
+  // Every minute: send a small batch of the reminders that are due (longest-waiting first; the free plan limits each run).
+  "triggers": { "crons": ["* * * * *"] },
   "workers_dev": true,
   "preview_urls": true,
   "observability": { "enabled": true }

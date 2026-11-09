@@ -1,5 +1,5 @@
 // Dharma Practice push server (Phase 2b). The site itself is static files (the `assets` in
-// wrangler.jsonc); only /api/* runs this code, and a cron every 15 minutes sends due notifications.
+// wrangler.jsonc); only /api/* runs this code, and a cron every minute sends due notifications in small batches.
 //
 // What is stored (D1 database "dharma-push"), per phone that opts in: its push address and keys,
 // its time zone, the two chosen times, and the dates we last sent / last heard "practised today".
@@ -27,7 +27,7 @@ async function migrate(db) {
     'ALTER TABLE subs ADD COLUMN sent TEXT',
   ]) { try { await db.prepare(sql).run(); } catch { /* already there */ } }
 }
-async function schema(db) {
+async function runSchema(db) {
   await db.batch([
     db.prepare('CREATE TABLE IF NOT EXISTS config (k TEXT PRIMARY KEY, v TEXT NOT NULL)'),
     db.prepare(`CREATE TABLE IF NOT EXISTS subs (
@@ -40,6 +40,20 @@ async function schema(db) {
       total INTEGER NOT NULL DEFAULT 0, adds INTEGER NOT NULL DEFAULT 0, created TEXT NOT NULL, updated TEXT NOT NULL)`),
   ]);
   await migrate(db);
+}
+// Tables and columns are set up only when the stored version is behind, so a normal run costs one query.
+// IMPORTANT: bump SCHEMA_V whenever you add a table or an ALTER above, or the live database won't get it.
+const SCHEMA_V = '2';
+let schemaOK = false;
+async function schema(db) {
+  if (schemaOK) return;
+  let v = null;
+  try { v = (await db.prepare("SELECT v FROM config WHERE k='schema'").first())?.v; } catch { /* no config table yet */ }
+  if (v !== SCHEMA_V) {
+    await runSchema(db);
+    await db.prepare("INSERT OR REPLACE INTO config (k, v) VALUES ('schema', ?)").bind(SCHEMA_V).run();
+  }
+  schemaOK = true;
 }
 
 const b64url = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -146,8 +160,15 @@ async function api(req, env, path) {
       ON CONFLICT(id) DO UPDATE SET p256dh=excluded.p256dh, auth=excluded.auth, tz=excluded.tz, quote_time=excluded.quote_time, nudge_time=excluded.nudge_time`)
       .bind(id, endpoint, k.p256dh, k.auth, tz, qt, nt, new Date().toISOString()).run();
     const sched = cleanSched(b.sched);
-    await db.prepare('UPDATE subs SET sched = ? WHERE id = ?').bind(sched ? JSON.stringify(sched) : null, id).run();
-    if (b.test) { const sub = await db.prepare('SELECT * FROM subs WHERE id=?').bind(id).first(); await send(sub, 'test', await vapid(db)); }
+    // Anything whose time has already passed today counts as sent, so saving never fires an old reminder late.
+    const sub = await db.prepare('SELECT * FROM subs WHERE id=?').bind(id).first();
+    const local = localNow(tz, new Date());
+    let sent = {}; try { sent = sub.sent ? JSON.parse(sub.sent) : {}; } catch { /* start fresh */ }
+    if (sched) markPast(sched, sent, local);
+    const passed = t => t && local.mins >= mins(t);
+    await db.prepare('UPDATE subs SET sched=?, sent=?, last_quote=?, last_nudge=? WHERE id=?')
+      .bind(sched ? JSON.stringify(sched) : null, JSON.stringify(sent), passed(qt) ? local.date : sub.last_quote, passed(nt) ? local.date : sub.last_nudge, id).run();
+    if (b.test) await send(sub, 'test', await vapid(db));
     return json({ ok: true });
   }
   if (path === '/api/unsubscribe') { await db.prepare('DELETE FROM subs WHERE id=?').bind(id).run(); return json({ ok: true }); }
@@ -174,50 +195,83 @@ function cleanSched(s) {
 }
 
 // Local date and minutes past midnight in a time zone.
+const fmts = new Map();   // one formatter per time zone: they are slow to build
 function localNow(tz, now) {
-  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
-    .formatToParts(now).map(p => [p.type, p.value]));
+  let f = fmts.get(tz);
+  if (!f) fmts.set(tz, f = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }));
+  const parts = Object.fromEntries(f.formatToParts(now).map(p => [p.type, p.value]));
   const wd = new Date(`${parts.year}-${parts.month}-${parts.day}T12:00:00Z`).getUTCDay();
   return { date: `${parts.year}-${parts.month}-${parts.day}`, mins: Number(parts.hour) * 60 + Number(parts.minute), wd };
 }
 const mins = t => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
-// Due if the chosen time is within the last 15 minutes (the cron interval) and not yet sent today.
-const due = (t, lastSent, local) => t && lastSent !== local.date && local.mins >= mins(t) && local.mins < mins(t) + 15;
+// Reminders go out from a cron that runs every minute, in small batches (free-plan limits: 10 ms CPU,
+// 50 fetches and 50 D1 queries per run). Missed reminders catch up, so nobody is dropped.
+const CAP = 15;          // sends per run. A run also uses 3 queries and, at the end, at most CAP update statements.
+const CATCHUP = 120;     // minutes a reminder may be late and still go out (same local day only)
+const BELL_GRACE = 4;    // bells never catch up: only within this many minutes of their slot
+const LATE_NOTE = 5;     // over this many minutes late, the notification says so
+// How many minutes past its time a reminder is, or -1 if it is not due (no time, already sent today, too early, too late).
+const lateBy = (t, lastSent, local) => t && lastSent !== local.date && local.mins >= mins(t) && local.mins - mins(t) <= CATCHUP ? local.mins - mins(t) : -1;
+// At save time: mark everything whose time has already passed today as sent.
+function markPast(sched, sent, local) {
+  for (const r of sched.rem) if (r.d.includes(local.wd) && local.mins >= mins(r.t)) sent['r' + r.id] = local.date;
+  const B = sched.bell;
+  if (B && B.d.includes(local.wd) && local.mins >= mins(B.from) && local.mins <= mins(B.to)) sent.bell = `${local.date} ${Math.floor((local.mins - mins(B.from)) / B.every)}`;
+  if (sched.moonTime && sched.moons.includes(local.date) && local.mins >= mins(sched.moonTime)) sent.moon = local.date;
+}
 
 async function tick(env, now = new Date()) {
   const db = env.DB;
   await schema(db);
-  const keys = await vapid(db);
   const { results } = await db.prepare('SELECT * FROM subs WHERE quote_time IS NOT NULL OR nudge_time IS NOT NULL OR sched IS NOT NULL').all();
+  // 1. Collect everything that is due, across all subscriptions.
+  const todo = [];
   for (const sub of results) {
     const local = localNow(sub.tz, now);
-    try {
-      if (due(sub.quote_time, sub.last_quote, local)) {
-        if (!await send(sub, 'quote', keys)) { await db.prepare('DELETE FROM subs WHERE id=?').bind(sub.id).run(); continue; }
-        await db.prepare('UPDATE subs SET last_quote=? WHERE id=?').bind(local.date, sub.id).run();
-      }
-      // The evening nudge only if nothing was practised today. Gentle, never more than once a day.
-      if (due(sub.nudge_time, sub.last_nudge, local) && sub.last_done !== local.date) {
-        if (!await send(sub, 'nudge', keys)) { await db.prepare('DELETE FROM subs WHERE id=?').bind(sub.id).run(); continue; }
-        await db.prepare('UPDATE subs SET last_nudge=? WHERE id=?').bind(local.date, sub.id).run();
-      }
-      // The schedule: extra reminders, mindfulness bells, full moons. `sent` remembers what went out today.
-      if (sub.sched) {
-        const S = JSON.parse(sub.sched), sent = sub.sent ? JSON.parse(sub.sent) : {}, todo = [];
-        for (const r of S.rem || []) if (r.d.includes(local.wd) && due(r.t, sent['r' + r.id], local)) todo.push(['rem', { label: r.label, pr: r.pr || '' }, 'r' + r.id, local.date]);
-        const B = S.bell;
-        if (B && B.d.includes(local.wd) && local.mins >= mins(B.from) && local.mins <= mins(B.to)) {
-          const slot = Math.floor((local.mins - mins(B.from)) / B.every), at = mins(B.from) + slot * B.every, key = `${local.date} ${slot}`;
-          if (local.mins < at + 15 && sent.bell !== key) todo.push(['bell', {}, 'bell', key]);
-        }
-        if (S.moonTime && (S.moons || []).includes(local.date) && due(S.moonTime, sent.moon, local)) todo.push(['moon', {}, 'moon', local.date]);
-        let gone = false;
-        for (const [kind, extra, k, v] of todo) { if (!await send(sub, kind, keys, extra)) { gone = true; break; } sent[k] = v; }
-        if (gone) { await db.prepare('DELETE FROM subs WHERE id=?').bind(sub.id).run(); continue; }
-        if (todo.length) await db.prepare('UPDATE subs SET sent=? WHERE id=?').bind(JSON.stringify(sent), sub.id).run();
-      }
-    } catch (e) { console.log('push failed', sub.id, String(e)); }
+    let S = null, sent = {};
+    try { S = sub.sched ? JSON.parse(sub.sched) : null; sent = sub.sent ? JSON.parse(sub.sent) : {}; } catch { /* bad row: skip its schedule */ }
+    // col = a column on subs to set to today's date; otherwise sent[k] = v.
+    const add = (late, kind, extra, col, k, v) => todo.push({ sub, sent, late, kind, extra, col, k, v, date: local.date });
+    const q = lateBy(sub.quote_time, sub.last_quote, local);
+    if (q >= 0) add(q, 'quote', {}, 'last_quote');
+    // The evening nudge only if nothing was practised today. Gentle, never more than once a day.
+    const n = lateBy(sub.nudge_time, sub.last_nudge, local);
+    if (n >= 0 && sub.last_done !== local.date) add(n, 'nudge', {}, 'last_nudge');
+    if (!S) continue;
+    for (const r of S.rem || []) {
+      const l = r.d.includes(local.wd) ? lateBy(r.t, sent['r' + r.id], local) : -1;
+      if (l >= 0) add(l, 'rem', { label: r.label, pr: r.pr || '' }, null, 'r' + r.id, local.date);
+    }
+    const B = S.bell;
+    if (B && B.d.includes(local.wd) && local.mins >= mins(B.from) && local.mins <= mins(B.to)) {
+      const slot = Math.floor((local.mins - mins(B.from)) / B.every), l = local.mins - (mins(B.from) + slot * B.every), key = `${local.date} ${slot}`;
+      if (l <= BELL_GRACE && sent.bell !== key) add(l, 'bell', {}, null, 'bell', key);
+    }
+    if ((S.moons || []).includes(local.date)) { const l = lateBy(S.moonTime, sent.moon, local); if (l >= 0) add(l, 'moon', {}, null, 'moon', local.date); }
   }
+  if (!todo.length) return;
+  // 2. Longest-waiting first; the rest wait for the next minute.
+  todo.sort((a, b) => b.late - a.late);
+  const batch = todo.slice(0, CAP), keys = await vapid(db);
+  // 3. Send. out: 1 sent, 0 push service says the subscription is gone, -1 failed (tried again next minute).
+  const out = await Promise.all(batch.map(async it => {
+    try { return await send(it.sub, it.kind, keys, it.late > LATE_NOTE ? { ...it.extra, late: it.late } : it.extra) ? 1 : 0; }
+    catch (e) { console.log('push failed', it.sub.id, String(e)); return -1; }
+  }));
+  // 4. Remember what went out (one statement per phone, all in one batch), and delete phones that are gone.
+  const per = new Map();
+  batch.forEach((it, i) => {
+    if (out[i] < 0) return;
+    let p = per.get(it.sub.id); if (!p) per.set(it.sub.id, p = { gone: false, q: null, n: null, s: null });
+    if (out[i] === 0) p.gone = true;
+    else if (it.col === 'last_quote') p.q = it.date;
+    else if (it.col === 'last_nudge') p.n = it.date;
+    else { it.sent[it.k] = it.v; p.s = JSON.stringify(it.sent); }
+  });
+  const stmts = [];
+  for (const [id, p] of per) stmts.push(p.gone ? db.prepare('DELETE FROM subs WHERE id=?').bind(id)
+    : db.prepare('UPDATE subs SET last_quote=COALESCE(?,last_quote), last_nudge=COALESCE(?,last_nudge), sent=COALESCE(?,sent) WHERE id=?').bind(p.q, p.n, p.s, id));
+  if (stmts.length) await db.batch(stmts);
 }
 
 // The app moved from /ngondro/ to /practice/ (2026-11-05). Phones that installed it earlier keep

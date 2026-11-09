@@ -2,6 +2,8 @@ import { base64ToUint8Array } from '../uint8array-extras/index.js';
 import { encodeBase64Url } from './base64.js';
 import { sign } from './jwt.js';
 import { invariant } from './utils.js';
+// LOCAL CHANGE: signed header kept per push service for 6 hours (the token itself is valid 12), to save CPU on each send.
+const cache = new Map();
 export async function vapidHeaders(subscription, vapid) {
     invariant(vapid.subject, 'Vapid subject is empty');
     invariant(vapid.privateKey, 'Vapid private key is empty');
@@ -9,7 +11,9 @@ export async function vapidHeaders(subscription, vapid) {
     const endpoint = new URL(subscription.endpoint);
     // RFC 8030 §2 push resources are https
     invariant(endpoint.protocol === 'https:', `Subscription endpoint is not https: ${endpoint.protocol}`);
-    const vapidPublicKeyBytes = base64ToUint8Array(vapid.publicKey);
+    const cacheKey = endpoint.origin + ' ' + vapid.publicKey, hit = cache.get(cacheKey);
+    if (hit && hit.until > Date.now()) return { headers: { authorization: hit.authorization } };
+    const vapidPublicKeyBytes =base64ToUint8Array(vapid.publicKey);
     const publicKey = await crypto.subtle.importKey('jwk', {
         kty: 'EC',
         crv: 'P-256',
@@ -26,9 +30,7 @@ export async function vapidHeaders(subscription, vapid) {
         sub: vapid.subject,
     }, publicKey);
     // RFC 8292 §3.1
-    return {
-        headers: {
-            authorization: `vapid t=${jwt}, k=${vapid.publicKey}`,
-        },
-    };
+    const authorization = `vapid t=${jwt}, k=${vapid.publicKey}`;
+    cache.set(cacheKey, { authorization, until: Date.now() + 6 * 60 * 60 * 1000 });
+    return { headers: { authorization } };
 }
