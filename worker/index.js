@@ -153,9 +153,12 @@ async function api(req, env, path) {
 
   if (path === '/api/subscribe') {
     const k = (b.subscription && b.subscription.keys) || {};
-    const tz = typeof b.tz === 'string' && validTz(b.tz) ? b.tz : 'UTC';
+    // Stored in its standard spelling, so "europe/london" and "Europe/London" are one zone.
+    const tz = typeof b.tz === 'string' && b.tz.length <= 64 && validTz(b.tz) ? new Intl.DateTimeFormat('en', { timeZone: b.tz }).resolvedOptions().timeZone : 'UTC';
     const qt = TIME.test(b.quoteTime) ? b.quoteTime : null, nt = TIME.test(b.nudgeTime) ? b.nudgeTime : null;
-    if (typeof k.p256dh !== 'string' || typeof k.auth !== 'string') return json({ error: 'keys' }, 400);
+    // Push keys are base64url: p256dh is 65 bytes (~87 chars), auth 16 bytes (~22 chars).
+    if (typeof k.p256dh !== 'string' || !/^[A-Za-z0-9_-]{80,100}={0,2}$/.test(k.p256dh)
+      || typeof k.auth !== 'string' || !/^[A-Za-z0-9_-]{16,32}={0,2}$/.test(k.auth)) return json({ error: 'keys' }, 400);
     await db.prepare(`INSERT INTO subs (id, endpoint, p256dh, auth, tz, quote_time, nudge_time, created) VALUES (?,?,?,?,?,?,?,?)
       ON CONFLICT(id) DO UPDATE SET p256dh=excluded.p256dh, auth=excluded.auth, tz=excluded.tz, quote_time=excluded.quote_time, nudge_time=excluded.nudge_time`)
       .bind(id, endpoint, k.p256dh, k.auth, tz, qt, nt, new Date().toISOString()).run();
@@ -198,7 +201,8 @@ function cleanSched(s) {
 const fmts = new Map();   // one formatter per time zone: they are slow to build
 function localNow(tz, now) {
   let f = fmts.get(tz);
-  if (!f) fmts.set(tz, f = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }));
+  if (!f && fmts.size > 500) fmts.clear();
+  if (!f) fmts.set(tz, f =new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }));
   const parts = Object.fromEntries(f.formatToParts(now).map(p => [p.type, p.value]));
   const wd = new Date(`${parts.year}-${parts.month}-${parts.day}T12:00:00Z`).getUTCDay();
   return { date: `${parts.year}-${parts.month}-${parts.day}`, mins: Number(parts.hour) * 60 + Number(parts.minute), wd };
@@ -250,10 +254,17 @@ async function tick(env, now = new Date()) {
     if ((S.moons || []).includes(local.date)) { const l = lateBy(S.moonTime, sent.moon, local); if (l >= 0) add(l, 'moon', {}, null, 'moon', local.date); }
   }
   if (!todo.length) return;
-  // 2. Longest-waiting first; the rest wait for the next minute.
+  // 2. Longest-waiting first, at most 3 per phone per run; the rest wait for the next minute.
   todo.sort((a, b) => b.late - a.late);
-  const batch = todo.slice(0, CAP), keys = await vapid(db);
-  // 3. Send. out: 1 sent, 0 push service says the subscription is gone, -1 failed (tried again next minute).
+  const batch = [], perSub = new Map();
+  for (const it of todo) {
+    if (batch.length >= CAP) break;
+    const c = perSub.get(it.sub.id) || 0;
+    if (c < 3) { perSub.set(it.sub.id, c + 1); batch.push(it); }
+  }
+  const keys = await vapid(db);
+  // 3. Send. out: 1 sent, 0 push service says the subscription is gone, -1 failed. A failure is not retried
+  // (it's marked as done for today), so a broken subscription can't sit at the front of the queue.
   const out = await Promise.all(batch.map(async it => {
     try { return await send(it.sub, it.kind, keys, it.late > LATE_NOTE ? { ...it.extra, late: it.late } : it.extra) ? 1 : 0; }
     catch (e) { console.log('push failed', it.sub.id, String(e)); return -1; }
@@ -261,7 +272,6 @@ async function tick(env, now = new Date()) {
   // 4. Remember what went out (one statement per phone, all in one batch), and delete phones that are gone.
   const per = new Map();
   batch.forEach((it, i) => {
-    if (out[i] < 0) return;
     let p = per.get(it.sub.id); if (!p) per.set(it.sub.id, p = { gone: false, q: null, n: null, s: null });
     if (out[i] === 0) p.gone = true;
     else if (it.col === 'last_quote') p.q = it.date;
