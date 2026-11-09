@@ -90,53 +90,234 @@ const CODE_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 const newCode = () => Array.from(crypto.getRandomValues(new Uint8Array(6)), b => CODE_CHARS[b % CODE_CHARS.length]).join('');
 const clean = (s, n) => String(s || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
 const groupOut = g => g && { code: g.code, name: g.name, practice: g.practice, target: g.target, total: g.total, adds: g.adds, updated: g.updated,
-  members: g.members || 1, unit: g.unit || 'count', meet: g.meet ? JSON.parse(g.meet) : null };
+  members: Math.max(1, g.mc ?? g.members ?? 1), unit: g.unit || 'count', max: g.max_add || 100000, locked: !!g.pw_hash, meet: g.meet ? JSON.parse(g.meet) : null };
 const cleanUrl = u => { try { const x = new URL(String(u || '')); return x.protocol === 'https:' ? x.href.slice(0, 300) : ''; } catch { return ''; } };
 
+// ── Groups: member keys, join password, admins ──
+// A phone that joins is given a random key once; the server keeps only its SHA-256 (group_members.mid).
+// Every add is a row in group_adds, so an admin can remove one. groups.total is kept in step for speed.
+// Passwords are kept as a salted PBKDF2 hash, never the password. Admin keys are kept hashed too
+// (group_admins); the starter's older plain key in groups.admin still works.
+let groupReady = false;
+async function groupSchema(db) {
+  if (groupReady) return;
+  await db.batch([
+    db.prepare('CREATE TABLE IF NOT EXISTS group_members (code TEXT NOT NULL, mid TEXT NOT NULL, created TEXT NOT NULL, blocked INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (code, mid))'),
+    db.prepare('CREATE TABLE IF NOT EXISTS group_adds (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL, mid TEXT NOT NULL, n INTEGER NOT NULL, at TEXT NOT NULL, removed INTEGER NOT NULL DEFAULT 0)'),
+    db.prepare('CREATE INDEX IF NOT EXISTS group_adds_code ON group_adds (code, id)'),
+    db.prepare('CREATE TABLE IF NOT EXISTS group_admins (code TEXT NOT NULL, khash TEXT NOT NULL, created TEXT NOT NULL, PRIMARY KEY (code, khash))'),
+    db.prepare('CREATE TABLE IF NOT EXISTS group_invites (code TEXT NOT NULL, thash TEXT NOT NULL, created TEXT NOT NULL, PRIMARY KEY (code, thash))'),
+    // Wrong-password tries per device (see checkPw). Rows older than a day are deleted.
+    db.prepare('CREATE TABLE IF NOT EXISTS group_fails (code TEXT NOT NULL, who TEXT NOT NULL, fails INTEGER NOT NULL, until INTEGER NOT NULL, at INTEGER NOT NULL, PRIMARY KEY (code, who))'),
+  ]);
+  for (const sql of [
+    'ALTER TABLE groups ADD COLUMN pw_salt TEXT',
+    'ALTER TABLE groups ADD COLUMN pw_hash TEXT',
+    'ALTER TABLE groups ADD COLUMN max_add INTEGER NOT NULL DEFAULT 100000',
+    'ALTER TABLE groups ADD COLUMN fails INTEGER NOT NULL DEFAULT 0',
+    'ALTER TABLE groups ADD COLUMN lock_until INTEGER NOT NULL DEFAULT 0',
+    'ALTER TABLE groups ADD COLUMN closed INTEGER NOT NULL DEFAULT 0',
+  ]) { try { await db.prepare(sql).run(); } catch { /* already there */ } }
+  groupReady = true;
+}
+const sha = async s => b64url(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)));
+const newKey = () => b64url(crypto.getRandomValues(new Uint8Array(18)));
+const sameStr = (a, b) => { a = String(a); b = String(b); if (a.length !== b.length) return false; let d = 0; for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i); return d === 0; };
+const keyOK = k => typeof k === 'string' && k.length >= 8 && k.length <= 100;
+const cleanPw = p => String(p == null ? '' : p).trim().slice(0, 64);
+const GSQL = 'SELECT g.*, (SELECT COUNT(*) FROM group_members m WHERE m.code = g.code AND m.blocked = 0) AS mc FROM groups g WHERE g.code = ?';
+const getG = (db, code) => db.prepare(GSQL).bind(code).first();
+
+// Workers allow at most 100,000 PBKDF2 rounds.
+async function pwHash(pw, salt) {
+  const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveBits']);
+  return b64url(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 5000 }, k, 256));   // kept low for the free plan's 10 ms CPU limit; the 5-tries lockout limits guessing
+}
+async function setPw(db, code, pw) {       // pw '' removes the password
+  if (!pw) return db.prepare('UPDATE groups SET pw_salt = NULL, pw_hash = NULL, fails = 0, lock_until = 0 WHERE code = ?').bind(code).run();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  return db.prepare('UPDATE groups SET pw_salt = ?, pw_hash = ?, fails = 0, lock_until = 0 WHERE code = ?').bind(b64url(salt), await pwHash(pw, salt), code).run();
+}
+// null = password fine. Otherwise the error to send. Five tries, then ten minutes' wait, for that device only
+// (`who` = a hash of its internet address, the group and today's date, so it can't be traced and resets daily).
+// The try is counted before the password is checked, in one statement, so a burst of guesses can't slip past.
+async function checkPw(db, g, pw, who) {
+  pw = cleanPw(pw);
+  if (!pw) return json({ error: 'password' }, 401);
+  const now = Date.now();
+  await db.prepare('DELETE FROM group_fails WHERE at < ?').bind(now - 86400000).run();   // forget old tries
+  const r = await db.prepare(`INSERT INTO group_fails (code, who, fails, until, at) VALUES (?1, ?2, 1, 0, ?3)
+    ON CONFLICT(code, who) DO UPDATE SET fails = CASE WHEN until > ?3 THEN fails ELSE fails + 1 END, at = ?3
+    RETURNING fails, until`).bind(g.code, who, now).first();
+  if (r.until > now) return json({ error: 'wait', secs: Math.ceil((r.until - now) / 1000) }, 429);
+  if (r.fails > 5) {
+    await db.prepare('UPDATE group_fails SET fails = 0, until = ? WHERE code = ? AND who = ?').bind(now + 600000, g.code, who).run();
+    return json({ error: 'wait', secs: 600 }, 429);
+  }
+  if (sameStr(await pwHash(pw, fromB64url(g.pw_salt)), g.pw_hash)) {
+    await db.prepare('DELETE FROM group_fails WHERE code = ? AND who = ?').bind(g.code, who).run();
+    return null;
+  }
+  return json({ error: 'wrong' }, 403);
+}
+async function findMember(db, code, mkey) {
+  if (!keyOK(mkey)) return null;
+  return db.prepare('SELECT mid, blocked FROM group_members WHERE code = ? AND mid = ?').bind(code, await sha(mkey)).first();
+}
+async function newMember(db, code) {       // returns the new key, or '' if the group is full
+  const c = await db.prepare('SELECT COUNT(*) AS c FROM group_members WHERE code = ?').bind(code).first();
+  if (c.c >= 5000) return '';
+  const key = newKey();
+  await db.prepare('INSERT INTO group_members (code, mid, created) VALUES (?,?,?)').bind(code, await sha(key), new Date().toISOString()).run();
+  return key;
+}
+async function isAdmin(db, g, key) {
+  if (!keyOK(key)) return false;
+  const h = await sha(key);
+  if (g.admin && sameStr(h, await sha(g.admin))) return true;
+  return !!(await db.prepare('SELECT 1 AS x FROM group_admins WHERE code = ? AND khash = ?').bind(g.code, h).first());
+}
+
+// What an admin sees: the group, the latest adds and each member's number (join order, no names).
+async function adminState(db, code, extra) {
+  const g = await getG(db, code);
+  const mem = (await db.prepare('SELECT mid, blocked FROM group_members WHERE code = ? ORDER BY rowid LIMIT 5000').bind(code).all()).results;   // same cap as newMember, so every member can be blocked
+  const num = new Map(mem.map((x, i) => [x.mid, i + 1]));
+  const adds = (await db.prepare('SELECT id, mid, n, at, removed FROM group_adds WHERE code = ? ORDER BY id DESC LIMIT 40').bind(code).all()).results;
+  const sums = new Map((await db.prepare('SELECT mid, COUNT(*) AS c, SUM(n) AS s FROM group_adds WHERE code = ? AND removed = 0 GROUP BY mid').bind(code).all()).results.map(x => [x.mid, x]));
+  return { ...extra, group: groupOut(g),
+    adds: adds.map(a => ({ id: a.id, n: a.n, at: a.at, m: num.get(a.mid) || 0, removed: !!a.removed })),
+    members: mem.map((x, i) => ({ m: i + 1, blocked: !!x.blocked, c: (sums.get(x.mid) || {}).c || 0, s: (sums.get(x.mid) || {}).s || 0 })).filter(x => x.c || x.blocked).slice(0, 60) };
+}
+// Take away an add (or all of one member's adds) and fix the total, in one go.
+const unwind = (db, code, now, where, ...vals) => [
+  db.prepare(`UPDATE groups SET total = MAX(0, total - COALESCE((SELECT SUM(n) FROM group_adds WHERE code = ? AND removed = 0 AND ${where}), 0)),
+    adds = MAX(0, adds - (SELECT COUNT(*) FROM group_adds WHERE code = ? AND removed = 0 AND ${where})), updated = ? WHERE code = ?`).bind(code, ...vals, code, ...vals, now, code),
+  db.prepare(`UPDATE group_adds SET removed = 1 WHERE code = ? AND removed = 0 AND ${where}`).bind(code, ...vals),
+];
+async function adminDo(db, g, b) {
+  const code = g.code, now = new Date().toISOString();
+  const midOf = async m => { m = Math.floor(Number(m)); if (!(m >= 1 && m <= 5000)) return null;
+    const r = await db.prepare('SELECT mid FROM group_members WHERE code = ? ORDER BY rowid LIMIT 1 OFFSET ?').bind(code, m - 1).first(); return r && r.mid; };
+  let extra = {};
+  switch (b.do) {
+    case undefined: case 'list': break;
+    case 'remove': {
+      const id = Math.floor(Number(b.id)); if (!(id >= 1)) return json({ error: 'id' }, 400);
+      await db.batch(unwind(db, code, now, 'id = ?', id)); break; }
+    case 'block': case 'unblock': {
+      const mid = await midOf(b.m); if (!mid) return json({ error: 'member' }, 404);
+      const st = [];
+      if (b.do === 'block' && b.wipe === true) st.push(...unwind(db, code, now, 'mid = ?', mid));
+      st.push(db.prepare('UPDATE group_members SET blocked = ? WHERE code = ? AND mid = ?').bind(b.do === 'block' ? 1 : 0, code, mid));
+      await db.batch(st); break; }
+    case 'max': {
+      const v = Math.floor(Number(b.value)); if (!(v >= 1 && v <= 100000000)) return json({ error: 'max' }, 400);
+      await db.prepare('UPDATE groups SET max_add = ?, updated = ? WHERE code = ?').bind(v, now, code).run(); break; }
+    case 'password': {
+      const pw = cleanPw(b.password); if (pw && pw.length < 6) return json({ error: 'password' }, 400);
+      await setPw(db, code, pw); break; }
+    case 'invite': {
+      const token = newKey();
+      await db.prepare('DELETE FROM group_invites WHERE code = ? AND created < ?').bind(code, new Date(Date.now() - 7 * 864e5).toISOString()).run();
+      await db.prepare('INSERT INTO group_invites (code, thash, created) VALUES (?,?,?)').bind(code, await sha(token), now).run();
+      extra = { token }; break; }
+    case 'delete':
+      await db.batch([
+        db.prepare("UPDATE groups SET closed = 1, pw_salt = NULL, pw_hash = NULL, admin = NULL, meet = NULL, updated = ? WHERE code = ?").bind(now, code),
+        db.prepare('DELETE FROM group_members WHERE code = ?').bind(code), db.prepare('DELETE FROM group_adds WHERE code = ?').bind(code),
+        db.prepare('DELETE FROM group_admins WHERE code = ?').bind(code), db.prepare('DELETE FROM group_invites WHERE code = ?').bind(code)]);
+      return json({ closed: true });
+    default: return json({ error: 'do' }, 400);
+  }
+  return json(await adminState(db, code, extra));
+}
+
 async function groups(req, db, path) {
-  if (path === '/api/group' && req.method === 'POST') {          // start a group
-    let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
+  const start = path === '/api/group' && req.method === 'POST';
+  const m = path.match(/^\/api\/group\/([A-Z0-9]{6})(\/add|\/join|\/meet|\/admin|\/accept)?$/);
+  if (!start && !m) return path === '/api/group' ? json({ error: 'method' }, 405) : json({ error: 'not found' }, 404);
+  await groupSchema(db);
+  let b = {};
+  if (req.method === 'POST') {
+    if (Number(req.headers.get('content-length') || 0) > 4000) return json({ error: 'too big' }, 413);
+    try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
+    if (!b || typeof b !== 'object' || Array.isArray(b)) return json({ error: 'json' }, 400);
+  }
+  if (start) {                                                      // start a group
     const name = clean(b.name, 60), practice = clean(b.practice, 80), target = Math.floor(Number(b.target)), unit = b.unit === 'minutes' ? 'minutes' : 'count';
     if (!name || !practice || !(target >= 1 && target <= 100000000)) return json({ error: 'fields' }, 400);
+    const pw = cleanPw(b.password);
+    if (pw && pw.length < 6) return json({ error: 'password' }, 400);
     const now = new Date().toISOString();
     for (let i = 0; i < 5; i++) {
-      const code = newCode(), admin = newCode() + newCode() + newCode();
-      const r = await db.prepare('INSERT OR IGNORE INTO groups (code, name, practice, target, created, updated, unit, admin, members) VALUES (?,?,?,?,?,?,?,?,1)')
-        .bind(code, name, practice, target, now, now, unit, admin).run();
-      if (r.meta.changes) return json({ ...groupOut(await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first()), key: admin });
+      const code = newCode(), admin = newKey();
+      const r = await db.batch([
+        db.prepare('INSERT OR IGNORE INTO groups (code, name, practice, target, created, updated, unit, members) VALUES (?,?,?,?,?,?,?,1)').bind(code, name, practice, target, now, now, unit),
+        db.prepare('INSERT INTO group_admins (code, khash, created) SELECT ?, ?, ? WHERE changes() > 0').bind(code, await sha(admin), now)]);
+      if (r[0].meta.changes) {
+        if (pw) await setPw(db, code, pw);
+        const mkey = await newMember(db, code);
+        return json({ ...groupOut(await getG(db, code)), key: admin, mkey });
+      }
     }
     return json({ error: 'busy' }, 503);
   }
-  const m = path.match(/^\/api\/group\/([A-Z0-9]{6})(\/add|\/join|\/meet)?$/);
-  if (!m) return null;
-  const code = m[1];
-  if (!m[2] && req.method === 'GET') {                              // see a group
-    const g = await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first();
-    return g ? json(groupOut(g)) : json({ error: 'not found' }, 404);
+  const code = m[1], act = m[2] || '';
+  const g = await getG(db, code);
+  if (!g) return json({ error: 'not found' }, 404);
+  if (g.closed) return json({ error: 'closed' }, 410);
+  if (!act && req.method === 'GET') return json(g.pw_hash ? { code: g.code, name: g.name, locked: true } : groupOut(g));
+  if (req.method !== 'POST') return json({ error: 'method' }, 405);
+
+  if (act === '/join') {                                            // join, or just refresh when the phone already has its key
+    const mem = await findMember(db, code, b.mkey);
+    let mkey = '';
+    if (!mem) {
+      if (g.pw_hash) {
+        const who = await sha(`${req.headers.get('CF-Connecting-IP') || ''}|${code}|${new Date().toISOString().slice(0, 10)}`);
+        const bad = await checkPw(db, g, b.password, who); if (bad) return bad;
+      }
+      mkey = await newMember(db, code);
+      if (!mkey) return json({ error: 'full' }, 403);
+    }
+    return json({ ...groupOut(await getG(db, code)), ...(mkey && { mkey }), ...(mem && mem.blocked && { blocked: true }) });
   }
-  if (m[2] === '/join' && req.method === 'POST') {                 // someone joins with the code: count them once
-    await db.prepare('UPDATE groups SET members = members + 1 WHERE code = ?').bind(code).run();
-    const g = await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first();
-    return g ? json(groupOut(g)) : json({ error: 'not found' }, 404);
+  if (act === '/add') {                                             // add to the shared count
+    const n = Math.floor(Number(b.n)), mx = g.max_add || 100000;
+    if (!(n >= 1 && n <= mx)) return json({ error: 'n', max: mx }, 400);
+    let mem = await findMember(db, code, b.mkey), mkey = '';
+    if (!mem) {                                                     // a phone from before member keys: it gets one, unless there is a password
+      if (g.pw_hash) return json({ error: 'password' }, 401);
+      if (b.join !== true) return json({ error: 'key' }, 403);
+      mkey = await newMember(db, code);
+      if (!mkey) return json({ error: 'full' }, 403);
+      mem = { mid: await sha(mkey) };
+    } else if (mem.blocked) return json({ error: 'blocked' }, 403);
+    const at = new Date().toISOString();
+    await db.batch([
+      db.prepare('INSERT INTO group_adds (code, mid, n, at) VALUES (?,?,?,?)').bind(code, mem.mid, n, at),
+      db.prepare('UPDATE groups SET total = total + ?, adds = adds + 1, updated = ? WHERE code = ?').bind(n, at, code)]);
+    return json({ ...groupOut(await getG(db, code)), ...(mkey && { mkey }) });
   }
-  if (m[2] === '/meet' && req.method === 'POST') {                 // the starter sets when and where (in person / online link)
-    let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
-    const g = await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first();
-    if (!g) return json({ error: 'not found' }, 404);
-    if (!b.key || b.key !== g.admin) return json({ error: 'key' }, 403);
-    const meet = b.meet ? { when: clean(b.meet.when, 80), how: ['in person', 'Zoom', 'Google Meet', 'online'].includes(b.meet.how) ? b.meet.how : 'online',
+  if (act === '/accept') {                                          // use a co-admin invite (works once, for a week)
+    const tok = keyOK(b.token) ? b.token : '';
+    if (!tok) return json({ error: 'invite' }, 400);
+    const r = await db.prepare('DELETE FROM group_invites WHERE code = ? AND thash = ? AND created > ?').bind(code, await sha(tok), new Date(Date.now() - 7 * 864e5).toISOString()).run();
+    if (!r.meta.changes) return json({ error: 'invite' }, 403);
+    const key = newKey();
+    await db.prepare('INSERT INTO group_admins (code, khash, created) VALUES (?,?,?)').bind(code, await sha(key), new Date().toISOString()).run();
+    const mem = await findMember(db, code, b.mkey), mkey = mem ? '' : await newMember(db, code);
+    return json({ ...groupOut(await getG(db, code)), key, ...(mkey && { mkey }) });
+  }
+  if (!(await isAdmin(db, g, b.key))) return json({ error: 'key' }, 403);   // everything below is for admins
+  if (act === '/admin') return adminDo(db, g, b);
+  if (act === '/meet') {                                            // an admin sets when and where (in person / online link)
+    const meet = b.meet && typeof b.meet === 'object' ? { when: clean(b.meet.when, 80), how: ['in person', 'Zoom', 'Google Meet', 'online'].includes(b.meet.how) ? b.meet.how : 'online',
       where: clean(b.meet.where, 120), link: cleanUrl(b.meet.link), date: /^\d{4}-\d{2}-\d{2}$/.test(b.meet.date) ? b.meet.date : '', time: /^\d{2}:\d{2}$/.test(b.meet.time) ? b.meet.time : '',
       repeat: ['once', 'daily', 'weekly'].includes(b.meet.repeat) ? b.meet.repeat : 'once' } : null;
     await db.prepare('UPDATE groups SET meet = ?, updated = ? WHERE code = ?').bind(meet ? JSON.stringify(meet) : null, new Date().toISOString(), code).run();
-    return json(groupOut(await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first()));
-  }
-  if (m[2] === '/add' && req.method === 'POST') {                  // add to the shared count
-    let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
-    const n = Math.floor(Number(b.n));
-    if (!(n >= 1 && n <= 100000)) return json({ error: 'n' }, 400);
-    await db.prepare('UPDATE groups SET total = total + ?, adds = adds + 1, updated = ? WHERE code = ?').bind(n, new Date().toISOString(), code).run();
-    const g = await db.prepare('SELECT * FROM groups WHERE code=?').bind(code).first();
-    return g ? json(groupOut(g)) : json({ error: 'not found' }, 404);
+    return json(groupOut(await getG(db, code)));
   }
   return json({ error: 'method' }, 405);
 }
