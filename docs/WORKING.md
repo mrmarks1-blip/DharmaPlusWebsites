@@ -10,21 +10,24 @@ Codes in brackets (A1, C5…) point back to the review checklist in `docs/archiv
 
 ## 1. Where things are
 
-Moved to dharmasoup.org (brand "Dharma Soup") on 2026-11-09. slicedharma.com lapses on 2026-12-10.
+Moved to dharmasoup.org (brand "Dharma Soup") on 2026-11-09. slicedharma.com lapses on 2026-12-10 (registered at IONOS; not renewing).
+Its app shows a "We've moved" card until then. dharmasoup.org is registered with Cloudflare (renews 2027-11-09).
 
 | What | Where |
 |---|---|
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
-| The app | `practice/index.html`: one file, about 4,800 lines, **CRLF line endings** (keep them; never use sed on it) |
-| Service worker | `practice/sw.js`. Live: `dp-v10-19` (main 3646112, 5 Nov 2026). Next release: `dp-v10-20`. |
+| The app | `practice/index.html`: one file, about 5,100 lines, **CRLF line endings** (keep them; never use sed on it) |
+| Service worker | `practice/sw.js`. Live: `dp-v10-20` (main 1cbf57b, 9 Nov 2026). Next release: `dp-v10-21`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
-| Push server, groups | `worker/` + D1 database `dharma-push` + a 15-minute cron (`wrangler.jsonc`) |
-| Home page | `index.html` ("Sliced Dharma") |
+| Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
+| Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
+| Rate limit | One Cloudflare rule on dharmasoup.org: more than 20 `/api/` requests per 10 s from one address is blocked for 10 s. |
+| Home page | `index.html` ("Dharma Soup") |
 | Booklet | `print/build.py` → `practice/four-thoughts-refuge-prostrations.pdf` |
 | Drafts and notes (not served) | `content/`, `design/`, `print/`, `docs/`, as listed in `.assetsignore` |
-| Local preview | `.claude/launch.json` config `v10` (port 8740) or `v10b` (port 8752), then open `/practice/`. Python only; Node isn't installed. Service workers don't register on localhost in the browser pane, so test service-worker changes on a preview or the live site. |
-| Deploy | `git push origin v10-redesign:main` (fast-forward). Live on slicedharma.com and www in about a minute. Other branches build preview versions. |
+| Local preview | `.claude/launch.json` config `v10` (port 8740) or `v10b` (port 8752), then open `/practice/`. Python serves it; Node is installed (useful for `node --check`). Service workers don't register on localhost in the browser pane, so test service-worker changes on a preview or the live site. |
+| Deploy | `git push origin v10-redesign:main` (fast-forward). Live on dharmasoup.org, www and (until it lapses) slicedharma.com in about a minute. Other branches build preview versions. |
 
 ---
 
@@ -115,6 +118,21 @@ Moved to dharmasoup.org (brand "Dharma Soup") on 2026-11-09. slicedharma.com lap
   Institute, BSWA for Ajahn Brahm, Lotsawa House), then "This app" as its own card.
 - **Sessions (D9):** leaving mid-session offers Resume or Start fresh on Today. There's a 5-second hold-to-reset and
   an option to hide the number.
+- **Automatic backup (2026-11-09, opt-in).** The phone encrypts a copy once a day and stores it on our server
+  (`/api/backup/*`, table `backups`); the server never sees the 16-character code or the key. The code is offered to
+  the phone's password manager (iCloud Keychain / Google) and shown to write down. Restore with the code on a new
+  phone. Turning it off deletes the online copy. Capped at 2,000 backups and ~1.4 MB each (photo dropped if too big);
+  untouched for 400 days = deleted. Key `esm_cloud`; the code is never put in backup files. File backups still work.
+- **Groups (2026-11-09).** Optional join password (6+ characters, per-device lockout after 5 tries, group-wide
+  backstop of 50 tries an hour). Each phone gets a member key; every add is recorded. Organisers can remove an add,
+  block a phone, cap the size of one add, change the password, invite co-organisers (one-time link) and close the
+  group. Still no names or accounts. A blocked person can rejoin a group without a password by clearing their data.
+- **Reminders (2026-11-09).** Sent from a cron every minute in batches of 15, longest-waiting first, max 3 per phone
+  per run; a reminder can go out up to 2 hours late (bells never catch up). If it's more than 5 minutes late the
+  notification says it came from a free server. Saving settings never fires an earlier reminder.
+- **Phone safety (2026-11-09).** Storage-full warning, "Used this app before?" card on an empty app, an "Add to Home
+  Screen" card for iPhone Safari, Save-to-Files / Drive hints, and a Send feedback button (feedback@dharmasoup.org)
+  in About and Settings.
 
 **In the app but no longer rules (C8, D10).** The prostrations-for-every-body note and the light Material 3 touches
 stay as they are. They aren't protected, so later work can change or remove them freely.
@@ -123,8 +141,15 @@ stay as they are. They aren't protected, so later work can change or remove them
 
 ## 6. To do
 
-Live since 2026-11-05 (main 23d7190, SW `dp-v10-18`): quick-add memory, share-image random
-background and prompt, tap-count backgrounds, Ko-fi wording, and the Generosity additions (section 5).
+Live since 2026-11-09 (main 1cbf57b, SW `dp-v10-20`): Dharma Soup rename and dharmasoup.org, automatic backup,
+group organiser tools, minute-by-minute reminders, phone-safety cards and feedback (section 5).
+
+To check:
+- **On a real iPhone:** does Safari offer to save the backup code to Passwords, and fill it in on restore?
+- **Reminder runs:** look at Workers → Observability for "exceeded CPU" errors once more people use reminders. If
+  they appear, lower `CAP` in `worker/index.js` to 8–10 or move to the $5 plan.
+- **Before 2026-12-10:** move your own phones from slicedharma.com (Back up now, then restore with the code on
+  dharmasoup.org).
 
 Waiting on Gareth to choose:
 1. **Wider causes for the Generosity page (C6).** Checked and working on 2026-11-05. Pick any to add:
