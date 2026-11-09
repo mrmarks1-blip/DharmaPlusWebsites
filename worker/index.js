@@ -113,7 +113,7 @@ const getG = (db, code) => db.prepare(GSQL).bind(code).first();
 // Workers allow at most 100,000 PBKDF2 rounds.
 async function pwHash(pw, salt) {
   const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveBits']);
-  return b64url(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 100000 }, k, 256));
+  return b64url(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 5000 }, k, 256));   // kept low for the free plan's 10 ms CPU limit; the 5-tries lockout limits guessing
 }
 async function setPw(db, code, pw) {       // pw '' removes the password
   if (!pw) return db.prepare('UPDATE groups SET pw_salt = NULL, pw_hash = NULL, fails = 0, lock_until = 0 WHERE code = ?').bind(code).run();
