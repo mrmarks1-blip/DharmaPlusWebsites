@@ -2405,7 +2405,7 @@ function mtGo(){const o=mt();ST.sitPhase=null;ST.ov='sit';sitStart(o.open?0:o.mi
 function mtEnd(){const s=ST.sit;if(!s)return;const sat=Math.floor(Math.max(0,Date.now()-s.start)/60000);
   if(sat>0&&acts().some(a=>a.id==='meditation'))addActAmount(dayKey(),'meditation',sat);
   sitStop();keepAwake(false);toast(sat?`${sat} minute${sat>1?'s':''} of meditation added to your diary`:'Sitting ended');
-  if(sat>0&&myGroups().some(g=>g.unit==='minutes')){ST.sitMin=sat;ST.sheet='gsit';}}
+  if(sat>0&&myGroups().some(g=>g.unit==='minutes'&&!g.closed)){ST.sitMin=sat;ST.sheet='gsit';}}
 
 // Kinds of meditation: a short card each (swipe along the row), tap for more. Quiet by default: what
 // other traditions say sits in "More from other traditions". Our words; every claim names its source
@@ -2584,7 +2584,7 @@ function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].i
   const prog=list=>{const n=list.filter(p=>(getPD(p.id).counter||0)>0).length;return n?` · ${n} under way`:'';};
   return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
   <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
-  ${fold('p_together','PRACTISE TOGETHER',G.length?G.map(g=>`${g.name}: ${fmt(g.total||0)} of ${fmt(g.target)}`).join(' · '):'A shared count with your sangha or friends',groupsBody(),false,'hl')}
+  ${fold('p_together','PRACTISE TOGETHER',G.length?G.filter(g=>!g.closed).map(g=>`${g.name}:${fmt(g.total||0)} of ${fmt(g.target)}`).join(' · '):'A shared count with your sangha or friends',groupsBody(),false,'hl')}
   ${fold('p_med','MEDITATION',`Timer: ${o.open?'open sitting':o.min+' minutes'} · kinds of meditation · the Three Aa`,medTimerCard(noonOf(new Date())).replace('<p class="h2">MEDITATION TIMER</p>','')
     +`<p class="h2" style="margin-top:18px">KINDS OF MEDITATION</p>${medKindsRow().replace('<p class="h2">KINDS OF MEDITATION</p>','')}
     <p class="h2" style="margin-top:18px">OPEN SITTING</p><div class="list"><button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low</span></span>${chev}</button></div>`)}
@@ -3974,12 +3974,29 @@ const GROUP_PRESETS=[['Seven-Line Prayer','Seven-Line Prayer',1000,'count'],['Mi
 const myGroups=()=>ls('esm_groups',[])||[];
 // The start-a-group form keeps what you typed while you choose a preset (ST.gf), and stays open.
 const gf=()=>ST.gf||(ST.gf={name:'',p:0,prac:GROUP_PRESETS[0][1],target:GROUP_PRESETS[0][2],unit:'count'});
-async function groupFetch(code,opts){const r=await fetch(`/api/group${code?'/'+code:''}${opts&&opts.path?opts.path:opts&&opts.add?'/add':''}`,opts&&opts.body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(opts.body)}:undefined);if(!r.ok)throw new Error(r.status);return r.json();}
+async function groupFetch(code,opts){const r=await fetch(`/api/group${code?'/'+code:''}${opts&&opts.path||''}`,opts&&opts.body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(opts.body)}:undefined);let j=null;try{j=await r.json();}catch{}if(!r.ok){const e=new Error(r.status);e.status=r.status;e.data=j||{};throw e;}return j;}
 function groupSave(g){const old=myGroups().find(x=>x.code===g.code)||{},L=myGroups().filter(x=>x.code!==g.code);lsSet('esm_groups',[{...old,...g},...L]);}
-async function groupRefresh(){for(const g of myGroups()){try{groupSave(await groupFetch(g.code));}catch{}}if(ST.sheet==='groups'||ST.sheet==='group')render();}
+// Each phone keeps its own member key (mkey) from the server; an organiser's phone also keeps key. Both stay in esm_groups.
+// Joining and refreshing are the same call: with a key it just updates; without one the server gives a key (or asks for the password).
+async function groupJoin(code,pw){const old=myGroups().find(x=>x.code===code)||{},r=await groupFetch(code,{path:'/join',body:{mkey:old.mkey||undefined,password:pw||undefined}});groupSave({...r,blocked:!!r.blocked,needpw:false,closed:false});return r;}
+async function groupRefresh(){for(const g of myGroups()){if(g.closed)continue;try{await groupJoin(g.code);}catch(e){groupErr(e,g.code);}}if(ST.sheet==='groups'||ST.sheet==='group')render();}
+// A friendly line for each way the server can say no. It also remembers "closed" and "needs a password" on this phone.
+function groupErr(e,code){const s=e&&e.status,d=(e&&e.data)||{},has=code&&myGroups().some(x=>x.code===code);
+  if(s===410){if(has)groupSave({code,closed:true});return'This group has been closed.';}
+  if(s===401){if(has)groupSave({code,needpw:true});return'This group has a password. Please enter it.';}
+  if(s===403&&d.error==='wrong')return'That password doesn’t match. Please try again.';
+  if(s===403&&d.error==='blocked')return'Adding from this phone has been paused by the group’s organisers.';
+  if(s===403&&d.error==='full')return'This group is full.';
+  if(s===403&&d.error==='key')return'This phone can’t do that for this group.';
+  if(s===429)return`Too many tries. Please wait ${Math.max(1,Math.ceil((d.secs||600)/60))} minutes, then try again.`;
+  if(s===404)return'No group with that code.';
+  if(s===400&&d.error==='n')return`The most you can add at once is ${fmt(d.max||100000)}.`;
+  if(s===400)return'Please check what you typed.';
+  return'Couldn’t reach the server. Please try again when you’re online.';}
 const groupLink=g=>`${APP_URL}#join=${g.code}`;
 const unitOf=g=>g.unit==='minutes'?' minutes':'';
 function groupCard(g){const pct=Math.min(100,Math.round((g.total||0)/g.target*100));
+  if(g.closed)return`<button class="item" data-act="group" data-v="${g.code}"><span class="grow"><span class="t">${esc(g.name)}</span><span class="s">This group has been closed</span></span>${chev}</button>`;
   return`<button class="item" data-act="group" data-v="${g.code}" style="flex-wrap:wrap"><span class="grow"><span class="t">${esc(g.name)}</span><span class="s">${esc(g.practice)} · ${fmt(g.total||0)} of ${fmt(g.target)}${unitOf(g)} · ${g.members||1} ${(g.members||1)===1?'person':'people'}</span><span class="minibar" style="display:block"><i style="width:${Math.max(pct,g.total?1:0)}%"></i></span></span>${chev}</button>`;}
 function groupsBody(){const L=myGroups();
   return`${L.length?`<div class="list">${L.map(groupCard).join('')}</div>`:'<p class="small">Everyone adds what they did, and you all see the total. No names or accounts: just a 6-letter code to share.</p>'}
@@ -3988,18 +4005,24 @@ const codeBoxes=(v='')=>`<div class="codebox" role="group" aria-label="Group cod
 function sheetGroups(){const F=gf(),mode=ST.gmode||'start';
   return`<div class="grab"></div><h2 class="h1">Practise together</h2>
   <div class="seg" style="grid-template-columns:1fr 1fr"><button class="opt${mode==='start'?' on':''}" data-act="gmode" data-v="start">Start a group</button><button class="opt${mode==='join'?' on':''}" data-act="gmode" data-v="join">Join with a code</button></div>
-  ${mode==='join'?`<p class="small">Enter the 6-letter code someone shared with you.</p>${codeBoxes(ST.gjoin)}<button class="btn primary wide" data-act="gjoin">Join</button>`
+  ${mode==='join'?`<p class="small">Enter the 6-letter code someone shared with you.</p>${codeBoxes(ST.gjoin)}
+    ${ST.gjpw?`<label class="small" for="gjpw">This group has a password. Ask whoever invited you.</label><input id="gjpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Password">`:''}
+    <button class="btn primary wide" data-act="gjoin">Join</button>`
   :`<label class="small" for="gname">Name of the group</label><input id="gname" data-gf="name" type="text" maxlength="60" value="${esc(F.name)}" placeholder="e.g. Brynmawr sangha, for Lama Rabsang’s long life">
     <p class="small" style="margin:0">What you will do together</p>
     <div class="jchips">${GROUP_PRESETS.map(([l],i)=>`<button class="jchip${F.p===i?' on':''}" data-act="gpreset" data-v="${i}" style="--c:var(--accent)"><i></i>${l}</button>`).join('')}</div>
     ${GROUP_PRESETS[F.p][3]==='minutes'?'':`<label class="small" for="gprac">What you will count</label><input id="gprac" data-gf="prac" type="text" maxlength="80" value="${esc(F.prac)}">`}
     <label class="small" for="gtarget">Together, how many${GROUP_PRESETS[F.p][3]==='minutes'?' minutes':''}?</label><input id="gtarget" data-gf="target" type="number" inputmode="numeric" min="1" value="${esc(F.target)}">
+    <label class="small" for="gpw">Password to join (optional)</label><input id="gpw" data-gf="pw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(F.pw||'')}" placeholder="Leave empty: anyone with the code can join">
     <button class="btn primary wide" data-act="gcreate">Start the group</button>
     <p class="small">Next you can plan a time together: in person, on Zoom or Google Meet.</p>`}
-  <p class="small">The server keeps only each group’s name, what is counted, the target, the total, how many have joined, and the meeting plan. It needs the internet.</p>
+  <p class="small">The server keeps only each group’s name, what is counted, the target, the total, each add (an amount and a time, with no name), a scrambled key for each phone, and the meeting plan. A password, if you set one, is kept scrambled. It needs the internet.</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const meetText=m=>m?[m.date?new Date(m.date+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'}):'',m.time,m.repeat==='weekly'?'every week':m.repeat==='daily'?'every day':'',m.when].filter(Boolean).join(' · '):'';
-function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'';const pct=Math.min(100,Math.round((g.total||0)/g.target*100)),m=g.meet,mins=g.unit==='minutes';
+function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'';
+  if(g.closed)return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p>This group has been closed.</p><p class="small">The count reached ${fmt(g.total||0)} of ${fmt(g.target)}${unitOf(g)} together. Thank you for practising with them.</p>
+  <button class="btn primary wide" data-act="gleave">Remove it from my list</button>`;
+  const pct=Math.min(100,Math.round((g.total||0)/g.target*100)),m=g.meet,mins=g.unit==='minutes';
   return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p class="mantra" style="font-size:var(--fs-lg)">${mantraHTML(g.practice.toUpperCase()===g.practice?g.practice:esc(g.practice))}</p>
   <div><div class="bignum" style="font-size:calc(44px * var(--scale))">${fmt(g.total||0)}${mins?'<small> min</small>':''}</div><p class="sub">of ${fmt(g.target)}${unitOf(g)} together · ${pct}%</p>
     <p class="small">${g.members||1} ${(g.members||1)===1?'person has':'people have'} joined${g.adds?` · added ${g.adds===1?'once':fmt(g.adds)+' times'}`:''}</p></div>
@@ -4009,11 +4032,15 @@ function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'
     <div class="btns">${m.link?`<a class="btn primary" href="${esc(m.link)}" target="_blank" rel="noopener">Join the call ↗</a>`:''}${m.date&&m.time?`<button class="btn soft" data-act="gcal">${ico('cal')} Add to my calendar</button>`:''}</div></div>`:''}
   ${g.key?`<button class="btn soft wide" data-act="gmeetform">${ico('cal')} ${m?'Change the meeting plan':'Plan a time to practise together'}</button>`:''}
   ${ST.gmeet?meetForm(m):''}
+  ${g.needpw?`<div class="card stack"><b>This group now has a password</b><p class="small">Ask whoever runs the group for it, then type it here.</p>
+    <input id="gunlockpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Password" aria-label="Password"><button class="btn primary wide" data-act="gunlock">Unlock</button></div>`
+  :`${g.blocked?'<p class="small">Adding from this phone has been paused by the group’s organisers. You can still see the count.</p>':''}
   <p class="h2" style="margin:0">ADD WHAT YOU DID</p>
-  <div class="sitopts">${(mins?[10,20,30,60]:[7,21,108,1000]).map(n=>`<button class="opt" data-act="gadd" data-v="${n}">+ ${fmt(n)}${mins?' min':''}</button>`).join('')}</div>
-  <div class="btns"><input id="gaddn" type="number" inputmode="numeric" min="1" max="100000" placeholder="Or type a number" aria-label="How many"><button class="btn primary" data-act="gadd">Add</button></div>
-  <div class="card stack invite"><p class="small" style="margin:0">Invite others with this code</p><p class="bigcode">${g.code.split('').join(' ')}</p>
+  <div class="sitopts">${(mins?[10,20,30,60]:[7,21,108,1000]).filter(n=>n<=(+g.max||100000)).map(n=>`<button class="opt" data-act="gadd" data-v="${n}">+ ${fmt(n)}${mins?' min':''}</button>`).join('')}</div>
+  <div class="btns"><input id="gaddn" type="number" inputmode="numeric" min="1" max="${esc(g.max||100000)}" placeholder="Or type a number" aria-label="How many"><button class="btn primary" data-act="gadd">Add</button></div>`}
+  <div class="card stack invite"><p class="small" style="margin:0">Invite others with this code${g.locked?' (and the password)':''}</p><p class="bigcode">${g.code.split('').join(' ')}</p>
     <div class="btns even"><button class="btn primary" data-act="ginvite">${ico('share')} Share invite</button><button class="btn soft" data-act="gcopy">Copy</button></div></div>
+  ${g.key?`<button class="btn soft wide" data-act="gmanage">${ST.gmanage?'Hide group settings':'Manage group'}</button>${ST.gmanage?groupManage(g):''}`:''}
   <button class="btn link" data-act="gleave" style="align-self:center">Remove from this phone</button>`;}
 function meetForm(m){m=m||{};return`<div class="card stack"><b>Plan a time</b>
   <div class="seg" style="grid-template-columns:repeat(3,1fr)">${['in person','Zoom','Google Meet'].map(h=>`<button class="opt${(ST.ghow||m.how||'Zoom')===h?' on':''}" data-act="ghow" data-v="${h}" style="font-size:14px">${h==='in person'?'In person':h}</button>`).join('')}</div>
@@ -4022,8 +4049,40 @@ function meetForm(m){m=m||{};return`<div class="card stack"><b>Plan a time</b>
   ${(ST.ghow||m.how||'Zoom')==='in person'?`<input id="gmwhere" type="text" maxlength="120" placeholder="Where (address or place)" value="${esc(m.where||'')}">`:`<input id="gmlink" type="url" placeholder="Meeting link (https://…)" value="${esc(m.link||'')}">`}
   <input id="gmnote" type="text" maxlength="80" placeholder="A note, e.g. 7 Seven-Line Prayers, then sit" value="${esc(m.when||'')}">
   <div class="btns even"><button class="btn soft" data-act="gmeetcancel">Cancel</button><button class="btn primary" data-act="gmeetsave">Save the plan</button></div></div>`;}
-async function groupAdd(code,n){try{const g=await groupFetch(code,{add:1,body:{n}});groupSave(g);toast(`Added ${fmt(n)}. Together: ${fmt(g.total)}`);render();}
-  catch{toast('Couldn’t reach the server. Please try again when you’re online.');}}
+async function groupAdd(code,n){const old=myGroups().find(x=>x.code===code)||{};
+  try{const g=await groupFetch(code,{path:'/add',body:{n,mkey:old.mkey||undefined,join:true}});groupSave({...g,blocked:false,needpw:false});toast(`Added ${fmt(n)}. Together: ${fmt(g.total)}`);}
+  catch(e){if(e.status===403&&(e.data||{}).error==='blocked')groupSave({code,blocked:true});toast(groupErr(e,code));}}
+// Organiser tools. Every call sends this phone's organiser key; the server checks it each time.
+// ST.gadm = what the server last told us (recent adds, members); ST.gconfirm = a question waiting for Yes.
+const gwhen=t=>{const d=new Date(t);return isNaN(d)?'':d.toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});};
+function groupAdmin(g,body){return groupFetch(g.code,{path:'/admin',body:{key:g.key,...body}}).then(r=>{
+  if(r.closed){groupSave({code:g.code,closed:true});ST.gmanage=false;ST.gadm=null;ST.gconfirm=null;toast('The group has been closed.');return false;}
+  groupSave(r.group);ST.gadm=r;ST.gconfirm=null;if(r.token)ST.ginv=`${APP_URL}#admin=${g.code}.${r.token}`;render();return true;}).catch(e=>{toast(groupErr(e,g.code));return false;});}
+function groupManage(g){const A=ST.gadm,C=ST.gconfirm;
+  if(!A)return'<div class="card stack"><b>Manage group</b><p class="small">Loading…</p></div>';
+  const u=unitOf(g);
+  return`<div class="card stack"><b>Manage group</b>
+  ${C?`<div class="card stack"><p>${esc(C.text)}</p>${C.do==='block'?`<button class="btn danger wide" data-act="gadmgo" data-v="wipe">Block, and remove their adds</button><button class="btn danger wide" data-act="gadmgo">Block, keep their adds</button>`:`<button class="btn danger wide" data-act="gadmgo">${esc(C.yes)}</button>`}<button class="btn soft wide" data-act="gadmno">Cancel</button></div>`:''}
+  <p class="h2" style="margin:0">RECENT ADDS</p>
+  ${A.adds.length?`<div class="list">${A.adds.map(a=>`<div class="item" style="flex-wrap:wrap${a.removed?';opacity:.55':''}"><span class="grow"><span class="t">${a.removed?`<s>${fmt(a.n)}${u}</s> removed`:`${fmt(a.n)}${u}`}</span><span class="s">Member ${esc(a.m||'?')} ·${esc(gwhen(a.at))}</span></span>${a.removed?'':`<button class="btn soft" style="min-height:40px" data-act="gadmask" data-v="remove" data-id="${+a.id}">Remove</button>`}</div>`).join('')}</div>`:'<p class="small">Nothing has been added yet.</p>'}
+  ${A.members.length?`<p class="h2" style="margin:0">PEOPLE WHO HAVE ADDED</p><p class="small" style="margin:0">No names: each phone is just a number, in the order they joined.</p>
+  <div class="list">${A.members.map(x=>`<div class="item" style="flex-wrap:wrap"><span class="grow"><span class="t">Member ${+x.m}${x.blocked?' · blocked':''}</span><span class="s">${fmt(x.c)} ${x.c===1?'add':'adds'} · ${fmt(x.s)}${u}</span></span><button class="btn soft" style="min-height:40px" data-act="gadmask" data-v="${x.blocked?'unblock':'block'}" data-m="${+x.m}">${x.blocked?'Allow again':'Block'}</button></div>`).join('')}</div>`:''}
+  <p class="h2" style="margin:0">LIMITS</p>
+  <label class="small" for="gmax">Most that can be added at once</label>
+  <div class="btns"><input id="gmax" type="number" inputmode="numeric" min="1" value="${esc(A.group.max)}"><button class="btn soft" data-act="gmaxsave">Save</button></div>
+  <label class="small" for="gnewpw">${A.group.locked?'Change the password to join':'Ask for a password to join'}</label>
+  <div class="btns"><input id="gnewpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="At least 4 characters"><button class="btn soft" data-act="gpwsave">Save</button></div>
+  <p class="small" style="margin:0">People already in the group won’t need the new password.</p>
+  ${A.group.locked?'<button class="btn link" data-act="gadmask" data-v="nopw" style="align-self:flex-start">Remove the password</button>':''}
+  <p class="h2" style="margin:0">ANOTHER ORGANISER</p>
+  <p class="small" style="margin:0">Make a link for someone you trust. It lets them look after this group from their own phone, which also helps if you lose yours. It works once, for a week.</p>
+  ${ST.ginv?`<p class="small" style="word-break:break-all;margin:0">${esc(ST.ginv)}</p><div class="btns even"><button class="btn primary" data-act="gadmshare">${ico('share')} Share link</button><button class="btn soft" data-act="gadmcopy">Copy</button></div>`:''}
+  <button class="btn soft wide" data-act="ginvadm">${ST.ginv?'Make a new link':'Make an invite link'}</button>
+  <button class="btn link" data-act="gadmask" data-v="delete" style="align-self:flex-start;color:var(--bad)">Close this group for everyone</button></div>`;}
+// Opened from a co-organiser invite link (#admin=CODE.TOKEN): ask first, then use the one-time token.
+function sheetGAccept(){const I=ST.ginvite;if(!I)return'';
+  return`<div class="grab"></div><h2 class="h1">Help run this group?</h2><p>You’ve been invited to be an organiser of a shared practice group. You’ll be able to remove a mistaken count and change the group’s settings.</p>
+  <button class="btn primary wide" data-act="gaccept">Yes, I’ll help</button><button class="btn soft wide" data-act="closesheet">Not now</button>`;}
 // Generosity (dāna): the centres and teachers whose work this app draws on, first; the app itself last.
 function ovDana(){const G=(t,s,u,l)=>`<div class="card stack"><b style="font-size:var(--fs-lg)">${t}</b><p>${s}</p><a class="btn soft" href="${u}" target="_blank" rel="noopener">${l} ↗</a></div>`;
   return`${topbar('Generosity')}<div class="ovbody"><div class="col">
@@ -4037,7 +4096,7 @@ function ovDana(){const G=(t,s,u,l)=>`<div class="card stack"><b style="font-siz
   <p class="h2">THIS APP</p>
   ${G('Dharma Practice',KOFI_WHY,KOFI,'Support the app on Ko-fi')}
   </div></div>`;}
-function sheetGSit(){const G=myGroups().filter(g=>g.unit==='minutes'),n=ST.sitMin||0;
+function sheetGSit(){const G=myGroups().filter(g=>g.unit==='minutes'&&!g.closed),n=ST.sitMin||0;
   return`<div class="grab"></div><h2 class="h1">Add your ${n} minutes?</h2><p class="small">To a shared meditation count.</p>
   <div class="list">${G.map(g=>`<button class="item" data-act="gsitadd" data-v="${g.code}" data-n="${n}"><span class="grow"><span class="t">${esc(g.name)}</span><span class="s">${fmt(g.total||0)} of ${fmt(g.target)} minutes together</span></span><span class="tag ok">+ ${n}</span></button>`).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Not this time</button>`;}
@@ -4199,7 +4258,7 @@ const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLea
 const OVERLAYS={dana:ovDana,fullmoon:ovFullMoon,aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,care:ovCare,about:ovAbout,tree:()=>''};
 const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,gaccept:sheetGAccept,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -4511,20 +4570,47 @@ document.getElementById('app').addEventListener('click',e=>{
     case'cdnow':cdStop();ST.tab='practice';mtBegin();break;
     case'cdfloat':cdFloat();return;
     case'fullmoon':ST.ov='fullmoon';break;
-    case'groups':ST.gmode=el.dataset.v||ST.gmode||'start';sheet('groups');groupRefresh();break;
+    case'groups':ST.gmode=el.dataset.v||ST.gmode||'start';ST.gjpw=false;sheet('groups');groupRefresh();break;
     case'gmode':ST.gmode=el.dataset.v;break;
     case'remgroup':{const F=gf();F.name=val('remtitle')||F.name;ST.gmode='start';sheet('groups');break;}
-    case'group':ST.gmeet=false;sheet('group',el.dataset.v);groupRefresh();break;
+    case'group':ST.gmeet=false;ST.gmanage=false;ST.gadm=null;ST.gconfirm=null;ST.ginv=null;sheet('group',el.dataset.v);groupRefresh();break;
     case'gpreset':{const F=gf(),P=GROUP_PRESETS[+el.dataset.v];F.p=+el.dataset.v;F.prac=P[1];F.target=P[2];F.unit=P[3];break;}
     case'gcreate':{const F=gf(),mins=F.unit==='minutes',name=String(F.name).trim(),practice=mins?'Minutes of meditation':String(F.prac).trim(),target=parseInt(F.target);
       if(!name||!practice||!(target>0)){toast(!name?'Please give the group a name':'Please say what you’ll count, and how many');return;}
-      groupFetch('',{body:{name,practice,target,unit:F.unit}}).then(g=>{groupSave({...g,mine:1});ST.gf=null;ST.sarg=g.code;ST.sheet='group';ST.gmeet=true;render();toast('Group started. Now plan a time, or share the code '+g.code);}).catch(()=>toast('Couldn’t reach the server. Please try again when you’re online.'));return;}
-    case'gjoin':{const code=[...document.querySelectorAll('.codebox .cb')].map(i=>i.value).join('').toUpperCase();if(!/^[A-Z0-9]{6}$/.test(code)){toast('The code is 6 letters and numbers');return;}
-      const known=myGroups().some(x=>x.code===code);
-      groupFetch(code,known?undefined:{path:'/join',body:{}}).then(g=>{groupSave(g);ST.gjoin=null;ST.sarg=g.code;ST.sheet='group';render();if(!known)toast('You’ve joined '+g.name);}).catch(()=>toast('No group with that code, or no internet.'));return;}
-    case'gadd':{const n=parseInt(el.dataset.v||val('gaddn'));if(!(n>0&&n<=100000))return;groupAdd(ST.sarg,n);return;}
+      const password=String(F.pw||'').trim();if(password&&password.length<4){toast('A password needs at least 4 characters');return;}
+      groupFetch('',{body:{name,practice,target,unit:F.unit,password:password||undefined}}).then(g=>{groupSave({...g,mine:1});ST.gf=null;ST.sarg=g.code;ST.sheet='group';ST.gmeet=true;ST.gmanage=false;ST.gadm=null;render();toast('Group started. Now plan a time, or share the code '+g.code);}).catch(e=>toast(groupErr(e)));return;}
+    case'gjoin':{const code=[...document.querySelectorAll('.codebox .cb')].map(i=>i.value).join('').toUpperCase();ST.gjoin=code;if(!/^[A-Z0-9]{6}$/.test(code)){toast('The code is 6 letters and numbers');return;}
+      const known=myGroups().some(x=>x.code===code),pw=val('gjpw');if(ST.gjpw&&!pw){toast('Please type the password');return;}
+      groupJoin(code,pw).then(g=>{ST.gjoin=null;ST.gjpw=false;ST.sarg=g.code;ST.sheet='group';ST.gmanage=false;ST.gadm=null;render();if(!known)toast('You’ve joined '+g.name);}).catch(e=>{if(e.status===401)ST.gjpw=true;toast(e.status===401?'This group has a password. Please type it below.':groupErr(e,code));});return;}
+    case'gunlock':{const pw=val('gunlockpw');if(!pw){toast('Please type the password');return;}
+      groupJoin(ST.sarg,pw).then(()=>toast('Thank you. You’re in.')).catch(e=>toast(groupErr(e,ST.sarg)));return;}
+    case'gadd':{const g=myGroups().find(x=>x.code===ST.sarg),n=parseInt(el.dataset.v||val('gaddn')),mx=(g&&g.max)||100000;if(!(n>0))return;if(n>mx){toast(`The most you can add at once is ${fmt(mx)}`);return;}groupAdd(ST.sarg,n);return;}
+    case'gmanage':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g||!g.key)return;ST.gmanage=!ST.gmanage;ST.gconfirm=null;if(ST.gmanage){ST.gadm=null;groupAdmin(g,{do:'list'});}break;}
+    case'gadmask':{const g=myGroups().find(x=>x.code===ST.sarg),v=el.dataset.v,A=ST.gadm;if(!g||!g.key||!A)return;
+      if(v==='unblock'){groupAdmin(g,{do:'unblock',m:+el.dataset.m});return;}
+      const ad=v==='remove'&&A.adds.find(x=>x.id===+id),T={
+        remove:ad&&{text:`Remove this add of ${fmt(ad.n)}${unitOf(g)}? The total will go down by that much.`,yes:'Yes, remove it',body:{do:'remove',id:+id}},
+        block:{text:`Stop Member ${+el.dataset.m} from adding any more? They will see a gentle message. You can allow them again later.`,body:{do:'block',m:+el.dataset.m}},
+        nopw:{text:'Take the password off? Anyone with the code will be able to join.',yes:'Yes, remove the password',body:{do:'password',password:''}},
+        delete:{text:'Close this group for everyone? Everyone will see that it has been closed, and the count can’t be brought back.',yes:'Yes, close the group',body:{do:'delete'}}}[v];
+      if(!T)return;ST.gconfirm={do:v,...T};break;}
+    case'gadmno':ST.gconfirm=null;break;
+    case'gadmgo':{const g=myGroups().find(x=>x.code===ST.sarg),C=ST.gconfirm;if(!g||!g.key||!C)return;
+      groupAdmin(g,C.do==='block'&&el.dataset.v==='wipe'?{...C.body,wipe:true}:C.body);return;}
+    case'gmaxsave':{const g=myGroups().find(x=>x.code===ST.sarg),v=parseInt(val('gmax'));if(!g||!g.key)return;if(!(v>=1&&v<=100000000)){toast('Please type a number, 1 or more');return;}
+      groupAdmin(g,{do:'max',value:v}).then(ok=>{if(ok)toast('Saved.');});return;}
+    case'gpwsave':{const g=myGroups().find(x=>x.code===ST.sarg),pw=val('gnewpw');if(!g||!g.key)return;if(pw.length<4){toast('A password needs at least 4 characters');return;}
+      groupAdmin(g,{do:'password',password:pw}).then(ok=>{if(ok)toast('Password saved. Tell the people you invite.');});return;}
+    case'ginvadm':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g||!g.key)return;groupAdmin(g,{do:'invite'});return;}
+    case'gadmshare':case'gadmcopy':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g||!ST.ginv)return;
+      const text=`Help look after our shared practice “${g.name}” in the ${APP_NAME} app. Open this link on your phone. It works once:`;
+      const copy=()=>navigator.clipboard.writeText(`${text} ${ST.ginv}`).then(()=>toast('Link copied. Paste it into a message to one person.')).catch(()=>toast('Couldn’t copy. Please copy the link shown.'));
+      if(a==='gadmshare'&&navigator.share)navigator.share({title:g.name,text,url:ST.ginv}).catch(e=>{if(!e||e.name!=='AbortError')copy();});else copy();return;}
+    case'gaccept':{const I=ST.ginvite;if(!I)return;const old=myGroups().find(x=>x.code===I.code)||{};
+      groupFetch(I.code,{path:'/accept',body:{token:I.token,mkey:old.mkey||undefined}}).then(r=>{groupSave({...r,mine:1,blocked:false,needpw:false,closed:false});ST.ginvite=null;ST.sarg=r.code;ST.sheet='group';ST.gmanage=false;ST.gadm=null;render();toast('You can now look after this group.');})
+        .catch(e=>{ST.ginvite=null;ST.sheet=null;toast(e.status===403?'This invite has already been used, or has run out. Please ask for a new one.':groupErr(e,I.code));});return;}
     case'ginvite':case'gcopy':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return;
-      const text=`Join our shared practice “${g.name}”: ${g.practice}, ${fmt(g.target)}${unitOf(g)} together.${g.meet?' '+meetText(g.meet)+'.':''} In the ${APP_NAME} app, open Practise together and enter the code ${g.code}, or tap:`;
+      const text=`Join our shared practice “${g.name}”: ${g.practice}, ${fmt(g.target)}${unitOf(g)} together.${g.meet?' '+meetText(g.meet)+'.':''}${g.locked?' It has a password: ask me and I’ll tell you.':''} In the ${APP_NAME} app, open Practise together and enter the code ${g.code}, or tap:`;
       const copy=()=>navigator.clipboard.writeText(`${text} ${groupLink(g)}`).then(()=>toast('Invitation copied. Paste it into a message.')).catch(()=>toast(`Code: ${g.code}`));
       if(a==='ginvite'&&navigator.share)navigator.share({title:g.name,text,url:groupLink(g)}).catch(e=>{if(!e||e.name!=='AbortError')copy();});else copy();return;}
     case'gmeetform':ST.gmeet=!ST.gmeet;ST.ghow=null;break;
@@ -4877,7 +4963,8 @@ document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.dataset&&d.datas
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
 // Links into the app: #practice=prostr opens a practice; #texts, #learn, #practice open a tab; #practices the explainers.
-{const jm=location.hash.match(/^#join=([A-Za-z0-9]{6})$/);if(jm){ST.tab='practice';ST.sheet='groups';ST.gjoin=jm[1].toUpperCase();ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
+{const am=location.hash.match(/^#admin=([A-Za-z0-9]{6})\.([\w-]{8,100})$/);if(am){ST.tab='practice';ST.sheet='gaccept';ST.ginvite={code:am[1].toUpperCase(),token:am[2]};ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
+{const jm=location.hash.match(/^#join=([A-Za-z0-9]{6})$/);if(jm){ST.tab='practice';ST.sheet='groups';ST.gmode='join';ST.gjoin=jm[1].toUpperCase();ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
 {const m=location.hash.match(/^#(practice|texts|learn|practices|calendar)(?:=([\w-]+))?$/);
   if(m){if(m[1]==='practice'&&m[2]&&findPR(m[2])){ST.tab='practice';ST.ov='practice';ST.arg=m[2];}else if(m[1]==='practices'){ST.tab='learn';ST.ov='practices';}
     else if(m[1]==='calendar')ST.ov='cal';else ST.tab=m[1];ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
