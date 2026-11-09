@@ -93,6 +93,8 @@ self.addEventListener('push', e => {
     bell: ['A mindfulness bell', 'Pause for a moment. One breath, just as it is.'],
     moon: ['Full moon today', 'In many traditions a day for practice: in the Tibetan tradition its effects are said to be greatly multiplied. Tap for what you might do.'],
   }[kind] || ['Dharma Practice', words];
+  // Sent more than a few minutes after its time: say so, gently (not for bells or the test one).
+  if (d.late && kind !== 'bell' && kind !== 'test') N[1] += '\nSent a little late: reminders go out in small batches from a free server, which keeps the app free.';
   if (kind === 'bell') self.clients.matchAll({ type: 'window' }).then(l => l.forEach(c => c.postMessage({ kind: 'bell' })));
   e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind + (d.pr ? '-' + d.pr : ''), renotify: kind === 'bell', data: { kind, pr: d.pr || '' } }));
 });

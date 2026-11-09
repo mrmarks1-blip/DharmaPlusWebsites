@@ -3511,7 +3511,7 @@ function sheetPush(){const c=pushCfg(),ios=isIOS();
   <p class="h2" style="margin:0">REMINDERS</p>
   ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${r.t}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="Time for practice" aria-label="What it’s for"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>
     <label class="small">Practice <select data-pf="rem.${i}.pr"><option value="">Any practice</option>${allPR().map(p=>`<option value="${esc(p.id)}"${r.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>${days(r.d,'premday',i)}</div>`).join('')}
-  <p class="small">Each reminder comes with a few words from the quotes. Tapping it opens the practice.</p>
+  <p class="small">Each reminder comes with a few words from the quotes. Tapping it opens the practice. Reminders can arrive a few minutes late, because they’re sent in small batches from a free server.</p>
   <button class="btn soft wide" data-act="premadd">${ico('plus')} Add a reminder</button>
   <p class="h2" style="margin:0">MINDFULNESS BELL</p>
   <div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pbelltog" style="text-align:left" role="switch" aria-checked="${B.on}"><span class="t">A bell through the day</span><span class="s">A moment to pause and come back to the breath</span></button><span class="tag${B.on?' ok':''}">${B.on?'On':'Off'}</span></div>
