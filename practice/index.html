@@ -2207,15 +2207,16 @@ function backupHint(){return isIOS()?'<p class="small">On iPhone, choose “Save
 // Gentle cards at the top of Today. "Coming back?" comes first; the iPhone-in-Safari card never shows with it.
 function comebackCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Used this app before?</b>
   <p>Bring your practice back from a copy you sent yourself, or with your backup code.</p></div>
-  <div class="stack"><button class="btn primary wide" data-act="restore">${ico('restore')} Bring my practice back</button><button class="btn soft wide" data-act="comebacknot">Not now</button></div>
-  ${abOK()?`<button class="btn soft wide" data-act="abrestore">Restore with my backup code</button>`:''}</div>`;}
+  <div class="stack"><button class="btn primary wide" data-act="restore">${ico('restore')} Bring my practice back</button>
+  ${abOK()?`<button class="btn soft wide" data-act="abrestore">Restore with my backup code</button>`:''}
+  <button class="btn soft wide" data-act="comebacknot">Not now</button></div></div>`;}
 function iosCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Add this app to your Home Screen</b>
   <p>On iPhone, this keeps your practice safe: Apple can clear a website’s data after about a week without a visit. It also lets reminders work.</p></div>
   <div class="stack"><button class="btn primary wide" data-act="install">${ico('phone')} Show me how</button><button class="btn soft wide" data-act="iosnot">Not now</button></div></div>`;
 function movedCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">We’ve moved to dharmasoup.org</b>
   <p>This address stops working on 10 December. Your practice is saved on this phone, so bring it with you:</p>
-  <p>${abOn()?'Open dharmasoup.org/practice and choose “Restore with my backup code”.':'1. Tap “Send a copy to myself” below.<br>2. Open dharmasoup.org/practice, then choose “Bring my practice back” and pick your copy.'}</p></div>
-  <div class="stack">${abOn()?'':`<button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>`}<a class="btn ${abOn()?'primary':'soft'} wide" href="https://dharmasoup.org/practice/" target="_blank" rel="noopener">Open dharmasoup.org</a><button class="btn soft wide" data-act="movedlater">Later</button></div></div>`;}}
+  <p>${abOn()?'1. Tap “Back up now” below.<br>2. Open dharmasoup.org/practice and choose “Restore with my backup code”.':'1. Tap “Send a copy to myself” below.<br>2. Open dharmasoup.org/practice, then choose “Bring my practice back” and pick your copy.'}</p></div>
+  <div class="stack">${abOn()?`<button class="btn primary wide" data-act="abnow">${ico('save')} Back up now</button>`:`<button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>`}<a class="btn soft wide" href="https://dharmasoup.org/practice/" target="_blank" rel="noopener">Open dharmasoup.org</a><button class="btn soft wide" data-act="movedlater">Later</button></div></div>`;}}
 function startCard(){
   if(/(^|\.)slicedharma\.com$/i.test(location.hostname)&&Date.now()>ls('esm_moved_hide',0))return movedCard();
   if(!hasPracticeData()&&!ls('esm_last_backup',0)&&!ls('esm_restored',false)&&!ls('esm_comeback_no',false))return comebackCard();
