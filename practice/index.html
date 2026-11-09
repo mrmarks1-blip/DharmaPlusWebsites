@@ -2182,7 +2182,7 @@ function paceFromDate(c,ds,tgt){const rem=tgt-c;if(rem<=0)return 0;
 // BACKUP — a dated file you keep, plus automatic copies on this phone
 // ═══════════════════════════════════════════════════════════
 // Left out of copies: the snapshots, and esm_qbg (a picture rebuilt daily). Old backups that contain esm_qbg still restore; it is simply ignored.
-function collectData(){const d={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('esm_')&&k!=='esm_snapshots'&&k!=='esm_qbg')d[k]=localStorage.getItem(k);}return d;}
+function collectData(){const d={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('esm_')&&k!=='esm_snapshots'&&k!=='esm_qbg'&&k!=='esm_cloud')d[k]=localStorage.getItem(k);}return d;}   // esm_cloud holds the backup code: never copied into a backup
 const stamp=(d=new Date())=>`${pad2(d.getFullYear()%100)}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}-${pad2(d.getHours())}-${pad2(d.getMinutes())}`;
 function backupJSON(){return JSON.stringify({app:'dharma-practice',version:1,created:new Date().toISOString(),data:collectData()},null,1);}
 function snapshot(reason){try{
@@ -2206,13 +2206,15 @@ function hasPracticeData(){return Object.values(ST.prData||{}).some(p=>p&&p.coun
 function backupHint(){return isIOS()?'<p class="small">On iPhone, choose “Save to Files”, then iCloud Drive.</p>':/android/i.test(navigator.userAgent)?'<p class="small">On Android, choose Google Drive (or Files).</p>':'';}
 // Gentle cards at the top of Today. "Coming back?" comes first; the iPhone-in-Safari card never shows with it.
 function comebackCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Used this app before?</b>
-  <p>Bring your practice back from a copy you sent yourself.</p></div>
-  <div class="btns"><button class="btn primary" data-act="restore">${ico('restore')} Bring my practice back</button><button class="btn soft" data-act="comebacknot">Not now</button></div></div>`;}
+  <p>Bring your practice back from a copy you sent yourself, or with your backup code.</p></div>
+  <div class="btns"><button class="btn primary" data-act="restore">${ico('restore')} Bring my practice back</button><button class="btn soft" data-act="comebacknot">Not now</button></div>
+  ${abOK()?`<button class="btn soft wide" data-act="abrestore">Restore with my backup code</button>`:''}</div>`;}
 function iosCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Add this app to your Home Screen</b>
   <p>On iPhone, this keeps your practice safe: Apple can clear a website’s data after about a week without a visit. It also lets reminders work.</p></div>
   <div class="btns"><button class="btn primary" data-act="install">${ico('phone')} Show me how</button><button class="btn soft" data-act="iosnot">Not now</button></div></div>`;}
 function startCard(){
   if(!hasPracticeData()&&!ls('esm_last_backup',0)&&!ls('esm_restored',false)&&!ls('esm_comeback_no',false))return comebackCard();
+  if(hasPracticeData()&&abOK()&&!abOn()&&Date.now()>ls('esm_cloud_no',0))return abCard();
   if(isIOS()&&!isStandalone()&&Date.now()>ls('esm_ios_hide',0))return iosCard();
   return'';}
 // Feedback: opens the person's own email app with a few plain details filled in. Nothing is sent automatically.
@@ -2244,8 +2246,134 @@ async function shareBackup(){const f=backupFile();
   downloadBackup();ST.sheet=null;render();toast('Saved the copy to your downloads. Keep it somewhere safe.');}
 function applyBackup(o){snapshot('Before restoring a backup');
   Object.keys(collectData()).forEach(k=>localStorage.removeItem(k));
-  for(const[k,v]of Object.entries(o.data))if(k.startsWith('esm_')&&k!=='esm_snapshots'&&k!=='esm_qbg')localStorage.setItem(k,v);
+  for(const[k,v]of Object.entries(o.data))if(k.startsWith('esm_')&&k!=='esm_snapshots'&&k!=='esm_qbg'&&k!=='esm_cloud')localStorage.setItem(k,v);
   ST.prData=ls('esm_pr_data',{});ST.tap=ls('esm_tap',{count:0,ci:0});setTheme(ls('esm_theme','auto'));setSize(ls('esm_size',1));}
+
+// ═══════════════════════════════════════════════════════════
+// AUTOMATIC BACKUP (opt-in): a locked copy online, opened only by a code that stays with the person
+// ═══════════════════════════════════════════════════════════
+// The phone makes a 16-character code. From it the phone works out a lookup id and an encryption key. The copy is
+// encrypted here, so the server only ever holds scrambled text, and never sees the code or the key.
+// esm_cloud = {code, on, last (time of last backup), lastHash (of the data last sent), noPhoto}.
+const AB_CHARS='ABCDEFGHJKMNPQRSTUVWXYZ23456789',AB_BAD='That code doesn’t match a backup. Check it and try again.',AB_MAX=1400000;
+const abTE=new TextEncoder();
+const abOK=()=>!!(window.crypto&&crypto.subtle&&crypto.getRandomValues&&window.fetch);
+// Typed codes: capitals only, dashes and spaces dropped; it must come to exactly 16 letters and numbers.
+const abNorm=s=>{const c=String(s||'').toUpperCase().split('').filter(x=>AB_CHARS.includes(x)).join('');return c.length===16?c:'';};
+const abShow=c=>c.match(/.{4}/g).join('-');
+function abCfg(){const c=ls('esm_cloud',null);return c&&typeof c==='object'&&abNorm(c.code)?c:null;}   // a doctored value counts as "off"
+const abOn=()=>!!(abCfg()||{}).on;
+function abNew(){let s='';while(s.length<16)for(const x of crypto.getRandomValues(new Uint8Array(32)))if(x<248&&s.length<16)s+=AB_CHARS[x%31];return s;}   // x<248 keeps every letter equally likely
+const abB64=u=>{let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s);};
+const abUnB64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const abHex=u=>[...u].map(x=>x.toString(16).padStart(2,'0')).join('');
+const abSha=async s=>new Uint8Array(await crypto.subtle.digest('SHA-256',abTE.encode(s)));
+async function abKeys(code){
+  const id=abB64(await abSha('dharma-backup-id|'+code)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  const base=await crypto.subtle.importKey('raw',abTE.encode(code),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',hash:'SHA-256',salt:abTE.encode('dharma-backup-key'),iterations:100000},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  return{id,key};}
+const abPipe=async(u,S)=>new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new S('gzip'))).arrayBuffer());
+async function abSeal(key,text){let bytes=abTE.encode(text),gz=false;
+  if(window.CompressionStream){try{bytes=await abPipe(bytes,CompressionStream);gz=true;}catch{bytes=abTE.encode(text);}}
+  const iv=crypto.getRandomValues(new Uint8Array(12)),ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,bytes));
+  return JSON.stringify({v:1,gz,iv:abB64(iv),data:abB64(ct)});}
+async function abOpen(key,body){const e=JSON.parse(body);if(!e||e.v!==1)throw new Error('format');
+  let u=new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:abUnB64(e.iv)},key,abUnB64(e.data)));   // a wrong code fails here
+  if(e.gz)u=await abPipe(u,DecompressionStream);
+  return new TextDecoder().decode(u);}
+const abPost=(path,obj)=>fetch(path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(obj)});
+let abBusy=false,abTried=0;
+// Send a copy now. force = skip the "has anything changed?" check. Quiet on failure: the status line just stays as it was.
+async function abRun(force){
+  const c0=abCfg();if(!c0||!c0.on||abBusy||!abOK())return false;
+  abBusy=true;
+  try{
+    const d=collectData(),hash=abHex(await abSha(JSON.stringify(d)));
+    if(!force&&hash===c0.lastHash){lsSet('esm_cloud',{...c0,last:Date.now()},true);return true;}   // nothing new: the online copy is current
+    const k=await abKeys(c0.code),make=x=>abSeal(k.key,JSON.stringify({app:'dharma-practice',version:1,created:new Date().toISOString(),data:x}));
+    let body=await make(d),noPhoto=false;
+    if(body.length>AB_MAX&&d.esm_sess_photo){const d2={...d};delete d2.esm_sess_photo;body=await make(d2);noPhoto=true;}   // the photo is the only big thing
+    if(body.length>AB_MAX)return false;
+    const r=await abPost('/api/backup/put',{id:k.id,body});if(!r.ok)return false;
+    const c1=abCfg();
+    if(!c1||!c1.on||c1.code!==c0.code){abPost('/api/backup/delete',{id:k.id}).catch(()=>{});return false;}   // turned off while sending: take it back
+    lsSet('esm_cloud',{...c1,last:Date.now(),lastHash:hash,noPhoto},true);return true;
+  }catch{return false;}finally{abBusy=false;}}
+// When the app opens (or comes back to the front): at most one backup a day, and one try an hour if it fails.
+function abAuto(){const c=abCfg();if(!c||!c.on||!abOK())return;
+  if(c.last&&dayKey(new Date(c.last))===dayKey())return;
+  if(Date.now()-abTried<3600000)return;abTried=Date.now();
+  abRun(false).then(ok=>{if(ok&&ST.sheet==='settings')render();});}
+function abStatus(c){const t=c.last,n=daysSince(t);return`Last automatic backup: ${t?(n===0?'today':n===1?'yesterday':n+' days ago'):'not yet'}.`;}
+async function abOff(){const c=abCfg();
+  try{if(c){const k=await abKeys(c.code),r=await abPost('/api/backup/delete',{id:k.id});if(!r.ok)throw new Error('delete');}}
+  catch{toast('Couldn’t reach the backup just now, so nothing was changed. Please try again when you’re online.');return;}
+  localStorage.removeItem('esm_cloud');lsSet('esm_cloud_no',Date.now()+365*86400000,true);   // they chose; don't ask again for a year
+  ST.sheet=null;render();toast('Your online backup is deleted');}
+// Keep the code in the phone's password manager. Chrome has an API; Safari offers to save when a submitted form goes away.
+function abSave(){const c=abCfg();if(!c)return;
+  try{if(window.PasswordCredential&&navigator.credentials)navigator.credentials.store(new PasswordCredential({id:APP_NAME+' backup',password:c.code,name:APP_NAME+' backup'})).catch(()=>{});}catch{}
+  ST.abSaved=true;toast('If your phone offers to save it, tap Save.');}   // the re-render removes the form
+async function abPrefill(){
+  try{if(!window.PasswordCredential||!navigator.credentials)return;
+    const cr=await navigator.credentials.get({password:true,mediation:'optional'}),code=cr&&abNorm(cr.password);
+    if(code&&ST.sheet==='abrestore'&&!(ST.abR&&ST.abR.busy)){ST.abR={code:abShow(code)};render();}}catch{}}
+// Find the online copy with a typed code, open it, and hand it to the same "Put this copy back?" step the file restore uses.
+async function abRestore(){
+  const inp=document.getElementById('abcode'),raw=inp?inp.value:'',code=abNorm(raw);
+  if(!code){ST.abR={err:AB_BAD,code:raw};render();return;}
+  ST.abR={busy:true,code:raw};render();
+  let o=null,err='';
+  try{const k=await abKeys(code),r=await abPost('/api/backup/get',{id:k.id});
+    if(r.status===404)err=AB_BAD;
+    else if(!r.ok)err='Couldn’t reach the backup just now. Check your internet and try again.';
+    else{const j=await r.json();try{o=parseBackup(await abOpen(k.key,j.body));}catch{o=null;}if(!o)err=AB_BAD;}}
+  catch{err='Couldn’t reach the backup just now. Check your internet and try again.';}
+  if(ST.sheet!=='abrestore')return;   // closed while looking
+  if(err){ST.abR={err,code:raw};render();return;}
+  ST.abR=null;ST.restore={step:1,o,cloud:code};ST.sheet='restore';render();}
+function abCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe automatically</b>
+  <p>Turn on automatic backup and a locked copy of your practice is kept online. You get a code that opens it, so you can get everything back on a new phone.</p></div>
+  <div class="btns"><button class="btn primary" data-act="abon">Turn on</button><button class="btn soft" data-act="abnot">Not now</button></div></div>`;}
+// The Settings part of it.
+function abSettings(){const c=abCfg();if(!abOK())return'';
+  const on=c&&c.on;
+  return`<p class="h2" style="margin:0">AUTOMATIC BACKUP</p>
+  ${on?`<p class="small">A locked copy of your practice is kept online. Only your backup code can open it. ${abStatus(c)}</p>
+    ${c.noPhoto?`<p class="small">Your photo was too big to include, so it isn’t in the online copy. Everything else is.</p>`:''}
+    <button class="btn primary wide" data-act="abnow">Back up now</button>
+    <button class="btn soft wide" data-act="abshow">Show my backup code</button>
+    <button class="btn soft wide" data-act="aboff">Turn off and delete my online backup</button>`
+  :`<p class="small">Keeps a locked copy of your practice online, so you can get it back on a new phone. Only your backup code can open it, not even us.</p>
+    <button class="btn primary wide" data-act="abon">Turn on automatic backup</button>`}
+  <button class="btn soft wide" data-act="abrestore">${ico('restore')} Restore with my backup code</button>`;}
+function sheetAbCode(){const c=abCfg();
+  if(!c)return`<div class="grab"></div><h2 class="h1">Automatic backup</h2><p>Automatic backup is off.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;
+  return`<div class="grab"></div><h2 class="h1">Save your backup code</h2>
+  <p>${ST.abSaved?'Saved, if your phone offered. ':''}This code opens your online backup. Keep it somewhere you can find it.</p>
+  <div class="card" style="text-align:center"><b style="font:700 24px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;user-select:all;-webkit-user-select:all">${esc(abShow(c.code))}</b></div>
+  ${ST.abSaved?'':`<form id="absave" class="stack" autocomplete="on">
+    <input type="text" name="username" autocomplete="username" value="${esc(APP_NAME)} backup" readonly aria-label="Name for the saved code" style="min-height:0;padding:6px 10px;font-size:14px">
+    <input type="password" name="password" autocomplete="new-password" value="${esc(c.code)}" readonly aria-label="Your backup code">
+    <button class="btn primary wide" type="submit">${ico('save')} Save to my passwords</button></form>`}
+  <button class="btn soft wide" data-act="abcopy">Copy code</button>
+  <p class="small">Also write it down somewhere safe. Without this code, the backup can’t be opened, not even by us.</p>
+  <button class="btn primary wide" data-act="closesheet">Done</button>`;}
+function sheetAbOff(){return`<div class="grab"></div><h2 class="h1">Turn off and delete?</h2>
+  <p>This deletes your online backup and turns off automatic backup. Your practice on this phone stays exactly as it is.</p>
+  <p class="small">You can turn it on again any time. You’ll get a new code.</p>
+  <button class="btn danger wide" data-act="aboffgo">Yes, delete my online backup</button><button class="btn soft wide" data-act="closesheet">No, keep it</button>`;}
+function sheetAbRestore(){const R=ST.abR||{};
+  return`<div class="grab"></div><h2 class="h1">Restore with my backup code</h2>
+  <p>Enter the code you saved. On iPhone, it may appear above the keyboard.</p>
+  <form id="abrestore" class="stack" autocomplete="on">
+    <input type="text" name="username" autocomplete="username" value="${esc(APP_NAME)} backup" readonly aria-label="Name for the saved code" style="min-height:0;padding:6px 10px;font-size:14px">
+    <input id="abcode" type="password" name="password" autocomplete="current-password" inputmode="text" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="40" value="${esc(R.code||'')}" aria-label="Your backup code" placeholder="XXXX-XXXX-XXXX-XXXX"${R.busy?' readonly':''}>
+    ${R.err?`<p class="note" style="border-color:var(--bad)">${esc(R.err)}</p>`:''}
+    <button class="btn primary wide" type="submit"${R.busy?' disabled':''}>${R.busy?'Looking for your backup…':'Find my backup'}</button></form>
+  <button class="btn soft wide" data-act="abeye">Show or hide the code</button>
+  <button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
 
 // ═══════════════════════════════════════════════════════════
 // INSTALL (add to home screen)
@@ -2937,7 +3065,7 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>A Karma Kagyu Buddhist centre in Wales, under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident teacher Lama Rabsang. They offer teachings, retreats and an extensive library of free practice texts. Prayer texts in this app are reproduced from their Prayer Book for personal practice. Please support them.</p>
   <div class="links">${L('Website','https://www.palpung.org.uk/')}${L('Free texts','https://www.palpung.org.uk/resources')}${L('Upcoming events','https://www.palpung.org.uk/upcoming')}${L('Donate','https://www.palpung.org.uk/donate')}</div>
   <p class="h2" style="margin-top:18px">YOUR PRIVACY</p>
-  <p>Your practice, counts and diary stay on this phone. There are no accounts, adverts or trackers. If you turn on notifications, our server keeps only this phone’s notification address, its time zone and the times you chose, so it can send them; turning notifications off deletes that.</p>
+  <p>Your practice, counts and diary stay on this phone, unless you turn on automatic backup. That keeps a locked copy online, which only your backup code can open. There are no accounts, adverts or trackers. If you turn on notifications, our server keeps only this phone’s notification address, its time zone and the times you chose, so it can send them; turning notifications off deletes that.</p>
   <p class="h2" style="margin-top:18px">WITH GRATITUDE</p>
   <p>The practice counter was inspired by the sangha of East Side Mandala, Lublin, Poland, and jwaga's original Android app. May they swiftly attain enlightenment for the benefit of all beings.</p>
   <div class="links">${L('East Side Mandala','https://lublin.buddyzm.pl/')}${L('Original app on GitHub','https://github.com/jwaga/esmnyndrovnik')}</div>
@@ -3467,9 +3595,10 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   const open=ST.moreThemes||others.some(([k])=>k===cur);
   return`<div class="grab"></div><h2 class="h1">Settings</h2>
   <p class="h2" style="margin:0">BACKUP AND RESTORE</p>
-  <p class="small">Your counts and practice diary are kept only on this phone. ${lastBackupText()}</p>
+  <p class="small">Your counts and practice diary are kept on this phone${abOn()?', plus a locked online copy':''}. ${lastBackupText()}</p>
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>${backupHint()}
   <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
+  ${abSettings()}
   <p class="small" style="margin:0">Remind me to send a copy</p>
   <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
   <p class="h2" style="margin:0">YOUR PRACTICE</p><div class="list">${item('setup','Set up again: tradition, Today page, goals',(TRADS.find(t=>t[0]===ls('esm_tradition'))||[,'Not chosen'])[1]+' · '+uses().length+' of 4 on Today',{ico:'practice'})}</div>
@@ -4235,7 +4364,7 @@ function sheetFull(){return`<div class="grab"></div><h2 class="h1">Your phone is
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy</button>${backupHint()}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const SHEETS={full:sheetFull,settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,abcode:sheetAbCode,aboff:sheetAbOff,abrestore:sheetAbRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -4701,12 +4830,25 @@ document.getElementById('app').addEventListener('click',e=>{
       ST.sheet=null;render();const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('Backup copied');}catch{toast('Copying is not allowed here');}t.remove();});return;}
     case'restore':ST.restore={step:0};sheet('restore');break;
     case'comebacknot':lsSet('esm_comeback_no',true);break;
+    // Automatic backup
+    case'abon':{if(!abOK()){toast('Automatic backup isn’t available in this browser');return;}
+      lsSet('esm_cloud',{code:abNew(),on:true,last:0,lastHash:''});ST.abSaved=false;sheet('abcode');
+      abRun(true).then(ok=>{if(ok&&ST.sheet==='settings')render();});break;}
+    case'abshow':ST.abSaved=false;sheet('abcode');break;
+    case'abcopy':{const c=abCfg();if(!c)return;(navigator.clipboard?navigator.clipboard.writeText(c.code):Promise.reject()).then(()=>toast('Code copied'),()=>toast('Copying isn’t allowed here. Please write the code down.'));return;}
+    case'abnow':abRun(true).then(ok=>{toast(ok?'Backed up':'Couldn’t back up just now. Please try again when you’re online.');});return;
+    case'aboff':sheet('aboff');break;
+    case'aboffgo':abOff();return;
+    case'abnot':lsSet('esm_cloud_no',Date.now()+30*86400000);break;
+    case'abrestore':ST.abR={};sheet('abrestore');abPrefill();break;
+    case'abeye':{const i=document.getElementById('abcode');if(i)i.type=i.type==='password'?'text':'password';return;}
     case'iosnot':lsSet('esm_ios_hide',Date.now()+7*86400000);break;
     case'feedback':location.href=feedbackLink();return;
     case'restorecheck':checkRestore(val('restoretext'));return;
     case'restoresnap':{const s=ls('esm_snapshots',[])[+el.dataset.i];if(s){ST.restore={step:1,o:{app:'dharma-practice',created:s.at,data:s.data}};}break;}
     case'restorenext':ST.restore.step=2;break;
-    case'restorego':applyBackup(ST.restore.o);lsSet('esm_restored',true);ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup restored');return;
+    case'restorego':applyBackup(ST.restore.o);lsSet('esm_restored',true);if(ST.restore.cloud)lsSet('esm_cloud',{code:ST.restore.cloud,on:true,last:Date.now(),lastHash:''});   // restored with a code: automatic backup carries on
+ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup restored');return;
     // Where the browser can install directly (Android Chrome, Edge…), the first tap installs.
     case'install':sheet('install');break;
     case'installgo':promptInstall();return;
@@ -4715,6 +4857,10 @@ document.getElementById('app').addEventListener('click',e=>{
   render();
 });
 document.getElementById('app').addEventListener('change',e=>{if(/^rem\.\d+\.pr$/.test(e.target.dataset.pf||'')){pushReadForm();render();return;}if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
+// The two backup-code forms (save to passwords, restore with the code).
+document.getElementById('app').addEventListener('submit',e=>{const id=e.target&&e.target.id;
+  if(id==='absave'){e.preventDefault();abSave();}
+  else if(id==='abrestore'){e.preventDefault();if(!(ST.abR&&ST.abR.busy))abRestore();}});
 // Counting taps: pointerdown on the tap zone (instant, and works for fast repeated taps).
 document.getElementById('app').addEventListener('pointerdown',e=>{
   if(ST.sheet)return;
@@ -4898,6 +5044,7 @@ function mountRefuge(ov){
 // ═══════════════════════════════════════════════════════════
 dailySnapshot();
 if(hasPracticeData())keepStorage();
+setTimeout(abAuto,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)abAuto();});   // automatic backup: at most daily
 document.getElementById('app').addEventListener('input',e=>{const t=e.target;
   if(t.dataset&&t.dataset.gf){gf()[t.dataset.gf]=t.value;return;}
   if(t.classList&&t.classList.contains('cb')){const boxes=[...document.querySelectorAll('.codebox .cb')],v=t.value.toUpperCase().replace(/[^A-Z0-9]/g,'');

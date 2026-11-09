@@ -38,12 +38,14 @@ async function runSchema(db) {
     db.prepare(`CREATE TABLE IF NOT EXISTS groups (
       code TEXT PRIMARY KEY, name TEXT NOT NULL, practice TEXT NOT NULL, target INTEGER NOT NULL,
       total INTEGER NOT NULL DEFAULT 0, adds INTEGER NOT NULL DEFAULT 0, created TEXT NOT NULL, updated TEXT NOT NULL)`),
+    // Automatic backups: a locked copy (the phone encrypts it; we never see the code). idh = hash of the id the phone sends.
+    db.prepare('CREATE TABLE IF NOT EXISTS backups (idh TEXT PRIMARY KEY, body TEXT NOT NULL, size INTEGER NOT NULL, updated TEXT NOT NULL)'),
   ]);
   await migrate(db);
 }
 // Tables and columns are set up only when the stored version is behind, so a normal run costs one query.
 // IMPORTANT: bump SCHEMA_V whenever you add a table or an ALTER above, or the live database won't get it.
-const SCHEMA_V = '2';
+const SCHEMA_V = '3';
 let schemaOK = false;
 async function schema(db) {
   if (schemaOK) return;
@@ -139,11 +141,43 @@ async function groups(req, db, path) {
   return json({ error: 'method' }, 405);
 }
 
+// Automatic backups. The body is already encrypted on the phone. We keep it under a hash of the id, and never see the code.
+const BACKUP_MAX = 1500000;       // characters of body
+const BACKUP_ROWS = 2000;         // new backups are refused past this, so the free database can't be filled with junk
+const BACKUP_ID = /^[A-Za-z0-9_-]{43}$/;
+async function backups(req, db, path) {
+  if (req.method !== 'POST') return json({ error: 'method' }, 405);
+  if (Number(req.headers.get('content-length') || 0) > BACKUP_MAX + 100000) return json({ error: 'too big' }, 413);
+  let text; try { text = await req.text(); } catch { return json({ error: 'json' }, 400); }
+  if (text.length > BACKUP_MAX + 100000) return json({ error: 'too big' }, 413);
+  let b; try { b = JSON.parse(text); } catch { return json({ error: 'json' }, 400); }
+  if (!b || typeof b.id !== 'string' || !BACKUP_ID.test(b.id)) return json({ error: 'id' }, 400);
+  const idh = await idOf(b.id);
+  if (path === '/api/backup/get') {
+    const r = await db.prepare('SELECT body, updated FROM backups WHERE idh=?').bind(idh).first();
+    return r ? json({ body: r.body, updated: r.updated }) : json({ error: 'not found' }, 404);
+  }
+  if (path === '/api/backup/delete') { await db.prepare('DELETE FROM backups WHERE idh=?').bind(idh).run(); return json({ ok: true }); }
+  if (path === '/api/backup/put') {
+    if (typeof b.body !== 'string' || !b.body || b.body.length > BACKUP_MAX) return json({ error: 'body' }, 400);
+    const now = new Date().toISOString();
+    // Updates always work. A brand-new row is only added while there is room.
+    const r = await db.prepare('UPDATE backups SET body=?, size=?, updated=? WHERE idh=?').bind(b.body, b.body.length, now, idh).run();
+    if (r.meta.changes) return json({ ok: true });
+    const n = (await db.prepare('SELECT COUNT(*) AS n FROM backups').first()).n;
+    if (n > BACKUP_ROWS) return json({ error: 'full' }, 507);
+    await db.prepare('INSERT OR REPLACE INTO backups (idh, body, size, updated) VALUES (?,?,?,?)').bind(idh, b.body, b.body.length, now).run();
+    return json({ ok: true });
+  }
+  return json({ error: 'not found' }, 404);
+}
+
 async function api(req, env, path) {
   const db = env.DB;
   await schema(db);
   if (path === '/api/vapid' && req.method === 'GET') return json({ publicKey: (await vapid(db)).publicKey });
   if (path.startsWith('/api/group')) { const r = await groups(req, db, path); if (r) return r; }
+  if (path.startsWith('/api/backup/')) return backups(req, db, path);   // before the small-request check below
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
   if (Number(req.headers.get('content-length') || 0) > 8000) return json({ error: 'too big' }, 413);
   let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
@@ -227,6 +261,10 @@ function markPast(sched, sent, local) {
 async function tick(env, now = new Date()) {
   const db = env.DB;
   await schema(db);
+  // Once a day: forget backups nobody has touched for 400 days.
+  if (now.getUTCHours() === 3 && now.getUTCMinutes() === 17) {
+    try { await db.prepare("DELETE FROM backups WHERE updated < ?").bind(new Date(now.getTime() - 400 * 86400000).toISOString()).run(); } catch (e) { console.log('backup cleanup failed', String(e)); }
+  }
   const { results } = await db.prepare('SELECT * FROM subs WHERE quote_time IS NOT NULL OR nudge_time IS NOT NULL OR sched IS NOT NULL').all();
   // 1. Collect everything that is due, across all subscriptions.
   const todo = [];
