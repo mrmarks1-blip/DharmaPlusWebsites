@@ -794,7 +794,9 @@ const BRAND='Sliced Dharma';
 // STORAGE, THEME & TEXT SIZE (applied before anything renders)
 // ═══════════════════════════════════════════════════════════
 function ls(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch{return d;}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+// Returns true if saved, false if not (usually the phone is short of space). The first failure per visit shows one calm message; quiet=true skips it (for throw-away caches).
+let fullShown=false;
+function lsSet(k,v,quiet){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch{if(!quiet&&!fullShown)setTimeout(()=>{if(fullShown||ST.sheet)return;fullShown=true;ST.sheet='full';render();},300);return false;}}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);lsSet('esm_theme',t);}
 function setSize(s){document.documentElement.style.setProperty('--scale',s);lsSet('esm_size',s);}
 setTheme(ls('esm_theme','auto'));
@@ -2179,7 +2181,8 @@ function paceFromDate(c,ds,tgt){const rem=tgt-c;if(rem<=0)return 0;
 // ═══════════════════════════════════════════════════════════
 // BACKUP — a dated file you keep, plus automatic copies on this phone
 // ═══════════════════════════════════════════════════════════
-function collectData(){const d={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('esm_')&&k!=='esm_snapshots')d[k]=localStorage.getItem(k);}return d;}
+// Left out of copies: the snapshots, and esm_qbg (a picture rebuilt daily). Old backups that contain esm_qbg still restore; it is simply ignored.
+function collectData(){const d={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('esm_')&&k!=='esm_snapshots'&&k!=='esm_qbg')d[k]=localStorage.getItem(k);}return d;}
 const stamp=(d=new Date())=>`${pad2(d.getFullYear()%100)}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}-${pad2(d.getHours())}-${pad2(d.getMinutes())}`;
 function backupJSON(){return JSON.stringify({app:'dharma-practice',version:1,created:new Date().toISOString(),data:collectData()},null,1);}
 function snapshot(reason){try{
@@ -2199,6 +2202,30 @@ function summarise(data){try{const pd=JSON.parse(data.esm_pr_data||'{}');
 // 3) "Send a copy to myself" opens the phone's share menu (email, WhatsApp,
 //    Drive, Files) with the backup file attached; falls back to a download.
 function hasPracticeData(){return Object.values(ST.prData||{}).some(p=>p&&p.counter>0)||Object.keys(ls('esm_journal',{})).length>0;}
+// A short hint for where to keep the copy: the matching one only (none on a computer).
+function backupHint(){return isIOS()?'<p class="small">On iPhone, choose “Save to Files”, then iCloud Drive.</p>':/android/i.test(navigator.userAgent)?'<p class="small">On Android, choose Google Drive (or Files).</p>':'';}
+// Gentle cards at the top of Today. "Coming back?" comes first; the iPhone-in-Safari card never shows with it.
+function comebackCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Used this app before?</b>
+  <p>Bring your practice back from a copy you sent yourself.</p></div>
+  <div class="btns"><button class="btn primary" data-act="restore">${ico('restore')} Bring my practice back</button><button class="btn soft" data-act="comebacknot">Not now</button></div></div>`;}
+function iosCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Add this app to your Home Screen</b>
+  <p>On iPhone, this keeps your practice safe: Apple can clear a website’s data after about a week without a visit. It also lets reminders work.</p></div>
+  <div class="btns"><button class="btn primary" data-act="install">${ico('phone')} Show me how</button><button class="btn soft" data-act="iosnot">Not now</button></div></div>`;}
+function startCard(){
+  if(!hasPracticeData()&&!ls('esm_last_backup',0)&&!ls('esm_restored',false)&&!ls('esm_comeback_no',false))return comebackCard();
+  if(isIOS()&&!isStandalone()&&Date.now()>ls('esm_ios_hide',0))return iosCard();
+  return'';}
+// Feedback: opens the person's own email app with a few plain details filled in. Nothing is sent automatically.
+const FEEDBACK_EMAIL='feedback@dharmasoup.org';
+let appVer='';try{caches.keys().then(k=>{appVer=k.find(x=>/^dp-v/.test(x))||'';});}catch{}
+function deviceText(){const u=navigator.userAgent;let m;
+  if(/iphone|ipad|ipod/i.test(u)){m=u.match(/OS (\d+(?:_\d+)*)/);return(/ipad/i.test(u)?'iPad':'iPhone')+(m?', iOS '+m[1].replace(/_/g,'.'):'');}
+  if(isIOS())return'iPad';
+  if(m=u.match(/Android ([\d.]+)/))return'Android '+m[1]+', '+(/SamsungBrowser/.test(u)?'Samsung Internet':/Firefox/.test(u)?'Firefox':/Edg/.test(u)?'Edge':/Chrome/.test(u)?'Chrome':'browser');
+  return'Computer';}
+function feedbackLink(){const body=`\n\n\n---\nApp version: ${appVer||'unknown'}\nUsing it: ${isStandalone()?'installed on the Home Screen':'in the browser'}\nDevice: ${deviceText()}\n`;
+  return`mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('App feedback')}&body=${encodeURIComponent(body)}`;}
+const feedbackBlock=()=>`<button class="btn soft wide" data-act="feedback">${ico('mail')} Send feedback</button><p class="small" style="text-align:center;margin-top:-6px">Opens your email app. Nothing is sent unless you press send.</p>`;
 async function keepStorage(){try{if(navigator.storage&&navigator.storage.persist&&!(await navigator.storage.persisted()))lsSet('esm_persist',await navigator.storage.persist());}catch{}}
 function markBackedUp(){lsSet('esm_last_backup',Date.now());lsSet('esm_backup_snooze',0);}
 const daysSince=t=>t?Math.floor((Date.now()-t)/86400000):Infinity;
@@ -2217,7 +2244,7 @@ async function shareBackup(){const f=backupFile();
   downloadBackup();ST.sheet=null;render();toast('Saved the copy to your downloads. Keep it somewhere safe.');}
 function applyBackup(o){snapshot('Before restoring a backup');
   Object.keys(collectData()).forEach(k=>localStorage.removeItem(k));
-  for(const[k,v]of Object.entries(o.data))if(k.startsWith('esm_')&&k!=='esm_snapshots')localStorage.setItem(k,v);
+  for(const[k,v]of Object.entries(o.data))if(k.startsWith('esm_')&&k!=='esm_snapshots'&&k!=='esm_qbg')localStorage.setItem(k,v);
   ST.prData=ls('esm_pr_data',{});ST.tap=ls('esm_tap',{count:0,ci:0});setTheme(ls('esm_theme','auto'));setSize(ls('esm_size',1));}
 
 // ═══════════════════════════════════════════════════════════
@@ -2262,7 +2289,7 @@ const I={
   image:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5-6 6"/>',
   tree:'<path d="M12 21v-5"/><circle cx="12" cy="9" r="5.5"/>',star:'<path d="M12 4l2.3 5 5.2.5-3.9 3.5 1.1 5.2L12 15.6 7.3 18.2l1.1-5.2L4.5 9.5 9.7 9z"/>',
   phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/>',link:'<path d="M10 14l4-4M8.5 11.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M15.5 12.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>',
-  trash:'<path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/>',
+  trash:'<path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/>',mail:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/>',
   swap:'<path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/>',
   hands:'<path d="M11.4 3.5 8.8 9.6l-.4 5L5 18l2 2.5 4.4-3.4zM12.6 3.5l2.6 6.1.4 5L19 18l-2 2.5-4.4-3.4z"/>',
   sitter:'<circle cx="12" cy="5.3" r="2.2"/><path d="M12 8.6v4.6M7.2 11.2c1.4 1.4 3 2 4.8 2s3.4-.6 4.8-2M4.5 18.6c2-2.2 4.5-2.8 7.5-2.8s5.5.6 7.5 2.8z"/>',
@@ -2550,7 +2577,7 @@ function pageToday(){
   const now=noonOf(new Date());
   const out=[`<div class="row"><div class="greet grow">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>`];
   // Words for today — one quote at a time; swipe or use the arrows.
-  const U=uses();
+  const U=uses(),sc=startCard();if(sc)out.push(sc);
   if(U.includes('words'))out.push(`<div class="card qcard" id="qcard"><p class="qhead">Words for today</p>${quoteHTML()}
     <div class="qnav"><div class="qarrows"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div>
       <button class="qshare" data-act="sharequote">${ico('sharenodes',1.8)}<span>Share</span></button></div></div>`);
@@ -2933,6 +2960,9 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p class="h2" style="margin-top:18px">SUPPORT</p>
   <p>${KOFI_WHY}</p>
   <div class="links"><button class="linkbtn" data-act="dana">Generosity: teachers and centres</button>${L('Support on Ko-fi',KOFI)}</div>
+  <p class="h2" style="margin-top:18px">FEEDBACK</p>
+  <p>Something not working, or an idea? I’d love to hear it.</p>
+  ${feedbackBlock()}
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
 
 // ═══════════════════════════════════════════════════════════
@@ -3438,7 +3468,7 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   return`<div class="grab"></div><h2 class="h1">Settings</h2>
   <p class="h2" style="margin:0">BACKUP AND RESTORE</p>
   <p class="small">Your counts and practice diary are kept only on this phone. ${lastBackupText()}</p>
-  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>
+  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>${backupHint()}
   <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
   <p class="small" style="margin:0">Remind me to send a copy</p>
   <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
@@ -3454,6 +3484,7 @@ function sheetSettings(){const cur=document.documentElement.getAttribute('data-t
   <a class="btn link" href="${KOFI}" target="_blank" rel="noopener" style="align-self:center">Support the app on Ko-fi ↗</a>
   <p class="small" style="text-align:center;margin-top:-10px">${KOFI_SHORT}</p>
   ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add this app to your phone</button>`}
+  ${feedbackBlock()}
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The welcome: a pop-up at most once a day (esm_welcome_day), until "Don't show this again" (esm_seen).
 function sheetWelcome(){return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
@@ -4048,7 +4079,7 @@ async function quoteBg(){const style=qbgStyle(),key=dayKey()+'|'+style;if(qbgMem
   const W=1080,H=1350,sc=.42,c=document.createElement('canvas');c.width=Math.round(W*sc);c.height=Math.round(H*sc);const x=c.getContext('2d');x.scale(sc,sc);
   try{await Promise.all((SHQ_ART[style].fonts||[]).map(f=>document.fonts.load(f,f.includes('Tibetan')?'ཨོཾ':'Aa')));}catch{}
   x.lineCap='round';x.lineJoin='round';const o=SHQ_ART[style].draw(x,W,H,rng(doy(new Date())*31+7),120);
-  qbgMem={key,style,url:c.toDataURL('image/jpeg',.8),ink:o.ink,acc:o.acc,mut:o.mut||o.ink};try{lsSet('esm_qbg',qbgMem);}catch{}return qbgMem;}
+  qbgMem={key,style,url:c.toDataURL('image/jpeg',.8),ink:o.ink,acc:o.acc,mut:o.mut||o.ink};lsSet('esm_qbg',qbgMem,true);return qbgMem;}
 function applyQbg(c,b){const lightInk=/^#[c-f]/i.test(b.ink);c.classList.add('art');c.style.setProperty('--qink',b.ink);c.style.setProperty('--qacc',b.acc);c.style.setProperty('--qmut',b.mut);
   c.style.backgroundImage=`linear-gradient(${lightInk?'rgba(8,8,14,.45),rgba(8,8,14,.45)':'rgba(255,253,248,.5),rgba(255,253,248,.5)'}),url(${b.url})`;}
 function paintQuoteBg(){if(ls('esm_qart',true)===false)return;const card=document.getElementById('qcard');if(!card)return;
@@ -4146,7 +4177,7 @@ function sheetImage(){const p=findPR(ST.sarg);return`<div class="grab"></div><im
 function sheetBackup(){
   return`<div class="grab"></div><h2 class="h1">Send a copy to yourself</h2>
   <p>This makes one small file with all your counts, your practice diary and your settings. Send it somewhere safe, like your email, WhatsApp or Google Drive, and you can always get your practice back, even on a new phone.</p>
-  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>
+  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>${backupHint()}
   <button class="btn soft wide" data-act="download">Save the file to this device instead</button>
   <details class="small"><summary>Other ways</summary><p style="margin-top:8px">If neither works on your phone, copy the backup as text and paste it into an email or a note to yourself.</p>
     <button class="btn soft wide" data-act="copybackup" style="margin-top:8px">Copy as text</button></details>`;}
@@ -4198,7 +4229,12 @@ function sheetInstall(){
 const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
 const OVERLAYS={dana:ovDana,fullmoon:ovFullMoon,aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
   threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,care:ovCare,about:ovAbout,tree:()=>''};
-const SHEETS={settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
+function sheetFull(){return`<div class="grab"></div><h2 class="h1">Your phone is short of space</h2>
+  <p>Your latest practice couldn’t be saved because there isn’t enough space on this phone. Nothing already saved has been lost.</p>
+  <p>Please send yourself a copy now, then free up some space (old photos and videos are usually the biggest).</p>
+  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy</button>${backupHint()}
+  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
+const SHEETS={full:sheetFull,settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
   newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
@@ -4664,10 +4700,13 @@ document.getElementById('app').addEventListener('click',e=>{
     case'copybackup':{const txt=backupJSON();(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{markBackedUp();toast('Backup copied. Paste it into an email or note.');},()=>{
       ST.sheet=null;render();const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy');toast('Backup copied');}catch{toast('Copying is not allowed here');}t.remove();});return;}
     case'restore':ST.restore={step:0};sheet('restore');break;
+    case'comebacknot':lsSet('esm_comeback_no',true);break;
+    case'iosnot':lsSet('esm_ios_hide',Date.now()+7*86400000);break;
+    case'feedback':location.href=feedbackLink();return;
     case'restorecheck':checkRestore(val('restoretext'));return;
     case'restoresnap':{const s=ls('esm_snapshots',[])[+el.dataset.i];if(s){ST.restore={step:1,o:{app:'dharma-practice',created:s.at,data:s.data}};}break;}
     case'restorenext':ST.restore.step=2;break;
-    case'restorego':applyBackup(ST.restore.o);ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup restored');return;
+    case'restorego':applyBackup(ST.restore.o);lsSet('esm_restored',true);ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup restored');return;
     // Where the browser can install directly (Android Chrome, Edge…), the first tap installs.
     case'install':sheet('install');break;
     case'installgo':promptInstall();return;
