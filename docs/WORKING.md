@@ -10,6 +10,8 @@ Codes in brackets (A1, C5…) point back to the review checklist in `docs/archiv
 
 ## 1. Where things are
 
+Moved to dharmasoup.org (brand "Dharma Soup") on 2026-11-09. slicedharma.com lapses on 2026-12-10.
+
 | What | Where |
 |---|---|
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |

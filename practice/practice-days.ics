@@ -1,6 +1,6 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Sliced Dharma//Dharma Practice//EN
+PRODID:-//Dharma Soup//Dharma Practice//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Auspicious days · Dharma Practice
@@ -29,7 +29,7 @@ DTEND;VALUE=DATE:20260104
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-01-03-0@slicedharma.com
@@ -105,7 +105,7 @@ DTSTART;VALUE=DATE:20260113
 DTEND;VALUE=DATE:20260114
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -124,7 +124,7 @@ DTSTART;VALUE=DATE:20260117
 DTEND;VALUE=DATE:20260118
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -153,7 +153,7 @@ DTSTART;VALUE=DATE:20260126
 DTEND;VALUE=DATE:20260127
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -164,7 +164,7 @@ DTEND;VALUE=DATE:20260129
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-01-29-0@slicedharma.com
@@ -182,7 +182,7 @@ DTEND;VALUE=DATE:20260202
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-02-04-0@slicedharma.com
@@ -253,7 +253,7 @@ DTSTART;VALUE=DATE:20260216
 DTEND;VALUE=DATE:20260217
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -337,7 +337,7 @@ DTSTART;VALUE=DATE:20260224
 DTEND;VALUE=DATE:20260225
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -348,7 +348,7 @@ DTEND;VALUE=DATE:20260227
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-02-26-0@slicedharma.com
@@ -391,7 +391,7 @@ DTEND;VALUE=DATE:20260304
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-03-03-0@slicedharma.com
@@ -436,7 +436,7 @@ DTSTART;VALUE=DATE:20260313
 DTEND;VALUE=DATE:20260314
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -462,7 +462,7 @@ DTSTART;VALUE=DATE:20260317
 DTEND;VALUE=DATE:20260318
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -506,7 +506,7 @@ DTSTART;VALUE=DATE:20260326
 DTEND;VALUE=DATE:20260327
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -525,7 +525,7 @@ DTEND;VALUE=DATE:20260329
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-03-30-0@slicedharma.com
@@ -543,7 +543,7 @@ DTEND;VALUE=DATE:20260402
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-04-01-0@slicedharma.com
@@ -594,7 +594,7 @@ DTSTART;VALUE=DATE:20260412
 DTEND;VALUE=DATE:20260413
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -628,7 +628,7 @@ DTSTART;VALUE=DATE:20260416
 DTEND;VALUE=DATE:20260417
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -664,7 +664,7 @@ DTSTART;VALUE=DATE:20260424
 DTEND;VALUE=DATE:20260425
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -675,7 +675,7 @@ DTEND;VALUE=DATE:20260427
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2026-05-01-15@slicedharma.com
@@ -685,7 +685,7 @@ DTEND;VALUE=DATE:20260502
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-05-02-0@slicedharma.com
@@ -729,7 +729,7 @@ DTSTART;VALUE=DATE:20260512
 DTEND;VALUE=DATE:20260513
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -759,7 +759,7 @@ SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
  gs\, to the Dharma protectors. Day 29 is skipped this month\, so it is ke
  pt today. Some calendars (e.g. FPMT’s) keep it the day before instead. 
- Tibetan day 29. https://slicedharma.com/ngondro/
+ Tibetan day 29. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-05-16-0@slicedharma.com
@@ -795,7 +795,7 @@ DTSTART;VALUE=DATE:20260524
 DTEND;VALUE=DATE:20260525
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -806,7 +806,7 @@ DTEND;VALUE=DATE:20260527
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-05-30-0@slicedharma.com
@@ -824,7 +824,7 @@ DTEND;VALUE=DATE:20260601
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-05-31-0@slicedharma.com
@@ -860,7 +860,7 @@ DTSTART;VALUE=DATE:20260610
 DTEND;VALUE=DATE:20260611
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -888,7 +888,7 @@ DTSTART;VALUE=DATE:20260614
 DTEND;VALUE=DATE:20260615
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -950,7 +950,7 @@ DTSTART;VALUE=DATE:20260622
 DTEND;VALUE=DATE:20260623
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -961,7 +961,7 @@ DTEND;VALUE=DATE:20260625
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-06-24-0@slicedharma.com
@@ -996,7 +996,7 @@ DTEND;VALUE=DATE:20260630
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-06-29-0@slicedharma.com
@@ -1067,7 +1067,7 @@ SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
  ice of the wisdom ḍākinīs. Day 25 is skipped this month\, so it is ke
  pt today. Some calendars (e.g. FPMT’s) keep it the day before instead. 
- Tibetan day 25. https://slicedharma.com/ngondro/
+ Tibetan day 25. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2026-07-13-29@slicedharma.com
@@ -1076,7 +1076,7 @@ DTSTART;VALUE=DATE:20260713
 DTEND;VALUE=DATE:20260714
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1115,7 +1115,7 @@ DTSTART;VALUE=DATE:20260722
 DTEND;VALUE=DATE:20260723
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1126,7 +1126,7 @@ DTEND;VALUE=DATE:20260725
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-07-28-0@slicedharma.com
@@ -1144,7 +1144,7 @@ DTEND;VALUE=DATE:20260730
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-07-29-0@slicedharma.com
@@ -1161,7 +1161,7 @@ DTSTART;VALUE=DATE:20260808
 DTEND;VALUE=DATE:20260809
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1171,7 +1171,7 @@ DTSTART;VALUE=DATE:20260811
 DTEND;VALUE=DATE:20260812
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1199,7 +1199,7 @@ DTSTART;VALUE=DATE:20260820
 DTEND;VALUE=DATE:20260821
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1210,7 +1210,7 @@ DTEND;VALUE=DATE:20260823
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-08-22-0@slicedharma.com
@@ -1244,7 +1244,7 @@ DTEND;VALUE=DATE:20260829
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-08-28-0@slicedharma.com
@@ -1320,7 +1320,7 @@ DTSTART;VALUE=DATE:20260906
 DTEND;VALUE=DATE:20260907
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1347,7 +1347,7 @@ DTSTART;VALUE=DATE:20260910
 DTEND;VALUE=DATE:20260911
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1367,7 +1367,7 @@ DTSTART;VALUE=DATE:20260919
 DTEND;VALUE=DATE:20260920
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1378,7 +1378,7 @@ DTEND;VALUE=DATE:20260922
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-09-21-0@slicedharma.com
@@ -1405,7 +1405,7 @@ DTEND;VALUE=DATE:20260927
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-09-27-0@slicedharma.com
@@ -1431,7 +1431,7 @@ DTSTART;VALUE=DATE:20261005
 DTEND;VALUE=DATE:20261006
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1457,7 +1457,7 @@ DTSTART;VALUE=DATE:20261009
 DTEND;VALUE=DATE:20261010
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1485,7 +1485,7 @@ DTSTART;VALUE=DATE:20261018
 DTEND;VALUE=DATE:20261019
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1513,7 +1513,7 @@ DTEND;VALUE=DATE:20261022
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-10-23-0@slicedharma.com
@@ -1556,7 +1556,7 @@ DTEND;VALUE=DATE:20261027
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-10-28-0@slicedharma.com
@@ -1592,7 +1592,7 @@ DTSTART;VALUE=DATE:20261104
 DTEND;VALUE=DATE:20261105
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1610,7 +1610,7 @@ DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1630,7 +1630,7 @@ DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1657,7 +1657,7 @@ DTEND;VALUE=DATE:20261120
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-11-19-0@slicedharma.com
@@ -1691,7 +1691,7 @@ DTEND;VALUE=DATE:20261125
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-12-02-0@slicedharma.com
@@ -1708,7 +1708,7 @@ DTSTART;VALUE=DATE:20261203
 DTEND;VALUE=DATE:20261204
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1726,7 +1726,7 @@ DTSTART;VALUE=DATE:20261207
 DTEND;VALUE=DATE:20261208
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1772,7 +1772,7 @@ DTSTART;VALUE=DATE:20261217
 DTEND;VALUE=DATE:20261218
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1791,7 +1791,7 @@ DTEND;VALUE=DATE:20261220
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-12-20-0@slicedharma.com
@@ -1827,7 +1827,7 @@ SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Day 15 is skipped this 
  month\, so it is kept today. Some calendars (e.g. FPMT’s) keep it the d
- ay before instead. Tibetan day 15. https://slicedharma.com/ngondro/
+ ay before instead. Tibetan day 15. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2026-12-24-0@slicedharma.com
@@ -1919,7 +1919,7 @@ DTSTART;VALUE=DATE:20270102
 DTEND;VALUE=DATE:20270103
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1938,7 +1938,7 @@ DTSTART;VALUE=DATE:20270106
 DTEND;VALUE=DATE:20270107
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -1967,7 +1967,7 @@ DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -1978,7 +1978,7 @@ DTEND;VALUE=DATE:20270118
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-01-18-0@slicedharma.com
@@ -1996,7 +1996,7 @@ DTEND;VALUE=DATE:20270123
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-01-25-0@slicedharma.com
@@ -2055,7 +2055,7 @@ DTSTART;VALUE=DATE:20270201
 DTEND;VALUE=DATE:20270202
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2065,7 +2065,7 @@ DTSTART;VALUE=DATE:20270205
 DTEND;VALUE=DATE:20270206
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2149,7 +2149,7 @@ DTSTART;VALUE=DATE:20270214
 DTEND;VALUE=DATE:20270215
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -2160,7 +2160,7 @@ DTEND;VALUE=DATE:20270217
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-02-16-0@slicedharma.com
@@ -2195,7 +2195,7 @@ DTEND;VALUE=DATE:20270221
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-02-20-0@slicedharma.com
@@ -2248,7 +2248,7 @@ DTSTART;VALUE=DATE:20270302
 DTEND;VALUE=DATE:20270303
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2266,7 +2266,7 @@ DTSTART;VALUE=DATE:20270307
 DTEND;VALUE=DATE:20270308
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2296,7 +2296,7 @@ SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
  ng prayers and his mantra. Day 8 is skipped this month\, so it is kept to
  day. Some calendars (e.g. FPMT’s) keep it the day before instead. Tibet
- an day 8. https://slicedharma.com/ngondro/
+ an day 8. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2027-03-17-10@slicedharma.com
@@ -2306,7 +2306,7 @@ DTEND;VALUE=DATE:20270318
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2027-03-22-15@slicedharma.com
@@ -2316,7 +2316,7 @@ DTEND;VALUE=DATE:20270323
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2027-04-01-25@slicedharma.com
@@ -2325,7 +2325,7 @@ DTSTART;VALUE=DATE:20270401
 DTEND;VALUE=DATE:20270402
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2343,7 +2343,7 @@ DTSTART;VALUE=DATE:20270405
 DTEND;VALUE=DATE:20270406
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2387,7 +2387,7 @@ DTSTART;VALUE=DATE:20270414
 DTEND;VALUE=DATE:20270415
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -2422,7 +2422,7 @@ DTEND;VALUE=DATE:20270417
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-04-18-0@slicedharma.com
@@ -2440,7 +2440,7 @@ DTEND;VALUE=DATE:20270421
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-04-20-0@slicedharma.com
@@ -2483,7 +2483,7 @@ DTSTART;VALUE=DATE:20270501
 DTEND;VALUE=DATE:20270502
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2501,7 +2501,7 @@ DTSTART;VALUE=DATE:20270505
 DTEND;VALUE=DATE:20270506
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2537,7 +2537,7 @@ DTSTART;VALUE=DATE:20270513
 DTEND;VALUE=DATE:20270514
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -2548,7 +2548,7 @@ DTEND;VALUE=DATE:20270516
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2027-05-20-15@slicedharma.com
@@ -2558,7 +2558,7 @@ DTEND;VALUE=DATE:20270521
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-05-21-0@slicedharma.com
@@ -2602,7 +2602,7 @@ DTSTART;VALUE=DATE:20270530
 DTEND;VALUE=DATE:20270531
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2620,7 +2620,7 @@ DTSTART;VALUE=DATE:20270603
 DTEND;VALUE=DATE:20270604
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2667,7 +2667,7 @@ DTSTART;VALUE=DATE:20270612
 DTEND;VALUE=DATE:20270613
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -2679,7 +2679,7 @@ SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Day 10 is skipped this 
  month\, so it is kept today. Some calendars (e.g. FPMT’s) keep it the d
- ay before instead. Tibetan day 10. https://slicedharma.com/ngondro/
+ ay before instead. Tibetan day 10. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-06-17-0@slicedharma.com
@@ -2697,7 +2697,7 @@ DTEND;VALUE=DATE:20270619
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-06-18-0@slicedharma.com
@@ -2757,7 +2757,7 @@ DTSTART;VALUE=DATE:20270629
 DTEND;VALUE=DATE:20270630
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2785,7 +2785,7 @@ DTSTART;VALUE=DATE:20270703
 DTEND;VALUE=DATE:20270704
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2848,7 +2848,7 @@ DTSTART;VALUE=DATE:20270711
 DTEND;VALUE=DATE:20270712
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -2859,7 +2859,7 @@ DTEND;VALUE=DATE:20270714
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-07-13-0@slicedharma.com
@@ -2878,7 +2878,7 @@ DTEND;VALUE=DATE:20270719
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-07-18-0@slicedharma.com
@@ -2938,7 +2938,7 @@ DTSTART;VALUE=DATE:20270728
 DTEND;VALUE=DATE:20270729
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2948,7 +2948,7 @@ DTSTART;VALUE=DATE:20270801
 DTEND;VALUE=DATE:20270802
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -2987,7 +2987,7 @@ DTSTART;VALUE=DATE:20270809
 DTEND;VALUE=DATE:20270810
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -2998,7 +2998,7 @@ DTEND;VALUE=DATE:20270812
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-08-16-0@slicedharma.com
@@ -3016,7 +3016,7 @@ DTEND;VALUE=DATE:20270818
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-08-17-0@slicedharma.com
@@ -3033,7 +3033,7 @@ DTSTART;VALUE=DATE:20270827
 DTEND;VALUE=DATE:20270828
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3067,7 +3067,7 @@ DTSTART;VALUE=DATE:20270830
 DTEND;VALUE=DATE:20270831
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3111,7 +3111,7 @@ DTSTART;VALUE=DATE:20270908
 DTEND;VALUE=DATE:20270909
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -3122,7 +3122,7 @@ DTEND;VALUE=DATE:20270911
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-09-10-0@slicedharma.com
@@ -3140,7 +3140,7 @@ DTEND;VALUE=DATE:20270916
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-09-15-0@slicedharma.com
@@ -3200,7 +3200,7 @@ DTSTART;VALUE=DATE:20270925
 DTEND;VALUE=DATE:20270926
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3227,7 +3227,7 @@ DTSTART;VALUE=DATE:20270929
 DTEND;VALUE=DATE:20270930
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3247,7 +3247,7 @@ DTSTART;VALUE=DATE:20271007
 DTEND;VALUE=DATE:20271008
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -3258,7 +3258,7 @@ DTEND;VALUE=DATE:20271011
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-10-10-0@slicedharma.com
@@ -3285,7 +3285,7 @@ DTEND;VALUE=DATE:20271016
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-10-19-0@slicedharma.com
@@ -3311,7 +3311,7 @@ DTSTART;VALUE=DATE:20271024
 DTEND;VALUE=DATE:20271025
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3337,7 +3337,7 @@ DTSTART;VALUE=DATE:20271028
 DTEND;VALUE=DATE:20271029
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3373,7 +3373,7 @@ DTSTART;VALUE=DATE:20271106
 DTEND;VALUE=DATE:20271107
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -3401,7 +3401,7 @@ DTEND;VALUE=DATE:20271109
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-11-12-0@slicedharma.com
@@ -3436,7 +3436,7 @@ DTEND;VALUE=DATE:20271115
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-11-16-0@slicedharma.com
@@ -3496,7 +3496,7 @@ DTSTART;VALUE=DATE:20271123
 DTEND;VALUE=DATE:20271124
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3526,7 +3526,7 @@ SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
  gs\, to the Dharma protectors. Day 29 is skipped this month\, so it is ke
  pt today. Some calendars (e.g. FPMT’s) keep it the day before instead. 
- Tibetan day 29. https://slicedharma.com/ngondro/
+ Tibetan day 29. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2027-12-06-8@slicedharma.com
@@ -3535,7 +3535,7 @@ DTSTART;VALUE=DATE:20271206
 DTEND;VALUE=DATE:20271207
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -3546,7 +3546,7 @@ DTEND;VALUE=DATE:20271209
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-12-08-0@slicedharma.com
@@ -3564,7 +3564,7 @@ DTEND;VALUE=DATE:20271214
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2027-12-17-0@slicedharma.com
@@ -3589,7 +3589,7 @@ DTSTART;VALUE=DATE:20271222
 DTEND;VALUE=DATE:20271223
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3623,7 +3623,7 @@ DTSTART;VALUE=DATE:20271226
 DTEND;VALUE=DATE:20271227
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3669,7 +3669,7 @@ DTSTART;VALUE=DATE:20280105
 DTEND;VALUE=DATE:20280106
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -3680,7 +3680,7 @@ DTEND;VALUE=DATE:20280108
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-01-08-0@slicedharma.com
@@ -3715,7 +3715,7 @@ DTEND;VALUE=DATE:20280113
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-01-12-0@slicedharma.com
@@ -3791,7 +3791,7 @@ DTSTART;VALUE=DATE:20280121
 DTEND;VALUE=DATE:20280122
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3810,7 +3810,7 @@ DTSTART;VALUE=DATE:20280125
 DTEND;VALUE=DATE:20280126
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3839,7 +3839,7 @@ DTSTART;VALUE=DATE:20280203
 DTEND;VALUE=DATE:20280204
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -3850,7 +3850,7 @@ DTEND;VALUE=DATE:20280206
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-02-06-0@slicedharma.com
@@ -3868,7 +3868,7 @@ DTEND;VALUE=DATE:20280211
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-02-13-0@slicedharma.com
@@ -3927,7 +3927,7 @@ DTSTART;VALUE=DATE:20280219
 DTEND;VALUE=DATE:20280220
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -3937,7 +3937,7 @@ DTSTART;VALUE=DATE:20280224
 DTEND;VALUE=DATE:20280225
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4021,7 +4021,7 @@ DTSTART;VALUE=DATE:20280304
 DTEND;VALUE=DATE:20280305
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4032,7 +4032,7 @@ DTEND;VALUE=DATE:20280307
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-03-06-0@slicedharma.com
@@ -4076,7 +4076,7 @@ SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Day 15 is skipped this 
  month\, so it is kept today. Some calendars (e.g. FPMT’s) keep it the d
- ay before instead. Tibetan day 15. https://slicedharma.com/ngondro/
+ ay before instead. Tibetan day 15. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-03-11-0@slicedharma.com
@@ -4129,7 +4129,7 @@ DTSTART;VALUE=DATE:20280320
 DTEND;VALUE=DATE:20280321
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4147,7 +4147,7 @@ DTSTART;VALUE=DATE:20280324
 DTEND;VALUE=DATE:20280325
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4191,7 +4191,7 @@ DTSTART;VALUE=DATE:20280403
 DTEND;VALUE=DATE:20280404
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4210,7 +4210,7 @@ DTEND;VALUE=DATE:20280405
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-04-04-0@slicedharma.com
@@ -4236,7 +4236,7 @@ DTEND;VALUE=DATE:20280410
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-04-09-0@slicedharma.com
@@ -4295,7 +4295,7 @@ DTSTART;VALUE=DATE:20280419
 DTEND;VALUE=DATE:20280420
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4313,7 +4313,7 @@ DTSTART;VALUE=DATE:20280423
 DTEND;VALUE=DATE:20280424
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4349,7 +4349,7 @@ DTSTART;VALUE=DATE:20280502
 DTEND;VALUE=DATE:20280503
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4360,7 +4360,7 @@ DTEND;VALUE=DATE:20280505
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ausp-2028-05-08-15@slicedharma.com
@@ -4370,7 +4370,7 @@ DTEND;VALUE=DATE:20280509
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-05-09-0@slicedharma.com
@@ -4434,7 +4434,7 @@ DTSTART;VALUE=DATE:20280523
 DTEND;VALUE=DATE:20280524
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4481,7 +4481,7 @@ DTSTART;VALUE=DATE:20280531
 DTEND;VALUE=DATE:20280601
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4492,7 +4492,7 @@ DTEND;VALUE=DATE:20280603
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-06-06-0@slicedharma.com
@@ -4510,7 +4510,7 @@ DTEND;VALUE=DATE:20280608
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-06-07-0@slicedharma.com
@@ -4546,7 +4546,7 @@ DTSTART;VALUE=DATE:20280617
 DTEND;VALUE=DATE:20280618
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4582,7 +4582,7 @@ DTSTART;VALUE=DATE:20280621
 DTEND;VALUE=DATE:20280622
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4652,7 +4652,7 @@ DTSTART;VALUE=DATE:20280630
 DTEND;VALUE=DATE:20280701
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4663,7 +4663,7 @@ DTEND;VALUE=DATE:20280702
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-07-01-0@slicedharma.com
@@ -4682,7 +4682,7 @@ DTEND;VALUE=DATE:20280707
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-07-06-0@slicedharma.com
@@ -4751,7 +4751,7 @@ DTSTART;VALUE=DATE:20280717
 DTEND;VALUE=DATE:20280718
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4761,7 +4761,7 @@ DTSTART;VALUE=DATE:20280721
 DTEND;VALUE=DATE:20280722
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4800,7 +4800,7 @@ DTSTART;VALUE=DATE:20280729
 DTEND;VALUE=DATE:20280730
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4811,7 +4811,7 @@ DTEND;VALUE=DATE:20280801
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-08-04-0@slicedharma.com
@@ -4829,7 +4829,7 @@ DTEND;VALUE=DATE:20280806
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-08-05-0@slicedharma.com
@@ -4846,7 +4846,7 @@ DTSTART;VALUE=DATE:20280815
 DTEND;VALUE=DATE:20280816
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4856,7 +4856,7 @@ DTSTART;VALUE=DATE:20280819
 DTEND;VALUE=DATE:20280820
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -4884,7 +4884,7 @@ DTSTART;VALUE=DATE:20280827
 DTEND;VALUE=DATE:20280828
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -4919,7 +4919,7 @@ DTEND;VALUE=DATE:20280830
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-08-29-0@slicedharma.com
@@ -4937,7 +4937,7 @@ DTEND;VALUE=DATE:20280904
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-09-03-0@slicedharma.com
@@ -5013,7 +5013,7 @@ DTSTART;VALUE=DATE:20280914
 DTEND;VALUE=DATE:20280915
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -5032,7 +5032,7 @@ DTSTART;VALUE=DATE:20280917
 DTEND;VALUE=DATE:20280918
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -5052,7 +5052,7 @@ DTSTART;VALUE=DATE:20280926
 DTEND;VALUE=DATE:20280927
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -5071,7 +5071,7 @@ DTEND;VALUE=DATE:20280929
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-09-28-0@slicedharma.com
@@ -5098,7 +5098,7 @@ DTEND;VALUE=DATE:20281004
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-10-07-0@slicedharma.com
@@ -5116,7 +5116,7 @@ DTSTART;VALUE=DATE:20281013
 DTEND;VALUE=DATE:20281014
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -5142,7 +5142,7 @@ DTSTART;VALUE=DATE:20281017
 DTEND;VALUE=DATE:20281018
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -5178,7 +5178,7 @@ DTSTART;VALUE=DATE:20281025
 DTEND;VALUE=DATE:20281026
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -5206,7 +5206,7 @@ DTEND;VALUE=DATE:20281028
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-10-29-0@slicedharma.com
@@ -5249,7 +5249,7 @@ DTEND;VALUE=DATE:20281103
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-11-05-0@slicedharma.com
@@ -5279,7 +5279,7 @@ SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
  ice of the wisdom ḍākinīs. Day 25 is skipped this month\, so it is ke
  pt today. Some calendars (e.g. FPMT’s) keep it the day before instead. 
- Tibetan day 25. https://slicedharma.com/ngondro/
+ Tibetan day 25. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-11-12-0@slicedharma.com
@@ -5296,7 +5296,7 @@ DTSTART;VALUE=DATE:20281115
 DTEND;VALUE=DATE:20281116
 SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
- gs\, to the Dharma protectors. Tibetan day 29. https://slicedharma.com/ng
+ gs\, to the Dharma protectors. Tibetan day 29. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -5348,7 +5348,7 @@ DTSTART;VALUE=DATE:20281124
 DTEND;VALUE=DATE:20281125
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -5359,7 +5359,7 @@ DTEND;VALUE=DATE:20281127
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-11-26-0@slicedharma.com
@@ -5377,7 +5377,7 @@ DTEND;VALUE=DATE:20281202
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-12-10-0@slicedharma.com
@@ -5394,7 +5394,7 @@ DTSTART;VALUE=DATE:20281211
 DTEND;VALUE=DATE:20281212
 SUMMARY:Ḍākinī Day
 DESCRIPTION:Ḍākinī day: a day for feast offerings (tsok) and the pract
- ice of the wisdom ḍākinīs. Tibetan day 25. https://slicedharma.com/ng
+ ice of the wisdom ḍākinīs. Tibetan day 25. https://dharmasoup.org/ng
  ondro/
 END:VEVENT
 BEGIN:VEVENT
@@ -5424,7 +5424,7 @@ SUMMARY:Dharmapāla Day
 DESCRIPTION:Dharmapāla day: prayers and offerings\, such as smoke offerin
  gs\, to the Dharma protectors. Day 29 is skipped this month\, so it is ke
  pt today. Some calendars (e.g. FPMT’s) keep it the day before instead. 
- Tibetan day 29. https://slicedharma.com/ngondro/
+ Tibetan day 29. https://dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-12-17-0@slicedharma.com
@@ -5467,7 +5467,7 @@ DTSTART;VALUE=DATE:20281224
 DTEND;VALUE=DATE:20281225
 SUMMARY:Medicine Buddha Day
 DESCRIPTION:The day of the Medicine Buddha\, Sangye Menla: a day for heali
- ng prayers and his mantra. Tibetan day 8. https://slicedharma.com/ngondro
+ ng prayers and his mantra. Tibetan day 8. https://dharmasoup.org/ngondro
  /
 END:VEVENT
 BEGIN:VEVENT
@@ -5494,7 +5494,7 @@ DTEND;VALUE=DATE:20281227
 SUMMARY:Guru Rinpoche Day
 DESCRIPTION:Guru Rinpoche (Padmasambhava) day: a day for his practice\, th
  e Seven-Line Prayer\, and feast offerings (tsok). Tibetan day 10. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-12-27-0@slicedharma.com
@@ -5529,7 +5529,7 @@ DTEND;VALUE=DATE:20290101
 SUMMARY:Full Moon — Amitābha
 DESCRIPTION:The full moon\, a sacred day of Buddha Amitābha\, when the me
  rit of practice is said to be greatly multiplied. Tibetan day 15. https:/
- /slicedharma.com/ngondro/
+ /dharmasoup.org/ngondro/
 END:VEVENT
 BEGIN:VEVENT
 UID:ev-2028-12-31-0@slicedharma.com

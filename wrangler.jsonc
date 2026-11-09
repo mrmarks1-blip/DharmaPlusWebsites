@@ -1,4 +1,4 @@
-// Cloudflare Worker for slicedharma.com: the static site (assets) plus a small push server (/api/*).
+// Cloudflare Worker for dharmasoup.org: the static site (assets) plus a small push server (/api/*).
 // Deployed by Cloudflare's Git build: pushing to main runs `npx wrangler deploy` with this file;
 // other branches run `npx wrangler versions upload` (a preview version, not live).
 {

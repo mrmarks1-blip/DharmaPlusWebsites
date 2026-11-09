@@ -9,7 +9,7 @@
 // no secret has to be typed into the dashboard by anyone.
 import { buildPushPayload } from './vendor/webcrypto-web-push/main.js';
 
-const SUBJECT = 'https://slicedharma.com/ngondro/';
+const SUBJECT = 'https://dharmasoup.org/ngondro/';
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;

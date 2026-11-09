@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f2e6">
 <meta name="description" content="Free, simple tools for daily Buddhist practice, whatever your school: a meditation timer, a mala counter for Ngöndro and mantras, a practice diary, daily prayers and practice-day calendars. No account, no adverts.">
-<link rel="canonical" href="https://slicedharma.com/practice/">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Sliced Dharma">
-<meta property="og:title" content="Dharma Practice · Sliced Dharma">
+<link rel="canonical" href="https://dharmasoup.org/practice/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Dharma Soup">
+<meta property="og:title" content="Dharma Practice · Dharma Soup">
 <meta property="og:description" content="Free, simple tools for daily Buddhist practice, whatever your school: a meditation timer, a mala counter for Ngöndro and mantras, a practice diary, daily prayers and practice-day calendars. No account, no adverts.">
-<meta property="og:url" content="https://slicedharma.com/practice/">
-<meta property="og:image" content="https://slicedharma.com/practice/og-image.png">
+<meta property="og:url" content="https://dharmasoup.org/practice/">
+<meta property="og:image" content="https://dharmasoup.org/practice/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +21,7 @@
 <link rel="icon" href="icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin>
-<title>Dharma Practice · Sliced Dharma</title>
+<title>Dharma Practice · Dharma Soup</title>
 <style>
 /* ═══════════════════════════════════════════════════════════════
    FONTS — self-hosted (SIL Open Font License) so the installed app
@@ -788,7 +788,7 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 // Names shown in the app. To rebrand, change these (plus <title>, the
 // apple-mobile-web-app-title meta tag, and manifest.json "name"/"short_name").
 const APP_NAME='Dharma Practice';
-const BRAND='Sliced Dharma';
+const BRAND='Dharma Soup';
 
 // ═══════════════════════════════════════════════════════════
 // STORAGE, THEME & TEXT SIZE (applied before anything renders)
@@ -2207,12 +2207,17 @@ function backupHint(){return isIOS()?'<p class="small">On iPhone, choose “Save
 // Gentle cards at the top of Today. "Coming back?" comes first; the iPhone-in-Safari card never shows with it.
 function comebackCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Used this app before?</b>
   <p>Bring your practice back from a copy you sent yourself, or with your backup code.</p></div>
-  <div class="btns"><button class="btn primary" data-act="restore">${ico('restore')} Bring my practice back</button><button class="btn soft" data-act="comebacknot">Not now</button></div>
+  <div class="stack"><button class="btn primary wide" data-act="restore">${ico('restore')} Bring my practice back</button><button class="btn soft wide" data-act="comebacknot">Not now</button></div>
   ${abOK()?`<button class="btn soft wide" data-act="abrestore">Restore with my backup code</button>`:''}</div>`;}
 function iosCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Add this app to your Home Screen</b>
   <p>On iPhone, this keeps your practice safe: Apple can clear a website’s data after about a week without a visit. It also lets reminders work.</p></div>
-  <div class="btns"><button class="btn primary" data-act="install">${ico('phone')} Show me how</button><button class="btn soft" data-act="iosnot">Not now</button></div></div>`;}
+  <div class="stack"><button class="btn primary wide" data-act="install">${ico('phone')} Show me how</button><button class="btn soft wide" data-act="iosnot">Not now</button></div></div>`;
+function movedCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">We’ve moved to dharmasoup.org</b>
+  <p>This address stops working on 10 December. Your practice is saved on this phone, so bring it with you:</p>
+  <p>${abOn()?'Open dharmasoup.org/practice and choose “Restore with my backup code”.':'1. Tap “Send a copy to myself” below.<br>2. Open dharmasoup.org/practice, then choose “Bring my practice back” and pick your copy.'}</p></div>
+  <div class="stack">${abOn()?'':`<button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>`}<a class="btn ${abOn()?'primary':'soft'} wide" href="https://dharmasoup.org/practice/" target="_blank" rel="noopener">Open dharmasoup.org</a><button class="btn soft wide" data-act="movedlater">Later</button></div></div>`;}}
 function startCard(){
+  if(/(^|\.)slicedharma\.com$/i.test(location.hostname)&&Date.now()>ls('esm_moved_hide',0))return movedCard();
   if(!hasPracticeData()&&!ls('esm_last_backup',0)&&!ls('esm_restored',false)&&!ls('esm_comeback_no',false))return comebackCard();
   if(hasPracticeData()&&abOK()&&!abOn()&&Date.now()>ls('esm_cloud_no',0))return abCard();
   if(isIOS()&&!isStandalone()&&Date.now()>ls('esm_ios_hide',0))return iosCard();
@@ -2338,7 +2343,7 @@ async function abRestore(){
   ST.abR=null;ST.restore={step:1,o,cloud:code};ST.sheet='restore';render();}
 function abCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe automatically</b>
   <p>Turn on automatic backup and a locked copy of your practice is kept online. You get a code that opens it, so you can get everything back on a new phone.</p></div>
-  <div class="btns"><button class="btn primary" data-act="abon">Turn on</button><button class="btn soft" data-act="abnot">Not now</button></div></div>`;}
+  <div class="stack"><button class="btn primary wide" data-act="abon">Turn on</button><button class="btn soft wide" data-act="abnot">Not now</button></div></div>`;}
 // The Settings part of it.
 function abSettings(){const c=abCfg();if(!abOK())return'';
   const on=c&&c.on;
@@ -2641,7 +2646,7 @@ function icsEvent(e){const L=['BEGIN:VEVENT',`UID:${e.uid}`,`DTSTAMP:${icsStamp(
   L.push(`SUMMARY:${icsEsc(e.title)}`);if(e.desc)L.push(`DESCRIPTION:${icsEsc(e.desc)}`);if(e.url)L.push(`URL:${e.url}`);if(e.rrule)L.push(`RRULE:${e.rrule}`);
   if(e.alarm!=null)L.push('BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${icsEsc(e.title)}`,`TRIGGER:${e.alarm}`,'END:VALARM');
   L.push('END:VEVENT');return L.map(icsFold).join('\r\n');}
-function icsDoc(evs,name){return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Sliced Dharma//Dharma Practice//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',...(name?[`X-WR-CALNAME:${icsEsc(name)}`]:[]),...evs.map(icsEvent),'END:VCALENDAR'].join('\r\n')+'\r\n';}
+function icsDoc(evs,name){return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Dharma Soup//Dharma Practice//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH',...(name?[`X-WR-CALNAME:${icsEsc(name)}`]:[]),...evs.map(icsEvent),'END:VCALENDAR'].join('\r\n')+'\r\n';}
 async function shareICS(text,file,{title,msg}={}){const f=new File([text],file,{type:'text/calendar'});
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:title||file,text:msg||''});return true;}catch(e){if(e&&e.name==='AbortError')return false;}}
   const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=file;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
@@ -2649,7 +2654,7 @@ async function shareICS(text,file,{title,msg}={}){const f=new File([text],file,{
 const gcalLink=e=>{const end=new Date(`${e.date}T${e.time||'08:00'}:00`);end.setMinutes(end.getMinutes()+(e.mins||30));
   const p=new URLSearchParams({action:'TEMPLATE',text:e.title,dates:`${icsDT(e.date,e.time||'08:00')}/${icsDT(dayKey(end),`${pad2(end.getHours())}:${pad2(end.getMinutes())}`)}`,details:e.desc||''});
   if(e.rrule)p.set('recur','RRULE:'+e.rrule);return'https://calendar.google.com/calendar/render?'+p.toString();};
-const APP_URL='https://slicedharma.com/practice/';
+const APP_URL='https://dharmasoup.org/practice/';
 const KOFI='https://ko-fi.com/raccoonhands';
 // Why support it (Gareth, 2026-11-05: say what it costs and the hoped-for benefit). Same words in About, Generosity and Settings.
 const KOFI_WHY='The app is free, with no adverts. It does cost money to run: the web address, the hosting and the reminder service. Gifts on Ko-fi cover those costs first. Anything beyond that helps me make more Dharma projects, in the hope they benefit many beings.';
@@ -2689,7 +2694,7 @@ function sheetDaily(){const t=ls('esm_daily_time','07:30');
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const dailyEvent=t=>({uid:'daily-practice@slicedharma.com',date:dayKey(),time:t,mins:20,title:'Time to practise',desc:`A gentle reminder for your daily practice. ${APP_URL}`,url:APP_URL,rrule:'FREQ=DAILY',alarm:'PT0M'});
 // The auspicious-days feed: a calendar people subscribe to (webcal), regenerated yearly with tools/make-feed.html.
-const FEED_PATH='ngondro/practice-days.ics',FEED_HTTPS=`https://slicedharma.com/${FEED_PATH}`,FEED_WEBCAL=`webcal://slicedharma.com/${FEED_PATH}`;
+const FEED_PATH='ngondro/practice-days.ics',FEED_HTTPS=`https://dharmasoup.org/${FEED_PATH}`,FEED_WEBCAL=`webcal://dharmasoup.org/${FEED_PATH}`;
 function feedEvents(from,to){const evs=[];for(let d=noonOf(from);d<to;d=plusDays(d,1)){const k=dayKey(d);
   observedAusp(d).forEach(o=>evs.push({uid:`ausp-${k}-${o.td}@slicedharma.com`,date:k,title:o.a.name,desc:`${(SPECIAL_WHY[o.td]||{}).t||o.a.desc}${o.note?' '+o.note:''} Tibetan day ${o.td}. ${APP_URL}`}));
   eventsOn(d).forEach((e,i)=>evs.push({uid:`ev-${k}-${i}@slicedharma.com`,date:k,title:e.kind==='fest'?e.name:`Anniversary: ${e.name}`,desc:e.kind==='fest'?`${e.t} ${e.u||''}`:(e.u||'From tibetanbuddhistcalendar.org’s list of anniversaries.')}));}
@@ -2724,7 +2729,7 @@ function pageToday(){
   const more=[ra,timer?medTimerCard(now):''].filter(Boolean),moreS=[ra?'reminders':'',timer?'the meditation timer':''].filter(Boolean).join(' · ');
   // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
   if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
-    <p>Your counts live only on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
+    <p>Your counts live on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
     <p class="small">${lastBackupText()}</p></div>
     <div class="btns"><button class="btn primary" data-act="sharebackup">${ico('save')} Send a copy</button><button class="btn soft" data-act="bklater">Later</button></div></div>`);
   if(more.length)out.push(fold('today_more','MORE FOR TODAY',moreS.charAt(0).toUpperCase()+moreS.slice(1),more.join('')));
@@ -3710,7 +3715,7 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
   const skip=`<button class="btn link" data-act="sunext" style="align-self:center">Skip this step</button>`;
   if(S.step===0)return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
     <p>An unofficial companion for daily practice: a meditation timer, a counter for mantras and prostrations, a practice diary, words from many teachers, and the Tibetan calendar. It began with Ngöndro and is for anyone, whatever their school.</p>
-    <p class="small">Everything stays on this phone. No account, no tracking.</p>
+    <p class="small">Everything stays on this phone unless you turn on automatic backup. No account, no tracking.</p>
     <button class="btn primary wide" data-act="sunext">Set up in a minute</button>
     <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
     ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
@@ -3752,7 +3757,7 @@ const TOUR=[
   ['Texts','Prayers to chant one verse at a time: swipe or tap to move on, and choose Tibetan, the sounds, or the meaning.','texts','.card.feature'],
   ['Sections','Long-life prayers for the teachers, Patrul Rinpoche and Garab Dorje, smoke offerings, and more. Tap a heading to open it.','texts','[data-fold="t_longlife"]'],
   ['Learn','The refuge tree, the practices in plain words, the Tibetan calendar and the full moon, caring for Dharma texts, and how to support the teachers.','learn','.page .card'],
-  ['Take a backup copy','Your counts and diary live only on this phone, so keep a copy. Today reminds you every two weeks to send one to yourself (Settings → Backup changes how often). On a new phone, “Restore my practice” brings it all back.','today','[data-act="settings"]']];
+  ['Take a backup copy','Your counts and diary live on this phone, so keep a copy (or turn on automatic backup in Settings). Today reminds you every two weeks to send one to yourself (Settings → Backup changes how often). On a new phone, “Restore my practice” brings it all back.','today','[data-act="settings"]']];
 function tourCard(){const i=ST.tourOn,[t,b]=TOUR[i],last=i===TOUR.length-1;
   return`<div class="tourcard" role="dialog" aria-label="Tour" data-swl="${last?'':'tournext'}" data-swr="tourprev"><div class="row"><span class="small grow">${i+1} of ${TOUR.length}</span><button class="iconbtn" data-act="tourend" aria-label="End the tour">${ico('close')}</button></div>
   <b>${t}</b><p>${b}</p>
@@ -3890,7 +3895,7 @@ function drawQuoteText(x,q,o){const fam=o.serif?DISPF:UIF,wt=o.serif?500:300,B=o
   x.fillStyle=o.ink;x.font=`${wt} ${fs}px ${fam}`;lines.forEach(l=>{x.fillText(l,cx,y);y+=lh;});
   y+=-lh+fs*.45+26+as*.9;x.fillStyle=o.acc;x.font=`600 ${as}px ${UIF}`;aLines.forEach(l=>{x.fillText(l,cx,y);y+=as*1.3;});
   x.fillStyle=o.mut;x.font=`400 ${cs}px ${UIF}`;credLines.forEach(l=>{x.fillText(l,cx,y);y+=cs*1.4;});
-  x.fillStyle=o.foot;x.font=`600 22px ${UIF}`;x.fillText(`${APP_NAME} · slicedharma.com`,(o.W||1080)/2,o.footY);}
+  x.fillStyle=o.foot;x.font=`600 22px ${UIF}`;x.fillText(`${APP_NAME} · dharmasoup.org`,(o.W||1080)/2,o.footY);}
 async function quoteArt(q,fmt,style,scale=1){const A=SHQ_ART[style]||SHQ_ART.brocade,W=1080,H=fmt==='story'?1920:1350,c=document.createElement('canvas');c.width=Math.round(W*scale);c.height=Math.round(H*scale);const x=c.getContext('2d');x.scale(scale,scale);
   try{await Promise.all([`300 50px ${UIF}`,`600 30px ${UIF}`,...(A.fonts||[])].map(f=>document.fonts.load(f,f.includes('Tibetan')?'ཨོཾ':'Aa')));}catch{}
   x.lineCap='round';x.lineJoin='round';const o=A.draw(x,W,H,rng(QUOTES.indexOf(q)*7919+W+H),q.t.length);o.W=W;drawQuoteText(x,q,o);
@@ -4001,7 +4006,7 @@ async function quoteCanvas(q,fmt,style){if(style!=='plain')return quoteArt(q,fmt
   x.fillStyle=v('--ink')||'#211910';x.font=`500 ${fs}px ${DISP}`;lines.forEach(l=>{x.fillText(l,pad,y);y+=lh;});
   y+=36;x.fillStyle=v('--accent-ink')||'#8f4a05';x.font=`700 34px ${UI}`;wrap('— '+q.a,`700 34px ${UI}`).forEach(l=>{x.fillText(l,pad,y);y+=44;});
   x.fillStyle=v('--ink-3')||'#7d6b57';x.font=credFont;credLines.forEach(l=>{if(l){x.fillText(l,pad,y);y+=42;}});
-  x.font=`700 28px ${UI}`;x.textAlign='center';x.fillText(`${APP_NAME} · slicedharma.com`,W/2,H-92);
+  x.font=`700 28px ${UI}`;x.textAlign='center';x.fillText(`${APP_NAME} · dharmasoup.org`,W/2,H-92);
   return new Promise(r=>c.toBlob(b=>r(b),'image/png'));}
 // Each picture (quote|format|style) is drawn once and kept for the session, so swiping back and forth is
 // instant; the neighbours are drawn ahead. While a picture is being drawn its thumbnail stands in.
@@ -4082,7 +4087,7 @@ function mileRow(){const got=ls('esm_milestones',{})||{},on=MILES.filter(m=>got[
 // readable in the page source. Add one with tools/lock-text.html and paste its line into LOCKED.
 // The section stays hidden until LOCKED has a text.
 const LOCKED=[];
-const TEXTS_EMAIL='texts@slicedharma.com';
+const TEXTS_EMAIL='texts@dharmasoup.org';
 const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function unlockText(t,pass){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
   const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(t.salt),iterations:t.iter||250000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
@@ -4377,6 +4382,7 @@ function sheetRestore(){const R=ST.restore||{step:0};
     return`<div class="grab"></div><h2 class="h1">Restore my practice</h2>
     <p>Find the copy you sent yourself. If it is in your email, save the attachment to your phone first, then choose it here.</p>
     <label class="btn primary wide" for="restorefile">${ico('restore')} Choose my backup file</label><input id="restorefile" type="file" accept=".json,application/json,text/plain" hidden>
+    ${abOK()?`<button class="btn soft wide" data-act="abrestore">Use my backup code instead</button>`:''}
     ${R.err?`<p class="note" style="border-color:var(--bad)">${R.err}</p>`:''}
     ${snaps.length?`<p class="h2" style="margin:0">COPIES THIS PHONE MADE AUTOMATICALLY</p><div class="list">${snaps.map((s,i)=>item('restoresnap',new Date(s.at).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}),esc(s.reason),{attrs:`data-i="${snaps.length-1-i}"`})).join('')}</div>`:''}
     <details class="small"><summary>I copied it as text</summary><label class="small" for="restoretext" style="display:block;margin-top:8px">Paste the text here</label><textarea id="restoretext" class="backup" placeholder='{"app":"dharma-practice", …'></textarea>
@@ -4410,7 +4416,7 @@ function sheetInstall(){
   <ul class="perks"><li><b>One tap to open</b><span>Its own icon on your home screen, like any other app.</span></li>
     <li><b>Works without internet</b><span>Count, read the prayers and check the calendar on retreat or on a plane.</span></li>
     <li><b>Full screen, no distractions</b><span>No address bar or tabs while you practise.</span></li>
-    <li><b>Free and private</b><span>No account, no ads, nothing to download from a store. Your practice stays on your phone.</span></li></ul>
+    <li><b>Free and private</b><span>No account, no ads, nothing to download from a store. Your practice stays on your phone unless you turn on automatic backup.</span></li></ul>
   ${installPrompt?`<button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button><p class="small" style="text-align:center">Your browser will ask you to confirm.</p>`:`<p class="h2" style="margin-top:4px">HOW TO ADD IT</p>${installSteps()}`}
   <button class="btn soft wide" data-act="closesheet">Not now</button>`;}
 
@@ -4928,6 +4934,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'abnow':abRun(true).then(ok=>{toast(ok?'Backed up':'Couldn’t back up just now. Please try again when you’re online.');});return;
     case'aboff':sheet('aboff');break;
     case'aboffgo':abOff();return;
+    case'movedlater':lsSet('esm_moved_hide',Date.now()+3*86400000);break;
     case'abnot':lsSet('esm_cloud_no',Date.now()+30*86400000);break;
     case'abrestore':ST.abR={};sheet('abrestore');abPrefill();break;
     case'abeye':{const i=document.getElementById('abcode');if(i)i.type=i.type==='password'?'text':'password';return;}
