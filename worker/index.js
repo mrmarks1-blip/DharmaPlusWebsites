@@ -146,6 +146,12 @@ async function checkPw(db, g, pw, who) {
   if (!pw) return json({ error: 'password' }, 401);
   const now = Date.now();
   await db.prepare('DELETE FROM group_fails WHERE at < ?').bind(now - 86400000).run();   // forget old tries
+  // Backstop for the whole group (row who='*'): at most 50 tries an hour, however many addresses someone uses.
+  const all = await db.prepare(`INSERT INTO group_fails (code, who, fails, until, at) VALUES (?1, '*', 1, ?2, ?2)
+    ON CONFLICT(code, who) DO UPDATE SET fails = CASE WHEN until < ?2 - 3600000 THEN 1 ELSE fails + 1 END,
+      until = CASE WHEN until < ?2 - 3600000 THEN ?2 ELSE until END, at = ?2
+    RETURNING fails, until`).bind(g.code, now).first();
+  if (all.fails > 50) return json({ error: 'wait', secs: Math.max(60, Math.ceil((all.until + 3600000 - now) / 1000)) }, 429);
   const r = await db.prepare(`INSERT INTO group_fails (code, who, fails, until, at) VALUES (?1, ?2, 1, 0, ?3)
     ON CONFLICT(code, who) DO UPDATE SET fails = CASE WHEN until > ?3 THEN fails ELSE fails + 1 END, at = ?3
     RETURNING fails, until`).bind(g.code, who, now).first();
@@ -275,7 +281,9 @@ async function groups(req, db, path) {
     let mkey = '';
     if (!mem) {
       if (g.pw_hash) {
-        const who = await sha(`${req.headers.get('CF-Connecting-IP') || ''}|${code}|${new Date().toISOString().slice(0, 10)}`);
+        // One "device" = one IPv4 address, or one IPv6 /64 (a home network can have many IPv6 addresses).
+        const ip = req.headers.get('CF-Connecting-IP') || '', net = ip.includes(':') ? ip.split(':').slice(0, 4).join(':') : ip;
+        const who = await sha(`${net}|${code}|${new Date().toISOString().slice(0, 10)}`);
         const bad = await checkPw(db, g, b.password, who); if (bad) return bad;
       }
       mkey = await newMember(db, code);
