@@ -4071,7 +4071,7 @@ function groupManage(g){const A=ST.gadm,C=ST.gconfirm;
   <label class="small" for="gmax">Most that can be added at once</label>
   <div class="btns"><input id="gmax" type="number" inputmode="numeric" min="1" value="${esc(A.group.max)}"><button class="btn soft" data-act="gmaxsave">Save</button></div>
   <label class="small" for="gnewpw">${A.group.locked?'Change the password to join':'Ask for a password to join'}</label>
-  <div class="btns"><input id="gnewpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="At least 4 characters"><button class="btn soft" data-act="gpwsave">Save</button></div>
+  <div class="btns"><input id="gnewpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="At least 6 characters"><button class="btn soft" data-act="gpwsave">Save</button></div>
   <p class="small" style="margin:0">People already in the group won’t need the new password.</p>
   ${A.group.locked?'<button class="btn link" data-act="gadmask" data-v="nopw" style="align-self:flex-start">Remove the password</button>':''}
   <p class="h2" style="margin:0">ANOTHER ORGANISER</p>
@@ -4577,7 +4577,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'gpreset':{const F=gf(),P=GROUP_PRESETS[+el.dataset.v];F.p=+el.dataset.v;F.prac=P[1];F.target=P[2];F.unit=P[3];break;}
     case'gcreate':{const F=gf(),mins=F.unit==='minutes',name=String(F.name).trim(),practice=mins?'Minutes of meditation':String(F.prac).trim(),target=parseInt(F.target);
       if(!name||!practice||!(target>0)){toast(!name?'Please give the group a name':'Please say what you’ll count, and how many');return;}
-      const password=String(F.pw||'').trim();if(password&&password.length<4){toast('A password needs at least 4 characters');return;}
+      const password=String(F.pw||'').trim();if(password&&password.length<6){toast('A password needs at least 6 characters');return;}
       groupFetch('',{body:{name,practice,target,unit:F.unit,password:password||undefined}}).then(g=>{groupSave({...g,mine:1});ST.gf=null;ST.sarg=g.code;ST.sheet='group';ST.gmeet=true;ST.gmanage=false;ST.gadm=null;render();toast('Group started. Now plan a time, or share the code '+g.code);}).catch(e=>toast(groupErr(e)));return;}
     case'gjoin':{const code=[...document.querySelectorAll('.codebox .cb')].map(i=>i.value).join('').toUpperCase();ST.gjoin=code;if(!/^[A-Z0-9]{6}$/.test(code)){toast('The code is 6 letters and numbers');return;}
       const known=myGroups().some(x=>x.code===code),pw=val('gjpw');if(ST.gjpw&&!pw){toast('Please type the password');return;}
@@ -4599,7 +4599,7 @@ document.getElementById('app').addEventListener('click',e=>{
       groupAdmin(g,C.do==='block'&&el.dataset.v==='wipe'?{...C.body,wipe:true}:C.body);return;}
     case'gmaxsave':{const g=myGroups().find(x=>x.code===ST.sarg),v=parseInt(val('gmax'));if(!g||!g.key)return;if(!(v>=1&&v<=100000000)){toast('Please type a number, 1 or more');return;}
       groupAdmin(g,{do:'max',value:v}).then(ok=>{if(ok)toast('Saved.');});return;}
-    case'gpwsave':{const g=myGroups().find(x=>x.code===ST.sarg),pw=val('gnewpw');if(!g||!g.key)return;if(pw.length<4){toast('A password needs at least 4 characters');return;}
+    case'gpwsave':{const g=myGroups().find(x=>x.code===ST.sarg),pw=val('gnewpw');if(!g||!g.key)return;if(pw.length<6){toast('A password needs at least 6 characters');return;}
       groupAdmin(g,{do:'password',password:pw}).then(ok=>{if(ok)toast('Password saved. Tell the people you invite.');});return;}
     case'ginvadm':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g||!g.key)return;groupAdmin(g,{do:'invite'});return;}
     case'gadmshare':case'gadmcopy':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g||!ST.ginv)return;

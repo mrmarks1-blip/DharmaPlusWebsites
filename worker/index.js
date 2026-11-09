@@ -91,6 +91,8 @@ async function groupSchema(db) {
     db.prepare('CREATE INDEX IF NOT EXISTS group_adds_code ON group_adds (code, id)'),
     db.prepare('CREATE TABLE IF NOT EXISTS group_admins (code TEXT NOT NULL, khash TEXT NOT NULL, created TEXT NOT NULL, PRIMARY KEY (code, khash))'),
     db.prepare('CREATE TABLE IF NOT EXISTS group_invites (code TEXT NOT NULL, thash TEXT NOT NULL, created TEXT NOT NULL, PRIMARY KEY (code, thash))'),
+    // Wrong-password tries per device (see checkPw). Rows older than a day are deleted.
+    db.prepare('CREATE TABLE IF NOT EXISTS group_fails (code TEXT NOT NULL, who TEXT NOT NULL, fails INTEGER NOT NULL, until INTEGER NOT NULL, at INTEGER NOT NULL, PRIMARY KEY (code, who))'),
   ]);
   for (const sql of [
     'ALTER TABLE groups ADD COLUMN pw_salt TEXT',
@@ -120,19 +122,27 @@ async function setPw(db, code, pw) {       // pw '' removes the password
   const salt = crypto.getRandomValues(new Uint8Array(16));
   return db.prepare('UPDATE groups SET pw_salt = ?, pw_hash = ?, fails = 0, lock_until = 0 WHERE code = ?').bind(b64url(salt), await pwHash(pw, salt), code).run();
 }
-// null = password fine. Otherwise the error to send. Five wrong tries in a row = ten minutes' wait.
-async function checkPw(db, g, pw) {
-  const now = Date.now();
-  if (g.lock_until > now) return json({ error: 'wait', secs: Math.ceil((g.lock_until - now) / 1000) }, 429);
+// null = password fine. Otherwise the error to send. Five tries, then ten minutes' wait, for that device only
+// (`who` = a hash of its internet address, the group and today's date, so it can't be traced and resets daily).
+// The try is counted before the password is checked, in one statement, so a burst of guesses can't slip past.
+async function checkPw(db, g, pw, who) {
   pw = cleanPw(pw);
   if (!pw) return json({ error: 'password' }, 401);
+  const now = Date.now();
+  await db.prepare('DELETE FROM group_fails WHERE at < ?').bind(now - 86400000).run();   // forget old tries
+  const r = await db.prepare(`INSERT INTO group_fails (code, who, fails, until, at) VALUES (?1, ?2, 1, 0, ?3)
+    ON CONFLICT(code, who) DO UPDATE SET fails = CASE WHEN until > ?3 THEN fails ELSE fails + 1 END, at = ?3
+    RETURNING fails, until`).bind(g.code, who, now).first();
+  if (r.until > now) return json({ error: 'wait', secs: Math.ceil((r.until - now) / 1000) }, 429);
+  if (r.fails > 5) {
+    await db.prepare('UPDATE group_fails SET fails = 0, until = ? WHERE code = ? AND who = ?').bind(now + 600000, g.code, who).run();
+    return json({ error: 'wait', secs: 600 }, 429);
+  }
   if (sameStr(await pwHash(pw, fromB64url(g.pw_salt)), g.pw_hash)) {
-    if (g.fails) await db.prepare('UPDATE groups SET fails = 0, lock_until = 0 WHERE code = ?').bind(g.code).run();
+    await db.prepare('DELETE FROM group_fails WHERE code = ? AND who = ?').bind(g.code, who).run();
     return null;
   }
-  const fails = (g.fails || 0) + 1, lock = fails % 5 === 0;
-  await db.prepare('UPDATE groups SET fails = ?, lock_until = ? WHERE code = ?').bind(lock ? 0 : fails, lock ? now + 600000 : 0, g.code).run();
-  return lock ? json({ error: 'wait', secs: 600 }, 429) : json({ error: 'wrong' }, 403);
+  return json({ error: 'wrong' }, 403);
 }
 async function findMember(db, code, mkey) {
   if (!keyOK(mkey)) return null;
@@ -155,7 +165,7 @@ async function isAdmin(db, g, key) {
 // What an admin sees: the group, the latest adds and each member's number (join order, no names).
 async function adminState(db, code, extra) {
   const g = await getG(db, code);
-  const mem = (await db.prepare('SELECT mid, blocked FROM group_members WHERE code = ? ORDER BY rowid LIMIT 500').bind(code).all()).results;
+  const mem = (await db.prepare('SELECT mid, blocked FROM group_members WHERE code = ? ORDER BY rowid LIMIT 5000').bind(code).all()).results;   // same cap as newMember, so every member can be blocked
   const num = new Map(mem.map((x, i) => [x.mid, i + 1]));
   const adds = (await db.prepare('SELECT id, mid, n, at, removed FROM group_adds WHERE code = ? ORDER BY id DESC LIMIT 40').bind(code).all()).results;
   const sums = new Map((await db.prepare('SELECT mid, COUNT(*) AS c, SUM(n) AS s FROM group_adds WHERE code = ? AND removed = 0 GROUP BY mid').bind(code).all()).results.map(x => [x.mid, x]));
@@ -171,7 +181,7 @@ const unwind = (db, code, now, where, ...vals) => [
 ];
 async function adminDo(db, g, b) {
   const code = g.code, now = new Date().toISOString();
-  const midOf = async m => { m = Math.floor(Number(m)); if (!(m >= 1 && m <= 500)) return null;
+  const midOf = async m => { m = Math.floor(Number(m)); if (!(m >= 1 && m <= 5000)) return null;
     const r = await db.prepare('SELECT mid FROM group_members WHERE code = ? ORDER BY rowid LIMIT 1 OFFSET ?').bind(code, m - 1).first(); return r && r.mid; };
   let extra = {};
   switch (b.do) {
@@ -189,7 +199,7 @@ async function adminDo(db, g, b) {
       const v = Math.floor(Number(b.value)); if (!(v >= 1 && v <= 100000000)) return json({ error: 'max' }, 400);
       await db.prepare('UPDATE groups SET max_add = ?, updated = ? WHERE code = ?').bind(v, now, code).run(); break; }
     case 'password': {
-      const pw = cleanPw(b.password); if (pw && pw.length < 4) return json({ error: 'password' }, 400);
+      const pw = cleanPw(b.password); if (pw && pw.length < 6) return json({ error: 'password' }, 400);
       await setPw(db, code, pw); break; }
     case 'invite': {
       const token = newKey();
@@ -222,7 +232,7 @@ async function groups(req, db, path) {
     const name = clean(b.name, 60), practice = clean(b.practice, 80), target = Math.floor(Number(b.target)), unit = b.unit === 'minutes' ? 'minutes' : 'count';
     if (!name || !practice || !(target >= 1 && target <= 100000000)) return json({ error: 'fields' }, 400);
     const pw = cleanPw(b.password);
-    if (pw && pw.length < 4) return json({ error: 'password' }, 400);
+    if (pw && pw.length < 6) return json({ error: 'password' }, 400);
     const now = new Date().toISOString();
     for (let i = 0; i < 5; i++) {
       const code = newCode(), admin = newKey();
@@ -248,7 +258,10 @@ async function groups(req, db, path) {
     const mem = await findMember(db, code, b.mkey);
     let mkey = '';
     if (!mem) {
-      if (g.pw_hash) { const bad = await checkPw(db, g, b.password); if (bad) return bad; }
+      if (g.pw_hash) {
+        const who = await sha(`${req.headers.get('CF-Connecting-IP') || ''}|${code}|${new Date().toISOString().slice(0, 10)}`);
+        const bad = await checkPw(db, g, b.password, who); if (bad) return bad;
+      }
       mkey = await newMember(db, code);
       if (!mkey) return json({ error: 'full' }, 403);
     }
