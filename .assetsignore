@@ -8,6 +8,8 @@ tools/
 practice/tests.html
 # Repo housekeeping:
 README.md
+CLAUDE.md
+.claude/
 .gitignore
 .assetsignore
 .gitattributes
