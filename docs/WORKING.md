@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** (keep them; never use sed on it) |
-| Service worker | `practice/sw.js`. Live: `dp-v10-23` (main 0aeedc9, 10 Nov 2026: Seven-Line Prayer with Tibetan and word-by-word, opens whole). Next release: `dp-v10-24` (already set in `sw.js` on the branch, with the redesign; not pushed). |
+| Service worker | `practice/sw.js`. Live: `dp-v10-24` (main 1ca99a1, 10 Nov 2026: the redesign). Next release: `dp-v10-25`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -155,7 +155,7 @@ testing), and so do the content rules in section 3.
   reminders must be easy to find (Today prompt, each practice page, You → Reminders).
 - Spelling: "practice" everywhere in the app's own words, verb included (Gareth, 2026-11-10). Prayers, translations
   and quotes keep their source spelling.
-- **Built on the branch on 2026-11-10, not pushed.** The mockup is `design/mockup.html`. What changed in the app:
+- **Live since 2026-11-10 (main 1ca99a1, SW `dp-v10-24`), pushed at Gareth's request so he could check it.** The mockup is `design/mockup.html`. What changed in the app:
   - Tabs: Today, Practice, Library (was Texts + Learn; tab key is still `texts`), You (`you`). Old `#learn` links
     open Library → Learn.
   - Today: date and greeting, the day card (tap for the calendar), the practice shown on Today with Start counting
@@ -168,8 +168,8 @@ testing), and so do the content rules in section 3.
   - Themes: Light, Dark, Automatic, High contrast. A saved older theme falls back to the nearest (`setTheme`).
   - Gone: the "Wanna practise?" countdown, the fold-out sections, the seven extra themes, and the dead code found
     that day. (`feedEvents` looks unused but `tools/make-feed.html` calls it: keep.)
-  - Tested in the local preview at 375×812 and 375×667, light and dark. Not yet tested on a real phone or with
-    real saved data; do that on a preview build before pushing to `main`.
+  - Tested in the local preview at 375×812 and 375×667, light and dark. Not tested on a real phone, with real
+    saved data, or at desktop width before going live: Gareth is checking on his phone.
 
 Live since 2026-11-09 (main 1cbf57b, SW `dp-v10-20`): Dharma Soup rename and dharmasoup.org, automatic backup,
 group organiser tools, minute-by-minute reminders, phone-safety cards and feedback (section 5).
