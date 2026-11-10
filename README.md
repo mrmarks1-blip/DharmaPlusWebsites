@@ -1,29 +1,31 @@
-# Website
+# Dharma Soup
 
-A small static site: a landing page plus self-contained mini-apps, one folder each.
-No build step, no dependencies — just HTML/CSS/JS served as files.
+The website at dharmasoup.org: a home page plus the Dharma Practice app.
 
-## Structure
+**Start with `docs/WORKING.md`.** It holds every decision, to-do and open item, and it wins over anything else.
 
-```
-/                ← landing page (index.html)
-/practice/        ← ESM Ngöndro app (PWA)  →  /practice/
-```
-
-To add a new thing: create a folder with its own `index.html`, then add a card
-linking to it in the root `index.html`. That's the whole workflow.
-
-## Local preview
-
-Any static file server works, e.g.:
+## What's here
 
 ```
-python -m http.server 8731
+index.html      home page
+practice/       the app (one file, index.html, plus its service worker, fonts, sounds and pictures)
+worker/         the small server behind /api/ (reminders, groups, automatic backups)
+design/         mockups (not served)
+docs/           working doc, research, archive (not served)
+content/        text drafts (not served)
+print/          builds the booklet PDF (not served)
+tools/          one-off helper pages and scripts (not served)
 ```
 
-then open <http://localhost:8731/>.
+## Preview on this computer
 
-## Deploy
+```
+python -m http.server 8740
+```
 
-Hosted on a static host (Cloudflare Pages / Netlify) that auto-deploys from this
-repo's `main` branch. No build command; output directory is the repo root.
+then open <http://localhost:8740/practice/>.
+
+## Going live
+
+Work happens on the `v10-redesign` branch. Pushing it to `main` puts it live on dharmasoup.org in about a minute
+(Cloudflare Workers; no build step). Only push to `main` when Gareth says so.

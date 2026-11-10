@@ -40,8 +40,8 @@
   unicode-range:U+0F00-0FFF,U+200C-200D,U+25CC,U+3008-300B; }
 
 /* ═══════════════════════════════════════════════════════════════
-   DESIGN TOKENS — "shrine room": butter-lamp saffron on rice paper
-   by day, lamp-lit umber at night. Every component reads these.
+   DESIGN TOKENS — clean paper and one saffron accent by day, warm
+   charcoal at night. Every component reads these.
 ═══════════════════════════════════════════════════════════════ */
 :root {
   --f-ui:'Atkinson Hyperlegible Next','Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
@@ -53,62 +53,35 @@
   --fs-lg:calc(19px * var(--scale));    /* row titles */
   --fs-xl:calc(24px * var(--scale));    /* card titles */
   --fs-h:calc(30px * var(--scale));     /* page titles */
-  --r:14px; --r-lg:18px; --r-xl:24px;
+  --r:16px; --r-lg:22px; --r-xl:26px;
   --tap:48px;                           /* minimum touch target */
   --gutter:18px; --col-w:720px; --nav-w:190px;
   --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
 }
-/* Colour themes. "auto" follows the phone's light/dark setting. Any element
-   carrying data-theme paints its subtree in that theme (Settings previews). */
+/* Colour themes. "auto" follows the phone's light/dark setting. */
 :root, [data-theme="light"] {
-  --bg:#f7f2e6; --surface:#fffbf2; --sunk:#efe7d6; --ink:#211910; --ink-2:#56463a; --ink-3:#7d6b57; --line:#e2d6bf;
-  --accent:#b35e0b; --on-accent:#fffaf0; --accent-ink:#8f4a05; --glow:rgba(214,140,40,.16);
-  --info:#2d4c8c; --maroon:#7a2230; --ok:#2f7a45; --bad:#a8402c; --bead-off:rgba(120,90,50,.22); --veil:rgba(20,12,4,.45);
+  --bg:#f6f5f2; --surface:#ffffff; --sunk:#eeece7; --ink:#1a1814; --ink-2:#5c574f; --ink-3:#7d776d; --line:#e7e4dd;
+  --accent:#b9530a; --on-accent:#ffffff; --accent-ink:#a34808; --glow:#fbeede;
+  --info:#2d4c8c; --maroon:#7a2230; --ok:#2f7a45; --bad:#a8402c; --bead-off:rgba(120,90,50,.22); --veil:rgba(20,16,10,.42);
+  --shadow:0 1px 2px rgba(30,20,10,.05),0 6px 20px rgba(30,20,10,.05);
 }
 [data-theme="dark"] {
-  --bg:#15110c; --surface:#1f1a13; --sunk:#110e0a; --ink:#f3e9d7; --ink-2:#cbbb9f; --ink-3:#978770; --line:#352d22;
-  --accent:#e3903a; --on-accent:#1b1206; --accent-ink:#f2aa55; --glow:rgba(227,144,58,.13);
+  --bg:#121110; --surface:#1d1b19; --sunk:#2a2724; --ink:#f2efe9; --ink-2:#b9b3a8; --ink-3:#8e877c; --line:#2e2a26;
+  --accent:#f0954a; --on-accent:#14110d; --accent-ink:#f5aa66; --glow:#33210f;
   --info:#93b3ee; --maroon:#e0939e; --ok:#79c58f; --bad:#eb8f7b; --bead-off:rgba(240,220,180,.16); --veil:rgba(0,0,0,.6);
+  --shadow:none;
 }
 @media (prefers-color-scheme: dark) { [data-theme="auto"] {
-  --bg:#15110c; --surface:#1f1a13; --sunk:#110e0a; --ink:#f3e9d7; --ink-2:#cbbb9f; --ink-3:#978770; --line:#352d22;
-  --accent:#e3903a; --on-accent:#1b1206; --accent-ink:#f2aa55; --glow:rgba(227,144,58,.13);
+  --bg:#121110; --surface:#1d1b19; --sunk:#2a2724; --ink:#f2efe9; --ink-2:#b9b3a8; --ink-3:#8e877c; --line:#2e2a26;
+  --accent:#f0954a; --on-accent:#14110d; --accent-ink:#f5aa66; --glow:#33210f;
   --info:#93b3ee; --maroon:#e0939e; --ok:#79c58f; --bad:#eb8f7b; --bead-off:rgba(240,220,180,.16); --veil:rgba(0,0,0,.6);
+  --shadow:none;
 } }
-[data-theme="temple"] {
-  --bg:#1a0608; --surface:#2a0d10; --sunk:#130405; --ink:#f5e8d0; --ink-2:#d6b58f; --ink-3:#a07c5a; --line:#4a1c1c;
-  --accent:#e09020; --on-accent:#1a0608; --accent-ink:#f0b030; --glow:rgba(224,144,32,.14);
-  --info:#f0b87a; --maroon:#f08a6a; --ok:#8fcf8f; --bad:#ff9a7a; --bead-off:rgba(245,220,180,.16); --veil:rgba(0,0,0,.6);
-}
-[data-theme="night"] {
-  --bg:#080c1e; --surface:#121a36; --sunk:#050816; --ink:#f0e8ff; --ink-2:#bdb2e0; --ink-3:#8a80b0; --line:#262e52;
-  --accent:#d8bc80; --on-accent:#0a0e22; --accent-ink:#e6cc92; --glow:rgba(216,188,128,.12);
-  --info:#a8b8ff; --maroon:#c9a0f0; --ok:#8fd8a8; --bad:#ff9a9a; --bead-off:rgba(220,210,255,.16); --veil:rgba(0,0,0,.6);
-}
-[data-theme="earth"] {
-  --bg:#f5ede0; --surface:#fff8f0; --sunk:#ece0cc; --ink:#2c1008; --ink-2:#6a3818; --ink-3:#8a5a3a; --line:#e2cfb4;
-  --accent:#a8490a; --on-accent:#fff8f0; --accent-ink:#8a3a06; --glow:rgba(180,80,20,.12);
-  --info:#2f5d7a; --maroon:#8a2a1a; --ok:#3d7a3a; --bad:#a83a20; --bead-off:rgba(140,80,30,.22); --veil:rgba(30,10,0,.45);
-}
-[data-theme="neuro"] {
-  --bg:#08101c; --surface:#131d2e; --sunk:#050b14; --ink:#e0eaf8; --ink-2:#a6bfdc; --ink-3:#7090b0; --line:#23324a;
-  --accent:#6aa8d8; --on-accent:#08101c; --accent-ink:#8cc2ec; --glow:rgba(88,152,200,.14);
-  --info:#9cc8ff; --maroon:#9ab8ff; --ok:#8fd8b0; --bad:#ff9a8a; --bead-off:rgba(200,220,255,.16); --veil:rgba(0,0,0,.6);
-}
-[data-theme="slate"] {
-  --bg:#1c2330; --surface:#263142; --sunk:#151b26; --ink:#e4eef8; --ink-2:#aebccc; --ink-3:#7c8ca0; --line:#34425a;
-  --accent:#8fb0d0; --on-accent:#141a24; --accent-ink:#a8c6e4; --glow:rgba(140,176,210,.14);
-  --info:#b0d0f0; --maroon:#d8a8b8; --ok:#9ad0a8; --bad:#f0a090; --bead-off:rgba(210,225,240,.16); --veil:rgba(0,0,0,.6);
-}
 [data-theme="highc"] {
-  --bg:#000; --surface:#0a0a0a; --sunk:#000; --ink:#fff; --ink-2:#f0f0f0; --ink-3:#d0d0d0; --line:#9a9a9a;
-  --accent:#ffd400; --on-accent:#000; --accent-ink:#ffe04a; --glow:rgba(255,212,0,.18);
+  --bg:#000; --surface:#0a0a0a; --sunk:#1c1c1c; --ink:#fff; --ink-2:#f0f0f0; --ink-3:#d0d0d0; --line:#9a9a9a;
+  --accent:#ffd400; --on-accent:#000; --accent-ink:#ffe04a; --glow:#2b2400;
   --info:#8fd0ff; --maroon:#ffb0a0; --ok:#7dff9a; --bad:#ff8a70; --bead-off:rgba(255,255,255,.3); --veil:rgba(0,0,0,.75);
-}
-[data-theme="neon"] {
-  --bg:#05060a; --surface:#0e1220; --sunk:#030408; --ink:#eafcff; --ink-2:#9fe8f5; --ink-3:#6bb8cc; --line:#1c3040;
-  --accent:#19e6d2; --on-accent:#05060a; --accent-ink:#5cf0e0; --glow:rgba(25,230,210,.14);
-  --info:#7fc8ff; --maroon:#ff78ee; --ok:#7dffb0; --bad:#ff7aa0; --bead-off:rgba(180,250,255,.18); --veil:rgba(0,0,0,.7);
+  --shadow:none;
 }
 
 /* ═══════════════════════════════════════════
@@ -131,38 +104,35 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 #app.immersive #nav { display:none; }
 #content { flex:1; position:relative; overflow:hidden; }
 #nav { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); background:var(--surface); padding:6px 4px calc(8px + var(--safe-b)); flex-shrink:0; z-index:20; }
-.tab { display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 2px; min-height:58px; border-radius:12px; color:var(--ink-2); font-size:13px; font-weight:700; }
+.tab { display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 2px; min-height:58px; border-radius:12px; color:var(--ink-3); font-size:13px; font-weight:700; }
 .tab svg { width:26px; height:26px; }
-/* Phone nav: the highlight is a pill behind the icon only (Material 3 navigation bar). */
-.tab .ind { display:grid; place-items:center; width:60px; height:32px; border-radius:16px; }
-.tab.on { color:var(--ink); }
-.tab.on .ind { color:var(--accent-ink); background:var(--glow); }
+.tab .ind { display:grid; place-items:center; height:28px; }
+.tab.on { color:var(--accent-ink); }
+.tab.on svg { stroke-width:2.2; }
 .page { position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch; }
 .col { max-width:var(--col-w); margin:0 auto; padding:calc(20px + var(--safe-t)) var(--gutter) 40px; display:flex; flex-direction:column; gap:16px; }
-.col > .gap-s { margin-top:-6px; }
 
 /* ═══════════════════════════════════════════
    TYPE & COMMON PIECES
 ═══════════════════════════════════════════ */
-.h1 { font-family:var(--f-display); font-weight:600; font-size:var(--fs-h); line-height:1.15; text-wrap:balance; }
-.h2 { font-size:var(--fs-sm); font-weight:700; letter-spacing:.04em; color:var(--ink-2); margin-top:8px; }
+.h1 { font-weight:750; font-size:var(--fs-h); line-height:1.15; letter-spacing:-.02em; text-wrap:balance; }
+.h2 { font-size:var(--fs-sm); font-weight:700; color:var(--ink-2); margin-top:8px; }
 .sub { color:var(--ink-2); }
 .small { font-size:var(--fs-sm); color:var(--ink-2); }
 .row { display:flex; align-items:center; gap:12px; }
 .grow { flex:1; min-width:0; }
-/* Cards sit on a tone a step off the page instead of a hairline border (Material 3 surface levels).
-   Worked out per element, so Settings' theme previews are right. Dark-ground themes keep the border. */
-.card { background:color-mix(in srgb,var(--bg),var(--ink) 5%); border:1px solid transparent; border-radius:var(--r-lg); padding:16px; }
-:is([data-theme="highc"],[data-theme="neon"],[data-theme="neuro"],[data-theme="night"]) .card { border-color:var(--line); }
-.card.glow { background:var(--glow); border-color:color-mix(in srgb,var(--accent) 35%,transparent); }
+/* One card and one list style everywhere: white on the page colour, a soft shadow by day. */
+.card { background:var(--surface); border:1px solid transparent; border-radius:var(--r-lg); padding:16px; box-shadow:var(--shadow); }
+[data-theme="highc"] :is(.card,.list,.tile,.kind,.cday) { border:1px solid var(--line); }
+.card.glow { background:var(--glow); box-shadow:none; }
 .stack { display:flex; flex-direction:column; gap:12px; }
-.iconbtn { width:var(--tap); height:var(--tap); border-radius:var(--r); border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; color:var(--ink-2); flex-shrink:0; }
+.iconbtn { width:var(--tap); height:var(--tap); border-radius:50%; background:var(--surface); box-shadow:var(--shadow); display:grid; place-items:center; color:var(--ink-2); flex-shrink:0; }
 .iconbtn svg { width:24px; height:24px; }
-.btn { min-height:54px; border-radius:var(--r); padding:12px 18px; font-weight:700; font-size:var(--fs); display:inline-flex; align-items:center; justify-content:center; gap:8px; text-align:center; }
+.btn { min-height:52px; border-radius:999px; padding:12px 20px; font-weight:700; font-size:var(--fs); display:inline-flex; align-items:center; justify-content:center; gap:8px; text-align:center; }
 .btn svg { width:22px; height:22px; flex-shrink:0; }
 .btn.primary { background:var(--accent); color:var(--on-accent); }
-/* Second actions: a quiet saffron tone (Material 3 tonal button). High contrast keeps its border. */
-.btn.soft { background:color-mix(in srgb,var(--accent) 15%,var(--bg)); color:var(--ink); border:1px solid transparent; }
+/* Second actions: a quiet tint of the accent. High contrast keeps its border. */
+.btn.soft { background:var(--glow); color:var(--accent-ink); border:1px solid transparent; }
 [data-theme="highc"] .btn.soft { border-color:var(--line); }
 .btn.danger { background:var(--bad); color:var(--bg); }
 .btn.link { min-height:var(--tap); padding:8px 4px; color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; font-weight:700; }
@@ -177,16 +147,16 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .note { font-size:var(--fs-sm); color:var(--ink-2); border-left:3px solid var(--accent); padding-left:12px; }
 
 /* Lists of tappable rows */
-.list { display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; }
+.list { display:flex; flex-direction:column; background:var(--surface); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow); }
 .item { display:flex; align-items:center; gap:14px; padding:14px 16px; min-height:64px; border-bottom:1px solid var(--line); text-align:left; width:100%; text-decoration:none; }
 .item:last-child { border-bottom:0; }
 .item:active { background:var(--glow); }
-.item .t { font-weight:700; font-size:var(--fs-lg); display:block; line-height:1.3; }
+.item .t { font-weight:700; font-size:var(--fs); display:block; line-height:1.3; }
 .item .s { color:var(--ink-2); font-size:var(--fs-sm); display:block; }
 .item .chev { color:var(--ink-3); flex-shrink:0; }
-.item .chev svg, .daycard .chev svg { width:20px; height:20px; display:block; }
-.item .ico { width:40px; height:40px; border-radius:12px; background:var(--sunk); display:grid; place-items:center; color:var(--accent-ink); flex-shrink:0; }
-.item .ico svg { width:24px; height:24px; }
+.item .chev svg, .tc-top .chev svg { width:20px; height:20px; display:block; }
+.item .ico { width:40px; height:40px; border-radius:12px; background:var(--glow); display:grid; place-items:center; color:var(--accent-ink); flex-shrink:0; }
+.item .ico svg { width:22px; height:22px; }
 .dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; background:var(--acc,var(--accent)); }
 .minibar { height:6px; border-radius:4px; background:var(--sunk); overflow:hidden; margin-top:6px; }
 .minibar i { display:block; height:100%; background:var(--accent); }
@@ -194,21 +164,10 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 /* ═══════════════════════════════════════════
    TODAY
 ═══════════════════════════════════════════ */
-.greet { font-family:var(--f-display); font-weight:600; font-size:calc(28px * var(--scale)); line-height:1.2; }
-.daycard { display:block; width:100%; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; }
-.daycard .top { display:flex; align-items:center; gap:14px; padding:14px 16px; }
-.daycard .top b { display:block; font-size:var(--fs-lg); }
-.daycard .chev { margin-left:auto; color:var(--ink-3); }
-.tibnum { font-family:var(--f-tib); color:var(--accent-ink); }
-.hairline { display:flex; flex-direction:column; gap:2px; padding:12px 16px; border-top:1px solid var(--line); background:var(--sunk); }
-.hairline .lbl { font-size:var(--fs-sm); color:var(--ink-2); }
-.hairline b { font-size:var(--fs); }
 .good { color:var(--ok); } .avoid { color:var(--bad); } .neutral { color:var(--ink-2); }
 .special b { display:block; font-size:var(--fs-lg); color:var(--accent-ink); }
 .special p { color:var(--ink-2); margin-top:4px; }
-.pname { font-family:var(--f-display); font-weight:600; font-size:var(--fs-xl); line-height:1.15; }
-.pnum { color:var(--ink-2); }
-.pnum b { color:var(--ink); font-size:calc(22px * var(--scale)); }
+.pname { font-weight:750; font-size:var(--fs-xl); line-height:1.15; }
 .week { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
 .week span { font-size:13px; color:var(--ink-3); font-weight:700; }
 .week i { display:block; margin:4px auto 0; width:30px; height:30px; border-radius:50%; border:2px solid var(--line); }
@@ -225,16 +184,13 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .wd.sel i { box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--accent); }
 .wd:disabled { opacity:.35; }
 .jchips { display:flex; flex-wrap:wrap; gap:8px; }
-.jchip { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px 14px; border-radius:22px; border:2px solid var(--line); background:var(--bg); font-weight:700; font-size:var(--fs-sm); }
+.jchip { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px 14px; border-radius:22px; border:2px solid transparent; background:var(--sunk); font-weight:700; font-size:var(--fs-sm); }
 .jchip i { width:14px; height:14px; border-radius:50%; background:var(--c); flex-shrink:0; }
 .jchip.on { border-color:var(--c); background:color-mix(in srgb,var(--c) 18%,var(--bg)); }
-.jchip.add { color:var(--ink-2); border-style:dashed; }
+.jchip.add { color:var(--ink-2); background:transparent; border:2px dashed var(--line); }
 .jchip.add svg { width:16px; height:16px; }
 .jchip.pop { animation:pop .35s ease-out; }
 @keyframes pop { 0% { transform:scale(1); } 40% { transform:scale(1.12); } 100% { transform:scale(1); } }
-.jcal .jd { gap:4px; }
-.jcal .jd i { width:18px; height:18px; border-radius:50%; border:1.5px solid var(--line); display:block; }
-.jcal .jd:disabled { opacity:.35; }
 .swatches { display:flex; flex-wrap:wrap; gap:10px; }
 .swatch { width:40px; height:40px; border-radius:50%; background:var(--c); border:3px solid transparent; box-shadow:0 0 0 1px var(--line); }
 .swatch.on { border-color:var(--bg); box-shadow:0 0 0 3px var(--ink); }
@@ -247,8 +203,6 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 @keyframes qin-r { from { opacity:0; transform:translateX(28px); } to { opacity:1; transform:none; } }
 @keyframes qin-l { from { opacity:0; transform:translateX(-28px); } to { opacity:1; transform:none; } }
 .qcard .qnav { margin-top:0; }
-.switchbtn { min-height:44px; padding:6px 12px; font-size:var(--fs-sm); flex-shrink:0; }
-.switchbtn svg { width:18px; height:18px; }
 .tibdate { font-family:var(--f-tib); color:var(--accent-ink); font-size:calc(17px * var(--scale)); }
 /* The card takes the height of the quote showing (set in updQ), so short
    sayings don't sit in a box sized for the longest verse. */
@@ -260,7 +214,7 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .quote cite { font-style:normal; color:var(--ink-2); font-size:var(--fs-sm); }
 .qnav { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:4px; }
 .qnav .small { text-align:center; }
-.qhead { margin:0; font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); }
+.qhead { margin:0; font-size:var(--fs-sm); font-weight:600; color:var(--ink-3); }
 .qcard .qnav { padding-top:12px; border-top:1px solid var(--line); }
 .qarrows { display:flex; gap:8px; }
 .qshare { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 18px 0 12px; border-radius:999px; font-weight:700; color:var(--accent-ink);
@@ -279,7 +233,6 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .milerow > span:not(.small) { width:26px; height:26px; }
 .milerow svg { width:100%; height:100%; }
 .milerow .small { color:var(--ink-3); margin-left:4px; }
-.shqstyles { display:flex; gap:8px; overflow-x:auto; padding:2px 2px 6px; margin:0 -2px; scrollbar-width:none; }
 .shqst { flex:none; display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 14px 0 8px; border-radius:999px; border:1px solid var(--line); background:var(--surface); font-weight:700; font-size:15px; color:var(--ink); }
 .shqst i { width:24px; height:24px; border-radius:50%; border:1px solid var(--line); }
 .shqst.on { border-color:var(--accent); background:var(--glow); color:var(--accent-ink); }
@@ -288,7 +241,6 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .qcard.art .quote p, .qcard.art .qhead { color:var(--qink); }
 .qcard.art .quote cite { color:var(--qacc); }
 .qcard.art .iconbtn, .qcard.art .qshare { background:color-mix(in srgb,var(--surface) 70%,transparent); }
-.cdbig { font-size:calc(52px * var(--scale,1)); font-weight:700; font-variant-numeric:tabular-nums; line-height:1; margin:0; }
 .wdays { display:flex; gap:6px; flex-wrap:wrap; }
 .wday { width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--surface); font-weight:700; color:var(--ink-2); }
 .wday.on { background:var(--accent); border-color:var(--accent); color:var(--on-accent,#fff); }
@@ -304,8 +256,6 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .vseed { text-align:center; display:flex; flex-direction:column; align-items:center; }
 .jlq { border-left:3px solid var(--accent); padding:4px 0 4px 12px; margin:0; }
 .jlq p { font-size:var(--fs); }
-.sect.hl { border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line)); border-radius:var(--r-lg); padding:0 14px 8px; background:linear-gradient(135deg,var(--glow),transparent 70%); margin:6px 0; }
-.sect.hl .sect-t { color:var(--accent-ink); }
 .codebox { display:flex; gap:8px; justify-content:center; }
 .codebox .cb { width:44px; height:54px; padding:0; text-align:center; font-size:24px; font-weight:700; text-transform:uppercase; border-radius:10px; }
 .bigcode { font-size:calc(30px * var(--scale)); font-weight:700; letter-spacing:.12em; text-align:center; margin:2px 0 6px; font-variant-numeric:tabular-nums; }
@@ -326,17 +276,6 @@ body.touring .page { padding-bottom:300px; }
 .tourhi { position:relative; z-index:1; scroll-margin-top:16px; border-radius:16px; box-shadow:0 0 0 3px var(--accent),0 0 0 9px color-mix(in srgb,var(--accent) 25%,transparent) !important; animation:tourPulse 1.6s ease-in-out infinite; }
 @keyframes tourPulse { 50% { box-shadow:0 0 0 3px var(--accent),0 0 0 14px color-mix(in srgb,var(--accent) 8%,transparent); } }
 @media (prefers-reduced-motion:reduce) { .tourhi, .tourcard { animation:none; } }
-.sect { border-bottom:1px solid var(--line); padding-bottom:6px; }
-.sect > summary { display:flex; align-items:center; gap:10px; list-style:none; min-height:56px; padding:8px 2px; cursor:pointer; color:inherit; font-weight:400; }
-.sect > summary::-webkit-details-marker { display:none; }
-.sect-h { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
-.sect-t { font-size:13px; font-weight:700; letter-spacing:.1em; color:var(--ink-3); }
-.sect-s { font-size:var(--fs-sm); color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.sect[open] .sect-s { display:none; }
-.sect-c { flex:none; width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:var(--sunk); color:var(--ink-2); }
-.sect-c svg { width:18px; height:18px; transform:rotate(90deg); transition:transform .2s; }
-.sect[open] .sect-c svg { transform:rotate(-90deg); }
-.sect-b { padding:4px 0 10px; display:flex; flex-direction:column; gap:10px; }
 .shqfoot { position:sticky; bottom:calc(-22px - var(--safe-b)); margin:0 -20px; padding:10px 20px calc(14px + var(--safe-b)); background:var(--surface); border-top:1px solid var(--line); display:flex; flex-direction:column; gap:10px; z-index:2; }
 .shqimg { max-height:30vh !important; }
 @media (max-height:700px) { .shqimg { max-height:24vh !important; } }
@@ -345,8 +284,6 @@ body.touring .page { padding-bottom:300px; }
 .shqpick .btn.link { flex-shrink:0; }
 .shqimg.loading { filter:blur(2px); opacity:.85; }
 .shqimg { touch-action:pan-y; user-select:none; -webkit-user-select:none; }
-.shqnav { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:-4px; }
-.shqnav > span { display:flex; flex-direction:column; align-items:center; text-align:center; }
 .shqthumbs { display:flex; gap:10px; overflow-x:auto; padding:2px 2px 8px; scroll-snap-type:x proximity; scrollbar-width:thin; }
 .shqth { flex:none; width:78px; display:flex; flex-direction:column; align-items:center; gap:4px; font-size:12px; font-weight:700; color:var(--ink-2); scroll-snap-align:center; background:none; border:0; padding:0; }
 .shqth img { width:78px; height:98px; object-fit:cover; border-radius:10px; background:var(--sunk); border:2px solid transparent; }
@@ -359,10 +296,10 @@ body.touring .page { padding-bottom:300px; }
 /* ═══════════════════════════════════════════
    PRACTICE
 ═══════════════════════════════════════════ */
-.bigtile { display:flex; gap:16px; align-items:center; text-align:left; width:100%; border-radius:20px; padding:20px 18px; background:var(--accent); color:var(--on-accent); }
+.bigtile { display:flex; gap:16px; align-items:center; text-align:left; width:100%; border-radius:var(--r-lg); padding:20px 18px; background:var(--accent); color:var(--on-accent); }
 .bigtile b { display:block; font-size:calc(21px * var(--scale)); }
 .bigtile svg { width:40px; height:40px; flex-shrink:0; }
-.bignum { font-size:calc(46px * var(--scale)); font-weight:600; line-height:1; font-variant-numeric:tabular-nums; }
+.bignum { font-size:calc(46px * var(--scale)); font-weight:750; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; }
 .done-line { font-family:var(--f-display); font-size:var(--fs-lg); color:var(--accent-ink); }
 .mantra .sa { font-size:.72em; }
 .mantra { font-weight:700; letter-spacing:.14em; color:var(--maroon); font-size:var(--fs-sm); }
@@ -371,8 +308,8 @@ body.touring .page { padding-bottom:300px; }
 .grid-svg circle.f { fill:var(--accent); stroke:none; opacity:.9; }
 .grid-svg circle.p { fill:var(--accent); stroke:none; opacity:.55; }
 .opts { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
-.opt { min-height:54px; border-radius:var(--r); border:2px solid var(--line); background:var(--bg); font-weight:700; }
-.opt.on { border-color:var(--accent); background:var(--glow); color:var(--accent-ink); }
+.opt { min-height:48px; border-radius:999px; border:2px solid transparent; background:var(--sunk); font-weight:700; text-align:center; }
+.opt.on { background:var(--accent); color:var(--on-accent); }
 .seg { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
 .seg .opt { font-size:var(--fs); }
 
@@ -381,7 +318,7 @@ body.touring .page { padding-bottom:300px; }
 ═══════════════════════════════════════════ */
 .overlay { position:absolute; inset:0; background:var(--bg); display:flex; flex-direction:column; z-index:30; }
 .ovtop { display:flex; align-items:center; gap:10px; padding:calc(12px + var(--safe-t)) 14px 8px; max-width:var(--col-w); width:100%; margin:0 auto; }
-.ovtop .title { flex:1; font-weight:700; font-size:var(--fs-lg); text-align:center; line-height:1.25; }
+.ovtop .title { flex:1; font-weight:700; font-size:var(--fs-lg); line-height:1.25; }
 .ovbody { flex:1; overflow-y:auto; }
 .ovbody > .col { padding-top:6px; }
 .veil { position:absolute; inset:0; background:var(--veil); display:flex; align-items:flex-end; justify-content:center; z-index:40; }
@@ -391,7 +328,7 @@ body.touring .page { padding-bottom:300px; }
 /* Top bar of every sheet: drag handle (centre) + Close button (right), stays visible while scrolling */
 .sheetbar { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:center; min-height:52px; margin:0 -20px; padding:6px 12px 0; background:var(--surface); touch-action:none; cursor:grab; }
 .sheetbar .grab { margin:0; }
-.xclose { position:absolute; right:10px; top:8px; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--sunk); color:var(--ink-2); border:1px solid var(--line); }
+.xclose { position:absolute; right:10px; top:8px; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; background:var(--sunk); color:var(--ink-2); }
 .xclose svg { width:20px; height:20px; }
 .sheet .h1 { font-size:calc(25px * var(--scale)); }
 .grab { width:44px; height:5px; border-radius:3px; background:var(--line); margin:4px auto 2px; flex-shrink:0; }
@@ -461,7 +398,7 @@ body.touring .page { padding-bottom:300px; }
 ═══════════════════════════════════════════ */
 .cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
 .cal .dow { text-align:center; font-size:13px; font-weight:700; color:var(--ink-3); }
-.cday { border-radius:12px; min-height:54px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); }
+.cday { border-radius:12px; min-height:54px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid transparent; }
 .cday b { font-size:17px; line-height:1.1; }
 .cday span { font-size:12px; color:var(--ink-2); }
 .cday.sp { background:var(--glow); border-color:var(--accent); }
@@ -515,8 +452,6 @@ body.touring .page { padding-bottom:300px; }
 .tcard > .note { margin:0 16px 10px; }
 .tc-ev svg { width:16px; height:16px; vertical-align:-2px; }
 .tc-ev { display:flex; flex-direction:column; gap:2px; text-align:left; padding:10px 16px; border-top:1px solid var(--line); width:100%; }
-.tc-hair { display:flex; flex-direction:column; gap:2px; padding:10px 16px; border-top:1px solid var(--line); background:var(--sunk); }
-.tc-week { display:flex; flex-direction:column; gap:10px; padding:12px 16px 8px; border-top:1px solid var(--line); }
 .prog { display:flex; flex-direction:column; gap:6px; text-align:left; width:100%; }
 .prog .bar i { background:var(--acc,var(--accent)); }
 .prog .dot { background:var(--acc,var(--accent)); }
@@ -540,13 +475,9 @@ body.touring .page { padding-bottom:300px; }
 .sitmid { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:0 24px; }
 .sitbig { font-size:calc(44px * var(--scale)); font-weight:600; font-variant-numeric:tabular-nums; }
 .sitscreen.dim .sithint { color:#444; }
-@property --sa { syntax:'<angle>'; inherits:false; initial-value:0deg; }
-.sphere { width:44px; height:44px; flex-shrink:0; border-radius:50%; background:conic-gradient(from var(--sa),#ff6f91,#ffd54a,#5be37a,#4de1e1,#6fa8ff,#b388ff,#ff6f91); box-shadow:0 0 18px rgba(255,255,255,.35), inset 0 0 10px rgba(0,0,0,.15); animation:spin-sa 14s linear infinite; }
-@keyframes spin-sa { to { --sa:360deg; } }
-@media (prefers-reduced-motion: reduce) { .sphere { animation:none; } }
 .kinds { display:grid; grid-auto-flow:column; grid-auto-columns:82%; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
-.kind { scroll-snap-align:start; display:flex; flex-direction:column; gap:6px; text-align:left; padding:16px; border-radius:var(--r-lg); background:var(--surface); border:1px solid var(--line); }
-.kind b { font-family:var(--f-display); font-size:var(--fs-lg); }
+.kind { scroll-snap-align:start; display:flex; flex-direction:column; gap:6px; text-align:left; padding:16px; border-radius:var(--r-lg); background:var(--surface); box-shadow:var(--shadow); }
+.kind b { font-size:var(--fs-lg); }
 .kind .more { margin-top:auto; color:var(--accent-ink); font-weight:700; display:flex; align-items:center; gap:4px; }
 .kind .more svg { width:16px; height:16px; }
 .gcal .cday.rm::before { content:''; position:absolute; top:3px; left:3px; width:0; height:0; border-top:8px solid var(--info); border-right:8px solid transparent; border-top-left-radius:3px; }
@@ -681,7 +612,6 @@ input[type=time] { font:inherit; font-size:var(--fs-lg); padding:8px 10px; borde
   background:radial-gradient(circle at 50% 38%,#fff 0%,#fff 30%,rgba(255,255,255,.85) 45%,rgba(255,255,255,0) 72%); }
 @keyframes aawhite { 0%,40% { opacity:0; transform:scale(.25); } 75% { opacity:.85; transform:scale(1.4); } 100% { opacity:1; transform:scale(3); } }
 .breath.wa.melt > :not(.aring) { transition:opacity 1.2s; opacity:0; }
-.breath.wa.fromwhite::after { content:''; position:absolute; inset:0; pointer-events:none; background:#fff; animation:aaclear 2.8s ease-out forwards; }
 @keyframes aaclear { to { opacity:0; } }
 @media (prefers-reduced-motion: reduce) { .aring.swell { animation:none; --lv:.3; } }
 .aring.open { transform:scale(1.5); opacity:0; }
@@ -691,17 +621,6 @@ input[type=time] { font:inherit; font-size:var(--fs-lg); padding:8px 10px; borde
 .nost span { padding:6px 14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-size:14px; color:var(--ink-3); }
 .nost span.open { border-color:var(--accent); color:var(--accent-ink); background:var(--glow); }
 
-/* ═══════════════════════════════════════════
-   SETTINGS — theme preview cards paint themselves via data-theme
-═══════════════════════════════════════════ */
-.themes { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; }
-.theme-card { background:var(--bg); color:var(--ink); border:2px solid var(--line); border-radius:var(--r); padding:12px; text-align:left; display:flex; flex-direction:column; gap:6px; min-height:var(--tap); }
-.theme-card.on { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent); }
-.theme-card b { font-size:15px; }
-.theme-card .sw { display:flex; gap:5px; }
-.theme-card .sw i { width:14px; height:14px; border-radius:50%; background:var(--accent); }
-.theme-card .sw i:nth-child(2) { background:var(--ink); }
-.theme-card .sw i:nth-child(3) { background:var(--surface); border:1px solid var(--line); }
 textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Consolas,monospace; }
 
 /* ═══════════════════════════════════════════
@@ -739,7 +658,7 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 .drawer .scroll { overflow-y:auto; padding:0 20px calc(20px + var(--safe-b)); display:flex; flex-direction:column; gap:12px; }
 .drawer-veil { position:absolute; inset:0; z-index:44; background:var(--veil); opacity:0; pointer-events:none; transition:opacity .3s; }
 .drawer-veil.open { opacity:1; pointer-events:auto; }
-.dr-name { font-family:var(--f-display); font-weight:600; font-size:var(--fs-xl); line-height:1.15; }
+.dr-name { font-weight:750; font-size:var(--fs-xl); line-height:1.15; letter-spacing:-.01em; }
 .dr-tib { font-family:var(--f-tib); font-size:calc(19px * var(--scale)); color:var(--maroon); }
 .dr-bio { font-size:var(--fs); line-height:1.65; }
 .dr-quote { border-left:3px solid var(--accent); padding:4px 0 4px 14px; font-family:var(--f-display); font-size:var(--fs-lg); line-height:1.5; }
@@ -753,17 +672,50 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 .prose p { line-height:1.65; margin-bottom:12px; max-width:62ch; }
 
 /* ═══════════════════════════════════════════
+   TODAY, LIBRARY AND YOU — pieces of the four-tab layout (Nov 2026)
+═══════════════════════════════════════════ */
+.eyebrow { font-size:var(--fs-sm); font-weight:600; color:var(--ink-3); }
+.hero { background:var(--accent); color:var(--on-accent); border-radius:var(--r-lg); padding:18px; display:flex; flex-direction:column; gap:14px; }
+.hero-top { display:flex; align-items:center; gap:16px; text-align:left; width:100%; color:inherit; }
+.hero-top .n { display:block; font-size:var(--fs-sm); font-weight:600; opacity:.9; }
+.hero-top b { display:block; font-size:calc(34px * var(--scale)); font-weight:750; letter-spacing:-.02em; line-height:1.1; font-variant-numeric:tabular-nums; }
+.hero-top .of { display:block; font-size:var(--fs-sm); opacity:.9; }
+.hero-top .chev svg { width:20px; height:20px; display:block; }
+.hero .ring { width:68px; height:68px; flex-shrink:0; }
+.hero .btn.primary { background:var(--on-accent); color:var(--accent); }
+.hero .btn.ghost { background:color-mix(in srgb,var(--on-accent) 18%,transparent); color:var(--on-accent); }
+.quick { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.tile { background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow); padding:14px 12px; display:flex; flex-direction:column; gap:6px; min-height:92px; text-align:left; }
+.tile svg { width:24px; height:24px; color:var(--accent-ink); }
+.tile b { font-size:var(--fs-sm); font-weight:700; line-height:1.2; }
+.tile span { font-size:13px; color:var(--ink-2); }
+.stats { display:flex; gap:8px; text-align:center; width:100%; }
+.stats > span { flex:1; }
+.stats b { display:block; font-size:calc(22px * var(--scale)); font-weight:750; font-variant-numeric:tabular-nums; }
+.search { display:flex; align-items:center; gap:10px; background:var(--surface); border-radius:999px; min-height:52px; padding:0 6px 0 16px; color:var(--ink-3); box-shadow:var(--shadow); }
+.search > svg { width:22px; height:22px; flex-shrink:0; }
+.search input { border:0; background:transparent; padding:10px 0; min-height:0; }
+.search input:focus { outline:none; }
+.search:focus-within { box-shadow:0 0 0 2px var(--accent); }
+.search .iconbtn { box-shadow:none; background:none; width:44px; height:44px; }
+.libseg { display:flex; background:var(--sunk); border-radius:999px; padding:4px; }
+.libseg button { flex:1; min-height:42px; border-radius:999px; font-weight:700; font-size:var(--fs-sm); color:var(--ink-2); text-align:center; }
+.libseg button.on { background:var(--surface); color:var(--ink); box-shadow:var(--shadow); }
+.safe { display:flex; gap:12px; align-items:flex-start; }
+.safe i { width:12px; height:12px; border-radius:50%; margin-top:7px; flex-shrink:0; background:var(--ok); }
+.safe i.due { background:var(--bad); }
+
+/* ═══════════════════════════════════════════
    PRESS FEEDBACK — one rule for every pressable thing (Material 3 state layer).
    An inset shadow in the text colour sits over the background, so it works in
    every theme and keeps gradients and art underneath.
 ═══════════════════════════════════════════ */
-:is(.btn,.iconbtn,.jchip,.opt,.linkbtn,.qshare,.item,.tab .ind) { transition:box-shadow .15s; }
+:is(.btn,.jchip,.opt,.linkbtn,.qshare,.item,.tile) { transition:box-shadow .15s; }
+.iconbtn:active, .tab:active { opacity:.6; }
 @media (hover:hover) {
-  :is(.btn,.iconbtn,.jchip,.opt,.linkbtn,.qshare,.item):hover,
-  .tab:hover .ind { box-shadow:inset 0 0 0 100vmax color-mix(in srgb,currentColor 8%,transparent); }
+  :is(.btn,.jchip,.opt,.linkbtn,.qshare,.item,.tile):hover { box-shadow:inset 0 0 0 100vmax color-mix(in srgb,currentColor 8%,transparent); }
 }
-:is(.btn,.iconbtn,.jchip,.opt,.linkbtn,.qshare,.item):active,
-.tab:active .ind { box-shadow:inset 0 0 0 100vmax color-mix(in srgb,currentColor 14%,transparent); }
+:is(.btn,.jchip,.opt,.linkbtn,.qshare,.item,.tile):active { box-shadow:inset 0 0 0 100vmax color-mix(in srgb,currentColor 14%,transparent); }
 .btn.link:is(:hover,:active) { box-shadow:none; }
 
 /* ═══════════════════════════════════════════
@@ -773,10 +725,8 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
   #app { flex-direction:row; }
   #nav { order:-1; width:var(--nav-w); grid-template-columns:none; grid-auto-rows:min-content; align-content:start; gap:4px; border-top:0; border-right:1px solid var(--line); padding:20px 10px; }
   .tab { flex-direction:row; justify-content:flex-start; gap:12px; padding:12px 14px; font-size:16px; min-height:52px; }
-  /* Sidebar: the whole row is highlighted, as before. */
-  .tab .ind { width:auto; height:auto; }
-  .tab.on { color:var(--accent-ink); background:var(--glow); }
-  .tab.on .ind { background:none; }
+  .tab .ind { height:auto; }
+  .tab.on { background:var(--glow); }
   .veil { align-items:center; }
   .sheet { border-radius:24px; max-height:86%; }
   .fchips { flex-wrap:wrap; justify-content:center; }
@@ -803,7 +753,11 @@ function ls(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v
 // Returns true if saved, false if not (usually the phone is short of space). The first failure per visit shows one calm message; quiet=true skips it (for throw-away caches).
 let fullShown=false;
 function lsSet(k,v,quiet){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch{if(!quiet&&!fullShown)setTimeout(()=>{if(fullShown||ST.sheet)return;fullShown=true;ST.sheet='full';render();},300);return false;}}
-function setTheme(t){document.documentElement.setAttribute('data-theme',t);lsSet('esm_theme',t);}
+// Light, Dark, Automatic and High contrast. Older versions had seven more colour themes;
+// a saved one (or anything odd from a restored backup) falls back to the nearest of these.
+const THEMES=['light','dark','auto','highc'];
+function setTheme(t){if(!THEMES.includes(t))t=t==='earth'?'light':['temple','night','neuro','slate','neon'].includes(t)?'dark':'auto';
+  document.documentElement.setAttribute('data-theme',t);lsSet('esm_theme',t);}
 function setSize(s){document.documentElement.style.setProperty('--scale',s);lsSet('esm_size',s);}
 setTheme(ls('esm_theme','auto'));
 setSize(ls('esm_size',1));
@@ -822,7 +776,6 @@ const PR=[
   {id:'loving',   name:'Loving Eyes',     sub:'Om Mani Peme Hung',      target:1000000,cv:10000,bg:6, acc:'#c85880', img:'lovingeyes.jpg',  mantra:'OM MANI PEME HUNG'},
 ];
 const COLS=12;
-const PACE_OPTS=[0,21,50,100,108,200,300,500,1000];
 
 // ═══════════════════════════════════════════════════════════
 // PRAYERS
@@ -1964,13 +1917,6 @@ function observedAusp(date){
   return out;
 }
 // Tibetan day repeats tomorrow (first of a doubled pair)?
-function doubledToday(date){const d=new Date(date);d.setHours(12,0,0,0);const nx=new Date(d);nx.setDate(nx.getDate()+1);return tibDay(d)===tibDay(nx);}
-function nextAusp(from,n){
-  const out=[];const d=new Date(from);d.setHours(12,0,0,0);
-  for(let i=0;i<90&&out.length<n;i++){
-    d.setDate(d.getDate()+1);
-    observedAusp(d).forEach(o=>out.push({date:new Date(d),...o}));}
-  return out.slice(0,n);}
 function doy(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
 
 
@@ -2069,7 +2015,7 @@ const THREE_AA=[
   {k:'sound',r:1},{k:'sound',r:2},{k:'sound',r:3},
   {k:'rest',t:'Sky to sky',d:'The Aa dissolves. Inner space and outer space: just sit, sky to sky. Thoughts, feelings and sensations come and go like clouds and rainbows. Don’t follow them, don’t wait for them, don’t push them away. If you get lost, sound Aa again.'},
 ];
-const THREE_AA_SOUND={t:'Sound Aa',d:'Let a long, open “Aaa” rise from low in the belly, aloud or silently. With the sound, let memories, plans, thoughts and fixations dissolve back into their source. Tap when the sound has finished.'};
+
 
 // Vajra recitation (OM AH HUM) — as taught by H.E. Garchen Rinpoche.
 const VAJRA_INFO=[
@@ -2123,7 +2069,7 @@ let ST={
   prData:ls('esm_pr_data',{}), tap:ls('esm_tap',{count:0,ci:0}),
   hideCount:ls('esm_tap_hide',false), showImg:ls('esm_sess_img',false),
   showTib:ls('esm_tib',true), whole:ls('esm_whole',false),
-  verse:0, calOff:0, br:0, moreThemes:false, qi:null, toast:null, discardArm:false, restore:null,
+  verse:0, calOff:0, br:0, qi:null, toast:null, discardArm:false, restore:null,
   // meditation: Three Aa step + letter form, vajra breathing, Ajahn Brahm stage, breath count, sitting timer
   wa:0, aForm:ls('esm_a_form','tib'), vj:{mode:ls('esm_vj_mode','hold'),phase:'',count:0,lastHold:0},
   bb:ls('esm_bb',0), cnt:{n:0,rounds:0}, sit:ls('esm_sit',null),
@@ -2152,11 +2098,11 @@ function savePD(id,d){ST.prData={...ST.prData,[id]:d};lsSet('esm_pr_data',ST.prD
 const paceOf=id=>{const p=getPD(id).pace;return p>0?p:(ls('esm_last_pace',0)||100);};
 function currentId(){
   const c=ls('esm_current',null);if(c&&findPR(c))return c;
-  // Otherwise the most recently practised, else Prostrations.
+  // Otherwise the most recently practiced, else Prostrations.
   let best='prostr',t=0;for(const p of allPR()){const d=getPD(p.id).lastDate;if(d&&+new Date(d)>t){t=+new Date(d);best=p.id;}}
   return best;
 }
-// One place that changes a total: keeps undo (last 20), last-practised date and the daily log.
+// One place that changes a total: keeps undo (last 20), last-practiced date and the daily log.
 function addTo(id,n,{log=true}={}){
   const p=findPR(id),pd=getPD(id),c=pd.counter||0,nc=Math.max(0,Math.min(p.target,c+n));
   savePD(id,{...pd,counter:nc,lastDate:n>0?new Date().toISOString():pd.lastDate,undo:[...(pd.undo||[]).slice(-19),{counter:c,lastDate:pd.lastDate}]});
@@ -2177,7 +2123,7 @@ function undoLast(id){const pd=getPD(id),u=pd.undo||[];if(!u.length)return;const
     const a=acts().find(x=>x.pr===id),v=a&&dayActs(k)[a.id];if(typeof v==='number')setAct(k,a.id,v-diff>0?v-diff:null);}
   savePD(id,{...pd,counter:prev.counter,lastDate:prev.lastDate,undo:u.slice(0,-1)});}
 function saveTap(){lsSet('esm_tap',ST.tap);}
-// Projected finish at `pace` a day; today counts unless you've already practised today.
+// Projected finish at `pace` a day; today counts unless you've already practiced today.
 function proj(c,pace,tgt,lastDate){if(pace<=0||c>=tgt)return null;
   const doneToday=lastDate&&new Date(lastDate).toDateString()===new Date().toDateString();
   const d=new Date();d.setDate(d.getDate()+Math.ceil((tgt-c)/pace)-(doneToday?0:1));return d;}
@@ -2308,7 +2254,7 @@ async function abRun(force){
     if(body.length>AB_MAX&&d.esm_sess_photo){const d2={...d};delete d2.esm_sess_photo;body=await make(d2);noPhoto=true;}   // the photo is the only big thing
     if(body.length>AB_MAX)return false;
     const r=await abPost('/api/backup/put',{id:k.id,body});
-    if(r.status===507){const c=abCfg();if(c)lsSet('esm_cloud',{...c,full:true},true);return false;}   // online backups are full: say so in Settings
+    if(r.status===507){const c=abCfg();if(c)lsSet('esm_cloud',{...c,full:true},true);return false;}   // online backups are full: say so on the Backup page
     if(!r.ok)return false;
     const c1=abCfg();
     if(!c1||!c1.on||c1.code!==c0.code){abPost('/api/backup/delete',{id:k.id}).catch(()=>{});return false;}   // turned off while sending: take it back
@@ -2351,10 +2297,10 @@ async function abRestore(){
 function abCard(){return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe automatically</b>
   <p>Turn on automatic backup and a locked copy of your practice is kept online. You get a code that opens it, so you can get everything back on a new phone.</p></div>
   <div class="stack"><button class="btn primary wide" data-act="abon">Turn on</button><button class="btn soft wide" data-act="abnot">Not now</button></div></div>`;}
-// The Settings part of it.
+// The part of it on the Backup page (You → Backup).
 function abSettings(){const c=abCfg();if(!abOK())return'';
   const on=c&&c.on;
-  return`<p class="h2" style="margin:0">AUTOMATIC BACKUP</p>
+  return`<p class="h2" style="margin:0">Automatic backup</p>
   ${on?`<p class="small">A locked copy of your practice is kept online. Only your backup code can open it. ${abStatus(c)}</p>
     ${c.noPhoto?`<p class="small">Your photo was too big to include, so it isn’t in the online copy. Everything else is.</p>`:''}
     <button class="btn primary wide" data-act="abnow">Back up now</button>
@@ -2415,11 +2361,18 @@ function h(tag,at,...kids){
   for(const c of kids.flat(Infinity)){if(c==null||c===false||c==='')continue;el.appendChild(typeof c==='string'?document.createTextNode(c):c);}
   return el;}
 const I={
-  today:'<path d="M12 3v2M12 19v2M4.2 7.5l1.7 1M18.1 15.5l1.7 1M3 12h2M19 12h2M4.2 16.5l1.7-1M18.1 8.5l1.7-1"/><circle cx="12" cy="12" r="4"/>',
-  practice:'<circle cx="12" cy="6.5" r="2.4"/><path d="M5 19c1.2-4.3 3.8-6.6 7-6.6s5.8 2.3 7 6.6"/><path d="M3.5 19.5h17"/>',
-  texts:'<path d="M12 6.5C10.3 5.3 8 4.8 5.5 4.8v12.7c2.5 0 4.8.5 6.5 1.7 1.7-1.2 4-1.7 6.5-1.7V4.8C16 4.8 13.7 5.3 12 6.5z"/><path d="M12 6.5v12.7"/>',
-  learn:'<path d="M12 3c-2.6 0-4.4 2-4.4 4.3 0 .5.1 1 .3 1.4C6.6 9.4 6 10.6 6 12c0 2.2 1.9 3.9 4.2 3.9h3.6c2.3 0 4.2-1.7 4.2-3.9 0-1.4-.6-2.6-1.9-3.3.2-.4.3-.9.3-1.4C16.4 5 14.6 3 12 3z"/><path d="M12 15.9V21M9.5 21h5"/>',
-  gear:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/>',
+  today:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
+  practice:'<circle cx="12" cy="5.5" r="2.5"/><path d="M5 20c.6-5.4 3.4-8 7-8s6.4 2.6 7 8M3.5 20h17"/>',
+  texts:'<path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  you:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  gear:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  look:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 0 0 0-18z" fill="currentColor"/>',
+  chart:'<path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-3"/>',
+  award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/>',
+  map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>',
   chev:'<path d="M9 5l7 7-7 7"/>',back:'<path d="M15 5l-7 7 7 7"/>',close:'<path d="M6 6l12 12M18 6L6 18"/>',
   mala:'<circle cx="12" cy="12" r="7.5" stroke-dasharray="1.6 2.2" stroke-width="2.6"/><circle cx="12" cy="3.6" r="1.6" fill="currentColor"/>',
   breath:'<path d="M4 9c3 0 3-3 6-3s3 3 6 3 3-3 4-3M4 15c3 0 3-3 6-3s3 3 6 3 3-3 4-3"/>',
@@ -2433,7 +2386,6 @@ const I={
   tree:'<path d="M12 21v-5"/><circle cx="12" cy="9" r="5.5"/>',star:'<path d="M12 4l2.3 5 5.2.5-3.9 3.5 1.1 5.2L12 15.6 7.3 18.2l1.1-5.2L4.5 9.5 9.7 9z"/>',
   phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/>',link:'<path d="M10 14l4-4M8.5 11.5l-2 2a3.5 3.5 0 0 0 5 5l2-2M15.5 12.5l2-2a3.5 3.5 0 0 0-5-5l-2 2"/>',
   trash:'<path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/>',mail:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/>',
-  swap:'<path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/>',
   hands:'<path d="M11.4 3.5 8.8 9.6l-.4 5L5 18l2 2.5 4.4-3.4zM12.6 3.5l2.6 6.1.4 5L19 18l-2 2.5-4.4-3.4z"/>',
   sitter:'<circle cx="12" cy="5.3" r="2.2"/><path d="M12 8.6v4.6M7.2 11.2c1.4 1.4 3 2 4.8 2s3.4-.6 4.8-2M4.5 18.6c2-2.2 4.5-2.8 7.5-2.8s5.5.6 7.5 2.8z"/>',
   sprout:'<path d="M12 20v-8M12 12c0-3-2-5-6-5 0 3 2 5 6 5zM12 14.5c0-3 2-5.5 6-5.5 0 3-2 5.5-6 5.5zM7 20h10"/>',
@@ -2445,7 +2397,6 @@ const I={
   timer:'<circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M10 2.5h4"/>',
   share:'<path d="M12 15V4M8 8l4-4 4 4M6 11v8h12v-8"/>',
   sharenodes:'<circle cx="18" cy="5.5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="M8.3 10.8l7.4-4.1M8.3 13.2l7.4 4.1"/>',
-  lotusup:'<path d="M12 6.5c1.9 2 2.5 4.2 2.5 6s-1 3.4-2.5 4.7c-1.5-1.3-2.5-2.9-2.5-4.7s.6-4 2.5-6z"/><path d="M12 17.2c-2.7.4-5.6-.5-7.7-3.3 2.5-1 5.2-.7 7.7 3.3zM12 17.2c2.7.4 5.6-.5 7.7-3.3-2.5-1-5.2-.7-7.7 3.3z"/><path d="M7 20.3h10M16.8 3.2h4v4M20.8 3.2l-4.2 4.2"/>',
 };
 const ico=(n,w)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]||''}</svg>`;
 
@@ -2463,32 +2414,38 @@ function nextSpecial(from){for(let i=1;i<60;i++){const d=plusDays(from,i),o=obse
 const when=i=>i===0?'today':i===1?'tomorrow':`in ${i} days`;
 
 // ═══════════════════════════════════════════════════════════
-// TODAY — one calendar card, progress, and the meditation timer
+// TODAY — the day, your practice, three shortcuts, this week, words for today
 // ═══════════════════════════════════════════════════════════
-// The day in one card: date and Tibetan date, today's (or the next) auspicious day, festivals and
-// anniversaries, hair cutting, and this week's practice diary.
-function todayCard(now){const T=calTib(),C=uses().includes('cal'),t=tibDate(now),obs=T&&C?observedAusp(now):[],ev=T&&C?eventsOn(now):[],hr=hairRec(t.day),oth=C?otherDays(now):[];
-  const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),days=[...Array(7)].map((_,i)=>plusDays(mon,i));
-  const selDate=noonOf(new Date(sel+'T12:00')),label=sel===dayKey(now)?'today':selDate.toLocaleDateString('en-GB',{weekday:'long'});
-  const n=days.filter(x=>Object.keys(dayActs(dayKey(x))).length).length;
-  let ausp='';
-  if(obs.length)ausp=obs.map(o=>`<div class="tc-ausp glow"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:6px">${o.note}</p>`:''}
+// The day, kept short: the Tibetan date and moon, and today's (or the next) auspicious day. Festivals,
+// anniversaries, the 49 days and your own plans show only on their day. Tap for the calendar, where the
+// rest lives (hair cutting included).
+function dayCard(now){const T=calTib(),t=tibDate(now),obs=T?observedAusp(now):[],ev=T?eventsOn(now):[],oth=otherDays(now);
+  let next='';
+  if(T&&!obs.length){const ns=nextSpecial(now);if(ns)next=`${ns.o.a.name} ${when(ns.i)}`;}
+  else if(!T&&!oth.length){const no=nextOther(now);if(no)next=`${esc(no.o.name)} ${when(no.i)}`;}
+  const ausp=obs.map(o=>`<div class="tc-ausp glow"><b>Today is ${o.a.name}</b><p>${o.a.desc}</p>${o.note?`<p class="note" style="margin-top:6px">${o.note}</p>`:''}
     ${DAY_INFO[o.td]?`<button class="btn link" data-act="aday" data-v="${o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`).join('');
-  else if(T&&C){const ns=nextSpecial(now);if(ns){const w=SPECIAL_WHY[ns.o.td];ausp=`<div class="tc-ausp"><span class="small">Next auspicious day · ${ns.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(ns.i)}</span>
-    <b style="display:block">${ns.o.a.name}</b>${w?`<p>${w.t}</p>`:''}${DAY_INFO[ns.o.td]?`<button class="btn link" data-act="aday" data-v="${ns.o.td}" style="padding-left:0">About this day ${ico('chev')}</button>`:''}</div>`;}}
-  let dbl=oth.map(o=>`<div class="tc-ausp${o.major?' glow':''}"><b>Today: ${esc(o.name)}</b><p>${o.t}</p><a class="btn link" href="${o.u}" target="_blank" rel="noopener" style="padding-left:0">Read more ↗</a></div>`).join('');
-  if(C&&!T&&!oth.length){const no=nextOther(now);if(no)dbl=`<div class="tc-ausp"><span class="small">Next · ${no.d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} · ${when(no.i)}</span><b style="display:block">${esc(no.o.name)}</b></div>`;}
+  const dbl=oth.map(o=>`<div class="tc-ausp${o.major?' glow':''}"><b>Today: ${esc(o.name)}</b><p>${o.t}</p><a class="btn link" href="${o.u}" target="_blank" rel="noopener" style="padding-left:0">Read more ↗</a></div>`).join('');
   const evs=ev.length?`<button class="tc-ev" data-act="day" data-d="${dayKey(now)}">${ev.filter(e=>e.kind==='fest').map(e=>`<b>★ ${esc(e.name)}</b>`).join('')}${ev.some(e=>e.kind!=='fest')?`<span class="small">Anniversary: ${ev.filter(e=>e.kind!=='fest').map(e=>esc(e.name.replace(/\s*\(.*\)$/,''))).join(', ')}</span>`:''}</button>`:'';
   return`<div class="card tcard">
-    <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),48)}<span class="grow"><b>${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</b>
-      ${T?`<span class="small">Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''} · ${t.element} ${t.animal} year</span>
-      <span class="small tibdate" lang="bo" title="The date and weekday in Tibetan">${tibDateScript(now,t.day)}</span>`:''}<span class="small">${phaseText(now)}</span></span>${chev}</button>
-    ${ausp}${dbl}${evs}${bardoOn(now).map(b=>`<button class="tc-ev" data-act="tab" data-v="texts"><b>Week ${b.week} of 7${b.name?` for ${esc(b.name)}`:''}</b><span class="small">A day for prayers and dedication · Texts → When someone has passed</span></button>`).join('')}${reminders().filter(r=>r.date===dayKey(now)).map(r=>`<button class="tc-ev" data-act="day" data-d="${r.date}"><b>${ico('cal')} ${r.time} · ${esc(r.title)}</b>${r.friend?'<span class="small">Practising with a friend</span>':''}</button>`).join('')}
-    ${T&&C?`<div class="tc-hair"><span class="small">Hair cutting today · Tibetan astrology</span><span><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></span></div>`:''}
-    <div class="tc-week"><div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
-      <p class="small">Tap what you practised ${label}:</p>${jChips(sel)}
-      <div class="row" style="justify-content:space-between;flex-wrap:wrap"><span class="small">${n?`${n} day${n>1?'s':''} of practice this week.`:'Your practice days will show here.'}</span><button class="btn link" data-act="cal">Open calendar</button></div></div>
+    <button class="tc-top" data-act="cal" aria-label="Open the calendar">${moonSVG(moonAge(now),44)}<span class="grow"><b>${T?`Tibetan day ${t.day} · ${ordinal(t.month)} month${t.leap?' (leap)':''}`:phaseText(now)}</b>
+      <span class="small">${next?`Next: ${next}`:T?phaseText(now):'Open the calendar'}</span></span>${chev}</button>
+    ${ausp}${dbl}${evs}${bardoOn(now).map(b=>`<button class="tc-ev" data-act="lib" data-v="bardo"><b>Week ${b.week} of 7${b.name?` for ${esc(b.name)}`:''}</b><span class="small">A day for prayers and dedication · Library → When someone has passed</span></button>`).join('')}${reminders().filter(r=>r.date===dayKey(now)).map(r=>`<button class="tc-ev" data-act="day" data-d="${r.date}"><b>${ico('cal')} ${r.time} · ${esc(r.title)}</b>${r.friend?'<span class="small">Practicing with a friend</span>':''}</button>`).join('')}
   </div>`;}
+// This week's practice diary: tap a day, then tick what you practiced.
+function weekCard(now){const sel=ST.jday||dayKey(now),di=(now.getDay()+6)%7,mon=plusDays(now,-di),days=[...Array(7)].map((_,i)=>plusDays(mon,i));
+  const selDate=noonOf(new Date(sel+'T12:00')),label=sel===dayKey(now)?'today':selDate.toLocaleDateString('en-GB',{weekday:'long'});
+  const n=days.filter(x=>Object.keys(dayActs(dayKey(x))).length).length;
+  return`<div class="card stack weekcard"><div class="row"><b class="grow">This week</b><span class="small">${n?`${n} day${n>1?'s':''} of practice`:''}</span></div>
+    <div class="week">${days.map((x,i)=>{const k=dayKey(x),fut=x>now;return`<button class="wd${k===sel?' sel':''}${k===dayKey(now)?' today':''}" data-act="jday" data-v="${k}" ${fut?'disabled':''} aria-label="${x.toDateString()}"><span>${'MTWTFSS'[i]}</span><i style="${dayRing(k)}"></i></button>`;}).join('')}</div>
+    <p class="small">Tap what you practiced ${label}:</p>${jChips(sel)}</div>`;}
+// The practice you chose for Today: its count, a ring, and the two things you do most.
+function heroCard(){const id=currentId(),p=findPR(id);if(!p)return'';
+  const c=getPD(id).counter||0,done=c>=p.target,C=2*Math.PI*30,f=Math.min(1,c/p.target);
+  return`<div class="hero"><button class="hero-top" data-act="practice" data-id="${id}" aria-label="${esc(p.name)}: open">
+      <svg class="ring" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="7"/><circle cx="36" cy="36" r="30" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-f)}" transform="rotate(-90 36 36)"/></svg>
+      <span class="grow"><span class="n">${esc(p.name)}</span><b>${fmt(c)}</b><span class="of">of ${fmt(p.target)}${done?' · complete':''}</span></span>${chev}</button>
+    ${done?'':`<div class="btns"><button class="btn primary" data-act="start" data-id="${id}">Start counting</button><button class="btn ghost" data-act="quick" data-id="${id}">+ ${fmt(paceOf(id))}</button></div>`}</div>`;}
 
 // Progress: this month's count against what the chosen pace needs this month, for each practice
 // counted in the last two months (or the current one). Gentle: no streaks for counts.
@@ -2501,9 +2458,9 @@ function progressCard(now){const P=ls('esm_plog',{}),cut=dayKey(plusDays(now,-60
       <span class="bar"><i style="width:${Math.max(pct,got?2:0)}%"></i></span>
       <span class="small">${fmt(c)} of ${fmt(p.target)} in all${fin?` · at ${fmt(pace)} a day, done around ${fin.toLocaleDateString('en-GB',{month:'short',year:'numeric'})}`:''}</span></button>`;}).join('');
   const med=medStats(now);
-  return`<p class="h2">YOUR PROGRESS</p><div class="card stack">${rows}
+  return`<p class="h2">This month</p><div class="card stack">${rows}
     ${med.monthDays?`<div class="prog" style="--acc:#4a7fd4"><span class="row"><span class="dot"></span><b class="grow">Meditation</b><span class="small">${med.monthDays} day${med.monthDays>1?'s':''}${med.monthMin?` · ${fmt(med.monthMin)} min`:''} this month</span></span></div>`:''}
-    ${mileRow()}<button class="btn primary" data-act="tab" data-v="practice">${ico('mala')} Practise</button></div>`;}
+    ${mileRow()}<button class="btn primary" data-act="tab" data-v="practice">${ico('mala')} Practice</button></div>`;}
 
 // ── Meditation timer ──
 // Settings in esm_medtimer. Uses the shared sitting timer (esm_sit, the pill, the bell, diary minutes).
@@ -2527,12 +2484,12 @@ function medStreak(now){const s=medStats(now);if(!s.total)return'';
     ${q?`<figure class="mquote"><p>${esc(q.t)}</p><cite>${esc(q.a)}</cite></figure>`:''}</div>`;}
 function contQuote(now){const C=QUOTES.filter(q=>q.cont);return C[doy(now)%C.length];}
 function medTimerCard(now){const o=mt(),s=ST.sit&&ST.sit.ov==='sit'?ST.sit:null;
-  if(s)return`<p class="h2">MEDITATION TIMER</p><div class="card stack"><b>${s.done?'Your sitting has ended':'You are sitting'}</b>
+  if(s)return`<p class="h2">Meditation timer</p><div class="card stack"><b>${s.done?'Your sitting has ended':'You are sitting'}</b>
     <button class="btn primary" data-act="sitback">${ico('timer')} ${s.done?'See it':'Return'}</button>${medStreak(now)}</div>`;
   const chips=[5,10,20,30,45].map(m=>`<button class="opt${!o.open&&o.min===m?' on':''}" data-act="mtset" data-v="${m}">${m}</button>`).join('')+`<button class="opt${o.open?' on':''}" data-act="mtopen">Open</button>`;
   const pre=o.presets.map((p,i)=>`<button class="jchip" data-act="mtpre" data-v="${i}" style="--c:var(--accent)"><i></i>${esc(p.name)}</button>`).join('');
   const sum=[o.settle?`Settle ${o.settle} s`:'',o.interval?`bell every ${o.interval} min`:'',BELLS[o.bell]].filter(Boolean).join(' · ');
-  return`<p class="h2">MEDITATION TIMER</p><div class="card stack">
+  return`<p class="h2">Meditation timer</p><div class="card stack">
     <div class="mtime">${o.open?`<b class="mtopen">Open sitting</b><span class="small">No end time. Stop when you’re ready.</span>`
       :`<button class="iconbtn" data-act="mtstep" data-v="-1" aria-label="One minute less">−</button><label><input id="mtmin" type="number" inputmode="numeric" min="1" max="240" value="${o.min}" aria-label="Minutes" data-act="mtnum"><span>min</span></label><button class="iconbtn" data-act="mtstep" data-v="1" aria-label="One minute more">+</button>`}</div>
     <div class="sitopts mtopts">${chips}</div>
@@ -2543,15 +2500,15 @@ function medTimerCard(now){const o=mt(),s=ST.sit&&ST.sit.ov==='sit'?ST.sit:null;
 function sheetMT(){const o=mt(),seg=(act,cur,opts)=>`<div class="sitopts">${opts.map(([v,l])=>`<button class="opt${cur===v?' on':''}" data-act="${act}" data-v="${v}">${l}</button>`).join('')}</div>`,
   sw=(act,on,l)=>`<button class="item" data-act="${act}" role="switch" aria-checked="${on}"><span class="grow"><span class="t">${l}</span></span><span class="tag${on?' ok':''}">${on?'On':'Off'}</span></button>`;
   return`<div class="grab"></div><h2 class="h1">Timer settings</h2>
-  <p class="h2" style="margin:0">SETTLING IN</p><p class="small">Time to sit down and settle before the first bell.</p>${seg('mtsettle',o.settle,[[0,'None'],[10,'10 s'],[20,'20 s'],[30,'30 s']])}
-  <p class="h2" style="margin:0">INTERVAL BELLS</p><p class="small">A soft bell every few minutes, to check your posture or change practice.</p>${seg('mtint',o.interval,[[0,'Off'],[5,'5 min'],[10,'10 min'],[15,'15 min'],[20,'20 min']])}
-  <p class="h2" style="margin:0">BELL</p><div class="list">${Object.entries(BELLS).map(([k,l])=>`<div class="item" style="cursor:default"><button class="grow" data-act="mtbell" data-v="${k}" style="text-align:left"><span class="t">${l}</span>${o.bell===k?'<span class="s">Chosen</span>':''}</button><button class="btn soft" data-act="mthear" data-v="${k}">Hear it</button></div>`).join('')}</div>
+  <p class="h2" style="margin:0">Settling in</p><p class="small">Time to sit down and settle before the first bell.</p>${seg('mtsettle',o.settle,[[0,'None'],[10,'10 s'],[20,'20 s'],[30,'30 s']])}
+  <p class="h2" style="margin:0">Interval bells</p><p class="small">A soft bell every few minutes, to check your posture or change practice.</p>${seg('mtint',o.interval,[[0,'Off'],[5,'5 min'],[10,'10 min'],[15,'15 min'],[20,'20 min']])}
+  <p class="h2" style="margin:0">Bell</p><div class="list">${Object.entries(BELLS).map(([k,l])=>`<div class="item" style="cursor:default"><button class="grow" data-act="mtbell" data-v="${k}" style="text-align:left"><span class="t">${l}</span>${o.bell===k?'<span class="s">Chosen</span>':''}</button><button class="btn soft" data-act="mthear" data-v="${k}">Hear it</button></div>`).join('')}</div>
   <div class="list">${sw('mtdim',o.dim,'Eyes-closed screen (dim; tap to see the time)')}${sw('mtmotiv',o.motiv,'Set a motivation before you begin')}${sw('mtdedic',o.dedic,'Dedicate at the end')}</div>
-  <p class="h2" style="margin:0">SAVE AS A PRESET</p>
+  <p class="h2" style="margin:0">Save as a preset</p>
   <input id="mtname" type="text" maxlength="30" placeholder="e.g. Morning sit" aria-label="Name for this preset">
   <button class="btn soft wide" data-act="mtsavepre">Save ${o.open?'open sitting':`${o.min} min`}${o.interval?`, bell every ${o.interval} min`:''}</button>
   ${o.presets.length?`<div class="list">${o.presets.map((p,i)=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(p.name)}</span><span class="s">${p.open?'Open sitting':`${p.min} min`}${p.interval?` · bell every ${p.interval} min`:''}${p.settle?` · settle ${p.settle} s`:''}</span></span><button class="iconbtn" data-act="mtdelpre" data-v="${i}" aria-label="Delete ${esc(p.name)}">${ico('trash')}</button></div>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">REMINDERS TO SIT</p><div class="list">${pushSupported()?item('push','Notifications from the app','Daily reminders, a mindfulness bell, full moons',{ico:'phone'}):''}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}</div>
+  <p class="h2" style="margin:0">Reminders to sit</p><div class="list">${pushSupported()?item('push','Notifications from the app','Daily reminders, a mindfulness bell, full moons',{ico:'phone'}):''}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}</div>
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The beginning and the end, after Longchenpa's three principles: bodhicitta at the start,
 // resting in the main part, dedication at the close.
@@ -2617,18 +2574,18 @@ const MED_KINDS=[
     app:[['threeaa','The Three Aa']],
     links:[['Sky gazing · Wikipedia',WP('Sky gazing (Dzogchen)')],['Song of Dzogchen Instructions · Shabkar','https://www.lotsawahouse.org/tibetan-masters/shabkar/song-of-dzogchen-instruction'],['Mahāmudrā texts · Lotsawa House','https://www.lotsawahouse.org/topics/mahamudra/'],['Five Questions about the Mind · James Low','https://simplybeing.co.uk/texts-and-transcripts/five-questions-about-the-mind-extract-london-2020/'],['Introduction to meditation · Tergar','https://tergar.org/intro-to-meditation']]},
 ];
-const medKindsRow=()=>`<p class="h2">KINDS OF MEDITATION</p><div class="kinds" role="list">${MED_KINDS.map(k=>`<button class="kind" role="listitem" data-act="medkind" data-v="${k.id}"><b>${k.name}</b><span class="small">${k.names.split(' · ')[0]}</span><span>${k.short}</span><span class="more">More ${ico('chev')}</span></button>`).join('')}</div>
+const medKindsRow=()=>`<p class="h2">Kinds of meditation</p><div class="kinds" role="list">${MED_KINDS.map(k=>`<button class="kind" role="listitem" data-act="medkind" data-v="${k.id}"><b>${k.name}</b><span class="small">${k.names.split(' · ')[0]}</span><span>${k.short}</span><span class="more">More ${ico('chev')}</span></button>`).join('')}</div>
   <p class="small" style="text-align:center">Swipe for more. Each works with the timer above.</p>`;
 function ovMedKind(){const k=MED_KINDS.find(x=>x.id===ST.arg);if(!k)return topbar('Meditation');
   const L=([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`;
   return`${topbar(k.name)}<div class="ovbody"><div class="col prose">
     <p class="small">${k.names}</p><p class="sub">${k.short}</p>
-    <p class="h2">HOW TO BEGIN</p><ol class="steps">${k.how.map(x=>`<li>${x}</li>`).join('')}</ol>
+    <p class="h2">How to begin</p><ol class="steps">${k.how.map(x=>`<li>${x}</li>`).join('')}</ol>
     <p>${k.more}</p>
-    ${k.app.length?`<p class="h2">IN THIS APP</p><div class="list">${k.app.map(([a,l])=>item(a,l,'')).join('')}</div>`:''}
+    ${k.app.length?`<p class="h2">In this app</p><div class="list">${k.app.map(([a,l])=>item(a,l,'')).join('')}</div>`:''}
     <button class="btn primary wide" data-act="mtstart">${ico('timer')} Sit with the timer</button>
     <details><summary>More from other traditions</summary>${k.schools.map(([w,t])=>`<p style="margin-top:8px"><b>${w}.</b> ${t}</p>`).join('')}</details>
-    <p class="h2">READ MORE</p><div class="links">${k.links.map(L).join('')}</div>
+    <p class="h2">Read more</p><div class="links">${k.links.map(L).join('')}</div>
     <p class="small">These are short introductions, not a replacement for a teacher.</p>
   </div></div>`;}
 
@@ -2663,13 +2620,13 @@ const gcalLink=e=>{const end=new Date(`${e.date}T${e.time||'08:00'}:00`);end.set
   if(e.rrule)p.set('recur','RRULE:'+e.rrule);return'https://calendar.google.com/calendar/render?'+p.toString();};
 const APP_URL='https://dharmasoup.org/practice/';
 const KOFI='https://ko-fi.com/raccoonhands';
-// Why support it (Gareth, 2026-11-05: say what it costs and the hoped-for benefit). Same words in About, Generosity and Settings.
+// Why support it (Gareth, 2026-11-05: say what it costs and the hoped-for benefit). Same words in About, Generosity and You.
 const KOFI_WHY='The app is free, with no adverts. It does cost money to run: the web address, the hosting and the reminder service. Gifts on Ko-fi cover those costs first. Anything beyond that helps me make more Dharma projects, in the hope they benefit many beings.';
 const KOFI_SHORT='Gifts cover the running costs first, then help make more Dharma projects.';
 // What a day is, in one line, for a reminder's title.
 function dayTitle(k){const d=noonOf(new Date(k+'T12:00')),o=observedAusp(d)[0],e=eventsOn(d).find(x=>x.kind==='fest');return e?e.name.split(',')[0]:o?o.a.name:'Practice';}
-function reminderEvent(r){return{uid:`${r.id}@slicedharma.com`,date:r.date,time:r.time,mins:r.mins||30,title:r.friend?`Practise together: ${r.title}`:r.title,
-  desc:(r.friend?'Let’s practise together. ':'')+`${r.title}. Open Dharma Practice: ${APP_URL}`,url:APP_URL,alarm:'-PT15M'};}
+function reminderEvent(r){return{uid:`${r.id}@slicedharma.com`,date:r.date,time:r.time,mins:r.mins||30,title:r.friend?`Practice together: ${r.title}`:r.title,
+  desc:(r.friend?'Let’s practice together. ':'')+`${r.title}. Open Dharma Practice: ${APP_URL}`,url:APP_URL,alarm:'-PT15M'};}
 // The "Remind me" sheet for one day.
 function sheetRemind(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=ST.remTime||'08:00',title=ST.remTitle||dayTitle(k),ex=reminders().filter(r=>r.date===k);
   return`<div class="grab"></div><h2 class="h1">Remind me</h2><p class="sub">${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p>
@@ -2677,10 +2634,10 @@ function sheetRemind(){const k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=ST.remTi
   <label class="small" for="remtime">Time</label><input id="remtime" type="time" value="${t}">
   <p class="small">The reminder goes into your phone’s own calendar, with an alert 15 minutes before. Nothing is sent anywhere else.</p>
   <button class="btn primary wide" data-act="remadd">${ico('cal')} Add to my calendar</button>
-  <button class="btn soft wide" data-act="remfriend">${ico('link')} Invite a friend to practise together</button>
+  <button class="btn soft wide" data-act="remfriend">${ico('link')} Invite a friend to practice together</button>
   <button class="btn soft wide" data-act="remgroup">${ico('hearts')} Make it a shared practice group</button>
   <a class="btn link" id="remgcal" href="#" data-act="remgcal" target="_blank" rel="noopener" style="align-self:center">Use Google Calendar instead ↗</a>
-  ${ex.length?`<p class="h2" style="margin:0">ALREADY SET FOR THIS DAY</p><div class="list">${ex.map(r=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(r.title)}</span><span class="s">${r.time}${r.friend?' · with a friend':''}</span></span><button class="iconbtn" data-act="remdel" data-v="${r.id}" aria-label="Forget this reminder">${ico('trash')}</button></div>`).join('')}</div>
+  ${ex.length?`<p class="h2" style="margin:0">Already set for this day</p><div class="list">${ex.map(r=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(r.title)}</span><span class="s">${r.time}${r.friend?' · with a friend':''}</span></span><button class="iconbtn" data-act="remdel" data-v="${r.id}" aria-label="Forget this reminder">${ico('trash')}</button></div>`).join('')}</div>
     <p class="small">Removing it here doesn’t remove it from your calendar.</p>`:''}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 function remFromForm(friend){const k=ST.sarg,title=val('remtitle')||dayTitle(k),time=val('remtime')||'08:00';
@@ -2688,7 +2645,7 @@ function remFromForm(friend){const k=ST.sarg,title=val('remtitle')||dayTitle(k),
 // A friend session in the past that we haven't asked about: "Did it happen?"
 const remToAsk=()=>reminders().filter(r=>r.friend&&!r.asked&&r.date<dayKey());
 function remAskCard(){const r=remToAsk()[0];if(!r)return'';const d=new Date(r.date+'T12:00');
-  return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Did you practise together?</b><p>${esc(r.title)}, ${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}.</p></div>
+  return`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Did you practice together?</b><p>${esc(r.title)}, ${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}.</p></div>
     <div class="btns even"><button class="btn primary" data-act="remyes" data-v="${r.id}">Yes, tick my diary</button><button class="btn soft" data-act="remno" data-v="${r.id}">Not this time</button></div></div>`;}
 // Daily practice reminder: one repeating event with an alert at the chosen time.
 function sheetDaily(){const t=ls('esm_daily_time','07:30');
@@ -2699,7 +2656,7 @@ function sheetDaily(){const t=ls('esm_daily_time','07:30');
   <a class="btn link" href="#" data-act="dailygcal" target="_blank" rel="noopener" style="align-self:center">Use Google Calendar instead ↗</a>
   <p class="small">To stop it, delete the event in your calendar (choose “all future events”).</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
-const dailyEvent=t=>({uid:'daily-practice@slicedharma.com',date:dayKey(),time:t,mins:20,title:'Time to practise',desc:`A gentle reminder for your daily practice. ${APP_URL}`,url:APP_URL,rrule:'FREQ=DAILY',alarm:'PT0M'});
+const dailyEvent=t=>({uid:'daily-practice@slicedharma.com',date:dayKey(),time:t,mins:20,title:'Time to practice',desc:`A gentle reminder for your daily practice. ${APP_URL}`,url:APP_URL,rrule:'FREQ=DAILY',alarm:'PT0M'});
 // The auspicious-days feed: a calendar people subscribe to (webcal), regenerated yearly with tools/make-feed.html.
 const FEED_PATH='ngondro/practice-days.ics',FEED_HTTPS=`https://dharmasoup.org/${FEED_PATH}`,FEED_WEBCAL=`webcal://dharmasoup.org/${FEED_PATH}`;
 function feedEvents(from,to){const evs=[];for(let d=noonOf(from);d<to;d=plusDays(d,1)){const k=dayKey(d);
@@ -2717,29 +2674,31 @@ function sheetFeed(){return`<div class="grab"></div><h2 class="h1">Auspicious da
 // TODAY
 // ═══════════════════════════════════════════════════════════
 function pageToday(){
-  const now=noonOf(new Date());
-  const out=[`<div class="row"><div class="greet grow">${greeting()}</div><button class="iconbtn" data-act="settings" aria-label="Settings">${ico('gear')}</button></div>`];
-  // Words for today — one quote at a time; swipe or use the arrows.
-  const U=uses(),sc=startCard();if(sc)out.push(sc);
+  const now=noonOf(new Date()),U=uses(),o=mt(),counting=ST.tap.count>0,sitting=ST.sit&&ST.sit.ov==='sit';
+  const out=[`<div><p class="eyebrow">${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p><h1 class="h1">${greeting()}</h1></div>`];
+  const sc=startCard();if(sc)out.push(sc);
+  if(counting){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
+    <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
+    <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
+  out.push(remAskCard());
+  if(U.includes('cal'))out.push(dayCard(now));
+  if(sitting)out.push(medTimerCard(now));
+  if(U.includes('count')&&!counting)out.push(heroCard());
+  out.push(`<div class="quick">${sitting?'':`<button class="tile" data-act="sitnow">${ico('timer')}<b>Sit</b><span>${o.open?'Open sitting':o.min+' minutes'}</span></button>`}
+    <button class="tile" data-act="breaths">${ico('breath')}<b>Breathe</b><span>4 ways</span></button>
+    <button class="tile" data-act="start" data-id="">${ico('mala')}<b>Count</b><span>anything</span></button></div>`);
+  out.push(weekCard(now));
+  // Words for today: one quote at a time; swipe or use the arrows.
   if(U.includes('words'))out.push(`<div class="card qcard" id="qcard"><p class="qhead">Words for today</p>${quoteHTML()}
     <div class="qnav"><div class="qarrows"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div>
       <button class="qshare" data-act="sharequote">${ico('sharenodes',1.8)}<span>Share</span></button></div></div>`);
-  if(ST.tap.count>0){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
-    <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>
-    <div class="btns even"><button class="btn primary" data-act="resume">Resume</button><button class="btn soft" data-act="fresh">Start fresh</button></div></div>`);}
-  // Progress shows if they count, or have counted lately; the timer if they meditate (both always on Practice).
-  // The countdown nudge waits while a session or a sit is already under way.
-  if(!(ST.tap.count>0)&&!(ST.sit&&!ST.sit.done))out.splice(U.includes('words')?2:1,0,practiseCard());
-  const counted=Object.keys(ls('esm_plog',{})).some(k=>k>=dayKey(plusDays(now,-60)));
-  const sitting=ST.sit&&ST.sit.ov==='sit',ra=remAskCard(),timer=U.includes('med')&&!sitting;
-  out.push(todayCard(now),U.includes('count')||counted?progressCard(now):'',sitting?medTimerCard(now):'');
-  const more=[ra,timer?medTimerCard(now):''].filter(Boolean),moreS=[ra?'reminders':'',timer?'the meditation timer':''].filter(Boolean).join(' · ');
-  // Gentle backup reminder (Settings sets how often; "Later" waits 3 days).
+  // A quiet way to a daily reminder, until one is set.
+  if(!pushCfg().rem.length)out.push(`<div class="list">${item('yourem','Set a daily reminder','A gentle nudge at a time you choose',{ico:'bell'})}</div>`);
+  // Gentle backup reminder (You → Backup sets how often; "Later" waits 3 days).
   if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
     <p>Your counts live on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
     <p class="small">${lastBackupText()}</p></div>
     <div class="btns"><button class="btn primary" data-act="sharebackup">${ico('save')} Send a copy</button><button class="btn soft" data-act="bklater">Later</button></div></div>`);
-  if(more.length)out.push(fold('today_more','MORE FOR TODAY',moreS.charAt(0).toUpperCase()+moreS.slice(1),more.join('')));
   return`<div class="page"><div class="col">${out.join('')}</div></div>`;
 }
 
@@ -2749,23 +2708,26 @@ function pageToday(){
 function prRow(p){const pd=getPD(p.id),c=pd.counter||0,pct=Math.floor(c/p.target*100),done=c>=p.target;
   return`<button class="item" data-act="practice" data-id="${p.id}" style="--acc:${p.acc}"><span class="dot"></span><span class="grow"><span class="t">${esc(p.name)}</span>
     <span class="s">${fmt(c)} of ${fmt(p.target)}</span>${done?'':`<span class="minibar" style="display:block"><i style="width:${Math.max(pct,c?1:0)}%"></i></span>`}</span>${done?'<span class="tag ok">Complete</span>':chev}</button>`;}
-function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].includes(ls('esm_tradition'));
-  const ng=all.filter(p=>p.group==='ngondro'),op=all.filter(p=>p.group!=='ngondro'),G=myGroups(),o=mt();
-  const prog=list=>{const n=list.filter(p=>(getPD(p.id).counter||0)>0).length;return n?` · ${n} under way`:'';};
-  return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
-  <button class="bigtile" data-act="start" data-id=""><span class="sphere" aria-hidden="true"></span><span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
-  ${fold('p_together','PRACTISE TOGETHER',G.length?G.filter(g=>!g.closed).map(g=>`${g.name}:${fmt(g.total||0)} of ${fmt(g.target)}`).join(' · '):'A shared count with your sangha or friends',groupsBody(),false,'hl')}
-  ${fold('p_med','MEDITATION',`Timer: ${o.open?'open sitting':o.min+' minutes'} · kinds of meditation · the Three Aa`,medTimerCard(noonOf(new Date())).replace('<p class="h2">MEDITATION TIMER</p>','')
-    +`<p class="h2" style="margin-top:18px">KINDS OF MEDITATION</p>${medKindsRow().replace('<p class="h2">KINDS OF MEDITATION</p>','')}
-    <p class="h2" style="margin-top:18px">OPEN SITTING</p><div class="list"><button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">James Low</span></span>${chev}</button></div>`)}
-  ${fold('p_breath','BREATH','Vajra breathing, the beautiful breath, counting, Nine-Round',`<div class="list">
+const breathList=()=>`<div class="list">
     <button class="item" data-act="vajra"><span class="ico" style="font-family:var(--f-tib);font-size:17px">ཨོཾ</span><span class="grow"><span class="t">Vajra breathing · OM AH HUM</span><span class="s">As taught by Garchen Rinpoche · follows your own breath</span></span>${chev}</button>
     ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
-    ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>`)}
-  ${fold('p_ngondro',other?'NGÖNDRO · TIBETAN PRELIMINARIES':'NGÖNDRO','The four preliminaries'+prog(ng),`<div class="list">${ng.map(prRow).join('')}</div>`)}
-  ${fold('p_other','OTHER PRACTICES',names(op.map(p=>p.name))+prog(op),`<div class="list">${op.map(prRow).join('')}
-    ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>`)}
+    ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>`;
+// Everything you do, in plain sight: your practices, meditation, the breath, and practicing together.
+// People from other traditions get meditation first and Ngöndro last.
+function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].includes(ls('esm_tradition'));
+  const ng=all.filter(p=>p.group==='ngondro'),op=all.filter(p=>p.group!=='ngondro');
+  const count=`<div id="p_list" class="stack">${other?'':`<p class="h2">Ngöndro</p><div class="list">${ng.map(prRow).join('')}</div>`}
+    <p class="h2">${other?'Your practices':'Other practices'}</p><div class="list">${op.map(prRow).join('')}
+      ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
+    ${other?`<p class="h2">Ngöndro · Tibetan preliminaries</p><div class="list">${ng.map(prRow).join('')}</div>`:''}</div>`;
+  const sit=`<div id="p_med" class="stack">${medTimerCard(noonOf(new Date()))}${medKindsRow()}
+    <div class="list"><button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">Open sitting · James Low</span></span>${chev}</button></div></div>
+    <div id="p_breath" class="stack"><p class="h2">Breath</p>${breathList()}</div>`;
+  return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
+  <button class="bigtile" data-act="start" data-id="">${ico('mala')}<span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
+  ${other?sit+count:count+sit}
+  <div id="p_together" class="stack"><p class="h2">Practice together</p><div class="card stack">${groupsBody()}</div></div>
   </div></div>`;}
 
 function ovPractice(){
@@ -2786,9 +2748,9 @@ function ovPractice(){
       ${pushSupported()?item('premfor','Remind me each day',pushCfg().rem.some(r=>r.pr===id)?'Set · change the time or days':'At a time you choose, with words for the day',{ico:'phone',attrs:`data-id="${id}"`}):''}
     </div>
     ${fin&&!done?`<p class="note">At ${fmt(pace)} a day you will finish around ${fmtD(fin)}.</p>`:''}
-    ${pd.lastDate?`<p class="small">Last practised ${fmtD(pd.lastDate)}.</p>`:''}
+    ${pd.lastDate?`<p class="small">Last practiced ${fmtD(pd.lastDate)}.</p>`:''}
     ${isCur?'':`<button class="btn soft wide" data-act="setcur" data-id="${id}">${ico('star')} Show this on Today</button>`}
-    ${ABOUT_PR[id]?`<div class="card"><p class="h2" style="margin:0 0 6px">ABOUT THIS PRACTICE</p><p>${ABOUT_PR[id]}</p></div>`:''}
+    ${ABOUT_PR[id]?`<div class="card"><p class="h2" style="margin:0 0 6px">About this practice</p><p>${ABOUT_PR[id]}</p></div>`:''}
     ${id==='prostr'?`<div class="card" id="prostrnote">${PROSTR_NOTE}</div>`:''}
     ${p.img?`<button class="btn soft wide" data-act="image" data-id="${id}">${ico('image')} ${id==='refuge'||id==='prostr'?'View the refuge tree':'View the image'}</button>`:''}
     <div class="card" id="beadgrid"><p class="small" style="margin-bottom:8px">Each circle is ${fmt(p.cv)}.</p></div>
@@ -2910,7 +2872,7 @@ function versesOf(pr){const out=[];let sec='',lead=[];
     if(text){out.push({...c,sec,before:lead.length?lead:null});lead=[];}
   }
   return out;}
-const TEXT_GROUPS=[['daily','DAILY PRAYERS'],['longlife','LONG-LIFE PRAYERS'],['patrul','PATRUL RINPOCHE · GARAB DORJE'],['sang','SMOKE OFFERINGS'],['other','OTHER TEXTS']];
+const TEXT_GROUPS=[['daily','Daily prayers'],['longlife','Long-life prayers'],['patrul','Patrul Rinpoche · Garab Dorje'],['sang','Smoke offerings'],['other','Other texts']];
 // Prayers we may not copy into the app (no open licence), opened on their own sites. [group, title, sub, url]
 const TEXT_LINKS=[
   ['longlife','Long-life prayer for Garchen Rinpoche','From the Garchen Buddhist Institute (PDF)','https://garchen.net/wp-content/uploads/2020/06/LongLifePrayer-HEGR-SHORT.pdf'],
@@ -2931,7 +2893,7 @@ const PRAYER_ABOUT={sevenline:{t:'The Seven-Line Prayer',p:[
     ['James Low: The healing power of praying (Berlin 1996)','https://simplybeing.co.uk/texts/transcripts/the-healing-power-of-praying-and-doing-padmasambhava-practice-berlin-1996'],
     ['The prayer, with C.R. Lama reciting it (Simply Being)','https://simplybeing.co.uk/texts-and-transcripts/seven-line-prayer-of-padmasambhava/']]}};
 // ═══════════════════════════════════════════════════════════
-// PRACTICE DIARY — tick what you practised each day; each activity has a
+// PRACTICE DIARY — tick what you practiced each day; each activity has a
 // colour, and a day's circle fills with the colours of what was done.
 // esm_activities = [{id,name,color,pr?}] (pr links it to a counter, which ticks it
 // automatically); esm_journal = {'YYYY-MM-DD':{activityId:true|amount}};
@@ -2974,8 +2936,8 @@ function sheetActs(){const A=acts(),have=new Set(A.map(a=>a.id)),sugg=ACT_SUGGES
   return`<div class="grab"></div><h2 class="h1">Your activities</h2>
   <div class="list">${A.map(a=>`<div class="item" style="cursor:default"><span class="dot" style="--acc:${a.color}"></span><span class="grow"><span class="t">${esc(a.name)}</span>${a.pr?'<span class="s">Ticked automatically when you count</span>':''}</span>
     <button class="iconbtn" data-act="actdel" data-v="${a.id}" aria-label="Remove ${esc(a.name)}">${ico('trash')}</button></div>`).join('')||'<p class="small" style="padding:14px">No activities yet.</p>'}</div>
-  ${sugg.length?`<p class="h2" style="margin:0">SUGGESTIONS</p><div class="jchips">${sugg.map(s=>`<button class="jchip" data-act="actadd" data-v="${s.id}" style="--c:${s.color}"><i></i>+ ${esc(s.name)}</button>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">ADD YOUR OWN</p>
+  ${sugg.length?`<p class="h2" style="margin:0">Suggestions</p><div class="jchips">${sugg.map(s=>`<button class="jchip" data-act="actadd" data-v="${s.id}" style="--c:${s.color}"><i></i>+ ${esc(s.name)}</button>`).join('')}</div>`:''}
+  <p class="h2" style="margin:0">Add your own</p>
   <input id="actname" type="text" maxlength="30" placeholder="e.g. Chenrezig, Tara, Walking meditation" aria-label="Name of the activity">
   <div class="swatches" role="radiogroup" aria-label="Colour">${ACT_COLORS.map(c=>`<button class="swatch${c===pick?' on':''}" data-act="actcolor" data-v="${c}" style="--c:${c}" role="radio" aria-checked="${c===pick}" aria-label="Colour ${c}"></button>`).join('')}</div>
   <button class="btn primary wide" data-act="actnew">Add</button>`;}
@@ -2990,32 +2952,67 @@ async function exportCSV(){const f=new File([journalCSV()],`dharma-practice-diar
   const u=URL.createObjectURL(f),a=document.createElement('a');a.href=u;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Spreadsheet saved to your downloads');}
 
 // Folding sections (Gareth: dropdowns so more can be seen, but always show a snippet of what's inside).
-// The heading and a one-line snippet always show; open/closed is remembered per section (esm_fold).
-const names=(arr,n=3)=>arr.slice(0,n).join(', ')+(arr.length>n?` and ${arr.length-n} more`:'');
-function fold(id,title,snippet,body,openDef=false,cls=''){const F=ls('esm_fold',{})||{},open=F[id]??openDef;
-  return`<details class="sect${cls?' '+cls:''}" data-fold="${id}"${open?' open':''}><summary><span class="sect-h"><span class="sect-t">${title}</span><span class="sect-s">${snippet}</span></span><span class="sect-c" aria-hidden="true">${ico('chev')}</span></summary><div class="sect-b">${body}</div></details>`;}
-function pageTexts(){
-  const groups=TEXT_GROUPS.map(([g,label])=>{const ps=PRAYERS.filter(p=>(p.group||'daily')===g),lk=TEXT_LINKS.filter(l=>l[0]===g);return ps.length||lk.length?fold('t_'+g,label,names([...ps.map(p=>p.title),...lk.map(l=>l[1])]),
-    `<div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}${lk.map(l=>linkItem(l[3],esc(l[1]),esc(l[2]))).join('')}</div>${g==='longlife'?'<p class="small" style="margin-top:6px">Prayers marked ↗ open on their own sites. More are on the way.</p>':''}`):'';}).join('');
-  return`<div class="page"><div class="col"><h1 class="h1">Texts</h1><p class="sub">Tap a prayer to chant it, one verse at a time.</p>
-  <button class="card feature" data-act="prayer" data-id="seven_line"><span class="ftib" lang="bo" aria-hidden="true">ཧཱུྃ</span><span class="grow"><b>The Seven-Line Prayer</b><span class="small">The heart prayer to Guru Rinpoche, with James Low on its meaning</span></span>${chev}</button>
-  <p class="h2" style="margin:8px 0 0">PRAYERS</p>
-  ${groups}
-  ${LOCKED.length?fold('t_locked','TEXTS THAT NEED TRANSMISSION',names(LOCKED.map(t=>t.title)),`<div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practised after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`):''}
-  ${fold('t_more','MORE','Listen · practice texts · when someone has passed',`<div class="stack">
-  ${fold('t_listen','LISTEN','Chants and teachings: Vajrasound, C.R. Lama, Lama Lena',`<div class="list">${linkItem('https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with')}
-    ${linkItem('https://simplybeing.co.uk/texts-and-transcripts/seven-line-prayer-of-padmasambhava/','C.R. Lama: the Seven-Line Prayer','Recited three times (1994), with the text · Simply Being')}
-    ${linkItem('https://simplybeing.co.uk/listen-to-rinpoche-2/','Listen to Chhimed Rigdzin Rinpoche','Recordings of C.R. Lama · Simply Being')}
-    ${linkItem('https://simplybeing.co.uk/','James Low · Simply Being','Talks, retreats and texts, free to listen and download')}
-    ${linkItem('https://vajrasound.bandcamp.com/track/sukhavati-aspiration-karma-chagme-rinpoche','Sukhāvatī Aspiration (Karma Chagmé)','Chanted in English · Vajrasound')}
-    ${linkItem('https://youtube.com/lamalenateachings','Lama Lena Teachings','Dzogchen teachings and Q&A, free on YouTube')}</div>`)}
-  ${fold('t_bardo','WHEN SOMEONE HAS PASSED','The 49 days: prayers, and a gentle way to mark the weeks',bardoBody())}
-  ${fold('t_pdf','PRACTICE TEXTS','A printable booklet, and texts from the Palpung library',`<div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
+// LIBRARY: prayers and texts, the pages that explain things, and places to listen. One search covers all of it.
+const LIB_PAGES=[['tree','The refuge tree','Who is who on the Karma Kagyu refuge tree',''],['practices','The practices','Ngöndro, meditation and the breath, in plain words',''],
+  ['cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',''],['fullmoon','The full moon','What it means in each tradition, and what you might do',''],
+  ['care','Caring for Dharma texts','Off the floor, not stepped over, burned when worn out',''],
+  ['lib','When someone has passed','The 49 days: prayers, and a gentle way to mark the weeks','data-v="bardo"'],['lib','Practice texts','A printable booklet, and texts from the Palpung library','data-v="pdf"']];
+const LISTEN=[['https://vajrasound.com/','Vajrasound','Buddhist chants and prayers recited in English, made to chant along with'],
+  ['https://simplybeing.co.uk/texts-and-transcripts/seven-line-prayer-of-padmasambhava/','C.R. Lama: the Seven-Line Prayer','Recited three times (1994), with the text · Simply Being'],
+  ['https://simplybeing.co.uk/listen-to-rinpoche-2/','Listen to Chhimed Rigdzin Rinpoche','Recordings of C.R. Lama · Simply Being'],
+  ['https://simplybeing.co.uk/','James Low · Simply Being','Talks, retreats and texts, free to listen and download'],
+  ['https://vajrasound.bandcamp.com/track/sukhavati-aspiration-karma-chagme-rinpoche','Sukhāvatī Aspiration (Karma Chagmé)','Chanted in English · Vajrasound'],
+  ['https://youtube.com/lamalenateachings','Lama Lena Teachings','Dzogchen teachings and Q&A, free on YouTube']];
+// Search ignores capitals and accents ("ngondro" finds "Ngöndro"). Each letter maps to one letter, so
+// a match found in the folded text sits at the same place in the original.
+const foldText=s=>[...String(s||'')].map(c=>{const n=c.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();return n.length===c.length?n:c;}).join('');
+let libIdx=null;
+function libResults(){const q=foldText((ST.libq||'').trim());if(q.length<2)return'';
+  libIdx=libIdx||PRAYERS.map(p=>({p,head:foldText(p.title+' · '+(p.sub||'')),vs:versesOf(p).map(v=>{const s=[(v.w||[]).map(x=>x[0]).join(' '),v.p,v.e,v.x].filter(Boolean).join(' / ').replace(/\s+/g,' ');return[s,foldText(s)];})}));
+  const out=[];
+  for(const{p,head,vs}of libIdx){if(out.length>=40)break;
+    if(head.includes(q)){out.push(item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`}));continue;}
+    const i=vs.findIndex(v=>v[1].includes(q));if(i<0)continue;
+    const[s,f]=vs[i],at=f.indexOf(q),a=Math.max(0,at-28),z=at+q.length;
+    out.push(item('prayer',esc(p.title),`${a?'…':''}${esc(s.slice(a,at))}<b>${esc(s.slice(at,z))}</b>${esc(s.slice(z,z+60))}${s.length>z+60?'…':''}`,{attrs:`data-id="${p.id}" data-verse="${i}"`}));}
+  LIB_PAGES.filter(l=>foldText(l[1]+' '+l[2]).includes(q)).forEach(l=>out.push(item(l[0],l[1],l[2],{ico:'info',attrs:l[3]})));
+  [...TEXT_LINKS.map(l=>[l[3],l[1],l[2]]),...LISTEN].filter(l=>foldText(l[1]+' '+l[2]).includes(q)).forEach(l=>out.push(linkItem(l[0],esc(l[1]),esc(l[2]))));
+  return out.length?`<div class="list">${out.join('')}</div>`:`<p class="small">Nothing found for “${esc((ST.libq||'').trim())}”. Try fewer letters, or a word from the prayer.</p>`;}
+function pageTexts(){const seg=['prayers','learn','listen'].includes(ST.lib)?ST.lib:'prayers',q=(ST.libq||'').trim().length>=2;
+  const G=TEXT_GROUPS.filter(([g])=>PRAYERS.some(p=>(p.group||'daily')===g)||TEXT_LINKS.some(l=>l[0]===g)),g=G.some(x=>x[0]===ST.libg)?ST.libg:G[0][0];
+  const ps=PRAYERS.filter(p=>(p.group||'daily')===g),lk=TEXT_LINKS.filter(l=>l[0]===g);
+  const body=seg==='prayers'?`<button class="card feature" data-act="prayer" data-id="seven_line"><span class="ftib" lang="bo" aria-hidden="true">ཧཱུྃ</span><span class="grow"><b>The Seven-Line Prayer</b><span class="small">The heart prayer to Guru Rinpoche, with James Low on its meaning</span></span>${chev}</button>
+    <div class="fchips" style="margin:0 calc(-1 * var(--gutter))">${G.map(([k,l])=>`<button class="fchip${k===g?' on':''}" data-act="libg" data-v="${k}" aria-pressed="${k===g}">${l}</button>`).join('')}</div>
+    <div class="list">${ps.map(p=>item('prayer',esc(p.title),esc(p.sub),{attrs:`data-id="${p.id}"`})).join('')}${lk.map(l=>linkItem(l[3],esc(l[1]),esc(l[2]))).join('')}</div>
+    <p class="small">Tap a prayer to chant it, one verse at a time.${g==='longlife'?' Prayers marked ↗ open on their own sites. More are on the way.':''}</p>
+    ${LOCKED.length?`<p class="h2">Texts that need transmission</p><div class="list">${LOCKED.map(t=>item('locked',esc(t.title),esc(t.sub||'Traditionally practiced after receiving the transmission'),{ico:'texts',attrs:`data-id="${t.id}"`})).join('')}</div>`:''}
+    <p class="h2">More</p><div class="list">${item('lib','When someone has passed','The 49 days: prayers, and a gentle way to mark the weeks',{ico:'heart',attrs:'data-v="bardo"'})}
+      ${item('lib','Practice texts','A printable booklet, and texts from the Palpung library',{ico:'texts',attrs:'data-v="pdf"'})}</div>`
+  :seg==='learn'?`<button class="card" data-act="tree" style="padding:0;overflow:hidden;text-align:left"><img src="refuge-tree.jpg" alt="The Karma Kagyu refuge tree thangka" style="display:block;width:100%;height:180px;object-fit:cover;object-position:50% 25%">
+      <span style="display:block;padding:14px 16px"><b style="display:block;font-size:var(--fs-lg)">The refuge tree</b><span class="small">${FIGS.length} figures. Tap any number to read who they are.</span></span></button>
+    <div class="list">
+      ${item('practices','The practices','Ngöndro, meditation and the breath, in plain words',{ico:'practice'})}
+      ${item('cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',{ico:'cal'})}
+      ${item('fullmoon','The full moon','What it means in each tradition, and what you might do',{ico:'cal'})}
+      ${item('care','Caring for Dharma texts','Off the floor, not stepped over, burned when worn out',{ico:'texts'})}</div>`
+  :`<p class="sub">Chants and teachings, free to listen to on their own sites.</p><div class="list">${LISTEN.map(l=>linkItem(l[0],l[1],l[2])).join('')}</div>`;
+  return`<div class="page"><div class="col"><h1 class="h1">Library</h1>
+  <label class="search">${ico('search')}<input id="libq" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="Search prayers and texts" aria-label="Search prayers and texts" value="${esc(ST.libq||'')}">
+    <button class="iconbtn" id="libx" data-act="libclear" aria-label="Clear the search"${q?'':' hidden'}>${ico('close')}</button></label>
+  <div id="libres" class="stack" aria-live="polite">${libResults()}</div>
+  <div id="libbody" class="stack"${q?' hidden':''}>
+    <div class="libseg">${[['prayers','Prayers'],['learn','Learn'],['listen','Listen']].map(([k,l])=>`<button class="${seg===k?'on':''}" data-act="libseg" data-v="${k}" aria-pressed="${seg===k}">${l}</button>`).join('')}</div>
+    ${body}</div>
+  </div></div>`;}
+// Two longer Library pages: the 49 days, and the practice texts.
+function ovLib(){
+  if(ST.arg==='bardo')return`${topbar('When someone has passed')}<div class="ovbody"><div class="col">${bardoBody()}</div></div>`;
+  return`${topbar('Practice texts')}<div class="ovbody"><div class="col">
+  <div class="list"><a class="item" href="./four-thoughts-refuge-prostrations.pdf" target="_blank" rel="noopener"><span class="ico">${ico('texts')}</span><span class="grow"><span class="t">Four Thoughts, Refuge and Prostrations</span>
     <span class="s">A printable A4 booklet. Please receive the reading transmission (lung) from a qualified teacher before using this text. Saved for offline use once opened.</span></span><span class="chev">${ico('link')}</span></a></div>
-  <p class="small" style="margin:12px 0 8px">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
+  <p class="small">From the Palpung Changchub Dargyeling library. Some practices require empowerment.</p>
   <div class="list">${SAD.map(s=>`<div class="item" style="flex-wrap:wrap;cursor:default"><span class="grow"><span class="t">${esc(s.name)}</span><span class="s">${esc(s.sub)}</span></span>
-    <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>`)}
-  </div>`)}
+    <span class="links" style="width:100%">${s.links.map(({l,u})=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('')}</span></div>`).join('')}</div>
   </div></div>`;}
 const wholeOf=pr=>{const o=ls('esm_whole_by',{})||{};return pr.id in o?o[pr.id]:(pr.wholeDefault!==undefined?pr.wholeDefault:ST.whole);};
 function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar('Prayer');
@@ -3033,39 +3030,94 @@ function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar
   <div class="vnav"><button class="btn soft" data-act="vprev" ${i?'':'disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="${last?'closeov':'vnext'}">${last?'Finish':'Next verse'}</button></div>`;}
 
 // ═══════════════════════════════════════════════════════════
-// LEARN
+// YOU — everything about you and the app in one place
 // ═══════════════════════════════════════════════════════════
-function pageLearn(){
-  return`<div class="page"><div class="col"><h1 class="h1">Learn</h1>
-  <button class="card" data-act="tree" style="padding:0;overflow:hidden;text-align:left"><img src="refuge-tree.jpg" alt="The Karma Kagyu refuge tree thangka" style="display:block;width:100%;height:180px;object-fit:cover;object-position:50% 25%">
-    <span style="display:block;padding:14px 16px"><b style="display:block;font-size:var(--fs-lg)">The refuge tree</b><span class="small">${FIGS.length} figures. Tap any number to read who they are.</span></span></button>
-  <p class="h2" style="margin:0">UNDERSTANDING</p><div class="list">
-    ${item('practices','The practices','Ngöndro, meditation and the breath, in plain words',{ico:'practice'})}
-    ${item('cal','The Tibetan calendar','Auspicious days, the moon, and hair cutting',{ico:'cal'})}
-    ${item('fullmoon','The full moon','What it means in each tradition, and what you might do',{ico:'cal'})}
-    ${item('care','Caring for Dharma texts','Off the floor, not stepped over, burned when worn out',{ico:'texts'})}
+function pageYou(){const st=mileStats(),got=Object.keys(ls('esm_milestones',{})||{}).length,c=pushCfg(),T=calTib();
+  const tr=(TRADS.find(t=>t[0]===ls('esm_tradition'))||[,'Not chosen'])[1],cur=findPR(currentId());
+  const rem=c.on?[c.rem.length?`${c.rem.length} reminder${c.rem.length>1?'s':''}`:'',c.bell.on?'mindfulness bell':'',c.moon.on?'full moons':''].filter(Boolean).join(' · ')||'Notifications are on':'A daily nudge, a mindfulness bell, full moons';
+  return`<div class="page"><div class="col"><h1 class="h1">You</h1>
+  <button class="card stats" data-act="youprog" aria-label="Your progress"><span><b>${fmt(st.days)}</b><span class="small">day${st.days===1?'':'s'} practiced</span></span><span><b>${fmt(st.count)}</b><span class="small">counted</span></span><span><b>${got}</b><span class="small">milestone${got===1?'':'s'}</span></span></button>
+  <p class="h2">Your practice</p><div class="list">
+    ${item('youprog','Progress','This month, your totals, and your practice diary',{ico:'chart'})}
+    ${item('miles','Milestones',`${got} of ${MILES.length} reached`,{ico:'award'})}
+    ${item('yourem','Reminders',rem,{ico:'bell'})}
+    ${item('cal','Calendar','Auspicious days, the moon, and your practice days',{ico:'cal'})}
+    ${item('caldays','Which days the calendar shows',calDays().map(k=>CALKINDS.find(x=>x[0]===k)[1]).join(' · ')||'None',{ico:'cal'})}
+    ${T?item('calabout','Skipped and doubled days',calRule()==='after'?'The day after · the first day (as tibetanbuddhistcalendar.org)':'The day before · the second day (as FPMT)',{ico:'cal',attrs:'data-rule="1"'}):''}
+    ${item('setup','Tradition, Today page and goals',`${tr}${cur?` · ${esc(cur.name)} on Today`:''}`,{ico:'gear'})}
   </div>
-  <p class="h2" style="margin:0">GIVING</p><div class="list">
-    ${item('dana','Generosity','Supporting the teachers and centres behind this app',{ico:'heart'})}
+  <p class="h2">Keep it safe</p><div class="list">
+    ${item('youbk','Backup',abOn()?'Automatic backup is on':lastBackupText(),{ico:'shield'})}
   </div>
-  <p class="h2" style="margin:0">THIS APP</p><div class="list">
-    ${item('tour','A tour of the app','Thirteen short steps, page by page',{ico:'info'})}
-    ${item('setup','Set up again','Your tradition, what Today shows, goals',{ico:'gear'})}
+  <p class="h2">Look and sound</p><div class="list">
+    ${item('youlook','Appearance, text size and sounds',`${({light:'Light',dark:'Dark',auto:'Automatic',highc:'High contrast'})[document.documentElement.getAttribute('data-theme')]||'Automatic'} · sounds ${ls('esm_sound',true)?'on':'off'}`,{ico:'look'})}
+  </div>
+  <p class="h2">${BRAND}</p><div class="list">
+    ${item('tour','A tour of the app',`${TOUR.length} short steps, page by page`,{ico:'map'})}
     ${item('about','About this app','Why it exists, and who to thank',{ico:'info'})}
+    ${item('dana','Generosity','Supporting the teachers and centres behind this app',{ico:'heart'})}
+    ${item('shareapp','Share this app with a friend','',{ico:'share'})}
     ${isStandalone()?'':item('install','Add this app to your phone','Opens like any other app, and works offline',{ico:'phone'})}
+    ${item('feedback','Send feedback','Opens your email app. Nothing is sent unless you press send',{ico:'mail'})}
+  </div>
+  <a class="btn link" href="${KOFI}" target="_blank" rel="noopener" style="align-self:center">Support the app on Ko-fi ↗</a>
+  <p class="small" style="text-align:center;margin-top:-10px">${KOFI_SHORT}</p>
+  </div></div>`;}
+function ovProgress(){const now=noonOf(new Date()),ms=medStreak(now),got=Object.keys(ls('esm_milestones',{})||{}).length;
+  return`${topbar('Progress')}<div class="ovbody"><div class="col">${progressCard(now)}
+  ${ms?`<p class="h2">Meditation</p><div class="card">${ms}</div>`:''}
+  <p class="h2">More</p><div class="list">
+    ${item('miles','Milestones',`${got} of ${MILES.length} reached`,{ico:'award'})}
+    ${item('cal','Calendar and practice diary','Tick what you practiced on any day',{ico:'cal'})}
+    ${item('acts','What my diary keeps track of',acts().map(a=>esc(a.name)).join(' · '),{ico:'edit'})}
+    ${item('exportcsv','Save my diary as a spreadsheet','A file you can open in Excel or Google Sheets',{ico:'save'})}
   </div></div></div>`;}
+// Daily practice reminders first; the other kinds of reminder below.
+function ovReminders(){const c=pushCfg(),ok=pushSupported()&&!(isIOS()&&!isStandalone());
+  const wd=d=>d.length===7?'every day':WD_ORDER.filter(w=>d.includes(w)).map(w=>['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][w]).join(' ');
+  return`${topbar('Reminders')}<div class="ovbody"><div class="col">
+  <p class="sub">Gentle ones only. A reminder says “Time for practice”, or your own words, with a line from the quotes.</p>
+  <p class="h2">Daily practice reminders</p>
+  ${c.rem.length?`<div class="list">${c.rem.map(r=>item('push',`${r.t} · ${esc(remTitle(r))}`,`${r.pr&&findPR(r.pr)?esc(findPR(r.pr).name)+' · ':''}${wd(r.d||[])}`,{ico:'bell'})).join('')}</div>
+    ${c.on?'':'<p class="small">These are saved, but notifications are off. Open one and turn notifications on to receive them.</p>'}`:'<p class="small">None yet. Choose a time and the days, and the app will nudge you.</p>'}
+  <button class="btn primary wide" data-act="${c.rem.length?'push':'remdaily'}">${ico(c.rem.length?'edit':'plus')} ${c.rem.length?'Add or change reminders':'Set a daily reminder'}</button>
+  ${ok?'':'<p class="small">This phone or browser can’t show notifications from the app yet (on iPhone, add the app to your Home Screen first). A reminder in your calendar, below, works on every phone.</p>'}
+  <p class="h2">Other reminders</p><div class="list">
+    ${item('push','Notifications from the app',c.on?'Words for today, an evening nudge, a mindfulness bell, full moons':'Off · words for today, an evening nudge, a mindfulness bell, full moons',{ico:'phone'})}
+    ${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}
+    ${calTib()?item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}
+  </div></div></div>`;}
+function ovBackup(){const on=abOn(),safe=on||(!!ls('esm_last_backup',0)&&!backupDue());
+  return`${topbar('Backup')}<div class="ovbody"><div class="col">
+  <div class="card safe"><i class="${safe?'':'due'}"></i><div><b>${on?'A locked copy is kept online':'Your practice lives on this phone'}</b>
+    <p class="small">${on?abStatus(abCfg())+' ':'Keep a copy somewhere else so you never lose it. '}${lastBackupText()}</p></div></div>
+  <p class="h2">Send yourself a copy</p>
+  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>${backupHint()}
+  <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
+  ${abSettings()}
+  <p class="h2">Remind me to send a copy</p>
+  <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
+  </div></div>`;}
+function ovLook(){const cur=document.documentElement.getAttribute('data-theme')||'auto',scale=ls('esm_size',1);
+  return`${topbar('Look and sound')}<div class="ovbody"><div class="col">
+  <p class="h2">Appearance</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['light','Light'],['dark','Dark'],['auto','Automatic'],['highc','High contrast']].map(([k,l])=>`<button class="opt${cur===k?' on':''}" data-act="theme" data-v="${k}" aria-pressed="${cur===k}">${l}</button>`).join('')}</div>
+  <p class="small">Automatic follows your phone’s light or dark setting.</p>
+  <p class="h2">Text size</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
+  <p class="h2">Sounds</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
+  <p class="small">Bells and chimes inside the app. The meditation timer has its own bell choice.</p>
+  </div></div>`;}
 function ovCare(){return`${topbar('Caring for Dharma texts')}<div class="ovbody"><div class="col prose">
   <p>Traditionally, Dharma texts are treated with respect, because they show the path to freedom. Lama Zopa Rinpoche advises keeping them, printed or on a phone, off the floor and off places where people sit or walk; not stepping over them or putting other things on top of them; and when a printed text is worn out, burning it rather than putting it in the bin.</p>
     <a class="linkbtn" href="https://fpmt.org/edu-news/caring-for-dharma-materials-in-the-digital-age/" target="_blank" rel="noopener" style="margin-top:8px">FPMT: Caring for Dharma materials ↗</a></div></div>`;}
 function ovPractices(){return`${topbar('The practices')}<div class="ovbody"><div class="col">
-  <p class="h2" style="margin:0">NGÖNDRO</p>
+  <p class="h2" style="margin:0">Ngöndro</p>
   <p class="sub">The four special preliminaries (ngöndro) prepare the mind for deeper practice. Each is traditionally done 111,111 times.</p>
   ${allPR().filter(p=>ABOUT_PR[p.id]).map(p=>`<div class="card" style="--acc:${p.acc}"><div class="row" style="margin-bottom:6px"><span class="dot"></span><b style="font-size:var(--fs-lg)">${esc(p.name)}</b></div>
     <p>${ABOUT_PR[p.id]}</p>${p.id==='prostr'?`<div style="margin-top:10px">${PROSTR_NOTE}</div>`:''}${mantraOf(p)?`<p class="mantra" style="margin-top:8px">${mantraHTML(mantraOf(p))}</p>`:''}</div>`).join('')}
-  <p class="h2" style="margin-top:12px">MEDITATION</p>
+  <p class="h2" style="margin-top:12px">Meditation</p>
   <div class="list">${MED_KINDS.map(k=>item('medkind',k.name,k.short,{attrs:`data-v="${k.id}"`})).join('')}
     ${item('threeaa','The Three Aa','Open sitting, as taught by James Low and Namkhai Norbu',{ico:'sun'})}</div>
-  <p class="h2" style="margin-top:12px">BREATH</p>
+  <p class="h2" style="margin-top:12px">Breath</p>
   <div class="list">${item('vajra','Vajra breathing · OM AH HUM','As taught by Garchen Rinpoche: follows your own breath',{ico:'breath'})}
     ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
@@ -3077,34 +3129,34 @@ function ovAbout(){const L=(l,u,m)=>`<a class="linkbtn" href="${u}" target="_bla
   <p>This is an unofficial companion app. I built it from my own practice notes, and shaped it with a lot of generous feedback from the sangha, to keep the words and the flow as faithful as I could. It isn’t an official text, and it isn’t affiliated with or endorsed by Palpung Changchub Dargyeling or any Buddhist organisation.</p>
   <p>I’m dyslexic and have some other learning difficulties, and the traditional pecha layout can be genuinely hard to follow. Making this has been my way of lowering that barrier: cutting through to the heart of the practice, so I can spend less energy fighting the format and more on the practice itself.</p>
   <p>That’s what ${BRAND} means to me: slicing away what gets in the way, to reach the core of the teachings. If it helps you do the same, may it be of benefit.</p>
-  <p class="h2">PALPUNG CHANGCHUB DARGYELING</p>
+  <p class="h2">Palpung Changchub Dargyeling</p>
   <p>A Karma Kagyu Buddhist centre in Wales, under the guidance of His Eminence Kenting Tai Situpa Rinpoche and resident teacher Lama Rabsang. They offer teachings, retreats and an extensive library of free practice texts. Prayer texts in this app are reproduced from their Prayer Book for personal practice. Please support them.</p>
   <div class="links">${L('Website','https://www.palpung.org.uk/')}${L('Free texts','https://www.palpung.org.uk/resources')}${L('Upcoming events','https://www.palpung.org.uk/upcoming')}${L('Donate','https://www.palpung.org.uk/donate')}</div>
-  <p class="h2" style="margin-top:18px">YOUR PRIVACY</p>
-  <p>Your practice, counts and diary stay on this phone, unless you turn on automatic backup. That keeps a locked copy online, which only your backup code can open. There are no accounts, adverts or cookies. To see whether the app is being used, we count visits with Cloudflare Web Analytics, which records the page, rough country and type of device, never who you are or what you practise. If you turn on notifications, our server keeps only this phone’s notification address, its time zone and the times you chose, so it can send them; turning notifications off deletes that.</p>
-  <p class="h2" style="margin-top:18px">WITH GRATITUDE</p>
+  <p class="h2" style="margin-top:18px">Your privacy</p>
+  <p>Your practice, counts and diary stay on this phone, unless you turn on automatic backup. That keeps a locked copy online, which only your backup code can open. There are no accounts, adverts or cookies. To see whether the app is being used, we count visits with Cloudflare Web Analytics, which records the page, rough country and type of device, never who you are or what you practice. If you turn on notifications, our server keeps only this phone’s notification address, its time zone and the times you chose, so it can send them; turning notifications off deletes that.</p>
+  <p class="h2" style="margin-top:18px">With gratitude</p>
   <p>The practice counter was inspired by the sangha of East Side Mandala, Lublin, Poland, and jwaga's original Android app. May they swiftly attain enlightenment for the benefit of all beings.</p>
   <div class="links">${L('East Side Mandala','https://lublin.buddyzm.pl/')}${L('Original app on GitHub','https://github.com/jwaga/esmnyndrovnik')}</div>
-  <p class="h2" style="margin-top:18px">THE CALENDAR</p>
+  <p class="h2" style="margin-top:18px">The calendar</p>
   <p>Tibetan dates use the Phugpa system, computed with Svante Janson’s calendar mathematics (as in the open-source tibetan-date-calculator). Hair-cutting days follow tibetanbuddhistcalendar.org (Edward Henning’s Kālacakra calendar). The moon is calculated astronomically. With gratitude to their authors.</p>
   <div class="links">${L('Janson: Tibetan calendar mathematics','https://www2.math.uu.se/~svantejs/papers/calendars/tibet.pdf')}${L('tibetan-date-calculator','https://github.com/eszthoff/tibetan-date-calculator')}${L('Tibetan Buddhist calendar','https://tibetanbuddhistcalendar.org/day')}</div>
-  <p class="h2" style="margin-top:18px">TEXTS AND TRANSLATIONS</p>
+  <p class="h2" style="margin-top:18px">Texts and translations</p>
   <p>The Thirty-Seven Practices of Bodhisattvas by Gyalsé Tokmé Zangpo, translated by Adam Pearcey (2006), is used from Lotsawa House under a Creative Commons Attribution-NonCommercial 4.0 licence. The smoke offerings (Mipham Rinpoche’s Brief Sang Offering, tr. Adam Pearcey; the Riwo Sangchö, Rigpa Translations) and most quotations from the masters of India and Tibet also come from Lotsawa House under the same licence. Their translators are Adam Pearcey, Rigpa Translations, Constance Wilkinson, Lama Chönam and Timothy Hinkle (Light of Berotsana), Sean Price, Yeshi Chötso, Abraham Ta-Quan and Sean Ross. A few sayings whose origin is unknown are credited as such. Older quotations from Śāntideva are from L. D. Barnett’s translation, The Path of Light (1909); from the Dhammapada, F. Max Müller’s translation (1881); and the Buddha’s last words, T. W. Rhys Davids (1881).</p>
   <div class="links">${L('Lotsawa House','https://www.lotsawahouse.org/')}${L('CC BY-NC 4.0','https://creativecommons.org/licenses/by-nc/4.0/')}</div>
-  <p class="h2" style="margin-top:18px">SOUNDS</p>
+  <p class="h2" style="margin-top:18px">Sounds</p>
   <p class="small">Recordings from Wikimedia Commons: Tibetan singing bowls (11" and 4.5") by דג בלי מלח, CC BY-SA 4.0; Japanese rin by MichaelMaggs, CC BY-SA 4.0; temple bell (bonshō) by Jnn, CC BY 2.1 JP; gong by stephan, CC0. Trimmed and levelled for the app.</p>
-  <p class="h2" style="margin-top:18px">FONTS</p>
+  <p class="h2" style="margin-top:18px">Fonts</p>
   <p class="small">The seed syllables are set in Jomolhari by Christopher J. Fynn, under the SIL Open Font License.</p>
-  <p class="h2" style="margin-top:18px">NINE-ROUND BREATHING</p>
+  <p class="h2" style="margin-top:18px">Nine-Round breathing</p>
   <p>As taught in the Dzogchen Community of Chögyal Namkhai Norbu, with gratitude to James Low and the Simply Being sangha.</p>
-  <p class="h2" style="margin-top:18px">MEDITATION GUIDES</p>
+  <p class="h2" style="margin-top:18px">Meditation guides</p>
   <p>These guides are written in plain words for this app from the teachers’ own instructions. They are reminders, not replacements for a teacher.</p>
   <p><b>The Three Aa</b> follows James Low’s instructions (Simply Being, “The Happy Twins” retreat, 2019), in the Dzogchen tradition of Garab Dorje, also taught widely by Chögyal Namkhai Norbu. <b>Vajra breathing</b> follows the OM AH HUM vajra recitation as taught by His Eminence Garchen Rinpoche. <b>The beautiful breath</b> follows Ajahn Brahm’s The Basic Method of Meditation (Buddhist Society of Western Australia).</p>
   <div class="links">${L('James Low · Simply Being','https://simplybeing.co.uk/')}${L('Garchen Buddhist Institute','https://garchen.net/')}${L('Ajahn Brahm · BSWA','https://bswa.org/teaching/basic-method-meditation-ajahn-brahm/')}</div>
-  <p class="h2" style="margin-top:18px">SUPPORT</p>
+  <p class="h2" style="margin-top:18px">Support</p>
   <p>${KOFI_WHY}</p>
   <div class="links"><button class="linkbtn" data-act="dana">Generosity: teachers and centres</button>${L('Support on Ko-fi',KOFI)}</div>
-  <p class="h2" style="margin-top:18px">FEEDBACK</p>
+  <p class="h2" style="margin-top:18px">Feedback</p>
   <p>Something not working, or an idea? I’d love to hear it.</p>
   ${feedbackBlock()}
   <p style="font-family:var(--f-display);font-size:var(--fs-lg);margin-top:18px">Sarwa mangalam.</p></div></div>`;}
@@ -3318,16 +3370,17 @@ function ovCal(){const T=calTib();
     ${ST.calOff?`<button class="btn link" data-act="caltoday" style="align-self:center">Back to this month</button>`:''}
     <div class="cal gcal" data-swl="calnext" data-swr="calprev">${'MTWTFSS'.split('').map(x=>`<div class="dow">${x}</div>`).join('')}
       ${cells.map(x=>{if(!x)return'<div class="cday blank"></div>';const k=dayKey(x),sp=(T?observedAusp(x).length:0)+otherDays(x).filter(o=>o.major).length,ev=T?eventsOn(x):[],fe=ev.some(e=>e.kind==='fest'),mm=moonMark(x),ring=dayRing(k),rm=reminders().some(r=>r.date===k);
-        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}${T?`, Tibetan day ${tibDay(x)}`:''}${sp?', a practice day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practised':''}">
+        return`<button class="cday${sp?' sp':''}${fe?' fe':''}${ev.length&&!fe?' an':''}${rm?' rm':''}${k===todayK?' today':''}" data-act="day" data-d="${k}" aria-label="${x.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}${T?`, Tibetan day ${tibDay(x)}`:''}${sp?', a practice day':''}${ev.length?`, ${ev.length} festival or anniversary`:''}${ring?', practiced':''}">
           <b>${x.getDate()}</b><span>${T?tibDay(x):''}${mm?`<span class="cm">${moonSVG(mm==='○'?SYN/2:0,11)}</span>`:''}</span>${ring?`<i style="${ring}"></i>`:''}</button>`;}).join('')}</div>
     <div class="calkey" aria-label="Key">${T?'<span><b>12</b>Tibetan day</span>':''}<span><i class="k-sp"></i>${T?'Auspicious day':'Practice day'}</span>${T?'<span><em>★</em>Festival</span><span><i class="k-an"></i>Anniversary</span>':''}
-      <span>${moonSVG(SYN/2,13)}Full moon</span><span>${moonSVG(0,13)}New moon</span><span><i class="k-rm"></i>Your reminder</span><span><i class="k-ring"></i>Practised</span></div>
-    <p class="h2">${cur?'COMING UP':'THIS MONTH'}</p>
+      <span>${moonSVG(SYN/2,13)}Full moon</span><span>${moonSVG(0,13)}New moon</span><span><i class="k-rm"></i>Your reminder</span><span><i class="k-ring"></i>Practiced</span></div>
+    ${T&&cur?(()=>{const hr=hairRec(tibDate(noonOf(new Date())).day);return`<div class="card"><span class="small">Hair cutting today · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">· ${esc(hr.result.toLowerCase())}</span></div></div>`;})():''}
+    <p class="h2">${cur?'Coming up':'This month'}</p>
     <div class="card legend">${top.map(li).join('')||`<p class="small">${cur?'Nothing more this month.':'Nothing special this month.'}</p>`}
       ${list.length>top.length?`<details class="calmore"><summary><span>All ${list.length} days in ${first.toLocaleDateString('en-GB',{month:'long'})}</span>${ico('chev')}</summary><div class="legend">${list.map(li).join('')}</div></details>`:''}</div>
-    <p class="h2">YOUR PRACTICE DIARY</p>
+    <p class="h2">Your practice diary</p>
     <div class="card legend">${A.map(a=>`<div><span class="dot" style="--acc:${a.color}"></span><span class="grow">${esc(a.name)}</span><b>${counts[a.id]||0} day${counts[a.id]===1?'':'s'}</b></div>`).join('')}</div>
-    <p class="small">Tap a day to tick what you practised. Counts you add to a practice tick it automatically.</p>
+    <p class="small">Tap a day to tick what you practiced. Counts you add to a practice tick it automatically.</p>
     <div class="btns even"><button class="btn soft" data-act="acts">${ico('edit')} Activities</button><button class="btn soft" data-act="exportcsv">${ico('save')} Spreadsheet</button></div>
     <div class="list">${item('caldays','Which days to show',calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(' · ')||'None',{ico:'cal'})}
       ${T?`${item('feed','Auspicious days in your calendar','Subscribe once in your phone’s calendar',{ico:'cal'})}
@@ -3367,7 +3420,7 @@ function sheetDay(){const T=calTib(),k=ST.sarg,d=noonOf(new Date(k+'T12:00')),t=
   ${ann.length?`<div class="card"><p class="small" style="margin-bottom:6px">Anniversaries</p><div class="list plain">${ann.map(a=>a.u?`<a class="item" href="${a.u}" target="_blank" rel="noopener"><span class="grow"><span class="t">${esc(a.name)}</span>${a.sk?'<span class="s">Kept today: its day is skipped</span>':''}${a.note?`<span class="s">${esc(a.note)}</span>`:''}</span><span class="chev">${ico('link')}</span></a>`:`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(a.name)}</span></span></div>`).join('')}</div>
     <p class="small" style="margin-top:6px">From tibetanbuddhistcalendar.org’s list of anniversaries and birthdays.</p></div>`:''}
   ${T?`<div class="card"><span class="small">Hair cutting · Tibetan astrology</span><div><b class="${hr.rec.toLowerCase()}">${hr.rec}</b> <span class="small">${esc(hr.result.toLowerCase())}</span></div></div>`:''}
-  ${fut?'':`<p class="h2" style="margin:0">WHAT YOU PRACTISED</p>${jChips(k)}`}
+  ${fut?'':`<p class="h2" style="margin:0">What you practiced</p>${jChips(k)}`}
   ${k>=dayKey()?`<button class="btn primary wide" data-act="remind" data-d="${k}">${ico('cal')} Remind me · invite a friend</button>`:''}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 
@@ -3423,7 +3476,7 @@ function synthSoftBowl(vol=.5,f=196){if(!ls('esm_sound',true))return;try{audioCt
   [[1,.5],[2.76,.22],[5.4,.08],[8.9,.03]].forEach(([r,a])=>[-.7,.7].forEach(dt=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f*r+dt*r;
     o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a*vol*.5,t+.12);g.gain.exponentialRampToValueAtTime(.0005,t+(r>3?3.5:8));o.start(t);o.stop(t+8.5);}));}catch{}}
 // ── Cues for eyes-closed practice: soft tones (synthesised) or the phone's own voice ──
-// Tones: in rises, out falls, hold is a single soft note, change is two notes. Off with Settings > Sounds.
+// Tones: in rises, out falls, hold is a single soft note, change is two notes. Off with You → Look and sound.
 // Breath cues: recorded bowls and the rin, softly; only the tiny counting tick stays synthesised.
 const TONE_SND={in:['bowlsmall',.35],out:['bowl',.3],hold:['rin',.18],change:['rin',.35],ten:['bowlsmall',.45]};
 function tone(kind){const t=TONE_SND[kind];if(t){playSnd(t[0],t[1],()=>synthTone(kind));return;}synthTone(kind);}
@@ -3544,7 +3597,6 @@ async function aaListen(){if(aaMic)return;try{const stream=await navigator.media
       M.raf=requestAnimationFrame(step);};M.raf=requestAnimationFrame(step);
   }catch(e){lsSet('esm_aa_mic',false);toast('The microphone isn’t available, so tap when the sound has finished.');render();}}
 function aaStop(){if(!aaMic)return;cancelAnimationFrame(aaMic.raf);aaMic.stream.getTracks().forEach(t=>t.stop());aaMic=null;}
-function aaHeardEnd(){}   // the guided run keeps its own time; the voice only brightens the light
 // ── Vajra breathing (OM AH HUM): hold while breathing in and resting, let go to breathe out ──
 let vjAhT=null,vjDownAt=0;
 function vjReset(){clearTimeout(vjAhT);if(ST.vj)ST.vj.phase='';}
@@ -3581,7 +3633,7 @@ function ovBrahm(){const i=ST.bb,s=BRAHM[i],last=i===BRAHM.length-1;
     <h2 class="h1" style="font-size:var(--fs-xl)">${s.t}</h2><p style="font-size:var(--fs-lg)">${s.d}</p>
     <details><summary>When to move on</summary><p class="note" style="margin-top:8px">${s.sign}</p></details>
     ${sitBox([10,20,30,45])}
-    <p class="h2">ALL STAGES</p>
+    <p class="h2">All stages</p>
     <div class="list">${BRAHM.map((b,k)=>item('bbgo',`${k+1}. ${b.t}`,'',{attrs:`data-v="${k}"`,right:k===i?'<span class="tag ok">Now</span>':''})).join('')}</div>
   </div></div>
   <div class="vnav"><button class="btn soft" data-act="bbprev" ${i?'':'disabled style="opacity:.4"'}>Earlier stage</button><button class="btn primary" data-act="${last?'medfinish':'bbnext'}">${last?'Finish':'Next stage'}</button></div>`;}
@@ -3606,31 +3658,6 @@ function sheetNR(){return`<div class="grab"></div><h2 class="h1">Nine-Round Brea
 // ═══════════════════════════════════════════════════════════
 // SHEETS
 // ═══════════════════════════════════════════════════════════
-function sheetSettings(){const cur=document.documentElement.getAttribute('data-theme')||'auto',scale=ls('esm_size',1);
-  const others=[['temple','Temple'],['night','Night'],['earth','Earth'],['neuro','Focus'],['slate','Slate'],['highc','High contrast'],['neon','Neon']];
-  const open=ST.moreThemes||others.some(([k])=>k===cur);
-  return`<div class="grab"></div><h2 class="h1">Settings</h2>
-  <p class="h2" style="margin:0">BACKUP AND RESTORE</p>
-  <p class="small">Your counts and practice diary are kept on this phone${abOn()?', plus a locked online copy':''}. ${lastBackupText()}</p>
-  <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy to myself</button>${backupHint()}
-  <button class="btn soft wide" data-act="restore">${ico('restore')} Restore my practice from a copy</button>
-  ${abSettings()}
-  <p class="small" style="margin:0">Remind me to send a copy</p>
-  <div class="seg" style="grid-template-columns:repeat(4,1fr)">${[[7,'Weekly'],[14,'2 weeks'],[30,'Monthly'],[0,'Never']].map(([v,l])=>`<button class="opt${ls('esm_backup_every',14)===v?' on':''}" data-act="bkevery" data-v="${v}" style="font-size:15px">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">YOUR PRACTICE</p><div class="list">${item('setup','Set up again: tradition, Today page, goals',(TRADS.find(t=>t[0]===ls('esm_tradition'))||[,'Not chosen'])[1]+' · '+uses().length+' of 4 on Today',{ico:'practice'})}</div>
-  <p class="h2" style="margin:0">APPEARANCE</p><div class="seg">${[['light','Light'],['dark','Dark'],['auto','Automatic']].map(([k,l])=>`<button class="opt${cur===k?' on':''}" data-act="theme" data-v="${k}">${l}</button>`).join('')}</div>
-  <button class="item" data-act="morethemes" style="border:1px solid var(--line);border-radius:var(--r)"><span class="grow"><span class="t">More colour themes</span><span class="s">${others.map(o=>o[1]).join(', ')}</span></span><span class="chev" style="transform:rotate(${open?90:0}deg)">${ico('chev')}</span></button>
-  ${open?`<div class="themes">${others.map(([k,l])=>`<button class="theme-card${cur===k?' on':''}" data-theme="${k}" data-act="theme" data-v="${k}"><b>${l}</b><span class="sw"><i></i><i></i><i></i></span></button>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">TEXT SIZE</p><div class="seg">${[[1,'A','Normal'],[1.18,'A+','Large'],[1.38,'A++','Larger']].map(([v,l,n])=>`<button class="opt${Math.abs(scale-v)<.05?' on':''}" data-act="size" data-v="${v}" aria-label="${n}" style="font-size:${Math.round(16*v)}px">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">SOUNDS</p><div class="seg" style="grid-template-columns:1fr 1fr">${[['1','On'],['0','Off']].map(([v,l])=>`<button class="opt${(ls('esm_sound',true)?'1':'0')===v?' on':''}" data-act="sound" data-v="${v}">${l}</button>`).join('')}</div>
-  <p class="h2" style="margin:0">CALENDAR</p><div class="list">${item('caldays','Which days to show',calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(' · ')||'None',{ico:'cal'})}${calTib()?item('calabout','Skipped and doubled days',calRule()==='after'?'The day after · the first day (as tibetanbuddhistcalendar.org)':'The day before · the second day (as FPMT)',{ico:'cal'}):''}</div>
-  <p class="h2" style="margin:0">REMINDERS</p><div class="list">${item('push','Notifications from the app',pushCfg().on?`On${pushCfg().rem.length?` · ${pushCfg().rem.length} reminder${pushCfg().rem.length>1?'s':''}`:''}${pushCfg().bell.on?' · mindfulness bell':''}${pushCfg().moon.on?' · full moons':''}`:'Words for today, reminders, a mindfulness bell, full moons',{ico:'phone'})}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}${calTib()?item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
-  <button class="btn soft wide" data-act="shareapp">${ico('share')} Share this app with a friend</button>
-  <a class="btn link" href="${KOFI}" target="_blank" rel="noopener" style="align-self:center">Support the app on Ko-fi ↗</a>
-  <p class="small" style="text-align:center;margin-top:-10px">${KOFI_SHORT}</p>
-  ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add this app to your phone</button>`}
-  ${feedbackBlock()}
-  <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The welcome: a pop-up at most once a day (esm_welcome_day), until "Don't show this again" (esm_seen).
 function sheetWelcome(){return`<div class="grab"></div><h2 class="h1">Welcome to ${APP_NAME}</h2>
   <p>An unofficial companion for Ngöndro and daily practice, made to lower the barrier and cut through to the heart of the teachings.</p>
@@ -3671,32 +3698,32 @@ async function pushOn(){
 async function pushOff(){try{const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();
   if(sub){await fetch('/api/unsubscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint})}).catch(()=>{});await sub.unsubscribe();}}catch{}
   lsSet('esm_push',{...pushCfg(),on:false});toast('Notifications are off');render();}
-// "Practised today", once a day, so the evening nudge knows to stay quiet.
+// "Practiced today", once a day, so the evening nudge knows to stay quiet.
 function pushDone(){const c=pushCfg(),k=dayKey();if(!c.on||!c.nudge||ls('esm_push_done')===k||!pushSupported())return;lsSet('esm_push_done',k);
   navigator.serviceWorker.ready.then(r=>r.pushManager.getSubscription()).then(sub=>sub&&fetch('/api/done',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint,date:k})})).catch(()=>{});}
 function sheetPush(){const c=pushCfg(),ios=isIOS();
   if(!pushSupported()||(ios&&!isStandalone()))return`<div class="grab"></div><h2 class="h1">Notifications</h2>
     ${ios&&!isStandalone()?'<p>On iPhone and iPad, notifications work once the app is on your Home Screen (iOS 16.4 or later). Add it to your Home Screen, open it from there, and come back here.</p>':'<p>This browser can’t show notifications from a web app. Try Chrome, Edge or Firefox, or add the app to your phone.</p>'}
     ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
-    <p class="small">A reminder in your own calendar works on every phone: Settings → A reminder in my calendar.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;
+    <p class="small">A reminder in your own calendar works on every phone: You → Reminders → A reminder in my calendar.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;
   const row=(k,label,sub,tk)=>`<div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pushtoggle" data-v="${k}" style="text-align:left" role="switch" aria-checked="${c[k]}"><span class="t">${label}</span><span class="s">${sub}</span></button><span class="tag${c[k]?' ok':''}">${c[k]?'On':'Off'}</span>${c[k]?`<input id="${tk}" type="time" value="${c[tk]}" aria-label="Time for ${label}">`:''}</div>`;
   const days=(d,act,i)=>`<div class="wdays">${WD_ORDER.map(w=>`<button class="wday${d.includes(w)?' on':''}" data-act="${act}" data-v="${i}" data-w="${w}" aria-pressed="${d.includes(w)}" aria-label="${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][w]}">${WD[w]}</button>`).join('')}</div>`;
   const B=c.bell,M=c.moon;
   return`<div class="grab"></div><h2 class="h1">Notifications from the app</h2>
-  <div class="list">${row('quote','Words for today','A different quote each morning','quoteTime')}${row('nudge','An evening nudge','Only on days you haven’t practised, with a word of encouragement','nudgeTime')}</div>
-  <p class="h2" style="margin:0">REMINDERS</p>
+  <div class="list">${row('quote','Words for today','A different quote each morning','quoteTime')}${row('nudge','An evening nudge','Only on days you haven’t practiced, with a word of encouragement','nudgeTime')}</div>
+  <p class="h2" style="margin:0">Reminders</p>
   ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${r.t}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="Time for practice" aria-label="What it’s for"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>
     <label class="small">Practice <select data-pf="rem.${i}.pr"><option value="">Any practice</option>${allPR().map(p=>`<option value="${esc(p.id)}"${r.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>${days(r.d,'premday',i)}</div>`).join('')}
   <p class="small">Each reminder comes with a few words from the quotes. Tapping it opens the practice. Reminders can arrive a few minutes late, because they’re sent in small batches from a free server.</p>
   <button class="btn soft wide" data-act="premadd">${ico('plus')} Add a reminder</button>
-  <p class="h2" style="margin:0">MINDFULNESS BELL</p>
+  <p class="h2" style="margin:0">Mindfulness bell</p>
   <div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pbelltog" style="text-align:left" role="switch" aria-checked="${B.on}"><span class="t">A bell through the day</span><span class="s">A moment to pause and come back to the breath</span></button><span class="tag${B.on?' ok':''}">${B.on?'On':'Off'}</span></div>
   ${B.on?`<div class="card stack"><label class="small">Every <select data-pf="bell.every">${[[15,'15 minutes'],[30,'30 minutes'],[45,'45 minutes'],[60,'hour, on the hour'],[90,'90 minutes'],[120,'2 hours'],[180,'3 hours']].map(([v,l])=>`<option value="${v}"${B.every==v?' selected':''}>${l}</option>`).join('')}</select></label>
     <div class="btns even"><label class="small">From <input data-pf="bell.from" type="time" value="${B.from}"></label><label class="small">Until <input data-pf="bell.to" type="time" value="${B.to}"></label></div>
     ${days(B.d,'pbellday',0)}
     <label class="small">Sound when the app is open <select data-pf="bell.sound">${Object.entries(BELLS).map(([k,l])=>`<option value="${k}"${B.sound===k?' selected':''}>${l}</option>`).join('')}</select></label>
     <p class="small">When the app is closed, your phone plays its own notification sound.</p></div>`:''}
-  <p class="h2" style="margin:0">FULL MOON</p>
+  <p class="h2" style="margin:0">Full moon</p>
   <div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pmoontog" style="text-align:left" role="switch" aria-checked="${M.on}"><span class="t">On the day of each full moon</span><span class="s">A reminder that it’s a day for practice</span></button><span class="tag${M.on?' ok':''}">${M.on?'On':'Off'}</span>${M.on?`<input data-pf="moon.time" type="time" value="${M.time}" aria-label="Time for the full-moon reminder">`:''}</div>
   ${c.on?`<button class="btn primary wide" data-act="pushsave">Save</button><button class="btn soft wide" data-act="pushoff">Turn notifications off</button>`
     :`<button class="btn primary wide" data-act="pushon">Turn on notifications</button>`}
@@ -3708,7 +3735,7 @@ function pushReadForm(){const c=pushCfg();document.querySelectorAll('[data-pf]')
   const q=val('quoteTime'),n=val('nudgeTime');if(q)c.quoteTime=q;if(n)c.nudgeTime=n;lsSet('esm_push',c);return c;}
 // ── First-run setup (Phase 3): welcome → tradition → what to use → a goal → reminders. Every step can be
 // skipped. Saves esm_tradition, esm_uses (what Today shows), esm_caldays (via the tradition's default);
-// finishing sets esm_seen, so the daily welcome stops. Settings → "Your tradition and Today page" reopens it.
+// finishing sets esm_seen, so the daily welcome stops. You → "Tradition, Today page and goals" reopens it.
 const TRADS=[['tibetan','Tibetan Buddhism','Kagyu, Nyingma, Sakya, Gelug, Jonang…'],['theravada','Theravāda','Thai Forest, Burmese, Sri Lankan, insight meditation…'],
   ['zen','Zen / Chan','Sōtō, Rinzai, Chan, Seon, Thiền…'],['pureland','Pure Land','Jōdo Shū, Jōdo Shinshū, Chinese Pure Land…'],['other','Another, or several',''],['none','None, or just exploring','']];
 const USES=[['words','Words for today','A quote each day, from many teachers'],['cal','The calendar','Practice days, festivals and the moon'],
@@ -3728,11 +3755,11 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
     <button class="btn soft wide" data-act="restore">${ico('restore')} Moving from another phone? Restore your practice</button>
     ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
     <button class="btn link" data-act="closesheet" style="align-self:center">Not now, just look around</button>`;
-  if(S.step===1)return`<div class="grab"></div>${dots}<h2 class="h1">Your tradition</h2><p class="small">This only changes what is shown first: the calendar days, the suggested practices. Everything stays open to you, and you can change it in Settings.</p>
+  if(S.step===1)return`<div class="grab"></div>${dots}<h2 class="h1">Your tradition</h2><p class="small">This only changes what is shown first: the calendar days, the suggested practices. Everything stays open to you, and you can change it later under You.</p>
     <div class="list">${TRADS.map(([k,t,sub])=>`<button class="item" data-act="sutrad" data-v="${k}" role="radio" aria-checked="${tr===k}"><span class="grow"><span class="t">${t}</span>${sub?`<span class="s">${sub}</span>`:''}</span>${tr===k?'<span class="tag ok">Chosen</span>':chev}</button>`).join('')}</div>${skip}`;
   if(S.step===2)return`<div class="grab"></div>${dots}<h2 class="h1">What would you like to use?</h2><p class="small">Choose any. This sets what shows on Today; everything is still on the other pages.</p>
     <div class="list">${USES.map(([k,t,sub])=>`<button class="item" data-act="suuse" data-v="${k}" role="checkbox" aria-checked="${U.includes(k)}"><span class="grow"><span class="t">${t}</span><span class="s">${sub}</span></span><span class="tag${U.includes(k)?' ok':''}">${U.includes(k)?'Yes':'No'}</span></button>`).join('')}</div>
-    ${U.includes('cal')?`<p class="small">The calendar will show: ${calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(', ')}. You can add others in Settings.</p>`:''}
+    ${U.includes('cal')?`<p class="small">The calendar will show: ${calDays().map(k=>CALKINDS.find(c=>c[0]===k)[1]).join(', ')}. You can add others later under You.</p>`:''}
     <button class="btn primary wide" data-act="sunext">Next</button>`;
   if(S.step===3){const G=goalList(),gs=S.goals||(S.goals=[]),on=v=>gs.includes(v),tag=v=>on(v)?'<span class="tag ok">Chosen</span>':'<span class="tag">Choose</span>';
     return`<div class="grab"></div>${dots}<h2 class="h1">Goals? (optional)</h2><p class="small">Choose as many as you like: something to count, with a finish date if you like, and the app works out how many a day. The meditation timer and diary need no goal.</p>
@@ -3744,7 +3771,7 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
     ${gs.length?`<label class="small" for="sgdate">Finish by (optional, for each goal)</label><input id="sgdate" type="date" min="${dayKey()}">
       <button class="btn primary wide" data-act="susetgoal">Set ${gs.length>1?`these ${gs.length} goals`:'this goal'}</button>`:''}
     ${tr==='tibetan'||tr==null?'<p class="small">Some practices are traditionally begun only after receiving the transmission (lung) from a teacher.</p>':''}${skip}`;}
-  return`<div class="grab"></div>${dots}<h2 class="h1">Reminders (optional)</h2><p class="small">Gentle ones only. You can change these any time in Settings.</p>
+  return`<div class="grab"></div>${dots}<h2 class="h1">Reminders (optional)</h2><p class="small">Gentle ones only. You can change these any time under You → Reminders.</p>
     <div class="list">${item('supush','Notifications from the app','Words each morning, reminders, a mindfulness bell, full moons',{ico:'phone'})}
       ${item('sudaily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}
       ${calTib()&&U.includes('cal')?item('sufeed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
@@ -3753,25 +3780,26 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
 // ── The tour (2026-10-04, Gareth: "a popup for first time users… run through all of the app bit by bit").
 // Each step: [title, words, tab, the part to light up]. It opens by itself once, after first-run setup (esm_toured).
 const TOUR=[
-  ['Words for today','A teaching for each day, on a different background. Swipe for another. Tap Share to send it as an image.','today','#qcard'],
-  ['A nudge to sit','Choose how long until you sit. On some phones the countdown can float over other apps; when it’s time, a bell.','today','.cdcard'],
-  ['The day','Today in the Tibetan calendar: the moon, auspicious days, and anything you’ve planned. Tap for more.','today','.tcard'],
-  ['Settings','The button at the top right: set up again, choose what Today shows, notifications and bells, a reminder in your calendar, and keeping a copy of your practice.','today','[data-act="settings"]'],
+  ['The day','Today in the Tibetan calendar: the moon and the next auspicious day. Tap it for the full calendar.','today','.tcard'],
+  ['Your practice','The practice you’re working on, and how far you’ve come. Start counting, or add your usual amount with one tap.','today','.hero'],
+  ['Sit, breathe, count','Three shortcuts: the meditation timer, the breathing guides, and a count you can give to any practice at the end.','today','.quick'],
+  ['This week','Tap a day, then tick what you practiced. A missed day is just a gap.','today','.weekcard'],
+  ['Words for today','A teaching for each day. Swipe for another. Tap Share to send it as an image.','today','#qcard'],
   ['Counting a session','Tap “Count a session”, then tap anywhere on the screen, once for each mantra, prostration or round. At the end, choose which practice it goes to.','practice','.bigtile'],
-  ['Practise together','A shared count with your sangha or friends. Start one, or join with a six-letter code. Plan when you meet, in person or online, and add it to your calendar.','practice','[data-fold="p_together"]'],
-  ['Meditation','The timer at the top: set the length and the bells, then sit; each sit goes in your diary. Below it, the kinds of meditation, and the Three Aa as taught by James Low.','practice','[data-fold="p_med"]'],
-  ['Breath','Guided breathing: vajra breathing, the beautiful breath, counting the breath and Nine-Round. Each one follows your own breath.','practice','[data-fold="p_breath"]'],
-  ['Ngöndro and other practices','Open a practice to count, keep notes, and set a finish date: the app works out how many a day you need.','practice','[data-fold="p_ngondro"]'],
-  ['Texts','Prayers to chant one verse at a time: swipe or tap to move on, and choose Tibetan, the sounds, or the meaning.','texts','.card.feature'],
-  ['Sections','Long-life prayers for the teachers, Patrul Rinpoche and Garab Dorje, smoke offerings, and more. Tap a heading to open it.','texts','[data-fold="t_longlife"]'],
-  ['Learn','The refuge tree, the practices in plain words, the Tibetan calendar and the full moon, caring for Dharma texts, and how to support the teachers.','learn','.page .card'],
-  ['Take a backup copy','Your counts and diary live on this phone, so keep a copy (or turn on automatic backup in Settings). Today reminds you every two weeks to send one to yourself (Settings → Backup changes how often). On a new phone, “Restore my practice” brings it all back.','today','[data-act="settings"]']];
+  ['Your practices','Open a practice to count, change the words, and set a finish date: the app works out how many a day you need.','practice','#p_list'],
+  ['Meditation','Set the length and the bells, then sit; each sit goes in your diary. Below it, the kinds of meditation, and the Three Aa as taught by James Low.','practice','#p_med'],
+  ['Breath','Guided breathing: vajra breathing, the beautiful breath, counting the breath and Nine-Round. Each one follows your own breath.','practice','#p_breath'],
+  ['Practice together','A shared count with your sangha or friends. Start one, or join with a six-letter code. Plan when you meet, in person or online.','practice','#p_together'],
+  ['The Library','Prayers to chant one verse at a time. Type in the search box to find a prayer by its name or by any words in it.','texts','.search'],
+  ['Prayers, Learn, Listen','Prayers by kind; Learn for the refuge tree, the practices and the calendar in plain words; Listen for chants and teachings.','texts','.libseg'],
+  ['You','Everything about you and the app: your progress, reminders, the calendar, how it looks, and this tour.','you','.stats'],
+  ['Take a backup copy','Your counts and diary live on this phone, so keep a copy, or turn on automatic backup here. On a new phone, “Restore my practice” brings it all back.','you','[data-act="youbk"]']];
 function tourCard(){const i=ST.tourOn,[t,b]=TOUR[i],last=i===TOUR.length-1;
   return`<div class="tourcard" role="dialog" aria-label="Tour" data-swl="${last?'':'tournext'}" data-swr="tourprev"><div class="row"><span class="small grow">${i+1} of ${TOUR.length}</span><button class="iconbtn" data-act="tourend" aria-label="End the tour">${ico('close')}</button></div>
   <b>${t}</b><p>${b}</p>
   <div class="tourdots" aria-hidden="true">${TOUR.map((_,n)=>`<i${n===i?' class="on"':''}></i>`).join('')}</div>
   <div class="btns even"><button class="btn soft" data-act="tourprev"${i?'':' disabled style="opacity:.4"'}>Back</button><button class="btn primary" data-act="tournext">${last?'Finish':'Next'}</button></div></div>`;}
-function tourGo(i){if(i<0)return;if(i>=TOUR.length){ST.tourOn=null;lsSet('esm_toured',true);toast('That’s the tour. Enjoy your practice. It’s in Learn if you want it again.');return;}
+function tourGo(i){if(i<0)return;if(i>=TOUR.length){ST.tourOn=null;lsSet('esm_toured',true);toast('That’s the tour. Enjoy your practice. It’s in You if you want it again.');return;}
   ST.tourOn=i;ST.sheet=null;ST.ov=null;ST.tab=TOUR[i][2];}
 function tourHi(){document.body.classList.toggle('touring',ST.tourOn!=null&&!ST.sheet&&!ST.ov);if(ST.tourOn==null||ST.sheet||ST.ov)return;
   const el=content.querySelector(TOUR[ST.tourOn][3]);if(!el)return;el.classList.add('tourhi');el.scrollIntoView({block:'start',behavior:'smooth'});}
@@ -4066,7 +4094,7 @@ async function shareApp(){const text=`${APP_NAME}: a free app for daily Buddhist
 // esm_milestones = {id: date reached}. Existing users get what they've already reached marked quietly.
 const MILES=[['first','hands','Your first practice','The first step. Everything begins here.',s=>s.days>=1],
   ['sit1','sitter','Your first meditation','A first sit with the timer or the diary.',s=>s.med>=1],
-  ['d7','sprout','7 days of practice','Seven days on which you practised. They add up whenever you come back; nothing is ever lost.',s=>s.days>=7],
+  ['d7','sprout','7 days of practice','Seven days on which you practiced. They add up whenever you come back; nothing is ever lost.',s=>s.days>=7],
   ['d30','bigtree','30 days of practice','Thirty days of practice. A habit taking root.',s=>s.days>=30],
   ['d108','sun','108 days of practice','108 days, one for each bead of a mala.',s=>s.days>=108],
   ['c1000','heart','1,000 counted','A thousand mantras, prostrations or offerings, all together.',s=>s.count>=1000],
@@ -4102,9 +4130,9 @@ async function unlockText(t,pass){const km=await crypto.subtle.importKey('raw',n
   return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(t.iv)},key,b64d(t.data))));}
 function sheetLocked(){const t=LOCKED.find(x=>x.id===ST.sarg);if(!t)return'';const ok=(ls('esm_locked_ok',{})||{})[t.id],need=t.need||'reading transmission (lung)';
   const mail=`mailto:${TEXTS_EMAIL}?subject=${encodeURIComponent('Access to '+t.title)}&body=${encodeURIComponent('Hello,\n\nI would like access to “'+t.title+'” in the Dharma Practice app.\nI received the '+need+' from (teacher, place, year): \n\nThank you.')}`;
-  if(ok==='no')return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p>Traditionally this text is practised after receiving the ${esc(need)} from a qualified teacher. Your teacher or centre can tell you when it is next given.</p>
+  if(ok==='no')return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p>Traditionally this text is practiced after receiving the ${esc(need)} from a qualified teacher. Your teacher or centre can tell you when it is next given.</p>
     <button class="btn soft wide" data-act="lockedreset">I have received it now</button><button class="btn soft wide" data-act="closesheet">Close</button>`;
-  if(!ok)return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p>Traditionally this text is practised after receiving the ${esc(need)} from a qualified teacher.</p><p><b>Have you received it?</b></p>
+  if(!ok)return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p>Traditionally this text is practiced after receiving the ${esc(need)} from a qualified teacher.</p><p><b>Have you received it?</b></p>
     <button class="btn primary wide" data-act="lockedyes">Yes, I have</button><button class="btn soft wide" data-act="lockedno">Not yet</button>`;
   return`<div class="grab"></div><h2 class="h1">${esc(t.title)}</h2><p class="small">Enter the password your teacher or centre gave you.</p>
     <input id="lockedpass" type="password" autocomplete="off" aria-label="Password">
@@ -4117,7 +4145,7 @@ async function openLocked(t,pass){try{const o=await unlockText(t,pass);const P=l
   catch(e){toast('That password didn’t open it. Please check it and try again.');}}
 function sheetPrayAbout(){const a=PRAYER_ABOUT[ST.sarg];if(!a)return'';
   return`<div class="grab"></div><h2 class="h1">${a.t}</h2>${a.p.map(x=>`<p style="font-size:var(--fs-lg)">${x}</p>`).join('')}
-  ${a.quotes?`<p class="h2" style="margin:0">JAMES LOW</p>${a.quotes.map(([q,src])=>`<figure class="mquote jlq"><p>${q}</p><cite>${src}</cite></figure>`).join('')}`:''}
+  ${a.quotes?`<p class="h2" style="margin:0">James Low</p>${a.quotes.map(([q,src])=>`<figure class="mquote jlq"><p>${q}</p><cite>${src}</cite></figure>`).join('')}`:''}
   <div class="links">${a.links.map(([l,u])=>`<a class="linkbtn" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 // ── When someone has died: the 49 days (esm_bardo = [{name, date}]). Garchen Rinpoche advises reciting the Wishing
@@ -4144,7 +4172,7 @@ function sheetBardo(){const d=dayKey();
   <label class="small" for="bardodate">The day they died</label><input id="bardodate" type="date" max="${d}" value="${d}">
   <p class="small">Some count the day of death as the first day, which moves each week a day earlier. Follow your teacher if they say otherwise.</p>
   <button class="btn primary wide" data-act="bardoadd">Mark the weeks</button><button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
-// ── Practising together: shared counts (Gareth: e.g. the Seven-Line Prayer). The server keeps only the group's
+// ── Practicing together: shared counts (Gareth: e.g. the Seven-Line Prayer). The server keeps only the group's
 // name, what is counted, the target and the running total; nobody's name. esm_groups = [{code,name,practice,target,mine}].
 const GROUP_PRESETS=[['Seven-Line Prayer','Seven-Line Prayer',1000,'count'],['Minutes of meditation','Minutes of meditation',1000,'minutes'],['Vajra Guru mantra','OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG',100000,'count'],['Mani mantra','OM MANI PEME HUNG',1000000,'count'],['Something else','',10000,'count']];
 const myGroups=()=>ls('esm_groups',[])||[];
@@ -4179,7 +4207,7 @@ function groupsBody(){const L=myGroups();
   <div class="btns even"><button class="btn primary" data-act="groups" data-v="start">${ico('plus')} Start a group</button><button class="btn soft" data-act="groups" data-v="join">Join with a code</button></div>`;}
 const codeBoxes=(v='')=>`<div class="codebox" role="group" aria-label="Group code, 6 characters">${[0,1,2,3,4,5].map(i=>`<input class="cb" inputmode="text" autocapitalize="characters" autocomplete="off" maxlength="1" aria-label="Character ${i+1}" value="${esc((v||'')[i]||'')}">`).join('')}</div>`;
 function sheetGroups(){const F=gf(),mode=ST.gmode||'start';
-  return`<div class="grab"></div><h2 class="h1">Practise together</h2>
+  return`<div class="grab"></div><h2 class="h1">Practice together</h2>
   <div class="seg" style="grid-template-columns:1fr 1fr"><button class="opt${mode==='start'?' on':''}" data-act="gmode" data-v="start">Start a group</button><button class="opt${mode==='join'?' on':''}" data-act="gmode" data-v="join">Join with a code</button></div>
   ${mode==='join'?`<p class="small">Enter the 6-letter code someone shared with you.</p>${codeBoxes(ST.gjoin)}
     ${ST.gjpw?`<label class="small" for="gjpw">This group has a password. Ask whoever invited you.</label><input id="gjpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Password">`:''}
@@ -4196,7 +4224,7 @@ function sheetGroups(){const F=gf(),mode=ST.gmode||'start';
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const meetText=m=>m?[m.date?new Date(m.date+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'}):'',m.time,m.repeat==='weekly'?'every week':m.repeat==='daily'?'every day':'',m.when].filter(Boolean).join(' · '):'';
 function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'';
-  if(g.closed)return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p>This group has been closed.</p><p class="small">The count reached ${fmt(g.total||0)} of ${fmt(g.target)}${unitOf(g)} together. Thank you for practising with them.</p>
+  if(g.closed)return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p>This group has been closed.</p><p class="small">The count reached ${fmt(g.total||0)} of ${fmt(g.target)}${unitOf(g)} together. Thank you for practicing with them.</p>
   <button class="btn primary wide" data-act="gleave">Remove it from my list</button>`;
   const pct=Math.min(100,Math.round((g.total||0)/g.target*100)),m=g.meet,mins=g.unit==='minutes';
   return`<div class="grab"></div><h2 class="h1">${esc(g.name)}</h2><p class="mantra" style="font-size:var(--fs-lg)">${mantraHTML(g.practice.toUpperCase()===g.practice?g.practice:esc(g.practice))}</p>
@@ -4206,12 +4234,12 @@ function sheetGroup(){const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return'
   ${(g.total||0)>=g.target?'<p class="done-line">✦ The goal is reached. Rejoice, and dedicate it to all beings ✦</p>':''}
   ${m?`<div class="card stack"><b>${m.how==='in person'?'Meeting in person':`Meeting on ${esc(m.how)}`}</b><p>${esc(meetText(m))}${m.where?`<br>${esc(m.where)}`:''}</p>
     <div class="btns">${m.link?`<a class="btn primary" href="${esc(m.link)}" target="_blank" rel="noopener">Join the call ↗</a>`:''}${m.date&&m.time?`<button class="btn soft" data-act="gcal">${ico('cal')} Add to my calendar</button>`:''}</div></div>`:''}
-  ${g.key?`<button class="btn soft wide" data-act="gmeetform">${ico('cal')} ${m?'Change the meeting plan':'Plan a time to practise together'}</button>`:''}
+  ${g.key?`<button class="btn soft wide" data-act="gmeetform">${ico('cal')} ${m?'Change the meeting plan':'Plan a time to practice together'}</button>`:''}
   ${ST.gmeet?meetForm(m):''}
   ${g.needpw?`<div class="card stack"><b>This group now has a password</b><p class="small">Ask whoever runs the group for it, then type it here.</p>
     <input id="gunlockpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Password" aria-label="Password"><button class="btn primary wide" data-act="gunlock">Unlock</button></div>`
   :`${g.blocked?'<p class="small">Adding from this phone has been paused by the group’s organisers. You can still see the count.</p>':''}
-  <p class="h2" style="margin:0">ADD WHAT YOU DID</p>
+  <p class="h2" style="margin:0">Add what you did</p>
   <div class="sitopts">${(mins?[10,20,30,60]:[7,21,108,1000]).filter(n=>n<=(+g.max||100000)).map(n=>`<button class="opt" data-act="gadd" data-v="${n}">+ ${fmt(n)}${mins?' min':''}</button>`).join('')}</div>
   <div class="btns"><input id="gaddn" type="number" inputmode="numeric" min="1" max="${esc(g.max||100000)}" placeholder="Or type a number" aria-label="How many"><button class="btn primary" data-act="gadd">Add</button></div>`}
   <div class="card stack invite"><p class="small" style="margin:0">Invite others with this code${g.locked?' (and the password)':''}</p><p class="bigcode">${g.code.split('').join(' ')}</p>
@@ -4239,18 +4267,18 @@ function groupManage(g){const A=ST.gadm,C=ST.gconfirm;
   const u=unitOf(g);
   return`<div class="card stack"><b>Manage group</b>
   ${C?`<div class="card stack"><p>${esc(C.text)}</p>${C.do==='block'?`<button class="btn danger wide" data-act="gadmgo" data-v="wipe">Block, and remove their adds</button><button class="btn danger wide" data-act="gadmgo">Block, keep their adds</button>`:`<button class="btn danger wide" data-act="gadmgo">${esc(C.yes)}</button>`}<button class="btn soft wide" data-act="gadmno">Cancel</button></div>`:''}
-  <p class="h2" style="margin:0">RECENT ADDS</p>
+  <p class="h2" style="margin:0">Recent adds</p>
   ${A.adds.length?`<div class="list">${A.adds.map(a=>`<div class="item" style="flex-wrap:wrap${a.removed?';opacity:.55':''}"><span class="grow"><span class="t">${a.removed?`<s>${fmt(a.n)}${u}</s> removed`:`${fmt(a.n)}${u}`}</span><span class="s">Member ${esc(a.m||'?')} ·${esc(gwhen(a.at))}</span></span>${a.removed?'':`<button class="btn soft" style="min-height:40px" data-act="gadmask" data-v="remove" data-id="${+a.id}">Remove</button>`}</div>`).join('')}</div>`:'<p class="small">Nothing has been added yet.</p>'}
-  ${A.members.length?`<p class="h2" style="margin:0">PEOPLE WHO HAVE ADDED</p><p class="small" style="margin:0">No names: each phone is just a number, in the order they joined.</p>
+  ${A.members.length?`<p class="h2" style="margin:0">People who have added</p><p class="small" style="margin:0">No names: each phone is just a number, in the order they joined.</p>
   <div class="list">${A.members.map(x=>`<div class="item" style="flex-wrap:wrap"><span class="grow"><span class="t">Member ${+x.m}${x.blocked?' · blocked':''}</span><span class="s">${fmt(x.c)} ${x.c===1?'add':'adds'} · ${fmt(x.s)}${u}</span></span><button class="btn soft" style="min-height:40px" data-act="gadmask" data-v="${x.blocked?'unblock':'block'}" data-m="${+x.m}">${x.blocked?'Allow again':'Block'}</button></div>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">LIMITS</p>
+  <p class="h2" style="margin:0">Limits</p>
   <label class="small" for="gmax">Most that can be added at once</label>
   <div class="btns"><input id="gmax" type="number" inputmode="numeric" min="1" value="${esc(A.group.max)}"><button class="btn soft" data-act="gmaxsave">Save</button></div>
   <label class="small" for="gnewpw">${A.group.locked?'Change the password to join':'Ask for a password to join'}</label>
   <div class="btns"><input id="gnewpw" type="text" maxlength="64" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="At least 6 characters"><button class="btn soft" data-act="gpwsave">Save</button></div>
   <p class="small" style="margin:0">People already in the group won’t need the new password.</p>
   ${A.group.locked?'<button class="btn link" data-act="gadmask" data-v="nopw" style="align-self:flex-start">Remove the password</button>':''}
-  <p class="h2" style="margin:0">ANOTHER ORGANISER</p>
+  <p class="h2" style="margin:0">Another organiser</p>
   <p class="small" style="margin:0">Make a link for someone you trust. It lets them look after this group from their own phone, which also helps if you lose yours. It works once, for a week.</p>
   ${ST.ginv?`<p class="small" style="word-break:break-all;margin:0">${esc(ST.ginv)}</p><div class="btns even"><button class="btn primary" data-act="gadmshare">${ico('share')} Share link</button><button class="btn soft" data-act="gadmcopy">Copy</button></div>`:''}
   <button class="btn soft wide" data-act="ginvadm">${ST.ginv?'Make a new link':'Make an invite link'}</button>
@@ -4269,7 +4297,7 @@ function ovDana(){const G=(t,s,u,l)=>`<div class="card stack"><b style="font-siz
   ${G('Garchen Buddhist Institute','His Eminence Garchen Rinpoche’s centre in Arizona. Vajra breathing and the guidance for when someone has died follow his teaching.','https://garchen.net/donations-x/','Give to Garchen Buddhist Institute')}
   ${G('Buddhist Society of Western Australia','Ajahn Brahm’s home community in Perth. The beautiful breath follows his Basic Method of Meditation.','https://bswa.org/support-us/donate-2/','Give to the BSWA')}
   ${G('Lotsawa House','Free translations of Tibetan Buddhist texts. Many of the prayers and quotes in this app are theirs.','https://www.lotsawahouse.org/donations','Support Lotsawa House')}
-  <p class="h2">THIS APP</p>
+  <p class="h2">This app</p>
   ${G('Dharma Practice',KOFI_WHY,KOFI,'Support the app on Ko-fi')}
   </div></div>`;}
 function sheetGSit(){const G=myGroups().filter(g=>g.unit==='minutes'&&!g.closed),n=ST.sitMin||0;
@@ -4289,36 +4317,6 @@ function applyQbg(c,b){const lightInk=/^#[c-f]/i.test(b.ink);c.classList.add('ar
 function paintQuoteBg(){if(ls('esm_qart',true)===false)return;const card=document.getElementById('qcard');if(!card)return;
   const key=dayKey()+'|'+qbgStyle();if(qbgMem&&qbgMem.key===key){applyQbg(card,qbgMem);return;}
   quoteBg().then(b=>{const c=document.getElementById('qcard');if(c)applyQbg(c,b);}).catch(()=>{});}
-
-// ── "Wanna practise?" A countdown to get going (esm_cd = {end, len}); it can float over other apps
-// (picture-in-picture, where the phone allows it); at the end a bell, and a notification if the app is hidden.
-function practiseCard(){const cd=ls('esm_cd',null),now=Date.now();
-  if(cd&&!cd.done&&cd.end>now)return`<div class="card stack cdcard"><p class="small" style="margin:0">Sit down to meditate in</p><p class="cdbig" id="cdleft">${mmss(Math.ceil((cd.end-now)/1000))}</p>
-    <div class="btns even">${pipOk()?`<button class="btn soft" data-act="cdfloat">${ico('phone')} Float it</button>`:''}<button class="btn primary" data-act="cdnow">Start now</button></div>
-    <button class="btn link" data-act="cdcancel" style="align-self:center">Cancel</button></div>`;
-  if(cd&&cd.done)return`<div class="card glow stack cdcard"><b style="font-size:var(--fs-lg)">Time to sit</b><p>Find your seat. Even a few minutes counts.</p>
-    <div class="btns even"><button class="btn primary" data-act="cdnow">${ico('timer')} Begin</button><button class="btn soft" data-act="cdcancel">Not now</button></div></div>`;
-  return`<div class="card stack cdcard"><b style="font-size:var(--fs-lg)">Wanna practise?</b>
-    <p>It’s hard these days: information overload, and the dopamine doom portal in our pockets. Let’s set a countdown to get you going.</p>
-    <p class="small" style="margin:0">Sit down to meditate in…</p>
-    <div class="sitopts">${[1,5,10,15,30].map(m=>`<button class="opt" data-act="cdset" data-v="${m}">${m} min</button>`).join('')}</div></div>`;}
-const pipOk=()=>!!(document.pictureInPictureEnabled&&HTMLCanvasElement.prototype.captureStream);
-let cdT=null,pipV=null,pipC=null;
-function cdTick(){const cd=ls('esm_cd',null);if(!cd||cd.done){clearInterval(cdT);cdT=null;return;}const left=Math.ceil((cd.end-Date.now())/1000);
-  const el=document.getElementById('cdleft');if(el)el.textContent=mmss(Math.max(0,left));drawPip(left);
-  if(left<=0){lsSet('esm_cd',{...cd,done:1});clearInterval(cdT);cdT=null;bell('temple',.8);buzz([60,80,60]);
-    if(document.hidden&&'Notification'in window&&Notification.permission==='granted')navigator.serviceWorker.ready.then(r=>r.showNotification('Time to sit',{body:'Your countdown has finished. Find your seat.',icon:'./icon-192.png',tag:'dharma-cd'})).catch(()=>{});
-    if(ST.tab==='today'&&!ST.ov&&!ST.sheet)render();}}
-function cdStart(min){lsSet('esm_cd',{end:Date.now()+min*60000,len:min});clearInterval(cdT);cdT=setInterval(cdTick,1000);
-  if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{});}
-function drawPip(left){if(!pipC)return;const x=pipC.getContext('2d'),W=pipC.width,H=pipC.height,g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#16204a');g.addColorStop(1,'#05070f');
-  x.fillStyle=g;x.fillRect(0,0,W,H);x.textAlign='center';x.fillStyle='#c9cff0';x.font='600 26px system-ui,sans-serif';
-  x.fillText(left>0?'Meditation in':'Time to sit',W/2,72);x.fillStyle='#ffffff';x.font='700 96px system-ui,sans-serif';x.fillText(left>0?mmss(left):'Now',W/2,190);}
-async function cdFloat(){try{pipC=pipC||Object.assign(document.createElement('canvas'),{width:480,height:270});const cd=ls('esm_cd',null);drawPip(cd?Math.ceil((cd.end-Date.now())/1000):0);
-  if(!pipV){pipV=document.createElement('video');pipV.muted=true;pipV.playsInline=true;pipV.style.cssText='position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;bottom:0';document.body.appendChild(pipV);pipV.srcObject=pipC.captureStream(2);}
-  await pipV.play();await pipV.requestPictureInPicture();}
-  catch(e){toast('Your phone won’t float it here. You’ll still get a bell and a notification.');}}
-function cdStop(){lsSet('esm_cd',null);clearInterval(cdT);cdT=null;if(document.pictureInPictureElement)document.exitPictureInPicture().catch(()=>{});}
 
 // ── The full moon across traditions (#fullmoon). Sources: Wikipedia "Uposatha", "Vesak", "Māgha Pūjā",
 // "Āsāḷha Pūjā"; the app's own 15th-day page (Amitābha) for the Tibetan tradition.
@@ -4392,7 +4390,7 @@ function sheetRestore(){const R=ST.restore||{step:0};
     <label class="btn primary wide" for="restorefile">${ico('restore')} Choose my backup file</label><input id="restorefile" type="file" accept=".json,application/json,text/plain" hidden>
     ${abOK()?`<button class="btn soft wide" data-act="abrestore">Use my backup code instead</button>`:''}
     ${R.err?`<p class="note" style="border-color:var(--bad)">${R.err}</p>`:''}
-    ${snaps.length?`<p class="h2" style="margin:0">COPIES THIS PHONE MADE AUTOMATICALLY</p><div class="list">${snaps.map((s,i)=>item('restoresnap',new Date(s.at).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}),esc(s.reason),{attrs:`data-i="${snaps.length-1-i}"`})).join('')}</div>`:''}
+    ${snaps.length?`<p class="h2" style="margin:0">Copies this phone made automatically</p><div class="list">${snaps.map((s,i)=>item('restoresnap',new Date(s.at).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}),esc(s.reason),{attrs:`data-i="${snaps.length-1-i}"`})).join('')}</div>`:''}
     <details class="small"><summary>I copied it as text</summary><label class="small" for="restoretext" style="display:block;margin-top:8px">Paste the text here</label><textarea id="restoretext" class="backup" placeholder='{"app":"dharma-practice", …'></textarea>
       <button class="btn soft wide" data-act="restorecheck" style="margin-top:8px">Check this text</button></details>`;}
   const lines=summarise(R.o.data),when_=R.o.created?new Date(R.o.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}):'an unknown date';
@@ -4412,7 +4410,7 @@ function promptInstall(){if(!installPrompt)return;const p=installPrompt;installP
 function installSteps(){const ua=navigator.userAgent,ol=li=>`<ol class="steps">${li.map(x=>`<li>${x}</li>`).join('')}</ol>`;
   if(/FBAN|FBAV|Instagram|Line\/|; wv\)/i.test(ua))return`<p>You're inside another app's browser, which can't add apps. Open this page in ${isIOS()?'Safari':'Chrome'} first (look for <b>Open in browser</b> in the ⋯ menu), then tap Add to phone again.</p>`;
   if(isIOS())return ol(['Tap the <b>Share</b> button (a square with an arrow pointing up). On newer iPhones it may be inside the <b>⋯</b> menu.','Scroll down and tap <b>Add to Home Screen</b>.','Tap <b>Add</b>. The app appears on your home screen.'])
-    +`<p class="note">On iPhone the home-screen app keeps its own copy of your counts. If you've already counted here, make a backup first (Settings → Backup), then restore it in the new app.</p>`;
+    +`<p class="note">On iPhone the home-screen app keeps its own copy of your counts. If you've already counted here, make a backup first (You → Backup), then restore it in the new app.</p>`;
   if(/SamsungBrowser/i.test(ua))return ol(['Tap the menu <b>≡</b> at the bottom right.','Tap <b>Add page to</b>, then <b>Home screen</b>.']);
   if(/Android/i.test(ua))return ol(['Tap the menu <b>⋮</b> at the top right.','Tap <b>Add to home screen</b> or <b>Install app</b>.','Tap <b>Install</b> (or <b>Add</b>).']);
   if(/Firefox/i.test(ua))return`<p>Firefox on a computer can't add apps. Open this page in Chrome or Edge, or just bookmark it: it works the same in the browser.</p>`;
@@ -4423,25 +4421,26 @@ function sheetInstall(){
   return`<div class="grab"></div><h2 class="h1">Add to your phone</h2>
   <ul class="perks"><li><b>One tap to open</b><span>Its own icon on your home screen, like any other app.</span></li>
     <li><b>Works without internet</b><span>Count, read the prayers and check the calendar on retreat or on a plane.</span></li>
-    <li><b>Full screen, no distractions</b><span>No address bar or tabs while you practise.</span></li>
+    <li><b>Full screen, no distractions</b><span>No address bar or tabs while you practice.</span></li>
     <li><b>Free and private</b><span>No account, no ads, nothing to download from a store. Your practice stays on your phone unless you turn on automatic backup.</span></li></ul>
-  ${installPrompt?`<button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button><p class="small" style="text-align:center">Your browser will ask you to confirm.</p>`:`<p class="h2" style="margin-top:4px">HOW TO ADD IT</p>${installSteps()}`}
+  ${installPrompt?`<button class="btn primary wide" data-act="installgo">${ico('phone')} Add to home screen</button><p class="small" style="text-align:center">Your browser will ask you to confirm.</p>`:`<p class="h2" style="margin-top:4px">How to add it</p>${installSteps()}`}
   <button class="btn soft wide" data-act="closesheet">Not now</button>`;}
 
 // ═══════════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════════
-const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,learn:pageLearn};
+const PAGES={today:pageToday,practice:pagePractice,texts:pageTexts,you:pageYou};
 const OVERLAYS={dana:ovDana,fullmoon:ovFullMoon,aday:ovAday,sit:ovSit,medkind:ovMedKind,session:ovSession,dedicate:ovDedicate,practice:ovPractice,prayer:ovPrayer,cal:ovCal,calabout:ovCalAbout,breath:ovBreath,
-  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,care:ovCare,about:ovAbout,tree:()=>''};
+  threeaa:ovThreeAa,vajra:ovVajra,brahm:ovBrahm,count:ovCount,journal:ovCal,practices:ovPractices,care:ovCare,about:ovAbout,tree:()=>'',
+  lib:ovLib,youprog:ovProgress,yourem:ovReminders,youbk:ovBackup,youlook:ovLook};
 function sheetFull(){return`<div class="grab"></div><h2 class="h1">Your phone is short of space</h2>
   <p>Your latest practice couldn’t be saved because there isn’t enough space on this phone. Nothing already saved has been lost.</p>
   <p>Please send yourself a copy now, then free up some space (old photos and videos are usually the biggest).</p>
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy</button>${backupHint()}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
-const SHEETS={full:sheetFull,settings:sheetSettings,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
+const SHEETS={full:sheetFull,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
   newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,abcode:sheetAbCode,aboff:sheetAbOff,abrestore:sheetAbRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,gaccept:sheetGAccept,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
-const TABS=[['today','Today'],['practice','Practice'],['texts','Texts'],['learn','Learn']];
+const TABS=[['today','Today'],['practice','Practice'],['texts','Library'],['you','You']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
 function initSheetDrag(){const bar=document.getElementById('sheetbar');if(!bar)return;const sh=bar.parentElement;let y0=null,dy=0;
@@ -4494,6 +4493,7 @@ function render(){
   content.innerHTML=html;
   {const p=content.querySelector('.page');if(p){if(keep.p!=null)p.scrollTop=keep.p;else if(sameTab&&pageScroll[ST.tab])p.scrollTop=pageScroll[ST.tab];}}
   if(keep.o!=null){const o=content.querySelector('.ovbody');if(o)o.scrollTop=keep.o;}
+  if(ST.scrollTo){const t=document.getElementById(ST.scrollTo);ST.scrollTo=null;if(t)t.scrollIntoView({block:'start'});}
   // Post-render hooks
   tourHi();
   if(ST.tab==='today'){initQuotes();paintQuoteBg();if(!ST.sheet&&!ST.ov){const nm=checkMiles();if(nm){ST.sheet='mile';ST.sarg=nm;render();return;}}}
@@ -4586,17 +4586,17 @@ const DAY_INFO={
     src:['shambhala','har','sojong','vows']},
   25:{what:'Ḍākinī Day: the day of the ḍākinīs, the female embodiments of enlightened wisdom. It is the tenth day of the <i>waning</i> moon, the counterpart of Guru Rinpoche’s day on the waxing tenth.',
     why:['Gönpo Tseten Rinpoche quotes the Cakrasaṃvara root tantra: <i>“on the tenth day of the waxing moon and the tenth day of the waning moon (the twenty-fifth day), yoginīs will come.”</i>',
-      'Outwardly, the ḍākinīs gather at sacred places and where people practise. Lochen Dharmaśrī says the accomplished ḍākinīs gather in practitioners’ places on the tenth by day and on the twenty-fifth by night (quoted in <i>Vajra Wisdom</i>).',
+      'Outwardly, the ḍākinīs gather at sacred places and where people practice. Lochen Dharmaśrī says the accomplished ḍākinīs gather in practitioners’ places on the tenth by day and on the twenty-fifth by night (quoted in <i>Vajra Wisdom</i>).',
       'Inwardly, the subtle channels, winds and essences of the body gather too. With outer and inner conditions together, the day is praised as a supreme time for practice (Gönpo Tseten Rinpoche).'],
     anyone:['Make offerings (flowers, light, food and drink) and share the food afterwards.','Pray with devotion, and dedicate whatever you do.'],
     more:[],
     have:['A feast offering (tsok) and ḍākinī practice such as Vajrayoginī or Vajravārāhī. Customs differ by centre.'],
     links:[['Feast offering (tsok) · Lotsawa House',LH('topics/tsok/')],['Ḍākinī texts · Lotsawa House',LH('topics/dakini-treasury/')]],
     src:['tenth','shambhala','lunar']},
-  29:{what:'The day before the new moon, kept for the Dharma protectors: enlightened beings, often wrathful in form, who protect the teachings and those who practise them.',
+  29:{what:'The day before the new moon, kept for the Dharma protectors: enlightened beings, often wrathful in form, who protect the teachings and those who practice them.',
     why:['Philippe Cornu’s <i>Tibetan Astrology</i> lists the 29th as the day of the Dharmapālas, the protectors of the Dharma. Jeff Watt lists the 9th, 19th and 29th for all the Dharma protectors, Mahākāla and others.','Lama Döndrup (Kagyu) keeps the 29th for the protectors, and for cleaning the shrine.',
       'We have not found a teaching that explains why the 29th in particular. Rather than guess, we simply say it is the custom.'],
-    anyone:['Clean and refresh your shrine.','Make a smoke offering (sang); Mipham’s brief sang and Riwo Sangchö are in Texts.','Ask for obstacles to your practice, and to others’ wellbeing, to be cleared.'],
+    anyone:['Clean and refresh your shrine.','Make a smoke offering (sang); Mipham’s brief sang and Riwo Sangchö are in the Library.','Ask for obstacles to your practice, and to others’ wellbeing, to be cleared.'],
     more:[],
     have:['The protector practices of your lineage, with torma offerings. In the Karma Kagyu this is Mahākāla Bernakchen.'],
     links:[['Dharma protectors · Lotsawa House',LH('topics/dharma-protectors/')],['Smoke offerings · Lotsawa House',LH('topics/sang-offering/')]],
@@ -4616,11 +4616,11 @@ function ovAday(){const td=+ST.arg,a=AUSP[td],i=DAY_INFO[td];if(!a||!i)return to
   return`${topbar(a.name)}<div class="ovbody"><div class="col prose">
   <p class="sub">${i.what}</p>
   <details><summary>Why some days matter more</summary>${DAY_INTRO.map(p=>`<p style="margin-top:8px">${p}</p>`).join('')}</details>
-  <p class="h2">WHY THIS DAY</p>${i.why.map(p=>`<p>${p}</p>`).join('')}
-  <p class="h2">WHAT PEOPLE DO</p><p class="small">Anyone can</p>${ul(i.anyone)}
+  <p class="h2">Why this day</p>${i.why.map(p=>`<p>${p}</p>`).join('')}
+  <p class="h2">What people do</p><p class="small">Anyone can</p>${ul(i.anyone)}
   ${i.more.length?`<p class="small">To go further</p>${ul(i.more)}`:''}
   <p class="small">If you have received the practice</p>${ul(i.have)}
-  <p class="h2">PRACTISE AND READ MORE</p><div class="links">${i.links.map(L).join('')}</div>
+  <p class="h2">Practice and read more</p><div class="links">${i.links.map(L).join('')}</div>
   <details><summary>Sources</summary><div class="links" style="margin-top:8px">${i.src.map(k=>L(DAY_SRC[k])).join('')}</div>
     <p class="small" style="margin-top:8px">Lotsawa House texts are shared under CC BY-NC 4.0. Short quotes from other books are credited to them.</p></details>
   </div></div>`;}
@@ -4704,9 +4704,17 @@ document.getElementById('app').addEventListener('click',e=>{
     case'mantraedit':sheet('mantra',id);break;
     case'mantrasave':{const M=ls('esm_mantra',{});M[ST.sarg]=val('mantrain').toUpperCase();lsSet('esm_mantra',M);ST.sheet=null;toast('Words saved');return;}
     case'mantrareset':{const M=ls('esm_mantra',{});delete M[ST.sarg];lsSet('esm_mantra',M);ST.sheet=null;break;}
-    case'settings':sheet('settings');break;
+    case'settings':ST.tab='you';ST.sheet=null;ST.ov=null;break;
+    case'youprog':case'yourem':case'youlook':case'youbk':ST.sheet=null;ST.ov=a;break;
+    case'lib':ST.sheet=null;ST.ov='lib';ST.arg=el.dataset.v;break;
+    case'libseg':ST.lib=el.dataset.v;break;
+    case'libg':ST.libg=el.dataset.v;break;
+    case'libclear':ST.libq='';break;
+    case'breaths':ST.tab='practice';ST.ov=null;ST.sheet=null;ST.scrollTo='p_breath';break;
+    case'sitnow':ST.tab='practice';mtBegin();break;
+    case'remdaily':{const c=pushCfg();if(!c.rem.length){c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);}
+      sheet('push');toast(c.on?'Choose the time and days, then Save':'Choose the time and days, then turn on notifications');break;}
     case'theme':setTheme(el.dataset.v);break;
-    case'morethemes':ST.moreThemes=!ST.moreThemes;break;
     case'size':setSize(+el.dataset.v);break;
     case'pick':sheet('pick');break;
     case'setcur':lsSet('esm_current',id);ST.sheet=null;toast(`${findPR(id).name} now shows on Today`);return;
@@ -4745,12 +4753,8 @@ document.getElementById('app').addEventListener('click',e=>{
     case'discard':if(!ST.discardArm){ST.discardArm=true;break;}ST.discardArm=false;ST.tap={count:0,ci:0,pid:ST.tap.pid};saveTap();ST.sheet=null;ST.ov=null;keepAwake(false);toast('Count thrown away');return;
     case'endsession':ST.sheet=null;ST.ov=null;keepAwake(false);break;
     // texts
-    case'prayer':ST.ov='prayer';ST.arg=id;ST.verse=0;break;
+    case'prayer':ST.ov='prayer';ST.arg=id;ST.verse=+el.dataset.verse||0;break;
     case'prayabout':sheet('prayabout',el.dataset.v);break;
-    case'cdset':cdStart(+el.dataset.v);break;
-    case'cdcancel':cdStop();break;
-    case'cdnow':cdStop();ST.tab='practice';mtBegin();break;
-    case'cdfloat':cdFloat();return;
     case'fullmoon':ST.ov='fullmoon';break;
     case'groups':ST.gmode=el.dataset.v||ST.gmode||'start';ST.gjpw=false;sheet('groups');groupRefresh();break;
     case'gmode':ST.gmode=el.dataset.v;break;
@@ -4792,7 +4796,7 @@ document.getElementById('app').addEventListener('click',e=>{
       groupFetch(I.code,{path:'/accept',body:{token:I.token,mkey:old.mkey||undefined}}).then(r=>{groupSave({...r,mine:1,blocked:false,needpw:false,closed:false});ST.ginvite=null;ST.sarg=r.code;ST.sheet='group';ST.gmanage=false;ST.gadm=null;render();toast('You can now look after this group.');})
         .catch(e=>{ST.ginvite=null;ST.sheet=null;toast(e.status===403?'This invite has already been used, or has run out. Please ask for a new one.':groupErr(e,I.code));});return;}
     case'ginvite':case'gcopy':{const g=myGroups().find(x=>x.code===ST.sarg);if(!g)return;
-      const text=`Join our shared practice “${g.name}”: ${g.practice}, ${fmt(g.target)}${unitOf(g)} together.${g.meet?' '+meetText(g.meet)+'.':''}${g.locked?' It has a password: ask me and I’ll tell you.':''} In the ${APP_NAME} app, open Practise together and enter the code ${g.code}, or tap:`;
+      const text=`Join our shared practice “${g.name}”: ${g.practice}, ${fmt(g.target)}${unitOf(g)} together.${g.meet?' '+meetText(g.meet)+'.':''}${g.locked?' It has a password: ask me and I’ll tell you.':''} In the ${APP_NAME} app, open Practice together and enter the code ${g.code}, or tap:`;
       const copy=()=>navigator.clipboard.writeText(`${text} ${groupLink(g)}`).then(()=>toast('Invitation copied. Paste it into a message.')).catch(()=>toast(`Code: ${g.code}`));
       if(a==='ginvite'&&navigator.share)navigator.share({title:g.name,text,url:groupLink(g)}).catch(e=>{if(!e||e.name!=='AbortError')copy();});else copy();return;}
     case'gmeetform':ST.gmeet=!ST.gmeet;ST.ghow=null;break;
@@ -4823,10 +4827,10 @@ document.getElementById('app').addEventListener('click',e=>{
     case'remind':ST.remTime=null;ST.remTitle=null;sheet('remind',el.dataset.d);break;
     case'remadd':{const r=remFromForm(false);shareICS(icsDoc([reminderEvent(r)]),'reminder.ics',{title:r.title}).then(()=>render());return;}
     case'remfriend':{const r=remFromForm(true),d=new Date(r.date+'T12:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
-      shareICS(icsDoc([reminderEvent(r)]),'practise-together.ics',{title:'Practise together',msg:`Shall we practise together on ${d} at ${r.time}? ${r.title}. ${APP_URL}`}).then(()=>render());return;}
+      shareICS(icsDoc([reminderEvent(r)]),'practice-together.ics',{title:'Practice together',msg:`Shall we practice together on ${d} at ${r.time}? ${r.title}. ${APP_URL}`}).then(()=>render());return;}
     case'remgcal':el.href=gcalLink({date:ST.sarg,time:val('remtime')||'08:00',title:val('remtitle')||dayTitle(ST.sarg),desc:APP_URL});return;
     case'remdel':lsSet('esm_reminders',reminders().filter(r=>r.id!==el.dataset.v));break;
-    case'remyes':{const r=reminders().find(x=>x.id===el.dataset.v);lsSet('esm_reminders',reminders().map(x=>x.id===el.dataset.v?{...x,asked:true}:x));if(r)sheet('day',r.date);toast('Tick what you practised that day');break;}
+    case'remyes':{const r=reminders().find(x=>x.id===el.dataset.v);lsSet('esm_reminders',reminders().map(x=>x.id===el.dataset.v?{...x,asked:true}:x));if(r)sheet('day',r.date);toast('Tick what you practiced that day');break;}
     case'remno':lsSet('esm_reminders',reminders().map(x=>x.id===el.dataset.v?{...x,asked:true}:x));break;
     case'daily':sheet('daily');break;
     case'dailyadd':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);shareICS(icsDoc([dailyEvent(t)]),'daily-practice.ics',{title:'Daily practice reminder'});return;}
@@ -4869,7 +4873,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'sitpeek':ST.sitPeek=Date.now();setTimeout(()=>{if(ST.ov==='sit')render();},4100);break;
     case'mtend':{const d=mt().dedic;mtEnd();ST.ov=d?'dedicate':null;break;}
     case'mtfinish':{const d=mt().dedic;sitStop();keepAwake(false);ST.ov=d?'dedicate':null;break;}
-    case'calabout':ST.calRuleOpen=!!el.closest('.sheet');ST.sheet=null;ST.adayBack=ST.ov;ST.ov='calabout';break;   // from Settings: open at the rule
+    case'calabout':ST.calRuleOpen=!!el.dataset.rule;ST.sheet=null;ST.adayBack=ST.ov;ST.ov='calabout';break;   // from You: open at the rule
     case'aday':ST.adayBack=ST.ov==='aday'?ST.adayBack:ST.ov;ST.sheet=null;ST.ov='aday';ST.arg=el.dataset.v;break;
     case'calprev':ST.calOff--;break;
     case'calnext':ST.calOff++;break;
@@ -5150,6 +5154,8 @@ dailySnapshot();
 if(hasPracticeData())keepStorage();
 setTimeout(abAuto,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)abAuto();});   // automatic backup: at most daily
 document.getElementById('app').addEventListener('input',e=>{const t=e.target;
+  // Library search: redraw only the results, so the keyboard stays up.
+  if(t.id==='libq'){ST.libq=t.value;const q=t.value.trim().length>=2;document.getElementById('libres').innerHTML=libResults();document.getElementById('libbody').hidden=q;document.getElementById('libx').hidden=!q;return;}
   if(t.dataset&&t.dataset.gf){gf()[t.dataset.gf]=t.value;return;}
   if(t.classList&&t.classList.contains('cb')){const boxes=[...document.querySelectorAll('.codebox .cb')],v=t.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
     if(v.length>1){v.slice(0,6).split('').forEach((ch,k)=>{if(boxes[k])boxes[k].value=ch;});(boxes[Math.min(5,v.length-1)]).focus();return;}
@@ -5163,19 +5169,17 @@ document.getElementById('app').addEventListener('keydown',e=>{const t=e.target;i
     const act=dx<0?st.dataset.swl:st.dataset.swr;if(!act)return;const b=document.createElement('button');b.dataset.act=act;b.hidden=true;app.appendChild(b);b.click();b.remove();
     swipeEat=Date.now();},{passive:true});
   app.addEventListener('pointercancel',()=>{sx=null;});}
-document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.dataset&&d.dataset.fold){const F=ls('esm_fold',{})||{};F[d.dataset.fold]=d.open;lsSet('esm_fold',F);}},true);
 // Coming from the home page's "Add it to your phone" button: open the install help once.
 if(location.hash==='#install'&&!isStandalone()){ST.sheet='install';history.replaceState(null,'',location.pathname+location.search);}
 // Links into the app: #practice=prostr opens a practice; #texts, #learn, #practice open a tab; #practices the explainers.
 {const am=location.hash.match(/^#admin=([A-Za-z0-9]{6})\.([\w-]{8,100})$/);if(am){ST.tab='practice';ST.sheet='gaccept';ST.ginvite={code:am[1].toUpperCase(),token:am[2]};ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
 {const jm=location.hash.match(/^#join=([A-Za-z0-9]{6})$/);if(jm){ST.tab='practice';ST.sheet='groups';ST.gmode='join';ST.gjoin=jm[1].toUpperCase();ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
 {const m=location.hash.match(/^#(practice|texts|learn|practices|calendar)(?:=([\w-]+))?$/);
-  if(m){if(m[1]==='practice'&&m[2]&&findPR(m[2])){ST.tab='practice';ST.ov='practice';ST.arg=m[2];}else if(m[1]==='practices'){ST.tab='learn';ST.ov='practices';}
-    else if(m[1]==='calendar')ST.ov='cal';else ST.tab=m[1];ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
+  if(m){if(m[1]==='practice'&&m[2]&&findPR(m[2])){ST.tab='practice';ST.ov='practice';ST.arg=m[2];}else if(m[1]==='practices'){ST.tab='texts';ST.lib='learn';ST.ov='practices';}
+    else if(m[1]==='calendar')ST.ov='cal';else if(m[1]==='learn'){ST.tab='texts';ST.lib='learn';}else ST.tab=m[1];ST.seenLink=1;history.replaceState(null,'',location.pathname+location.search);}}
 if(!ST.sheet&&!ST.seenLink&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){lsSet('esm_welcome_day',dayKey());
   if(hasPracticeData()||ls('esm_tradition',null))ST.sheet='welcome';else{ST.su={step:0};ST.sheet='setup';}}
 if(history.state&&history.state.dp)hGuard=true;
-{const cd=ls('esm_cd',null);if(cd&&!cd.done)cdT=setInterval(cdTick,1000);}
 if(location.hash==='#fullmoon'){ST.ov='fullmoon';history.replaceState(null,'',location.pathname+location.search);}
 if(pushCfg().on&&pushSupported()&&Date.now()-(ls('esm_push_sync',0)||0)>20*86400000)navigator.serviceWorker.ready.then(()=>pushSubscribe(false)).catch(()=>{});
 // A mindfulness bell that arrives while the app is open rings with the chosen sound.

@@ -17,8 +17,8 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 |---|---|
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
-| The app | `practice/index.html`: one file, about 5,100 lines, **CRLF line endings** (keep them; never use sed on it) |
-| Service worker | `practice/sw.js`. Live: `dp-v10-23` (main 0aeedc9, 10 Nov 2026: Seven-Line Prayer with Tibetan and word-by-word, opens whole). Next release: `dp-v10-24`. |
+| The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** (keep them; never use sed on it) |
+| Service worker | `practice/sw.js`. Live: `dp-v10-23` (main 0aeedc9, 10 Nov 2026: Seven-Line Prayer with Tibetan and word-by-word, opens whole). Next release: `dp-v10-24` (already set in `sw.js` on the branch, with the redesign; not pushed). |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -37,14 +37,14 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
   Lean is still the default (one file, no build step, native web features first), but a library, build step or
   service is fine **if it clearly justifies itself**. Say why when proposing one.
 - **`main` is live (A2).** Work on `v10-redesign` in the V10 folder. The v5–v9, LiveSite and backup folders are old
-  copies: don't touch them.
+  copies, moved into `Ngondro-webapp\_old` on 2026-11-10: don't touch them.
 - **Push to `main` only when Gareth says so (A3).**
 - **Bump the service worker `CACHE` on every release (A4)** so installed phones update.
 - **The app lives at `/practice`; `/ngondro` stays for good (A5).** Phones that installed the old address keep their
   offline copy and reminders. Never remove the alias.
 - **Existing users' data survives every change (A6).** Saved data uses `localStorage` keys starting `esm_`. Never
   rename one; add new ones.
-- **Keep the brand name easy to swap (A7).** Gareth isn't sold on "Sliced Dharma".
+- **Keep the brand name easy to swap (A7).** It is "Dharma Soup" since 2026-11-09 (`APP_NAME` / `BRAND` in the app).
 - **Test at phone size before calling anything done (A8):** 375×812 and 375×667.
 - **Don't assume (A9).** Research, ask Gareth, and say when unsure.
 - **Treat saved data as untrusted.** Restoring a backup file writes any `esm_` value, and a file can be doctored.
@@ -60,7 +60,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
   must keep their translator's name, including on share images, because that's a condition of the licence. When
   something new is unclear, tell Gareth what you found and let him decide.
 - **Never crop the refuge tree image (B7)**, in the app or the booklet.
-- **Keep both copies of the Seven-Line Prayer on Texts (B8).**
+- **Keep both copies of the Seven-Line Prayer in the Library (B8).**
 - **Hair cutting and astrology are shown as living tradition (B10)**, with sources, not as superstition or fact.
 
 ---
@@ -101,12 +101,12 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 - **Quick-add remembers the last amount (D4, changed).** The person chooses the + amount for each practice. A
   practice they haven't set yet uses the last + amount they chose (`esm_last_pace`), else 100. "Add a number" opens
   with the last number they added (`esm_last_add`).
-- **Restricted texts (D5):** a password on the honour system. People email texts@slicedharma.com (it forwards to
+- **Restricted texts (D5):** a password on the honour system. People email texts@dharmasoup.org (it forwards to
   Gareth's Gmail) to ask. Hidden until a text is added. No texts yet.
 - **Share images (D6, changed):** a random drawn background each time the sheet opens. Under the preview, "Pick
   one that suits you" and the thumbnail strip are always on screen (checked at 375×667), with "Surprise me" for
   another random one.
-- **Tap-count backgrounds (new, 2026-11-05):** the picture button on the counting screen opens a picker with None,
+- **Tap-count backgrounds (2026-11-05):** the picture button on the counting screen opens a picker with None,
   the six practice pictures, the 22 drawn patterns from the share images, and the person's own photo. Each practice
   keeps its own (`esm_sess_bg`), and there's a Faint / Medium / Clear strength (`esm_sess_bga`). The count sits on a
   soft disc so it stays readable on any background. The photo is shrunk to 900 px and kept on the phone
@@ -115,7 +115,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 - **Logo (D7):** made in-house in the spirit of OM AH HUNG, not imitating Tashi Mannox. The current icon is a white
   ཨ in a five-coloured thigle.
 - **Ko-fi (D8, changed):** a simple link (ko-fi.com/raccoonhands) with a little text on the app's costs and the
-  hoped-for benefit to beings. The words are in `KOFI_WHY` and `KOFI_SHORT` in the app (About, Generosity, Settings)
+  hoped-for benefit to beings. The words are in `KOFI_WHY` and `KOFI_SHORT` in the app (About, Generosity, You)
   and in the home page footer.
 - **Generosity page:** people the app's teaching rests on (Palpung, Simply Being, Lama Lena, Garchen Buddhist
   Institute, BSWA for Ajahn Brahm, Lotsawa House), then "This app" as its own card.
@@ -135,7 +135,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
   notification says it came from a free server. Saving settings never fires an earlier reminder.
 - **Phone safety (2026-11-09).** Storage-full warning, "Used this app before?" card on an empty app, an "Add to Home
   Screen" card for iPhone Safari, Save-to-Files / Drive hints, and a Send feedback button (feedback@dharmasoup.org)
-  in About and Settings.
+  in About and You.
 
 **In the app but no longer rules (C8, D10).** The prostrations-for-every-body note and the light Material 3 touches
 stay as they are. They aren't protected, so later work can change or remove them freely.
@@ -143,6 +143,33 @@ stay as they are. They aren't protected, so later work can change or remove them
 ---
 
 ## 6. To do
+
+**Full redesign (asked for by Gareth on 2026-11-10; this un-drops E2).** Gareth finds the app messy and disjointed:
+Settings, backup, About and practice "could be anywhere", Today is too long, the look is inconsistent and the
+pop-ups feel clunky. He asked for a new structure and a new look, icons included, and said to set aside earlier
+*design* decisions. The safety rules in section 2 still stand (data keys, `/ngondro`, push only when told, phone-size
+testing), and so do the content rules in section 3.
+- Decided 2026-11-10 after the mockup: four tabs (Today, Practise, Library, You); one colour (saffron) with
+  Light / Dark / Automatic / High contrast only, the other themes go; the "Wanna practise?" countdown card goes;
+  hair cutting and day details move to the Calendar page; Library gets a search over the texts; daily practice
+  reminders must be easy to find (Today prompt, each practice page, You → Reminders).
+- Spelling: "practice" everywhere in the app's own words, verb included (Gareth, 2026-11-10). Prayers, translations
+  and quotes keep their source spelling.
+- **Built on the branch on 2026-11-10, not pushed.** The mockup is `design/mockup.html`. What changed in the app:
+  - Tabs: Today, Practice, Library (was Texts + Learn; tab key is still `texts`), You (`you`). Old `#learn` links
+    open Library → Learn.
+  - Today: date and greeting, the day card (tap for the calendar), the practice shown on Today with Start counting
+    and +, three shortcuts (Sit, Breathe, Count), this week, words for today, a "Set a daily reminder" row until one
+    is set, and the backup nudge when due.
+  - Practice: no fold-outs. Library: one search over prayer names and their words (ignores capitals and accents),
+    Prayers / Learn / Listen, prayers by kind as chips.
+  - Settings is gone as a pop-up. You has pages for Progress, Reminders, Backup, and Look and sound; the rest are
+    rows there (calendar, tradition and goals, tour, About, Generosity, share, install, feedback, Ko-fi).
+  - Themes: Light, Dark, Automatic, High contrast. A saved older theme falls back to the nearest (`setTheme`).
+  - Gone: the "Wanna practise?" countdown, the fold-out sections, the seven extra themes, and the dead code found
+    that day. (`feedEvents` looks unused but `tools/make-feed.html` calls it: keep.)
+  - Tested in the local preview at 375×812 and 375×667, light and dark. Not yet tested on a real phone or with
+    real saved data; do that on a preview build before pushing to `main`.
 
 Live since 2026-11-09 (main 1cbf57b, SW `dp-v10-20`): Dharma Soup rename and dharmasoup.org, automatic backup,
 group organiser tools, minute-by-minute reminders, phone-safety cards and feedback (section 5).
@@ -174,11 +201,11 @@ Later, to talk through first:
 
 - **Long-life prayers from James Low and Lama Rabsang (F1).** Gareth will send them.
 - **Check the Vajra Guru wording and the prostration note with Lama Rabsang (F7).**
-- **Google Search Console (F6).** This gets Google to drop the old WordPress tagline and list the new site. Steps:
+- **Google Search Console (F6).** This gets Google to list the new site. Steps:
   1. Gareth signs in at search.google.com/search-console with his Google account and adds a **Domain** property
-     for `slicedharma.com`.
+     for `dharmasoup.org`.
   2. Google shows a TXT record. Claude adds it in Cloudflare DNS (or Gareth pastes it there).
-  3. Click **Verify**, submit `https://slicedharma.com/sitemap.xml`, and request indexing of the home page.
+  3. Click **Verify**, submit `https://dharmasoup.org/sitemap.xml`, and request indexing of the home page.
   This takes about 10 minutes. Only the sign-in has to be Gareth.
 
 ---
@@ -193,10 +220,11 @@ Later, to talk through first:
 
 ## 9. Dropped (don't bring back unless Gareth asks)
 
-- The big redesign: Phase 6 look and mockups (E2).
+- ~~The big redesign (E2).~~ Back on since 2026-11-10: see section 6. The old Phase 6 mockup stays dropped
+  (`docs/archive/prototype-2026-09.html`).
 - Other schools' text packs (E3).
 - More calendars, including Tsurphu (E4).
-- Chasing permissions from Lama Lena and Simply Being (F2). The drafts in `docs/requests.md` are no longer needed.
+- Chasing permissions from Lama Lena and Simply Being (F2). The drafts are in `docs/archive/requests-2026-10.md`.
 - Linking a specific Emerson College talk from the Three Aa (F3).
 - Finding the refuge tree image source (F4).
 - The "can't add my own practices to the calendar" report (F8). Dropped until further notice.
@@ -210,5 +238,6 @@ Later, to talk through first:
 
 - `docs/archive/PLAN-2026-10.md`: the old audit, phases and round notes. History only.
 - `docs/archive/DECISIONS-REVIEW-2026-11-05.md`: Gareth's ticked review that this doc is built from.
-- `docs/AUDIT-2026-10.md`, `docs/link-audit.md`, `docs/calendar-research.md`, `docs/auspicious-days-draft.md`:
-  background research, still useful for reference.
+- `docs/archive/AUDIT-2026-10.md`: the October "where things live" audit. History only; the redesign replaces it.
+- `docs/link-audit.md`, `docs/calendar-research.md`, `docs/auspicious-days-draft.md`: background research, still
+  useful for reference.

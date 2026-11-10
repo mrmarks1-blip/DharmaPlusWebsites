@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en" data-mode="light" data-look="saffron">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Dharma Practice: redesign mockup</title>
+<style>
+/* Mockup only (10 Nov 2026). Not served on the live site. Numbers and names are made-up examples. */
+@font-face { font-family:'Atkinson Hyperlegible Next'; font-weight:200 800; font-display:swap; src:url(../practice/fonts/atkinson-latin.woff2) format('woff2'); }
+@font-face { font-family:'Fraunces'; font-weight:400 600; font-display:swap; src:url(../practice/fonts/fraunces-latin.woff2) format('woff2'); }
+:root { --f:'Atkinson Hyperlegible Next',system-ui,-apple-system,'Segoe UI',sans-serif; --fq:'Fraunces',Georgia,serif;
+  --r:16px; --r-lg:22px; --tap:48px; --gut:18px; }
+[data-mode="light"] { --bg:#f6f5f2; --card:#ffffff; --sunk:#eeece7; --ink:#1a1814; --ink2:#5c574f; --ink3:#857f75; --line:#e7e4dd; --on:#ffffff; --ok:#2f7a45; --warn:#a8641a; --veil:rgba(20,16,10,.42); --shadow:0 1px 2px rgba(30,20,10,.05),0 6px 20px rgba(30,20,10,.05); }
+[data-mode="dark"]  { --bg:#121110; --card:#1d1b19; --sunk:#181614; --ink:#f2efe9; --ink2:#b9b3a8; --ink3:#8e877c; --line:#2e2a26; --on:#14110d; --ok:#7fc795; --warn:#e3a55a; --veil:rgba(0,0,0,.6); --shadow:none; }
+[data-mode="light"][data-look="saffron"] { --acc:#b9530a; --acc-soft:#fbeede; }
+[data-mode="light"][data-look="lapis"]   { --acc:#2f4a9e; --acc-soft:#e8edfa; }
+[data-mode="light"][data-look="juniper"] { --acc:#2c6a4d; --acc-soft:#e4f1ea; }
+[data-mode="dark"][data-look="saffron"]  { --acc:#f0954a; --acc-soft:#33210f; }
+[data-mode="dark"][data-look="lapis"]    { --acc:#93abf0; --acc-soft:#1a2340; }
+[data-mode="dark"][data-look="juniper"]  { --acc:#7fc7a2; --acc-soft:#15291f; }
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html,body { height:100%; }
+body { background:#d9d6cf; font-family:var(--f); font-size:17px; line-height:1.45; color:var(--ink); -webkit-font-smoothing:antialiased; }
+button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; text-align:inherit; }
+:focus-visible { outline:3px solid var(--acc); outline-offset:2px; }
+svg.i { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+
+#phone { position:relative; height:100%; max-width:430px; margin:0 auto; background:var(--bg); display:flex; flex-direction:column; overflow:hidden; }
+#view { flex:1; overflow-y:auto; position:relative; }
+.pad { padding:20px var(--gut) 32px; display:flex; flex-direction:column; gap:16px; }
+
+/* Bottom tabs */
+#tabs { display:grid; grid-template-columns:repeat(4,1fr); background:var(--card); border-top:1px solid var(--line); padding:6px 6px 10px; }
+.tab { display:flex; flex-direction:column; align-items:center; gap:3px; min-height:54px; justify-content:center; font-size:12.5px; font-weight:600; color:var(--ink3); border-radius:14px; }
+.tab.on { color:var(--acc); }
+.tab.on svg { stroke-width:2.2; }
+
+/* Type */
+.eyebrow { font-size:14px; font-weight:600; color:var(--ink3); }
+h1 { font-size:30px; line-height:1.15; font-weight:750; letter-spacing:-.02em; }
+h2 { font-size:15px; font-weight:700; color:var(--ink2); margin:10px 2px -6px; }
+.sub { color:var(--ink2); font-size:15px; }
+.small { color:var(--ink3); font-size:14px; }
+
+/* One card, one row, one button: used everywhere */
+.card { background:var(--card); border-radius:var(--r-lg); padding:18px; box-shadow:var(--shadow); }
+.list { background:var(--card); border-radius:var(--r-lg); box-shadow:var(--shadow); overflow:hidden; }
+.row { display:flex; align-items:center; gap:14px; width:100%; min-height:62px; padding:10px 16px; }
+.row + .row { border-top:1px solid var(--line); }
+.row .ic { width:40px; height:40px; border-radius:12px; background:var(--acc-soft); color:var(--acc); display:grid; place-items:center; flex-shrink:0; }
+.row .ic svg { width:21px; height:21px; }
+.row .t { display:block; font-weight:650; }
+.row .s { display:block; font-size:14px; color:var(--ink2); }
+.grow { flex:1; min-width:0; }
+.chev { color:var(--ink3); width:20px; height:20px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:var(--tap); padding:0 20px; border-radius:999px; font-weight:700; }
+.btn.pri { background:var(--acc); color:var(--on); }
+.btn.soft { background:var(--acc-soft); color:var(--acc); }
+.btn.plain { background:var(--sunk); color:var(--ink); }
+.btn.wide { width:100%; }
+.btns { display:flex; gap:10px; }
+.bar { height:6px; border-radius:3px; background:var(--sunk); overflow:hidden; margin-top:8px; }
+.bar i { display:block; height:100%; background:var(--acc); border-radius:3px; }
+
+/* Today */
+.daychip { display:flex; align-items:center; gap:10px; width:100%; padding:12px 16px; background:var(--card); border-radius:var(--r); box-shadow:var(--shadow); font-size:15px; }
+.daychip b { font-weight:650; }
+.hero { background:var(--acc); color:var(--on); border-radius:var(--r-lg); padding:20px; display:flex; flex-direction:column; gap:16px; }
+.hero .top { display:flex; align-items:center; gap:16px; }
+.hero .name { font-size:14px; font-weight:600; opacity:.85; }
+.hero .num { font-size:34px; font-weight:780; letter-spacing:-.02em; line-height:1.1; }
+.hero .of { font-size:14px; opacity:.85; }
+.hero .btn.pri { background:var(--on); color:var(--acc); flex:1; }
+.hero .btn.ghost { background:rgba(255,255,255,.18); color:var(--on); }
+[data-mode="dark"] .hero .btn.ghost { background:rgba(0,0,0,.16); }
+.ring { width:72px; height:72px; flex-shrink:0; }
+.quick { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.tile { background:var(--card); border-radius:var(--r); box-shadow:var(--shadow); padding:14px 12px; display:flex; flex-direction:column; gap:8px; min-height:92px; }
+.tile svg { color:var(--acc); }
+.tile b { font-size:15px; font-weight:650; line-height:1.2; }
+.tile span { font-size:13px; color:var(--ink2); }
+.week { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; margin-top:12px; }
+.week span { font-size:13px; color:var(--ink3); font-weight:600; }
+.week i { display:block; width:30px; height:30px; margin:6px auto 0; border-radius:50%; background:var(--sunk); }
+.week i.on { background:var(--acc); }
+.week i.now { box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--acc); }
+.quote p.q { font-family:var(--fq); font-size:21px; line-height:1.4; margin:8px 0 10px; }
+
+/* Grid tiles on Practice */
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+/* Segments and choices */
+.seg { display:flex; background:var(--sunk); border-radius:999px; padding:4px; }
+.seg button { flex:1; min-height:40px; border-radius:999px; font-weight:650; font-size:15px; color:var(--ink2); text-align:center; }
+.seg button.on { background:var(--card); color:var(--ink); box-shadow:var(--shadow); }
+.sw { display:flex; gap:10px; }
+.sw button { flex:1; min-height:56px; border-radius:var(--r); background:var(--sunk); font-size:14px; font-weight:650; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; }
+.sw button i { width:22px; height:22px; border-radius:50%; }
+.sw button.on { box-shadow:0 0 0 2px var(--acc); background:var(--card); }
+.search { display:flex; align-items:center; gap:10px; background:var(--card); border-radius:999px; min-height:var(--tap); padding:0 16px; color:var(--ink3); box-shadow:var(--shadow); }
+
+/* Inner pages: always the same bar, always a back arrow */
+.topbar { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:4px; min-height:56px; padding:4px 6px; background:var(--bg); }
+.topbar b { font-size:18px; font-weight:700; }
+.iconbtn { width:var(--tap); height:var(--tap); display:grid; place-items:center; border-radius:50%; }
+.bignum { font-size:52px; font-weight:780; letter-spacing:-.03em; line-height:1; }
+.status { display:flex; gap:12px; align-items:flex-start; }
+.dot { width:12px; height:12px; border-radius:50%; background:var(--ok); margin-top:6px; flex-shrink:0; }
+
+/* Counting: full screen, nothing else */
+#count { position:absolute; inset:0; z-index:30; background:var(--bg); display:flex; flex-direction:column; }
+#count .tapzone { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; user-select:none; }
+#count .n { font-size:104px; font-weight:780; letter-spacing:-.04em; line-height:1; color:var(--acc); }
+
+/* Reader */
+.verse { font-family:var(--fq); font-size:22px; line-height:1.5; }
+.tib { font-size:24px; line-height:1.9; color:var(--ink2); }
+
+/* Calendar */
+.cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
+.cal span { font-size:13px; color:var(--ink3); font-weight:600; padding-bottom:4px; }
+.cal button { aspect-ratio:1; border-radius:50%; font-size:15px; text-align:center; position:relative; }
+.cal button.p { background:var(--acc-soft); color:var(--acc); font-weight:700; }
+.cal button.now { box-shadow:inset 0 0 0 2px var(--acc); font-weight:700; }
+.cal button.a::after { content:''; position:absolute; left:50%; bottom:4px; width:5px; height:5px; margin-left:-2.5px; border-radius:50%; background:var(--warn); }
+
+/* Bottom sheet: only for one quick choice */
+#veil { position:absolute; inset:0; z-index:40; background:var(--veil); display:flex; align-items:flex-end; }
+.sheet { width:100%; background:var(--card); border-radius:26px 26px 0 0; padding:10px var(--gut) 26px; display:flex; flex-direction:column; gap:14px; animation:up .22s ease-out; }
+.sheet .grab { width:40px; height:5px; border-radius:3px; background:var(--line); margin:0 auto 4px; }
+.sheet h3 { font-size:21px; font-weight:750; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chips button { min-height:var(--tap); min-width:68px; padding:0 16px; border-radius:999px; background:var(--sunk); font-weight:700; text-align:center; }
+.chips button.on { background:var(--acc); color:var(--on); }
+@keyframes up { from { transform:translateY(40px); opacity:0; } }
+@media (prefers-reduced-motion:reduce) { .sheet { animation:none; } }
+
+#note { flex-shrink:0; background:var(--ink); color:var(--bg); font-size:12.5px; font-weight:700; padding:6px 12px; text-align:center; }
+</style>
+</head>
+<body>
+<div id="phone"><button id="note" data-go="look">Mockup · tap to change the look</button><main id="view"></main><nav id="tabs" aria-label="Main"></nav></div>
+<script>
+const P={
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
+  sit:'<circle cx="12" cy="5.5" r="2.5"/><path d="M5 20c.6-5.4 3.4-8 7-8s6.400 2.600 7 8M3.500 20h17"/>',
+  book:'<path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  user:'<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  chev:'<path d="m9 18 6-6-6-6"/>', back:'<path d="m15 18-6-6 6-6"/>', plus:'<path d="M5 12h14M12 5v14"/>', x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>',
+  timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',
+  wind:'<path d="M17.700 7.700a2.500 2.500 0 1 1 1.800 4.300H2M9.600 4.600A2 2 0 1 1 11 8H2M12.600 19.400A2 2 0 1 0 14 16H2"/>',
+  beads:'<circle cx="12" cy="4.500" r="2"/><circle cx="18.500" cy="8.500" r="2"/><circle cx="16.500" cy="16" r="2"/><circle cx="7.500" cy="16" r="2"/><circle cx="5.500" cy="8.500" r="2"/><path d="M12 18v4"/>',
+  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.870M16 3.130a4 4 0 0 1 0 7.750"/>',
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.300 21a1.940 1.940 0 0 0 3.400 0"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  shield:'<path d="M20 13c0 5-3.500 7.500-7.660 8.950a1 1 0 0 1-.670-.010C7.500 20.500 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.500-1.200 6.240-2.720a1.170 1.170 0 0 1 1.520 0C14.510 3.810 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  look:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 0 0 0-18z" fill="currentColor"/>',
+  heart:'<path d="M19 14c1.490-1.460 3-3.210 3-5.500A5.500 5.500 0 0 0 16.500 3c-1.760 0-3 .500-4.500 2-1.500-1.500-2.740-2-4.500-2A5.500 5.500 0 0 0 2 8.500c0 2.300 1.500 4.050 3 5.500l7 7z"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.010"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.300-4.300"/>',
+  chart:'<path d="M3 3v18h18M7 16v-5M12 16V8M17 16v-3"/>',
+  award:'<circle cx="12" cy="8" r="6"/><path d="M15.500 13 17 22l-5-3-5 3 1.500-9"/>',
+  phone:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.010"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+  map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>',
+  tree:'<path d="M12 22v-7M7 15h10l-3-4h2l-4-6-4 6h2z"/>',
+  moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
+  ear:'<path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>',
+  tune:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M2 14h4M10 8h4M18 16h4"/>',
+  flame:'<path d="M12 3c1 3 4 5 4 9a4 4 0 0 1-8 0c0-1.500.500-2.500 1.500-3.500C10 10 12 7 12 3z"/><path d="M6 21h12"/>'
+};
+const ico=(k,c='i')=>`<svg class="${c}" viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
+const chev=`<svg class="i chev" viewBox="0 0 24 24" aria-hidden="true">${P.chev}</svg>`;
+const row=(go,ic,t,s,right)=>`<button class="row" data-go="${go}"><span class="ic">${ico(ic)}</span><span class="grow"><span class="t">${t}</span>${s?`<span class="s">${s}</span>`:''}</span>${right===undefined?chev:right}</button>`;
+const topbar=t=>`<div class="topbar"><button class="iconbtn" data-back aria-label="Back">${ico('back')}</button><b>${t}</b></div>`;
+const fmt=n=>n.toLocaleString('en-GB');
+
+const S={tab:'today',stack:[],sheet:null,count:0,total:12400,pace:100,lib:'prayers',size:1};
+const TABS=[['today','Today','sun'],['practice','Practice','sit'],['library','Library','book'],['you','You','user']];
+
+const ring=pct=>{const c=2*Math.PI*30;return`<svg class="ring" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="30" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="7"/><circle cx="36" cy="36" r="30" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-pct)}" transform="rotate(-90 36 36)"/></svg>`;};
+
+const PAGES={
+today:()=>`<div class="pad">
+  <div><p class="eyebrow">Tuesday 10 November</p><h1>Good afternoon</h1></div>
+  <button class="daychip" data-go="calendar">${ico('moon')}<span class="grow"><b>Tibetan day 1</b> · 10th month<br><span class="small">Medicine Buddha Day in 7 days</span></span>${chev}</button>
+  <div class="hero">
+    <div class="top">${ring(S.total/111111)}<div><div class="name">Prostrations</div><div class="num">${fmt(S.total)}</div><div class="of">of 111,111 · 300 this week</div></div></div>
+    <div class="btns"><button class="btn pri" data-go="count">Start counting</button><button class="btn ghost" data-act="quick">+ ${S.pace}</button></div>
+  </div>
+  <div class="quick">
+    <button class="tile" data-go="timer">${ico('timer')}<b>Sit</b><span>20 minutes</span></button>
+    <button class="tile" data-go="breath">${ico('wind')}<b>Breathe</b><span>4 ways</span></button>
+    <button class="tile" data-go="count">${ico('beads')}<b>Count</b><span>anything</span></button>
+  </div>
+  <button class="card" data-go="diary" style="width:100%"><div style="display:flex;align-items:center"><b class="grow">This week</b><span class="small">2 days practiced</span>${chev}</div>
+    <div class="week">${['M','T','W','T','F','S','S'].map((d,i)=>`<div><span>${d}</span><i class="${[0,1].includes(i)?'on':''}${i===1?' now':''}"></i></div>`).join('')}</div></button>
+  <div class="card quote"><p class="eyebrow">Words for today</p>
+    <p class="q">If a man speaks or acts with a pure thought, happiness follows him, like a shadow that never leaves him.</p>
+    <div style="display:flex;align-items:center"><span class="small grow">Dhammapada 2</span><button class="btn soft" data-go="sheet:share">${ico('share')} Share</button></div></div>
+</div>`,
+
+practice:()=>`<div class="pad"><h1>Practice</h1>
+  <h2>Your practices</h2>
+  <div class="list">
+    ${[['Prostrations',S.total,111111],['Diamond Mind',0,111111],['Mandala offerings',0,111111],['Guru Yoga',0,111111],['Vajra Guru mantra',4200,100000]].map(([n,c,t])=>`<button class="row" data-go="practice"><span class="grow"><span class="t">${n}</span><span class="s">${fmt(c)} of ${fmt(t)}</span><span class="bar"><i style="width:${c/t*100}%"></i></span></span>${chev}</button>`).join('')}
+    ${row('sheet:new','plus','Add your own','Any mantra or practice')}
+  </div>
+  <h2>Meditation</h2>
+  <div class="grid2">
+    <button class="tile" data-go="timer">${ico('timer')}<b>Timer</b><span>20 minutes, with bells</span></button>
+    <button class="tile" data-go="stub:The Three Aa">${ico('flame')}<b>The Three Aa</b><span>James Low</span></button>
+    <button class="tile" data-go="stub:Kinds of meditation">${ico('sit')}<b>Kinds of meditation</b><span>Find one that suits</span></button>
+    <button class="tile" data-go="breath">${ico('wind')}<b>Breath</b><span>4 ways to follow it</span></button>
+  </div>
+  <h2>Together</h2>
+  <div class="list">${row('stub:Practice together','users','Practice together','A shared count with your sangha or friends')}</div>
+</div>`,
+
+library:()=>`<div class="pad"><h1>Library</h1>
+  <div class="search">${ico('search')}<span>Search prayers and pages</span></div>
+  <div class="seg">${[['prayers','Prayers'],['learn','Learn'],['listen','Listen']].map(([k,l])=>`<button class="${S.lib===k?'on':''}" data-lib="${k}">${l}</button>`).join('')}</div>
+  ${S.lib==='prayers'?`
+  <button class="card" data-go="reader" style="width:100%;background:var(--acc-soft)"><p class="eyebrow" style="color:var(--acc)">Start here</p><b style="font-size:20px">The Seven-Line Prayer</b><p class="sub">The heart prayer to Guru Rinpoche</p></button>
+  <div class="list">
+    ${row('reader','book','Daily prayers','10 prayers')}
+    ${row('reader','heart','Long-life prayers','8 prayers')}
+    ${row('reader','book','Patrul Rinpoche · Garab Dorje','13 texts')}
+    ${row('reader','flame','Smoke offerings','2 texts')}
+    ${row('reader','book','Other texts','2 texts')}
+    ${row('stub:When someone has passed','moon','When someone has passed','The 49 days, and what to do')}
+  </div>`:S.lib==='learn'?`
+  <div class="list">
+    ${row('stub:The refuge tree','tree','The refuge tree','97 figures. Tap any to read who they are')}
+    ${row('stub:The practices','sit','The practices','Ngöndro, meditation and the breath, in plain words')}
+    ${row('calendar','cal','The Tibetan calendar','Auspicious days, the moon, hair cutting')}
+    ${row('stub:The full moon','moon','The full moon','What it means in each tradition')}
+    ${row('stub:Caring for Dharma texts','book','Caring for Dharma texts','Off the floor, not stepped over')}
+  </div>`:`
+  <div class="list">
+    ${row('stub:Listen','ear','Teachings to listen to','Links to talks from the teachers behind this app')}
+  </div>`}
+</div>`,
+
+you:()=>`<div class="pad"><h1>You</h1>
+  <button class="card" data-go="diary" style="width:100%;display:flex;gap:8px;text-align:center">
+    ${[['42','days practiced'],[fmt(S.total+4200),'counted'],['3','milestones']].map(([n,l])=>`<span class="grow"><b style="display:block;font-size:22px;font-weight:780">${n}</b><span class="small">${l}</span></span>`).join('')}</button>
+  <h2>Your practice</h2>
+  <div class="list">
+    ${row('diary','chart','Progress and diary','Days practiced, totals, export')}
+    ${row('stub:Milestones','award','Milestones','3 reached')}
+    ${row('stub:Reminders','bell','Reminders','1 reminder · mindfulness bell off')}
+    ${row('calendar','cal','Calendar','Auspicious days, which days to show')}
+    ${row('stub:Set up again','tune','Tradition and goals','Tibetan · Prostrations on Today')}
+  </div>
+  <h2>Keep it safe</h2>
+  <div class="list">${row('backup','shield','Backup','Automatic · last copy today, 7:02',`<span class="dot" style="margin:0"></span>${chev}`)}</div>
+  <h2>Look and sound</h2>
+  <div class="list">
+    ${row('look','look','Appearance','Light or dark, colour, text size')}
+    ${row('stub:Sounds','bell','Sounds','On · singing bowl')}
+  </div>
+  <h2>Dharma Soup</h2>
+  <div class="list">
+    ${row('stub:A tour of the app','map','A tour of the app')}
+    ${row('stub:About','info','About','Why it exists, and who to thank')}
+    ${row('stub:Generosity','heart','Generosity','The teachers and centres behind this app')}
+    ${row('sheet:share','share','Share with a friend')}
+    ${row('stub:Add to your phone','phone','Add to your phone','Opens like any app, works offline')}
+    ${row('stub:Send feedback','mail','Send feedback')}
+  </div>
+</div>`
+};
+
+const SCREENS={
+practice:()=>`${topbar('Prostrations')}<div class="pad" style="padding-top:4px">
+  <div><div class="bignum">${fmt(S.total)}</div><p class="sub">of 111,111 · ${Math.floor(S.total/111111*100)}%</p><div class="bar"><i style="width:${S.total/111111*100}%"></i></div></div>
+  <div class="btns"><button class="btn pri grow" data-go="count">${ico('beads')} Start counting</button><button class="btn soft" data-act="quick">+ ${S.pace}</button></div>
+  <p class="small">At ${S.pace} a day you will finish around November 2029.</p>
+  <h2>Change</h2>
+  <div class="list">
+    ${row('sheet:pace','plus','The + amount',`Now ${S.pace} each time`)}
+    ${row('sheet:pace','plus','Add a number','For practice counted elsewhere')}
+    ${row('stub:Edit the total','tune','Correct the total')}
+    ${row('stub:Set a finish date','cal','Set a finish date','Works out how many a day')}
+    ${row('stub:Reminders','bell','Remind me each day')}
+  </div>
+  <h2>About this practice</h2>
+  <div class="card"><p class="sub">Taking refuge with body, speech and mind. (The app's existing note and the refuge tree picture go here, unchanged.)</p></div>
+</div>`,
+timer:()=>`${topbar('Meditation timer')}<div class="pad" style="padding-top:4px;align-items:center;text-align:center">
+  <div class="bignum" style="margin-top:28px">20:00</div><p class="sub">A bell at the start and the end</p>
+  <div class="chips" style="justify-content:center">${[5,10,20,30,45].map(m=>`<button class="${m===20?'on':''}">${m}</button>`).join('')}<button>Open</button></div>
+  <button class="btn pri wide" style="margin-top:12px">Begin</button>
+  <div class="list" style="width:100%;text-align:left">${row('stub:Sounds','bell','Bell','Singing bowl')}${row('stub:Kinds of meditation','sit','Kinds of meditation')}</div>
+</div>`,
+breath:()=>`${topbar('Breath')}<div class="pad" style="padding-top:4px"><p class="sub">Each one follows your own breath. None sets a pace.</p>
+  <div class="list">
+    ${row('stub:Vajra breathing','wind','Vajra breathing · OM AH HUM','As taught by Garchen Rinpoche')}
+    ${row('stub:The beautiful breath','wind','The beautiful breath','Ajahn Brahm’s stages of meditation')}
+    ${row('stub:Counting the breath','wind','Counting the breath','One to ten, then begin again')}
+    ${row('stub:Nine-Round Breathing','wind','Nine-Round Breathing','About 10 minutes')}
+  </div></div>`,
+calendar:()=>{const pr=[2,3,5,8,9,10],au=[8,15,17,24,25];return`${topbar('Calendar')}<div class="pad" style="padding-top:4px">
+  <div class="card"><div style="display:flex;align-items:center;margin-bottom:12px"><b class="grow" style="font-size:19px">November 2026</b><button class="iconbtn" aria-label="Previous month">${ico('back')}</button><button class="iconbtn" aria-label="Next month">${ico('chev')}</button></div>
+    <div class="cal">${['M','T','W','T','F','S','S'].map(d=>`<span>${d}</span>`).join('')}${'<i></i>'.repeat(6)}${Array.from({length:30},(_,i)=>i+1).map(d=>`<button class="${pr.includes(d)?'p ':''}${d===10?'now ':''}${au.includes(d)?'a':''}" data-go="sheet:day">${d}</button>`).join('')}</div>
+    <p class="small" style="margin-top:12px">Filled = you practiced · dot = auspicious day</p></div>
+  <h2>Today</h2>
+  <div class="list">${row('sheet:day','moon','Tibetan day 1 · 10th month','Fire Horse year · new moon')}${row('stub:Hair cutting','info','Hair cutting today','Tibetan astrology: avoid')}</div>
+  <h2>Coming up</h2>
+  <div class="list">${row('sheet:day','sun','Medicine Buddha Day','Tuesday 17 November · in 7 days')}${row('sheet:day','sun','Guru Rinpoche Day','Thursday 19 November')}${row('sheet:day','moon','Full moon','Tuesday 24 November')}</div>
+  <div class="list">${row('stub:Calendar settings','tune','Which days to show','Tibetan · full moons')}${row('stub:Add to my phone calendar','cal','Put these in my phone’s calendar')}</div>
+</div>`;},
+diary:()=>`${topbar('Progress and diary')}<div class="pad" style="padding-top:4px">
+  <div class="card"><b>This month</b><div class="bignum" style="font-size:40px;margin-top:6px">6 days</div><p class="sub">1,800 prostrations · 2 h 40 min sitting</p></div>
+  <h2>Your practices</h2>
+  <div class="list">${row('practice','beads','Prostrations',`${fmt(S.total)} of 111,111`)}${row('practice','beads','Vajra Guru mantra','4,200 of 100,000')}${row('timer','timer','Meditation','31 sits · 10 h 20 min')}</div>
+  <div class="list">${row('calendar','cal','See it on the calendar')}${row('stub:Export','share','Export my diary','A spreadsheet file')}</div>
+</div>`,
+backup:()=>`${topbar('Backup')}<div class="pad" style="padding-top:4px">
+  <div class="card status"><span class="dot"></span><div><b>Your practice is safe</b><p class="sub">A locked copy is saved online once a day. Last copy today at 7:02.</p></div></div>
+  <h2>Automatic backup</h2>
+  <div class="list">${row('stub:Backup code','shield','Show my backup code','You need it to restore on a new phone')}${row('stub:Turn off','x','Turn off automatic backup','Deletes the online copy')}</div>
+  <h2>By hand</h2>
+  <div class="list">${row('stub:Send a copy','share','Send a copy to myself','Email, WhatsApp or your files')}${row('stub:Remind me','bell','Remind me to send a copy','Every 2 weeks')}</div>
+  <h2>Bring it back</h2>
+  <div class="list">${row('stub:Restore','shield','Restore with my backup code')}${row('stub:Restore','share','Restore from a copy I sent myself')}</div>
+</div>`,
+look:()=>{const m=document.documentElement.dataset.mode,l=document.documentElement.dataset.look;return`${topbar('Appearance')}<div class="pad" style="padding-top:4px">
+  <h2>Light or dark</h2>
+  <div class="seg">${[['light','Light'],['dark','Dark']].map(([k,t])=>`<button class="${m===k?'on':''}" data-mode-set="${k}">${t}</button>`).join('')}</div>
+  <h2>Colour</h2>
+  <div class="sw">${[['saffron','Saffron','#c2600f'],['lapis','Lapis','#3d5bbd'],['juniper','Juniper','#3a7d5c']].map(([k,t,c])=>`<button class="${l===k?'on':''}" data-look-set="${k}"><i style="background:${c}"></i>${t}</button>`).join('')}</div>
+  <h2>Text size</h2>
+  <div class="seg">${[[1,'Normal'],[1.15,'Large'],[1.3,'Larger']].map(([v,t])=>`<button class="${S.size===v?'on':''}" data-size="${v}">${t}</button>`).join('')}</div>
+  <p class="small">In the real app there would also be “Automatic” (follows your phone) and a high-contrast option. The seven extra themes (Temple, Night, Neon…) would go.</p>
+</div>`;},
+reader:()=>`${topbar('The Seven-Line Prayer')}<div class="pad" style="padding-top:4px">
+  <div class="seg"><button class="on">Verse by verse</button><button>Whole prayer</button></div>
+  <div class="card" style="min-height:300px;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center">
+    <p class="tib">ཧཱུྃ༔ ཨོ་རྒྱན་ཡུལ་གྱི་ནུབ་བྱང་མཚམས༔</p>
+    <p class="verse">Hung. In the north-west of the land of Orgyen</p><p class="small">1 of 7</p></div>
+  <div class="btns"><button class="btn plain grow">${ico('back')} Back</button><button class="btn pri grow">Next ${ico('chev')}</button></div>
+  <div class="list">${row('stub:About this prayer','info','About this prayer','With James Low on its meaning')}</div>
+</div>`,
+stub:t=>`${topbar(t)}<div class="pad" style="padding-top:4px"><div class="card"><b>${t}</b><p class="sub" style="margin-top:6px">Not drawn in this mockup. In the real app this opens as a page like this one: the same top bar, a back arrow, and the existing content.</p></div></div>`
+};
+
+const SHEETS={
+pace:()=>`<h3>How many each time?</h3><div class="chips">${[21,50,100,108,200,500].map(n=>`<button class="${S.pace===n?'on':''}" data-pace="${n}">${n}</button>`).join('')}</div><button class="btn pri wide" data-close>Done</button>`,
+share:()=>`<h3>Share</h3><p class="sub">The picture picker stays as it is now, just in this sheet style.</p><button class="btn pri wide" data-close>${ico('share')} Share</button>`,
+day:()=>`<h3>Medicine Buddha Day</h3><p class="sub">Tuesday 17 November · Tibetan day 8</p><p>The day of the Medicine Buddha, Sangye Menla: a day for healing prayers and his mantra.</p><button class="btn soft wide" data-close>${ico('bell')} Remind me</button><button class="btn plain wide" data-close>Close</button>`,
+new:()=>`<h3>Add your own practice</h3><p class="sub">Name, target and the words of the mantra.</p><button class="btn pri wide" data-close>Add</button>`,
+done:()=>`<h3>${fmt(S.count)} counted</h3><p class="sub">Add them to Prostrations?</p><button class="btn pri wide" data-act="save">Add and dedicate</button><button class="btn plain wide" data-close>Keep counting</button>`
+};
+
+function render(){
+  const v=document.getElementById('view'),cur=S.stack[S.stack.length-1];
+  document.getElementById('tabs').innerHTML=TABS.map(([k,l,i])=>`<button class="tab${S.tab===k?' on':''}" data-tab="${k}" ${S.tab===k?'aria-current="page"':''}>${ico(i)}<span>${l}</span></button>`).join('');
+  let h;
+  if(!cur)h=PAGES[S.tab]();
+  else if(cur==='count')h=`<div id="count"><div class="topbar"><button class="iconbtn" data-back aria-label="Close">${ico('x')}</button><b class="grow">Prostrations</b><button class="btn soft" data-go="sheet:done" style="margin-right:8px">Finish</button></div>
+    <div class="tapzone" data-act="tap"><div class="n">${S.count}</div><p class="sub">Tap anywhere to count</p></div></div>`;
+  else if(cur.startsWith('stub:'))h=SCREENS.stub(cur.slice(5));
+  else h=SCREENS[cur]();
+  if(S.sheet)h+=`<div id="veil" data-veil><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${SHEETS[S.sheet]()}</div></div>`;
+  v.innerHTML=h;
+  document.getElementById('tabs').style.display=cur==='count'?'none':'';
+  document.getElementById('note').style.display=cur==='count'||S.sheet?'none':'';
+}
+let lastKey='';
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button,[data-act],[data-veil]');if(!t)return;const d=t.dataset;
+  if(d.veil!==undefined&&e.target!==t)return;
+  if(d.tab){S.tab=d.tab;S.stack=[];}
+  else if(d.go){if(d.go.startsWith('sheet:'))S.sheet=d.go.slice(6);else S.stack.push(d.go);}
+  else if(d.back!==undefined){S.stack.pop();S.count=0;}
+  else if(d.close!==undefined||d.veil!==undefined)S.sheet=null;
+  else if(d.lib)S.lib=d.lib;
+  else if(d.pace)S.pace=+d.pace;
+  else if(d.modeSet)document.documentElement.dataset.mode=d.modeSet;
+  else if(d.lookSet)document.documentElement.dataset.look=d.lookSet;
+  else if(d.size){S.size=+d.size;document.body.style.fontSize=17*S.size+'px';}
+  else if(d.act==='tap')S.count++;
+  else if(d.act==='quick')S.total+=S.pace;
+  else if(d.act==='save'){S.total+=S.count;S.count=0;S.sheet=null;S.stack=[];S.tab='today';}
+  else return;
+  const key=S.tab+'|'+S.stack.join('>'),same=key===lastKey;lastKey=key;
+  const v=document.getElementById('view'),y=v.scrollTop;render();v.scrollTop=same?y:0;
+});
+render();
+</script>
+</body>
+</html>
