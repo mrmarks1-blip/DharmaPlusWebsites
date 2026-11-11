@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
-| Service worker | `practice/sw.js`. Live: `dp-v10-24` (main 1ca99a1, 10 Nov 2026: the redesign). `dp-v10-25` is taken by the Dharma Soup logo on branch `claude/great-carson-pmqllo` (not live yet), so the release after that is `dp-v10-26`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-25` (11 Nov 2026: the Dharma Soup logo on the home page and Today). Next release: `dp-v10-26`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
