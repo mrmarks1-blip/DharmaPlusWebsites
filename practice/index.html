@@ -2249,7 +2249,7 @@ async function abOpen(key,body){const e=JSON.parse(body);if(!e||e.v!==1)throw ne
   if(e.gz)u=await abPipe(u,DecompressionStream);
   return new TextDecoder().decode(u);}
 const abPost=(path,obj)=>fetch(path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(obj)});
-let abBusy=false,abTried=0;
+let abBusy=false,abNext=0;
 // Send a copy now. force = skip the "has anything changed?" check. Quiet on failure: the status line just stays as it was.
 async function abRun(force){
   const c0=abCfg();if(!c0||!c0.on||abBusy||!abOK())return false;
@@ -2268,12 +2268,12 @@ async function abRun(force){
     if(!c1||!c1.on||c1.code!==c0.code){abPost('/api/backup/delete',{id:k.id}).catch(()=>{});return false;}   // turned off while sending: take it back
     lsSet('esm_cloud',{...c1,last:Date.now(),lastHash:hash,noPhoto,full:false},true);return true;
   }catch{return false;}finally{abBusy=false;}}
-// When the app opens (or comes back to the front): at most one backup a day, and one try an hour if it fails.
-function abAuto(){const c=abCfg();if(!c||!c.on||!abOK())return;
-  if(c.last&&dayKey(new Date(c.last))===dayKey())return;
-  if(Date.now()-abTried<3600000)return;abTried=Date.now();
-  abRun(false).then(ok=>{if(ok&&ST.sheet==='settings')render();});}
-function abStatus(c){const t=c.last,n=daysSince(t);return`Last automatic backup: ${t?(n===0?'today':n===1?'yesterday':n+' days ago'):'not yet'}.`
+// Keeps the online copy up to date: whenever something has changed, a new copy goes up within a couple of
+// minutes, and again when the app is put away. (It used to be once a day, so a restore could be hours behind:
+// Gareth, 2026-11-11.) Nothing is sent when nothing has changed. After a failure it waits ten minutes.
+function abAuto(){const c=abCfg();if(!c||!c.on||!abOK()||Date.now()<abNext)return;abNext=Date.now()+120000;
+  abRun(false).then(ok=>{if(!ok)abNext=Date.now()+600000;});}
+function abStatus(c){const t=c.last,n=t?Math.round((noonOf(new Date())-noonOf(new Date(t)))/86400000):0,at=t?` at ${pad2(new Date(t).getHours())}:${pad2(new Date(t).getMinutes())}`:'';return`It’s kept up to date as you practice. Last checked: ${t?(n===0?'today'+at:n===1?'yesterday'+at:n+' days ago'):'not yet'}.`
   +(c.full?' The online backup space is full at the moment, so please also send yourself a copy.':'');}
 async function abOff(){const c=abCfg();
   try{if(c){const k=await abKeys(c.code),r=await abPost('/api/backup/delete',{id:k.id});if(!r.ok)throw new Error('delete');}}
@@ -5353,7 +5353,8 @@ function mountRefuge(ov){
 // ═══════════════════════════════════════════════════════════
 dailySnapshot();
 if(hasPracticeData())keepStorage();
-setTimeout(abAuto,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)abAuto();});   // automatic backup: at most daily
+setTimeout(abAuto,4000);setInterval(()=>{if(!document.hidden)abAuto();},60000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)abNext=0;abAuto();});   // automatic backup: on opening, while in use, and straight away when the app is put away
 document.getElementById('app').addEventListener('input',e=>{const t=e.target;
   // Library search: redraw only the results, so the keyboard stays up.
   if(t.id==='libq'){ST.libq=t.value;const q=t.value.trim().length>=2;document.getElementById('libres').innerHTML=libResults();document.getElementById('libbody').hidden=q;document.getElementById('libx').hidden=!q;return;}

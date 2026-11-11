@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
-| Service worker | `practice/sw.js`. Live: `dp-v10-26` (11 Nov 2026: Practice page order, bells, Reminders page; see section 6). Waiting to go live: `dp-v10-27` (Reminders rebuilt, on branch `claude/practical-tesla-0ncth0`; see section 6). The release after that: `dp-v10-28`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-27` (11 Nov 2026: Reminders rebuilt; see section 6). Waiting to go live: `dp-v10-28` (automatic backup keeps up with changes, on branch `claude/practical-tesla-0ncth0`; see section 6). The release after that: `dp-v10-29`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -128,7 +128,8 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
   Institute, BSWA for Ajahn Brahm, Lotsawa House), then "This app" as its own card.
 - **Sessions (D9):** leaving mid-session offers Resume or Start fresh on Today. There's a 5-second hold-to-reset and
   an option to hide the number.
-- **Automatic backup (2026-11-09, opt-in).** The phone encrypts a copy once a day and stores it on our server
+- **Automatic backup (2026-11-09, opt-in).** The phone encrypts a copy and stores it on our server, once a day
+  up to `dp-v10-27` and within minutes of any change from `dp-v10-28`
   (`/api/backup/*`, table `backups`); the server never sees the 16-character code or the key. The code is offered to
   the phone's password manager (iCloud Keychain / Google) and shown to write down. Restore with the code on a new
   phone. Turning it off deletes the online copy. Capped at 2,000 backups and ~1.4 MB each (photo dropped if too big);
@@ -203,8 +204,16 @@ testing), and so do the content rules in section 3.
   check "Hear it", the start bell, and the bell and full-moon switches on his own phone. If the bells are still
   silent there, note which phone and whether its silent switch is on.
 
-**Waiting to go live: Reminders rebuilt (SW `dp-v10-27`), on branch `claude/practical-tesla-0ncth0`. Not on
-`main`: Gareth to say when.** He reported that the Reminders page was confusing and that a 15-minute mindfulness
+**Waiting to go live: automatic backup keeps up with changes (SW `dp-v10-28`), on branch
+`claude/practical-tesla-0ncth0`. Not on `main`: Gareth to say when.** He did prostrations in Firefox, restored
+with his code in Chrome, and the copy was a few hours old. Cause: the online copy was sent at most once a day.
+Now a new copy goes up within about two minutes of any change while the app is open, and straight away when the
+app is put away or switched from; nothing is sent when nothing has changed; after a failure it waits ten minutes.
+The Backup page shows the time it was last checked. Tested in a desktop browser with the server faked. Limits:
+a phone that is offline can't send, and a browser may cut off the send if the app is closed the instant after a
+change, so "Back up now" is still the sure way before moving phones.
+
+**Live since 2026-11-11 (main 8df7b06, SW `dp-v10-27`): Reminders rebuilt, pushed at Gareth's request.** He reported that the Reminders page was confusing and that a 15-minute mindfulness
 bell never arrived, app open or closed.
 - What was found. The server's sending logic is right (run here against a stand-in database: a 15-minute bell
   goes out on every quarter hour). The app, though, showed "Notifications are on" from the saved setting alone.
@@ -215,11 +224,9 @@ bell never arrived, app open or closed.
 - What changed: see "Reminders page" in section 5. Also: the server now logs any refused push ("push refused" in
   Workers → Observability) and tells the app how the test went; a refused test makes a fresh push address and
   tries once more; an empty or back-to-front bell time can no longer be saved.
-- Server (`worker/index.js`) changes only take effect once this is on `main`. Until then a preview build can show
-  the new page, but auspicious-day notifications won't be sent and the test button can't report a refusal.
 - Tested in a desktop browser at 375×812 and 375×667, light and dark, with the phone's notification parts faked
   (new person, restored settings, blocked, permission refused, server unreachable, stale push address), and the
-  server in a local rig. **Not tested on a real phone.** After it's live, Gareth to check on his own phone:
+  server in a local rig. **Not tested on a real phone.** Gareth to check on his own phone:
   1. You → Reminders. If it says "Notifications need turning on again" or "Your phone is blocking notifications",
      that was the fault: follow the button.
   2. "Send a test notification". If the page says it was sent but nothing appears, the phone itself is holding it
