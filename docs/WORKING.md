@@ -27,7 +27,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Booklet | `print/build.py` → `practice/four-thoughts-refuge-prostrations.pdf` |
 | Drafts and notes (not served) | `content/`, `design/`, `print/`, `docs/`, as listed in `.assetsignore` |
 | Local preview | `.claude/launch.json` config `v10` (port 8740) or `v10b` (port 8752), then open `/practice/`. Python serves it; Node is installed (useful for `node --check`). Service workers don't register on localhost in the browser pane, so test service-worker changes on a preview or the live site. |
-| Deploy | `git push origin v10-redesign:main` (fast-forward). Live on dharmasoup.org, www and (until it lapses) slicedharma.com in about a minute. Other branches build preview versions. |
+| Deploy | `git push origin v10-redesign:main` (fast-forward). Live on dharmasoup.org, www and (until it lapses) slicedharma.com in about a minute. Other branches build preview versions, at `https://<first 8 characters of the version ID>-dharma-plus-websites.mrmarks1.workers.dev/` (e.g. `60e8bdc8-…`; find it under Workers → dharma-plus-websites → Deployments, or the Build page). Add `/practice/` for the app. Never click "Promote version" there: that makes it live. |
 
 ---
 
