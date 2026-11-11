@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
-| Service worker | `practice/sw.js`. Live: `dp-v10-27` (11 Nov 2026: Reminders rebuilt; see section 6). Waiting to go live: `dp-v10-28` (automatic backup keeps up with changes, on branch `claude/practical-tesla-0ncth0`; see section 6). The release after that: `dp-v10-29`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-28` (11 Nov 2026: Reminders rebuilt, automatic backup keeps up with changes; see section 6). Next release: `dp-v10-29`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -204,8 +204,8 @@ testing), and so do the content rules in section 3.
   check "Hear it", the start bell, and the bell and full-moon switches on his own phone. If the bells are still
   silent there, note which phone and whether its silent switch is on.
 
-**Waiting to go live: automatic backup keeps up with changes (SW `dp-v10-28`), on branch
-`claude/practical-tesla-0ncth0`. Not on `main`: Gareth to say when.** He did prostrations in Firefox, restored
+**Live since 2026-11-11 (main 3dc6be6, SW `dp-v10-28`): automatic backup keeps up with changes, pushed at
+Gareth's request.** He did prostrations in Firefox, restored
 with his code in Chrome, and the copy was a few hours old. Cause: the online copy was sent at most once a day.
 Now a new copy goes up within about two minutes of any change while the app is open, and straight away when the
 app is put away or switched from; nothing is sent when nothing has changed; after a failure it waits ten minutes.
