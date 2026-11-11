@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-26';
+const CACHE = 'dp-v10-27';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).
@@ -93,17 +93,19 @@ self.addEventListener('push', e => {
     rem: [d.label || 'Time for practice', words],
     bell: ['A mindfulness bell', 'Pause for a moment. One breath, just as it is.'],
     moon: ['Full moon today', 'In many traditions a day for practice: in the Tibetan tradition its effects are said to be greatly multiplied. Tap for what you might do.'],
+    // An auspicious day from the person's own calendar: the phone worked out the name; a tap opens that day.
+    day: [d.label || 'An auspicious day', 'Tap to see what this day is about.'],
   }[kind] || ['Dharma Practice', words];
   // Sent more than a few minutes after its time: say so, gently (not for bells or the test one).
   if (d.late && kind !== 'bell' && kind !== 'test') N[1] += '\nSent a little late: reminders go out in small batches from a free server, which keeps the app free.';
   if (kind === 'bell') self.clients.matchAll({ type: 'window' }).then(l => l.forEach(c => c.postMessage({ kind: 'bell' })));
-  e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind + (d.pr ? '-' + d.pr : ''), renotify: kind === 'bell', data: { kind, pr: d.pr || '' } }));
+  e.waitUntil(self.registration.showNotification(N[0], { body: N[1], icon: './icon-192.png', badge: './favicon-32.png', tag: 'dharma-' + kind + (d.pr ? '-' + d.pr : ''), renotify: kind === 'bell', data: { kind, pr: d.pr || '', day: d.day || '' } }));
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
     const n = e.notification.data || {};
-    const hash = n.kind === 'moon' ? '#fullmoon' : n.pr ? '#practice=' + n.pr : '';
+    const hash = n.kind === 'moon' ? '#fullmoon' : n.kind === 'day' && n.day ? '#day=' + n.day : n.pr ? '#practice=' + n.pr : '';
     // The app is served at /practice/ and, for phones that installed it earlier, /ngondro/.
     const open = list.find(c => c.url.startsWith(self.registration.scope));
     // Already open: the page itself moves to the practice (a hash change alone wouldn't reload it).

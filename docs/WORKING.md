@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
-| Service worker | `practice/sw.js`. Live: `dp-v10-26` (11 Nov 2026: Practice page order, bells, Reminders page; see section 6). Next release: `dp-v10-27`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-26` (11 Nov 2026: Practice page order, bells, Reminders page; see section 6). Waiting to go live: `dp-v10-27` (Reminders rebuilt, on branch `claude/practical-tesla-0ncth0`; see section 6). The release after that: `dp-v10-28`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -140,6 +140,16 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 - **Reminders (2026-11-09).** Sent from a cron every minute in batches of 15, longest-waiting first, max 3 per phone
   per run; a reminder can go out up to 2 hours late (bells never catch up). If it's more than 5 minutes late the
   notification says it came from a free server. Saving settings never fires an earlier reminder.
+- **Reminders page (2026-11-11, second pass; in `dp-v10-27`).** One list of "Your reminders" and one "Add a
+  reminder" button, which asks what kind (practice time, mindfulness bell, auspicious days, full moon, words for
+  today, evening nudge), then when and on which days, then offers "Add another". Tap a reminder to change or remove
+  it. Nothing is switched on that the person didn't add (words for today and the evening nudge used to be on by
+  default; phones that already have notifications on keep them). The page shows what the phone really has
+  (permission and a push address), not just the saved choice, and has "Send a test notification". The mindfulness
+  bell also rings by itself while the app is open. Auspicious-day notifications follow the person's own calendar
+  choices; the phone works out the next four months and sends dates and names to the server, topping up whenever
+  the app is opened after a week. Calendar files (.ics) are still offered: at the foot of the page, and as "put it
+  in my phone's calendar instead" inside the practice and auspicious-day steps.
 - **Phone safety (2026-11-09).** Storage-full warning, "Used this app before?" card on an empty app, an "Add to Home
   Screen" card for iPhone Safari, Save-to-Files / Drive hints, and a Send feedback button (feedback@dharmasoup.org)
   in About and You.
@@ -192,6 +202,35 @@ testing), and so do the content rules in section 3.
 - Tested in a desktop browser at 375×812 and 375×667, light and dark. **Not tested on a real phone:** Gareth to
   check "Hear it", the start bell, and the bell and full-moon switches on his own phone. If the bells are still
   silent there, note which phone and whether its silent switch is on.
+
+**Waiting to go live: Reminders rebuilt (SW `dp-v10-27`), on branch `claude/practical-tesla-0ncth0`. Not on
+`main`: Gareth to say when.** He reported that the Reminders page was confusing and that a 15-minute mindfulness
+bell never arrived, app open or closed.
+- What was found. The server's sending logic is right (run here against a stand-in database: a 15-minute bell
+  goes out on every quarter hour). The app, though, showed "Notifications are on" from the saved setting alone.
+  That setting travels in backups, so after restoring onto dharmasoup.org (or a new phone) it said "on" although
+  that phone had never been asked for permission and had no push address; saving then failed quietly. This is the
+  most likely cause, but **it isn't proven**: it can't be seen from a cloud session. The server also threw away the
+  push service's answer, so a refused notification left no trace.
+- What changed: see "Reminders page" in section 5. Also: the server now logs any refused push ("push refused" in
+  Workers → Observability) and tells the app how the test went; a refused test makes a fresh push address and
+  tries once more; an empty or back-to-front bell time can no longer be saved.
+- Server (`worker/index.js`) changes only take effect once this is on `main`. Until then a preview build can show
+  the new page, but auspicious-day notifications won't be sent and the test button can't report a refusal.
+- Tested in a desktop browser at 375×812 and 375×667, light and dark, with the phone's notification parts faked
+  (new person, restored settings, blocked, permission refused, server unreachable, stale push address), and the
+  server in a local rig. **Not tested on a real phone.** After it's live, Gareth to check on his own phone:
+  1. You → Reminders. If it says "Notifications need turning on again" or "Your phone is blocking notifications",
+     that was the fault: follow the button.
+  2. "Send a test notification". If the page says it was sent but nothing appears, the phone itself is holding it
+     back (Do Not Disturb / Focus, or notifications switched off for the app or browser in the phone's settings).
+  3. Add a mindfulness bell every 15 minutes and leave the app open over a quarter hour: it should ring in the app.
+     Then close the app and wait for the next one as a notification.
+  4. If notifications still don't come, note the phone (iPhone or Android, which browser, installed to the Home
+     Screen or not) and look in Workers → Observability for "push refused" or "exceeded CPU".
+- Not done, to decide later: more than one mindfulness bell; anniversaries of teachers in the auspicious-day
+  notifications (only auspicious days, festivals and the other calendars' main days are sent); auspicious-day
+  notifications stop if the app isn't opened for about four months.
 
 Live since 2026-11-09 (main 1cbf57b, SW `dp-v10-20`): Dharma Soup rename and dharmasoup.org, automatic backup,
 group organiser tools, minute-by-minute reminders, phone-safety cards and feedback (section 5).

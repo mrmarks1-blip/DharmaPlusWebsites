@@ -2,7 +2,8 @@
 // wrangler.jsonc); only /api/* runs this code, and a cron every minute sends due notifications in small batches.
 //
 // What is stored (D1 database "dharma-push"), per phone that opts in: its push address and keys,
-// its time zone, the two chosen times, and the dates we last sent / last heard "practised today".
+// its time zone, the chosen times and reminder labels, the dates (and names) of the full moons and auspicious
+// days it asked to be told about, and the dates we last sent / last heard "practised today".
 // No counts, no names, no practice data. One tap in the app removes the row.
 //
 // The VAPID keys that sign our pushes are made here on first use and kept in the same database, so
@@ -77,12 +78,14 @@ async function vapid(db) {
 const idOf = async endpoint => b64url(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(endpoint)));
 const validTz = tz => { try { new Intl.DateTimeFormat('en', { timeZone: tz }); return true; } catch { return false; } };
 
-// Send one notification; returns false if the push service says the subscription is gone.
+// Send one notification; returns the push service's answer (201 = accepted; 404 or 410 = the subscription is gone).
 async function send(sub, kind, keys, extra = {}) {
   const subscription = { endpoint: sub.endpoint, expirationTime: null, keys: { p256dh: sub.p256dh, auth: sub.auth } };
   const payload = await buildPushPayload({ data: { kind, ...extra }, options: { ttl: kind === 'bell' ? 900 : 6 * 3600, urgency: 'normal', topic: kind } }, subscription, keys);
   const res = await fetch(sub.endpoint, payload);
-  return !(res.status === 404 || res.status === 410);
+  // Anything but "accepted" is worth seeing in the logs (Workers → Observability): it means a phone isn't being reached.
+  if (res.status < 200 || res.status > 299) console.log('push refused', res.status, kind, new URL(sub.endpoint).host);
+  return res.status;
 }
 
 // Group codes: 6 letters/digits without look-alikes (no 0/O, 1/I/L).
@@ -369,7 +372,7 @@ async function api(req, env, path) {
   if (path.startsWith('/api/group')) { const r = await groups(req, db, path); if (r) return r; }
   if (path.startsWith('/api/backup/')) return backups(req, db, path);   // before the small-request check below
   if (req.method !== 'POST') return json({ error: 'method' }, 405);
-  if (Number(req.headers.get('content-length') || 0) > 8000) return json({ error: 'too big' }, 413);
+  if (Number(req.headers.get('content-length') || 0) > 16000) return json({ error: 'too big' }, 413);
   let b; try { b = await req.json(); } catch { return json({ error: 'json' }, 400); }
   const endpoint = b && (b.endpoint || (b.subscription && b.subscription.endpoint));
   if (typeof endpoint !== 'string' || !endpoint.startsWith('https://') || endpoint.length > 1000) return json({ error: 'endpoint' }, 400);
@@ -395,8 +398,10 @@ async function api(req, env, path) {
     const passed = t => t && local.mins >= mins(t);
     await db.prepare('UPDATE subs SET sched=?, sent=?, last_quote=?, last_nudge=? WHERE id=?')
       .bind(sched ? JSON.stringify(sched) : null, JSON.stringify(sent), passed(qt) ? local.date : sub.last_quote, passed(nt) ? local.date : sub.last_nudge, id).run();
-    if (b.test) await send(sub, 'test', await vapid(db));
-    return json({ ok: true });
+    // A test notification: the app is told what the phone's push service answered, so it can say whether it went.
+    let test;
+    if (b.test) { try { test = await send(sub, 'test', await vapid(db)); } catch (e) { console.log('test push failed', String(e)); test = 0; } }
+    return json({ ok: true, ...(b.test && { test }) });
   }
   if (path === '/api/unsubscribe') { await db.prepare('DELETE FROM subs WHERE id=?').bind(id).run(); return json({ ok: true }); }
   if (path === '/api/done') {   // "practised today" (the phone's own date), so the evening nudge skips today
@@ -408,7 +413,8 @@ async function api(req, env, path) {
 }
 
 // The phone's schedule, checked: reminders [{id,t,d:[weekdays 0-6],label}], a mindfulness bell {every,from,to,d},
-// and full-moon dates (worked out on the phone) with the time to tell.
+// full-moon dates (worked out on the phone) with the time to tell, and auspicious days: [{d: the date to
+// tell on, k: the day itself (d, or the day after for "the day before"), t: its name}] with their time.
 function cleanSched(s) {
   if (!s || typeof s !== 'object') return null;
   const days = d => Array.isArray(d) ? d.filter(x => Number.isInteger(x) && x >= 0 && x <= 6).slice(0, 7) : [0, 1, 2, 3, 4, 5, 6];
@@ -418,7 +424,10 @@ function cleanSched(s) {
     ? { every: Number(s.bell.every), from: s.bell.from, to: s.bell.to, d: days(s.bell.d) } : null;
   const moons = (Array.isArray(s.moons) ? s.moons : []).filter(x => DATE.test(x)).slice(0, 30);
   const moonTime = TIME.test(s.moonTime) ? s.moonTime : null;
-  return { rem, bell, moons, moonTime };
+  const special = (Array.isArray(s.days) ? s.days : []).filter(x => x && DATE.test(x.d)).slice(0, 60)
+    .map(x => ({ d: x.d, k: DATE.test(x.k) ? x.k : x.d, t: clean(x.t, 90) }));
+  const dayTime = TIME.test(s.dayTime) ? s.dayTime : null;
+  return { rem, bell, moons, moonTime, days: special, dayTime };
 }
 
 // Local date and minutes past midnight in a time zone.
@@ -446,6 +455,7 @@ function markPast(sched, sent, local) {
   const B = sched.bell;
   if (B && B.d.includes(local.wd) && local.mins >= mins(B.from) && local.mins <= mins(B.to)) sent.bell = `${local.date} ${Math.floor((local.mins - mins(B.from)) / B.every)}`;
   if (sched.moonTime && sched.moons.includes(local.date) && local.mins >= mins(sched.moonTime)) sent.moon = local.date;
+  if (sched.dayTime && sched.days.some(x => x.d === local.date) && local.mins >= mins(sched.dayTime)) sent.day = local.date;
 }
 
 async function tick(env, now = new Date()) {
@@ -480,6 +490,8 @@ async function tick(env, now = new Date()) {
       if (l <= BELL_GRACE && sent.bell !== key) add(l, 'bell', {}, null, 'bell', key);
     }
     if ((S.moons || []).includes(local.date)) { const l = lateBy(S.moonTime, sent.moon, local); if (l >= 0) add(l, 'moon', {}, null, 'moon', local.date); }
+    const D = (S.days || []).find(x => x.d === local.date);
+    if (D) { const l = lateBy(S.dayTime, sent.day, local); if (l >= 0) add(l, 'day', { label: D.t, day: D.k }, null, 'day', local.date); }
   }
   if (!todo.length) return;
   // 2. Longest-waiting first, at most 3 per phone per run; the rest wait for the next minute.
@@ -494,7 +506,7 @@ async function tick(env, now = new Date()) {
   // 3. Send. out: 1 sent, 0 push service says the subscription is gone, -1 failed. A failure is not retried
   // (it's marked as done for today), so a broken subscription can't sit at the front of the queue.
   const out = await Promise.all(batch.map(async it => {
-    try { return await send(it.sub, it.kind, keys, it.late > LATE_NOTE ? { ...it.extra, late: it.late } : it.extra) ? 1 : 0; }
+    try { const st = await send(it.sub, it.kind, keys, it.late > LATE_NOTE ? { ...it.extra, late: it.late } : it.extra); return st === 404 || st === 410 ? 0 : 1; }
     catch (e) { console.log('push failed', it.sub.id, String(e)); return -1; }
   }));
   // 4. Remember what went out (one statement per phone, all in one batch), and delete phones that are gone.

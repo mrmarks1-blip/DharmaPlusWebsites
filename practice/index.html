@@ -151,8 +151,6 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .sw::after { content:''; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.35); transition:transform .15s; }
 [aria-checked="true"] > .sw { background:var(--ok); }
 [aria-checked="true"] > .sw::after { transform:translateX(20px); }
-.item.subrow { min-height:0; padding-block:10px; cursor:default; color:var(--ink-2); }
-.item.subrow input { width:auto; flex:none; }
 .note { font-size:var(--fs-sm); color:var(--ink-2); border-left:3px solid var(--accent); padding-left:12px; }
 
 /* Lists of tappable rows */
@@ -253,9 +251,6 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .wdays { display:flex; gap:6px; flex-wrap:wrap; }
 .wday { width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--surface); font-weight:700; color:var(--ink-2); }
 .wday.on { background:var(--accent); border-color:var(--accent); color:var(--on-accent,#fff); }
-.remgrid { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; }
-.remgrid input[type=text] { grid-column:1 / -1; grid-row:2; }
-.remgrid input { width:100%; min-width:0; }
 .seedthig { position:relative; width:180px; height:180px; margin:0 auto 12px; border-radius:50%;
   background:radial-gradient(circle at 50% 50%,#ffffff 0%,#f3f2ff 22%,#c9c8ff 55%,#9d9cf6 82%,#b9b8ff 100%);
   box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 0 7px rgba(170,168,255,.55),0 0 26px 10px rgba(150,148,255,.55),inset 0 0 18px rgba(255,255,255,.9); overflow:hidden; }
@@ -714,6 +709,7 @@ textarea.backup { min-height:120px; font-size:13px; font-family:ui-monospace,Con
 .safe { display:flex; gap:12px; align-items:flex-start; }
 .safe i { width:12px; height:12px; border-radius:50%; margin-top:7px; flex-shrink:0; background:var(--ok); }
 .safe i.due { background:var(--bad); }
+.safe i.off { background:var(--ink-3); }
 
 /* ═══════════════════════════════════════════
    PRESS FEEDBACK — one rule for every pressable thing (Material 3 state layer).
@@ -2522,7 +2518,7 @@ function sheetMT(){const o=mt(),seg=(act,cur,opts)=>`<div class="sitopts">${opts
   <input id="mtname" type="text" maxlength="30" placeholder="e.g. Morning sit" aria-label="Name for this preset">
   <button class="btn soft wide" data-act="mtsavepre">Save ${o.open?'open sitting':`${o.min} min`}${o.interval?`, bell every ${o.interval} min`:''}</button>
   ${o.presets.length?`<div class="list">${o.presets.map((p,i)=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(p.name)}</span><span class="s">${p.open?'Open sitting':`${p.min} min`}${p.interval?` · bell every ${p.interval} min`:''}${p.settle?` · settle ${p.settle} s`:''}</span></span><button class="iconbtn" data-act="mtdelpre" data-v="${i}" aria-label="Delete ${esc(p.name)}">${ico('trash')}</button></div>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">Reminders to sit</p><div class="list">${item('push','Reminders','Daily reminders, a mindfulness bell, full moons',{ico:'bell'})}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}</div>
+  <p class="h2" style="margin:0">Reminders to sit</p><div class="list">${item('radd','Remind me to sit','At a time and on the days you choose',{ico:'bell',attrs:'data-v="practice"'})}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}</div>
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The beginning and the end, after Longchenpa's three principles: bodhicitta at the start,
 // resting in the main part, dedication at the close.
@@ -2671,6 +2667,12 @@ function sheetDaily(){const t=ls('esm_daily_time','07:30');
   <p class="small">To stop it, delete the event in your calendar (choose “all future events”).</p>
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const dailyEvent=t=>({uid:'daily-practice@slicedharma.com',date:dayKey(),time:t,mins:20,title:'Time to practice',desc:`A gentle reminder for your daily practice. ${APP_URL}`,url:APP_URL,rrule:'FREQ=DAILY',alarm:'PT0M'});
+// The same for a practice reminder with chosen days (from "Add a reminder"): starts on the next of those days.
+const BYDAY=['SU','MO','TU','WE','TH','FR','SA'];
+function calRemEvent(r){const days=(r.d||[]).length?[...r.d].sort():[0,1,2,3,4,5,6];let s=new Date();
+  for(let i=0;i<7;i++){const x=plusDays(new Date(),i);if(days.includes(x.getDay())){s=x;break;}}
+  return{uid:`practice-${r.t.replace(':','')}-${days.join('')}@dharmasoup.org`,date:dayKey(s),time:r.t,mins:20,title:remTitle(r),desc:`A gentle reminder for your practice. ${APP_URL}`,url:APP_URL,
+    rrule:days.length>=7?'FREQ=DAILY':`FREQ=WEEKLY;BYDAY=${days.map(w=>BYDAY[w]).join(',')}`,alarm:'PT0M'};}
 // The auspicious-days feed: a calendar people subscribe to (webcal), regenerated yearly with tools/make-feed.html.
 const FEED_PATH='ngondro/practice-days.ics',FEED_HTTPS=`https://dharmasoup.org/${FEED_PATH}`,FEED_WEBCAL=`webcal://dharmasoup.org/${FEED_PATH}`;
 function feedEvents(from,to){const evs=[];for(let d=noonOf(from);d<to;d=plusDays(d,1)){const k=dayKey(d);
@@ -2707,7 +2709,9 @@ function pageToday(){
     <div class="qnav"><div class="qarrows"><button class="iconbtn" data-act="qprev" aria-label="Previous quote">${ico('back')}</button><button class="iconbtn" data-act="qnext" aria-label="Next quote">${ico('chev')}</button></div>
       <button class="qshare" data-act="sharequote">${ico('sharenodes',1.8)}<span>Share</span></button></div></div>`);
   // A quiet way to a daily reminder, until one is set.
-  if(!pushCfg().rem.length)out.push(`<div class="list">${item('yourem','Set a daily reminder','A gentle nudge at a time you choose',{ico:'bell'})}</div>`);
+  // If reminders are set but can't reach this phone (see pushCheck), say so instead.
+  if(pushBroken())out.push(`<div class="list">${item('yourem','Reminders aren’t reaching this phone','Tap to turn them back on',{ico:'bell'})}</div>`);
+  else if(!pushCfg().rem.length)out.push(`<div class="list">${item('radd','Set a daily reminder','A gentle nudge at a time you choose',{ico:'bell',attrs:'data-v="practice"'})}</div>`);
   // Gentle backup reminder (You → Backup sets how often; "Later" waits 3 days).
   if(backupDue())out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Keep your practice safe</b>
     <p>Your counts live on this phone. Send a copy to yourself (by email, WhatsApp or to your files) so you never lose them. It takes about 10 seconds.</p>
@@ -2761,7 +2765,7 @@ function ovPractice(){
       ${item('add','Add a number','For practice counted elsewhere, e.g. on a mala',{ico:'plus',attrs:`data-id="${id}"`})}
       ${(pd.undo||[]).length?item('undo','Undo last change',`Back to ${fmt(pd.undo[pd.undo.length-1].counter)}`,{ico:'undo',attrs:`data-id="${id}"`,right:''}):''}
       ${done?'':item('date','Set a finish date','Works out how many a day you need',{ico:'cal',attrs:`data-id="${id}"`})}
-      ${pushSupported()?item('premfor','Remind me each day',pushCfg().rem.some(r=>r.pr===id)?'Set · change the time or days':'At a time you choose, with words for the day',{ico:'phone',attrs:`data-id="${id}"`}):''}
+      ${pushSupported()?item('radd','Remind me to practice',pushCfg().rem.some(r=>r.pr===id)?'Set · change the time or days':'At a time and on the days you choose',{ico:'bell',attrs:`data-id="${id}" data-v="practice"`}):''}
     </div>
     ${fin&&!done?`<p class="note">At ${fmt(pace)} a day you will finish around ${fmtD(fin)}.</p>`:''}
     ${pd.lastDate?`<p class="small">Last practiced ${fmtD(pd.lastDate)}.</p>`:''}
@@ -3050,7 +3054,7 @@ function ovPrayer(){const pr=PRAYERS.find(p=>p.id===ST.arg);if(!pr)return topbar
 // ═══════════════════════════════════════════════════════════
 function pageYou(){const st=mileStats(),got=Object.keys(ls('esm_milestones',{})||{}).length,c=pushCfg(),T=calTib();
   const tr=(TRADS.find(t=>t[0]===ls('esm_tradition'))||[,'Not chosen'])[1],cur=findPR(currentId());
-  const rem=c.on?[c.rem.length?`${c.rem.length} reminder${c.rem.length>1?'s':''}`:'',c.bell.on?'mindfulness bell':'',c.moon.on?'full moons':''].filter(Boolean).join(' · ')||'Notifications are on':'A daily nudge, a mindfulness bell, full moons';
+  const rr=remRows(c).length,rem=pushBroken()?'Not reaching this phone · tap to fix':rr?`${rr} reminder${rr>1?'s':''} set${c.on?'':' · notifications are off'}`:'Practice times, a mindfulness bell, auspicious days';
   return`<div class="page"><div class="col"><h1 class="h1">You</h1>
   <button class="card stats" data-act="youprog" aria-label="Your progress"><span><b>${fmt(st.days)}</b><span class="small">day${st.days===1?'':'s'} practiced</span></span><span><b>${fmt(st.count)}</b><span class="small">counted</span></span><span><b>${got}</b><span class="small">milestone${got===1?'':'s'}</span></span></button>
   <p class="h2">Your practice</p><div class="list">
@@ -3088,14 +3092,34 @@ function ovProgress(){const now=noonOf(new Date()),ms=medStreak(now),got=Object.
     ${item('acts','What my diary keeps track of',acts().map(a=>esc(a.name)).join(' · '),{ico:'edit'})}
     ${item('exportcsv','Save my diary as a spreadsheet','A file you can open in Excel or Google Sheets',{ico:'save'})}
   </div></div></div>`;}
-// Reminders: one page for everything (Gareth, 2026-11-11: the old page plus pop-up was confusing, and the
-// On/Off labels looked like switches but didn't respond). Every switch is a whole row, and changes save by themselves.
+// Reminders (rebuilt 2026-11-11 with Gareth: the page of switches was confusing, and it said "Notifications are
+// on" from the saved choices without checking this phone). Now: what the phone really has, the reminders that
+// are set, and one "Add a reminder" that asks which kind, when, and on which days. Tap a reminder to change it.
 let pushMsg='';
-function ovReminders(){const c=pushCfg(),ios=isIOS(),ok=pushSupported()&&!(ios&&!isStandalone()),B=c.bell,M=c.moon;
-  const sw=(act,on,t,s,v='')=>`<button class="item" data-act="${act}" data-v="${v}" role="switch" aria-checked="${!!on}"><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span><span class="sw"></span></button>`;
-  const at=(pf,v,label)=>`<label class="item subrow"><span class="grow">At</span><input data-pf="${pf}" type="time" value="${esc(v)}" aria-label="${label}"></label>`;
-  const days=(d,act,i)=>`<div class="wdays">${WD_ORDER.map(w=>`<button class="wday${d.includes(w)?' on':''}" data-act="${act}" data-v="${i}" data-w="${w}" aria-pressed="${d.includes(w)}" aria-label="${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][w]}">${WD[w]}</button>`).join('')}</div>`;
-  const cal=`<p class="h2">In your phone’s own calendar</p><p class="small">These work on every phone and don’t need notifications.</p><div class="list">
+const RKINDS=[['practice','Time for practice','At a time you choose, on the days you choose','hands'],
+  ['bell','A mindfulness bell','A bell every so often through the day, to pause and come back to the breath','bell'],
+  ['ausp','Auspicious days','The special days in your calendar','cal'],
+  ['moon','The full moon','On the day of each full moon','look'],
+  ['quote','Words for today','A different quote each morning','sun'],
+  ['nudge','An evening nudge','Only on days you haven’t practiced, with a word of encouragement','sprout']];
+const RICO=Object.fromEntries(RKINDS.map(k=>[k[0],k[3]]));
+const BELL_EVERY=[[15,'15 minutes'],[30,'30 minutes'],[45,'45 minutes'],[60,'hour'],[90,'90 minutes'],[120,'2 hours'],[180,'3 hours']];
+const everyText=n=>(BELL_EVERY.find(e=>e[0]===+n)||BELL_EVERY[3])[1];
+const WD3=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function daysText(d){const s=WD_ORDER.filter(w=>(d||[]).includes(w)),j=s.join();
+  return s.length>=7?'Every day':!s.length?'No days chosen':j==='1,2,3,4,5'?'Weekdays':j==='6,0'?'Weekends':s.map(w=>WD3[w]).join(', ');}
+const shortDate=k=>new Date(k+'T12:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+// The reminders that are set, as rows: [kind, which practice reminder (or -1), title, when].
+function remRows(c){const rows=[];
+  c.rem.forEach((r,i)=>{const p=r.pr&&findPR(r.pr);rows.push(['practice',i,remTitle(r),`${isT(r.t)?r.t:'No time set'} · ${daysText(r.d)}${p?` · opens ${p.name}`:''}`]);});
+  if(c.bell.on)rows.push(['bell',-1,'Mindfulness bell',`Every ${everyText(c.bell.every)}, ${c.bell.from} to ${c.bell.to} · ${daysText(c.bell.d)}`]);
+  if(c.ausp.on)rows.push(['ausp',-1,'Auspicious days',`${c.ausp.time}, ${c.ausp.before?'the day before':'on the day'}`]);
+  if(c.moon.on)rows.push(['moon',-1,'The full moon',`${c.moon.time}, on the day`]);
+  if(c.quote)rows.push(['quote',-1,'Words for today',`${c.quoteTime}, every day`]);
+  if(c.nudge)rows.push(['nudge',-1,'An evening nudge',`${c.nudgeTime}, only on days you haven’t practiced`]);
+  return rows;}
+function ovReminders(){const c=pushCfg(),ios=isIOS(),ok=pushOK(),rows=remRows(c),h=pushH;
+  const cal=`<p class="h2">Prefer your phone’s own calendar?</p><p class="small">These work on every phone and don’t need notifications. Your calendar app does the reminding.</p><div class="list">
     ${item('daily','A daily reminder in my calendar','An event that repeats every day',{ico:'cal'})}
     ${calTib()?item('feed','Auspicious days in my calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>`;
   if(!ok)return`${topbar('Reminders')}<div class="ovbody"><div class="col">
@@ -3103,31 +3127,91 @@ function ovReminders(){const c=pushCfg(),ios=isIOS(),ok=pushSupported()&&!(ios&&
       <p class="small">${ios?'On iPhone and iPad, the app can send reminders once it’s on your Home Screen (iOS 16.4 or later). Add it, open it from there, and come back to this page.':'This browser can’t show notifications from a web app. Try Chrome, Edge or Firefox, or add the app to your phone.'}</p>
       ${isStandalone()?'':`<button class="btn primary wide" data-act="install">${ico('phone')} Add to phone</button>`}</div>
     ${cal}</div></div>`;
+  const msg=pushMsg?`<p class="note" id="pushstate" role="status">${esc(pushMsg)}</p>`:'';
+  const card=(dot,t,s,btn)=>`<div class="card stack"><div class="safe"><i class="${dot}"></i><div><b>${t}</b><p class="small">${s}</p></div></div>${msg}${btn}</div>`;
+  const turnOn=`<button class="btn primary wide" data-act="pushon">${ico('bell')} Turn on notifications</button>`;
+  let st='',needOn=true;
+  if(c.on&&h&&h.perm==='denied')st=card('due','Your phone is blocking notifications',PUSH_WHY.blocked,`<button class="btn soft wide" data-act="pushon">I’ve allowed them: try again</button>`);
+  else if(c.on&&h&&(h.perm!=='granted'||!h.sub))st=card('due','Notifications need turning on again','Your reminders are saved, but this phone hasn’t been set up to receive them. That happens after moving to a new phone or web address.',turnOn);
+  else if(c.on){needOn=false;st=card('','Notifications are on',rows.length?'Not sure they’re arriving? Send yourself a test.':'Nothing is set yet. Add a reminder below.',`<button class="btn soft wide" data-act="pushtest">Send a test notification</button>`);}
+  else if(rows.length)st=card('off','Notifications are off','Your reminders are kept, but nothing is sent until you turn notifications on.',turnOn);
+  else{needOn=false;st=`<p class="sub">Gentle reminders from the app, at times you choose. Your phone will ask you to allow notifications when you add the first one.</p>${msg}`;}
   return`${topbar('Reminders')}<div class="ovbody"><div class="col">
-  ${c.on?`<div class="card safe"><i></i><div><b>Notifications are on</b><p class="small" id="pushstate">${esc(pushMsg||'Switch on what you’d like below. Changes save by themselves.')}</p></div></div>`
-    :`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Notifications are off</b><p class="small">Nothing below is sent until you turn them on. Your phone will ask you to allow it, and a test one arrives straight away.</p></div>
-      <button class="btn primary wide" data-act="pushon">${ico('bell')} Turn on notifications</button></div>`}
-  <p class="h2">Practice reminders</p>
-  <p class="small">A nudge at a time you choose. It says “Time for practice”, or your own words, with a line from the quotes.</p>
-  ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${esc(r.t)}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="Time for practice" aria-label="What it says"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>
-    <label class="small">Tapping it opens <select data-pf="rem.${i}.pr"><option value="">The app</option>${allPR().map(p=>`<option value="${esc(p.id)}"${r.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>${days(r.d||[],'premday',i)}</div>`).join('')}
-  <button class="btn soft wide" data-act="premadd">${ico('plus')} Add a reminder</button>
-  <p class="h2">Every day</p>
-  <div class="list">${sw('pushtoggle',c.quote,'Words for today','A different quote each morning','quote')}${c.quote?at('quoteTime',c.quoteTime,'Time for words for today'):''}
-    ${sw('pushtoggle',c.nudge,'An evening nudge','Only on days you haven’t practiced, with a word of encouragement','nudge')}${c.nudge?at('nudgeTime',c.nudgeTime,'Time for the evening nudge'):''}</div>
-  <p class="h2">Mindfulness bell</p>
-  <div class="list">${sw('pbelltog',B.on,'A bell through the day','A moment to pause and come back to the breath')}</div>
-  ${B.on?`<div class="card stack"><label class="small">Every <select data-pf="bell.every">${[[15,'15 minutes'],[30,'30 minutes'],[45,'45 minutes'],[60,'hour, on the hour'],[90,'90 minutes'],[120,'2 hours'],[180,'3 hours']].map(([v,l])=>`<option value="${v}"${B.every==v?' selected':''}>${l}</option>`).join('')}</select></label>
-    <div class="btns even"><label class="small">From <input data-pf="bell.from" type="time" value="${esc(B.from)}"></label><label class="small">Until <input data-pf="bell.to" type="time" value="${esc(B.to)}"></label></div>
-    ${days(B.d||[],'pbellday',0)}
-    <label class="small">Sound when the app is open <select data-pf="bell.sound">${Object.entries(BELLS).map(([k,l])=>`<option value="${k}"${B.sound===k?' selected':''}>${l}</option>`).join('')}</select></label>
-    <p class="small">When the app is closed, your phone plays its own notification sound.</p></div>`:''}
-  <p class="h2">Full moon</p>
-  <div class="list">${sw('pmoontog',M.on,'On the day of each full moon','A reminder that it’s a day for practice')}${M.on?at('moon.time',M.time,'Time for the full-moon reminder'):''}</div>
+  ${st}
+  <p class="h2">Your reminders</p>
+  ${rows.length?`<div class="list">${rows.map(([k,i,t,s])=>item('radd',esc(t),esc(s),{ico:RICO[k],attrs:`data-v="${k}" data-i="${i}" aria-label="${esc(t)}, ${esc(s)}. Change or remove"`})).join('')}</div><p class="small">Tap one to change or remove it.</p>`
+    :'<div class="card"><p class="small">None yet. A practice time, a mindfulness bell, auspicious days: add as many as you like.</p></div>'}
+  <button class="btn ${needOn?'soft':'primary'} wide" data-act="radd">${ico('plus')} Add a reminder</button>
   ${cal}
-  <p class="small">Reminders can arrive a few minutes late, because they’re sent in small batches from a free server. To send them, our server keeps only this phone’s notification address, its time zone, these times and labels, and the full-moon dates. Never your practice, counts or name. Turning notifications off deletes it.</p>
-  ${c.on?`<button class="btn soft wide" data-act="pushoff">Turn notifications off</button>`:''}
+  <p class="small">Reminders can arrive a few minutes late, because they’re sent in small batches from a free server. To send them, our server keeps only this phone’s notification address, its time zone, the times and labels you set, and the dates and names of the full moons and auspicious days. Never your practice, counts or name. Turning notifications off deletes it.</p>
+  ${c.on?`<button class="btn soft wide" data-act="pushoff">Turn all notifications off</button>`:''}
   </div></div>`;}
+// The "Add a reminder" sheet. ST.ra = {step: 0 which kind · 1 the details · 2 done, kind, i, d: the draft, isNew, direct}.
+const raIsOn=(c,k)=>k==='bell'?c.bell.on:k==='ausp'?c.ausp.on:k==='moon'?c.moon.on:k==='quote'?c.quote:k==='nudge'?c.nudge:false;
+function raOpen(kind,i=-1,pr=''){const c=pushCfg();let d={};
+  if(kind==='practice'){if(i<0&&pr)i=c.rem.findIndex(r=>r.pr===pr);const r=i>=0&&c.rem[i];if(!r)i=-1;
+    d=r?{...r,d:[...(r.d||[])]}:{t:'07:30',d:[0,1,2,3,4,5,6],label:'',pr:pr&&findPR(pr)?pr:''};}
+  else if(kind==='bell')d={...c.bell,d:[...(c.bell.d||[])]};
+  else if(kind==='ausp')d={time:c.ausp.time,before:!!c.ausp.before};
+  else if(kind==='moon')d={time:c.moon.time};
+  else if(kind==='quote')d={time:c.quoteTime};
+  else if(kind==='nudge')d={time:c.nudgeTime};
+  else kind='';
+  ST.ra={step:kind?1:0,kind,i,d,isNew:kind==='practice'?i<0:!raIsOn(c,kind),direct:!!kind};}
+// Read the sheet's boxes back into the draft before anything re-draws it.
+function raRead(){const R=ST.ra;if(!R||R.step!==1)return;document.querySelectorAll('.sheet [data-rf]').forEach(el=>{const k=el.dataset.rf;R.d[k]=k==='every'?+el.value:el.value.trim();});}
+function raSummary(R){const d=R.d;return R.kind==='practice'?[remTitle(d),`${d.t} · ${daysText(d.d)}`]:R.kind==='bell'?['Mindfulness bell',`Every ${everyText(d.every)}, ${d.from} to ${d.to} · ${daysText(d.d)}`]
+  :R.kind==='ausp'?['Auspicious days',`${d.time}, ${d.before?'the day before':'on the day'}`]:R.kind==='moon'?['The full moon',`${d.time}, on the day`]:R.kind==='quote'?['Words for today',`${d.time}, every day`]:['An evening nudge',`${d.time}, only on days you haven’t practiced`];}
+function sheetRAdd(){const R=ST.ra||(ST.ra={step:0}),c=pushCfg(),d=R.d||{};
+  if(R.step===0)return`<div class="grab"></div><h2 class="h1">Add a reminder</h2><p class="sub">What would you like to be reminded of?</p>
+    <div class="list">${RKINDS.map(([k,t,s,ic])=>{const on=k!=='practice'&&raIsOn(c,k),nx=k==='ausp'&&auspDays()[0];
+      return item('rakind',t,on?'Already set · tap to change it':nx?`Next: ${esc(nx.t)}, ${shortDate(nx.k)}`:s,{ico:ic,attrs:`data-v="${k}"`});}).join('')}</div>
+    <button class="btn soft wide" data-act="closesheet">Cancel</button>`;
+  if(R.step===2){const [t,s]=raSummary(R);
+    return`<div class="grab"></div><h2 class="h1">${R.fail?'Saved, but not arriving yet':R.isNew?'Reminder set':'Reminder changed'}</h2>
+    <div class="card safe" style="background:var(--sunk);box-shadow:none"><i class="${R.fail?'due':''}"></i><div><b>${esc(t)}</b><p class="small">${esc(s)}</p></div></div>
+    ${R.fail?`<p class="note" role="alert">${PUSH_WHY[R.fail]||PUSH_WHY.subscribe}</p><button class="btn primary wide" data-act="raretry"${R.busy?' disabled':''}>${R.busy?'Trying…':'Try again'}</button>`
+      :R.turnedOn?'<p class="small">Notifications are now on for this phone, and a test one is on its way. If it doesn’t appear in a minute, use “Send a test notification” on the Reminders page.</p>':''}
+    <button class="btn ${R.fail?'soft':'primary'} wide" data-act="ramore">${ico('plus')} Add another reminder</button>
+    <button class="btn soft wide" data-act="closesheet">Done</button>`;}
+  const time=(f,l)=>`<label class="small" for="rf_${f}">${l}</label><input id="rf_${f}" data-rf="${f}" type="time" value="${esc(d[f]||'')}">`;
+  const days=`<p class="small" id="rf_dl">On these days: <b>${daysText(d.d)}</b></p><div class="wdays" role="group" aria-labelledby="rf_dl">${WD_ORDER.map(w=>`<button class="wday${(d.d||[]).includes(w)?' on':''}" data-act="raday" data-w="${w}" aria-pressed="${(d.d||[]).includes(w)}" aria-label="${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][w]}">${WD[w]}</button>`).join('')}</div>`;
+  const foot=`${R.err?`<p class="note" role="alert">${esc(R.err)}</p>`:''}
+    <button class="btn primary wide" data-act="rasave"${R.busy?' disabled':''}>${R.busy?'Saving…':R.isNew?'Save this reminder':'Save changes'}</button>`;
+  const end=`${R.isNew?'':`<button class="btn soft wide" data-act="radel">${ico('trash')} Remove this reminder</button>`}
+    <button class="btn soft wide" data-act="${R.direct?'closesheet':'raback'}">${R.direct?'Cancel':'Back'}</button>`;
+  const head=(t,s)=>`<div class="grab"></div><h2 class="h1">${t}</h2><p class="sub">${s}</p>`;
+  if(R.kind==='practice')return`${head('Time for practice','A notification at the time you choose, with a line from the quotes.')}
+    ${time('t','At')}${days}
+    <label class="small" for="rf_label">What it says (optional)</label><input id="rf_label" data-rf="label" type="text" maxlength="80" value="${esc(d.label||'')}" placeholder="Time for practice">
+    <label class="small" for="rf_pr">Tapping it opens</label><select id="rf_pr" data-rf="pr"><option value="">The app</option>${allPR().map(p=>`<option value="${esc(p.id)}"${d.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select>
+    ${foot}<button class="btn link" data-act="racal" style="align-self:center">Put it in my phone’s calendar instead</button>${end}`;
+  if(R.kind==='bell')return`${head('A mindfulness bell','A bell every so often: a moment to pause and come back to the breath.')}
+    <label class="small" for="rf_every">Every</label><select id="rf_every" data-rf="every">${BELL_EVERY.map(([v,l])=>`<option value="${v}"${+d.every===v?' selected':''}>${l}</option>`).join('')}</select>
+    <div class="btns even"><div class="stack" style="gap:6px">${time('from','From')}</div><div class="stack" style="gap:6px">${time('to','Until')}</div></div>
+    ${days}
+    <label class="small" for="rf_sound">Bell when the app is open</label><select id="rf_sound" data-rf="sound">${Object.entries(BELLS).map(([k,l])=>`<option value="${k}"${d.sound===k?' selected':''}>${l}</option>`).join('')}</select>
+    <p class="small">With the app closed, your phone shows a notification and plays its own sound.</p>
+    ${foot}${end}`;
+  if(R.kind==='ausp'){const up=auspDays().slice(0,3),names=CALKINDS.filter(k=>calDays().includes(k[0])).map(k=>k[1]).join(', ');
+    return`${head('Auspicious days','A notification for each special day in your calendar. Tapping it shows what the day is about.')}
+    ${time('time','At')}
+    <div class="seg" style="grid-template-columns:1fr 1fr" role="group" aria-label="When">${[[0,'On the day'],[1,'The day before']].map(([v,l])=>`<button class="opt${!!d.before==!!v?' on':''}" data-act="raopt" data-v="${v}" aria-pressed="${!!d.before==!!v}">${l}</button>`).join('')}</div>
+    ${up.length?`<div class="card stack" style="background:var(--sunk);box-shadow:none;gap:6px"><p class="small">Coming up</p>${up.map(x=>`<p><b>${shortDate(x.k)}</b> · ${esc(x.t)}</p>`).join('')}</div>`:'<p class="note">Your calendar has no special days switched on. Choose them under You, in the calendar settings.</p>'}
+    <p class="small">The days come from your calendar${names?` (${esc(names)})`:''}. The app works them out on this phone and sends the next four months to our server, so open the app now and then to keep them coming.</p>
+    ${foot}${calTib()?'<button class="btn link" data-act="feed" style="align-self:center">Put them in my phone’s calendar instead</button>':''}${end}`;}
+  const T={moon:['The full moon','A notification on the day of each full moon. Tapping it shows what different traditions do on the day.'],
+    quote:['Words for today','A different quote each day, from the app’s collection.'],
+    nudge:['An evening nudge','Only on days you haven’t practiced, with a word of encouragement. Never more than one a day.']}[R.kind]||['Reminder',''];
+  return`${head(T[0],T[1])}${time('time','At')}${foot}${end}`;}
+// A problem with what was typed: say so, and bring the words into view.
+function raErr(m){ST.ra.err=m;setTimeout(()=>{const e=document.querySelector('.sheet [role="alert"]');if(e)e.scrollIntoView({block:'center'});},0);}
+// After saving: send the choices to the server, turning notifications on first if this phone doesn't have them yet.
+async function raFinish(perm){const R=ST.ra;if(!R)return;let fail='',turnedOn=false;
+  await pushCheck();
+  if(pushCfg().on&&pushH&&pushH.perm==='granted'&&pushH.sub){try{await pushSubscribe(false);}catch(e){fail=e&&e.message==='server'?'server':'subscribe';lsSet('esm_push_sync',0);}}
+  else{fail=await pushEnable(true,perm);turnedOn=!fail;}
+  if(ST.ra!==R)return;R.busy=false;R.step=2;R.fail=fail;R.turnedOn=turnedOn;render();}
 function ovBackup(){const on=abOn(),safe=on||(!!ls('esm_last_backup',0)&&!backupDue());
   return`${topbar('Backup')}<div class="ovbody"><div class="col">
   <div class="card safe"><i class="${safe?'':'due'}"></i><div><b>${on?'A locked copy is kept online':'Your practice lives on this phone'}</b>
@@ -3728,46 +3812,112 @@ function sheetMantra(){const p=findPR(ST.sarg);return`<div class="grab"></div><h
   <button class="btn primary wide" data-act="mantrasave">Save</button>
   ${p.mantra&&mantraOf(p)!==p.mantra?`<button class="btn soft wide" data-act="mantrareset">Back to the app’s words</button>`:''}
   <button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
-// ── Notifications (Phase 2b, opt-in): a different quote each morning, and a gentle evening nudge only
-// on days with no practice. The server (worker/index.js) keeps just this phone's push address, time
-// zone and chosen times; esm_push = {on, quoteTime, nudgeTime}. iPhone: only once added to the Home Screen.
-const pushCfg=()=>({on:false,quoteTime:'08:00',nudgeTime:'20:00',quote:true,nudge:true,rem:[],bell:{on:false,every:60,from:'09:00',to:'21:00',d:[0,1,2,3,4,5,6],sound:'bell'},moon:{on:false,time:'08:00'},...ls('esm_push',{})});
+// ── Notifications (opt-in). The server (worker/index.js) keeps just this phone's push address, its time zone and
+// the chosen times. iPhone: only once added to the Home Screen. The choices are in esm_push:
+//   {v:2, on, rem:[{id,t,d:[weekdays],label,pr}], bell:{on,every,from,to,d,sound}, ausp:{on,time,before},
+//    moon:{on,time}, quote, quoteTime, nudge, nudgeTime}
+// Before v:2, "words for today" and the evening nudge were on by default. Phones with notifications on keep
+// them; where notifications were off they start switched off, so nothing is sent that the person didn't choose.
+const isT=t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(t||''),hm=t=>+t.slice(0,2)*60+ +t.slice(3);
+function pushCfg(){let raw=ls('esm_push',null);const obj=x=>x&&typeof x==='object'&&!Array.isArray(x);
+  if(!obj(raw))raw={};
+  else if(raw.v!==2){raw={quote:true,nudge:true,...raw,...(raw.on?{}:{quote:false,nudge:false}),v:2};lsSet('esm_push',raw,true);}
+  const D={v:2,on:false,quoteTime:'08:00',nudgeTime:'20:00',quote:false,nudge:false,rem:[],bell:{on:false,every:60,from:'09:00',to:'21:00',d:[0,1,2,3,4,5,6],sound:'bell'},moon:{on:false,time:'08:00'},ausp:{on:false,time:'08:00',before:false}};
+  const c={...D,...raw};
+  // Saved data is untrusted (a backup file can be edited): keep the shapes the app expects.
+  c.rem=(Array.isArray(c.rem)?c.rem:[]).filter(obj).slice(0,12).map(r=>({...r,d:Array.isArray(r.d)?r.d:[0,1,2,3,4,5,6]}));
+  for(const k of['bell','moon','ausp'])c[k]=obj(c[k])?{...D[k],...c[k]}:{...D[k]};
+  if(!Array.isArray(c.bell.d))c.bell.d=D.bell.d;
+  for(const[o,k]of[[c,'quoteTime'],[c,'nudgeTime'],[c.moon,'time'],[c.ausp,'time'],[c.bell,'from'],[c.bell,'to']])if(!isT(o[k]))o[k]=(o===c?D:o===c.moon?D.moon:o===c.ausp?D.ausp:D.bell)[k];
+  return c;}
 const WD=['S','M','T','W','T','F','S'],WD_ORDER=[1,2,3,4,5,6,0];
 // Full-moon days for the next year, by this phone's own moon calendar.
 function fullMoonDates(n=400){const out=[];for(let i=0;i<n;i++){const d=plusDays(new Date(),i);if(moonPhaseOn(d)==='Full Moon')out.push(dayKey(d));}return out;}
+// The special days in the person's own calendar for the next four months: [{k: date, t: name(s)}]. The same
+// days the Calendar page marks: Tibetan auspicious days and festivals, and the main days of the other calendars.
+let auspC={key:'',v:[]};
+function auspDays(n=120){const key=`${dayKey()}|${calDays().join()}|${calRule()}|${n}`;if(auspC.key===key)return auspC.v;
+  const T=calTib(),out=[];
+  for(let i=0;i<n&&out.length<60;i++){const d=plusDays(new Date(),i);
+    const names=[...(T?observedAusp(d).map(o=>o.a.name):[]),...(T?eventsOn(d).filter(e=>e.kind==='fest').map(e=>e.name.split(',')[0]):[]),...otherDays(d).filter(o=>o.major).map(o=>o.name)];
+    if(names.length)out.push({k:dayKey(d),t:[...new Set(names)].join(' · ').slice(0,80)});}
+  auspC={key,v:out};return out;}
 // A reminder's title is the person's own words, or "Time for practice". If it is for one practice (r.pr), a tap opens it.
 const remTitle=r=>r.label||'Time for practice';
-function pushSched(c){return{rem:c.rem.filter(r=>r.t).map(r=>({id:r.id,t:r.t,d:r.d,label:remTitle(r),pr:r.pr&&findPR(r.pr)?r.pr:''})),bell:c.bell&&c.bell.on?c.bell:null,moons:c.moon&&c.moon.on?fullMoonDates():[],moonTime:c.moon&&c.moon.on?c.moon.time:null};}
+function pushSched(c){const A=c.ausp.on?auspDays().map(x=>c.ausp.before?{d:dayKey(plusDays(new Date(x.k+'T12:00'),-1)),k:x.k,t:('Tomorrow: '+x.t).slice(0,90)}:{d:x.k,k:x.k,t:x.t}).filter(x=>x.d>=dayKey()):[];
+  return{rem:c.rem.filter(r=>isT(r.t)).map(r=>({id:r.id,t:r.t,d:r.d,label:remTitle(r),pr:r.pr&&findPR(r.pr)?r.pr:''})),bell:c.bell.on?c.bell:null,
+    moons:c.moon.on?fullMoonDates():[],moonTime:c.moon.on?c.moon.time:null,days:A,dayTime:c.ausp.on?c.ausp.time:null};}
 const pushSupported=()=>'serviceWorker'in navigator&&'PushManager'in window&&'Notification'in window;
+const pushOK=()=>pushSupported()&&!(isIOS()&&!isStandalone());
 const b64u=s=>{const b=atob(s.replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(b,c=>c.charCodeAt(0));};
-async function pushSubscribe(test){const c=pushCfg(),reg=await navigator.serviceWorker.ready;
+// The service worker, or nothing if it isn't there within a few seconds (so nothing waits for ever).
+const swReady=()=>Promise.race([navigator.serviceWorker.ready,new Promise(r=>setTimeout(r,4000))]).catch(()=>null);
+// What this phone really has, whatever the saved choices say: {perm, sub}. Saved choices travel in backups, so
+// "on" can arrive on a phone (or a new web address) that was never asked. Returns true if it changed.
+let pushH=null;
+async function pushCheck(){if(!pushSupported())return false;let sub=false;
+  try{const reg=await swReady();sub=!!(reg&&await reg.pushManager.getSubscription());}catch{}
+  const h={perm:Notification.permission,sub},ch=!pushH||pushH.perm!==h.perm||pushH.sub!==h.sub;pushH=h;return ch;}
+const pushBroken=()=>!!(pushCfg().on&&pushH&&(pushH.perm!=='granted'||!pushH.sub));
+const PUSH_WHY={blocked:'Notifications for this app are blocked on this phone. Allow them in your phone’s settings (look under Notifications or Apps for Dharma Soup, or for your browser), then try again.',
+  subscribe:'This phone couldn’t be set up for notifications just now. Check you’re online, then try again.',
+  server:'Couldn’t reach our reminder server. Your choices are kept on this phone. Check you’re online, then try again.',
+  refused:'Your phone’s notification service turned the test down. Turn all notifications off (at the bottom of the Reminders page) and on again. If that doesn’t help, please send feedback from the You page.'};
+// Sends the choices to the server (making this phone's push address first if needed). With test, a test
+// notification is sent and the push service's answer comes back (undefined from an older server).
+async function pushSubscribe(test){const c=pushCfg(),reg=await swReady();if(!reg)throw new Error('subscribe');
   let sub=await reg.pushManager.getSubscription();
-  if(!sub){const {publicKey}=await (await fetch('/api/vapid')).json();sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(publicKey)});}
-  const r=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({subscription:sub.toJSON(),
-    tz:Intl.DateTimeFormat().resolvedOptions().timeZone,quoteTime:c.quote?c.quoteTime:null,nudgeTime:c.nudge?c.nudgeTime:null,sched:pushSched(c),test})});
-  if(!r.ok)throw new Error('server');lsSet('esm_push_sync',Date.now());}
-async function pushOn(){
-  if(await Notification.requestPermission()!=='granted'){toast('Notifications are blocked. You can allow them in your phone’s settings for this app.');return;}
-  try{lsSet('esm_push',{...pushCfg(),on:true});await pushSubscribe(true);toast('Notifications are on. A test one is on its way.');}
-  catch(e){lsSet('esm_push',{...pushCfg(),on:false});toast('Couldn’t reach the notification server. Please try again later.');}
-  render();}
-async function pushOff(){try{const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();
+  if(!sub){let key;try{key=(await (await fetch('/api/vapid')).json()).publicKey;}catch{throw new Error('server');}
+    try{sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(key)});}catch{throw new Error('subscribe');}}
+  let r;try{r=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({subscription:sub.toJSON(),
+    tz:Intl.DateTimeFormat().resolvedOptions().timeZone,quoteTime:c.quote?c.quoteTime:null,nudgeTime:c.nudge?c.nudgeTime:null,sched:pushSched(c),test})});}catch{throw new Error('server');}
+  if(!r.ok)throw new Error('server');lsSet('esm_push_sync',Date.now());
+  try{return(await r.json()).test;}catch{}}
+// Phones only show the "Allow notifications?" question straight from a tap, so ask before anything else happens.
+function askPerm(){try{return Promise.resolve(Notification.permission==='default'?Notification.requestPermission():Notification.permission).catch(()=>'denied');}catch{return Promise.resolve('denied');}}
+// Turn notifications on for this phone. Returns '' when they now work, or why they don't (a key of PUSH_WHY).
+async function pushEnable(test,perm){if(!pushSupported())return'subscribe';
+  if(await (perm||askPerm())!=='granted'){await pushCheck();return'blocked';}
+  const was=pushCfg().on;lsSet('esm_push',{...pushCfg(),on:true});let why='';
+  try{await pushSubscribe(test);}catch(e){why=e&&e.message==='server'?'server':'subscribe';if(!was)lsSet('esm_push',{...pushCfg(),on:false});lsSet('esm_push_sync',0);}
+  await pushCheck();return why;}
+// Send a test notification. If the push service refuses it, this phone's address has gone stale: make a new one and try once more.
+async function pushTest(){const ok=s=>s==null||(s>=200&&s<300);let s;
+  try{s=await pushSubscribe(true);
+    if(!ok(s)){const reg=await swReady(),sub=reg&&await reg.pushManager.getSubscription();
+      if(sub){await fetch('/api/unsubscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint})}).catch(()=>{});await sub.unsubscribe();}
+      s=await pushSubscribe(true);}}
+  catch(e){await pushCheck();return e&&e.message==='server'?'server':'subscribe';}
+  await pushCheck();return ok(s)?'':'refused';}
+async function pushOff(){try{const reg=await swReady(),sub=reg&&await reg.pushManager.getSubscription();
   if(sub){await fetch('/api/unsubscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint})}).catch(()=>{});await sub.unsubscribe();}}catch{}
-  lsSet('esm_push',{...pushCfg(),on:false});toast('Notifications are off');render();}
+  lsSet('esm_push',{...pushCfg(),on:false});await pushCheck();pushMsg='';toast('Notifications are off');}
 // "Practiced today", once a day, so the evening nudge knows to stay quiet.
 function pushDone(){const c=pushCfg(),k=dayKey();if(!c.on||!c.nudge||ls('esm_push_done')===k||!pushSupported())return;lsSet('esm_push_done',k);
   navigator.serviceWorker.ready.then(r=>r.pushManager.getSubscription()).then(sub=>sub&&fetch('/api/done',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint,date:k})})).catch(()=>{});}
-// Read the Reminders page back into esm_push before any change re-draws it.
-function pushReadForm(){const c=pushCfg();document.querySelectorAll('[data-pf]').forEach(el=>{const [a,b,k]=el.dataset.pf.split('.');
-  if(a==='rem'&&c.rem[+b])c.rem[+b][k]=el.value;else if(a==='bell')c.bell[b]=b==='every'?+el.value:el.value;else if(a==='moon')c.moon[b]=el.value||c.moon[b];
-  else if(a==='quoteTime'||a==='nudgeTime')c[a]=el.value||c[a];});
-  lsSet('esm_push',c);return c;}
-// Send the choices to the server a moment after the last change (only while notifications are on). The
-// line under "Notifications are on" says how it went. If it fails, the next time the app opens tries again.
+// Send the choices to the server a moment after a change (only while notifications are on). If it fails,
+// the next time the app opens tries again.
 let pushT=null;
-function pushSync(){if(!pushCfg().on||!pushSupported())return;const st=m=>{pushMsg=m;const e=document.getElementById('pushstate');if(e)e.textContent=m;};
-  st('Saving…');clearTimeout(pushT);
-  pushT=setTimeout(()=>pushSubscribe(false).then(()=>st('Saved.')).catch(()=>{lsSet('esm_push_sync',0);st('Couldn’t reach the server just now. Your choices are kept, and the app will send them next time it opens.');}),900);}
+function pushSync(){if(!pushCfg().on||!pushSupported())return;clearTimeout(pushT);
+  pushT=setTimeout(()=>pushSubscribe(false).catch(()=>{lsSet('esm_push_sync',0);if(ST.ov==='yourem'){pushMsg=PUSH_WHY.server;render();}}),900);}
+// Opening the Reminders page: look at what the phone really has, and re-draw if that changes the picture.
+function goRem(){ST.sheet=null;ST.ov='yourem';pushMsg='';pushCheck().then(ch=>{if(ch&&ST.ov==='yourem')render();});}
+// When the app opens: put right what can be put right quietly (permission is there but the push address has
+// gone, or the last save didn't reach the server, or it's been a week: the auspicious days need topping up).
+function pushStart(){if(!pushCfg().on||!pushSupported())return;
+  pushCheck().then(()=>{const stale=Date.now()-(ls('esm_push_sync',0)||0)>7*86400000;
+    if(pushH.perm==='granted'&&(!pushH.sub||stale))return pushSubscribe(false).then(pushCheck).catch(()=>{});})
+  .then(()=>{if(pushBroken())render();});}
+// The mindfulness bell rings by itself while the app is open, without waiting for the server. One ring per
+// slot: if the notification for the same slot also arrives, it doesn't ring twice.
+let bellRung='';
+function bellSlot(){const c=pushCfg(),B=c.bell;if(!c.on||!B.on)return null;const now=new Date(),m=now.getHours()*60+now.getMinutes(),f=hm(B.from),t=hm(B.to),ev=+B.every||60;
+  if(!B.d.includes(now.getDay())||m<f||m>t)return null;const slot=Math.floor((m-f)/ev);return{key:`${dayKey(now)} ${slot}`,late:m-(f+slot*ev)};}
+function bellRing(fromPush){const s=bellSlot();if(document.hidden||(s&&s.key===bellRung)||(!fromPush&&(!s||s.late>1)))return;
+  if(s)bellRung=s.key;bell(pushCfg().bell.sound||'bell',.7);
+  // The words too, unless they'd interrupt typing (showing them re-draws the page).
+  if(!ST.sheet&&!/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||''))toast('A mindfulness bell. Pause for a moment: one breath, just as it is.');}
+setInterval(()=>bellRing(false),15000);
 // ── First-run setup (Phase 3): welcome → tradition → what to use → a goal → reminders. Every step can be
 // skipped. Saves esm_tradition, esm_uses (what Today shows), esm_caldays (via the tradition's default);
 // finishing sets esm_seen, so the daily welcome stops. You → "Tradition, Today page and goals" reopens it.
@@ -3807,7 +3957,7 @@ function sheetSetup(){const S=ST.su||(ST.su={step:0}),tr=ls('esm_tradition',null
       <button class="btn primary wide" data-act="susetgoal">Set ${gs.length>1?`these ${gs.length} goals`:'this goal'}</button>`:''}
     ${tr==='tibetan'||tr==null?'<p class="small">Some practices are traditionally begun only after receiving the transmission (lung) from a teacher.</p>':''}${skip}`;}
   return`<div class="grab"></div>${dots}<h2 class="h1">Reminders (optional)</h2><p class="small">Gentle ones only. You can change these any time under You → Reminders.</p>
-    <div class="list">${item('supush','Notifications from the app','Words each morning, reminders, a mindfulness bell, full moons',{ico:'phone'})}
+    <div class="list">${item('supush','Reminders from the app','A practice time, a mindfulness bell, auspicious days',{ico:'bell'})}
       ${item('sudaily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}
       ${calTib()&&U.includes('cal')?item('sufeed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>
     <button class="btn primary wide" data-act="sudone">Finish</button>
@@ -4365,7 +4515,7 @@ function ovFullMoon(){const L=(l,u)=>`<a class="linkbtn" href="${u}" target="_bl
     <div class="links">${L('Uposatha','https://en.wikipedia.org/wiki/Uposatha')}${L('Vesak','https://en.wikipedia.org/wiki/Vesak')}${L('Māgha Pūjā','https://en.wikipedia.org/wiki/M%C4%81gha_P%C5%ABj%C4%81')}${L('Āsāḷha Pūjā','https://en.wikipedia.org/wiki/%C4%80s%C4%81%E1%B8%B7ha_P%C5%ABj%C4%81')}</div></div>
   <div class="card stack"><b>Chinese and East Asian Buddhism</b><p>The 1st and 15th of each lunar month (new and full moon) are among the observance days. Many keep the precepts, eat vegetarian, and visit the temple.</p></div>
   <div class="card stack"><b>For anyone</b><p>A longer sit than usual; a precept kept for the day; a kindness or a gift; and at the end, dedicate whatever good was done to all beings.</p></div>
-  ${pushSupported()?`<button class="btn soft wide" data-act="push">${ico('phone')} Remind me on the day of each full moon</button>`:''}
+  ${pushSupported()?`<button class="btn soft wide" data-act="radd" data-v="moon">${ico('bell')} Remind me on the day of each full moon</button>`:''}
   </div></div>`;}
 
 function sheetPick(){return`<div class="grab"></div><h2 class="h1">Show on Today</h2><p class="small">Choose the practice you are working on now.</p>
@@ -4474,7 +4624,7 @@ function sheetFull(){return`<div class="grab"></div><h2 class="h1">Your phone is
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy</button>${backupHint()}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const SHEETS={full:sheetFull,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,abcode:sheetAbCode,aboff:sheetAbOff,abrestore:sheetAbRestore,install:sheetInstall,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,gaccept:sheetGAccept,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,abcode:sheetAbCode,aboff:sheetAbOff,abrestore:sheetAbRestore,install:sheetInstall,welcome:sheetWelcome,setup:sheetSetup,radd:sheetRAdd,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,gaccept:sheetGAccept,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Library'],['you','You']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -4710,7 +4860,7 @@ document.getElementById('app').addEventListener('click',e=>{
       ST.su.step=4;ST.su.goals=[];ST.su.own=null;break;}
     case'sudone':suDone();if(!ls('esm_toured'))tourGo(0);break;
     case'sutour':suDone();tourGo(0);break;
-    case'supush':suDone();ST.sheet=null;ST.ov='yourem';break;
+    case'supush':suDone();goRem();if(pushOK()){raOpen('');sheet('radd');}break;
     case'sudaily':suDone();sheet('daily');break;
     case'sufeed':suDone();sheet('feed');break;
     case'tour':tourGo(0);break;
@@ -4741,15 +4891,14 @@ document.getElementById('app').addEventListener('click',e=>{
     case'mantrasave':{const M=ls('esm_mantra',{});M[ST.sarg]=val('mantrain').toUpperCase();lsSet('esm_mantra',M);ST.sheet=null;toast('Words saved');return;}
     case'mantrareset':{const M=ls('esm_mantra',{});delete M[ST.sarg];lsSet('esm_mantra',M);ST.sheet=null;break;}
     case'settings':ST.tab='you';ST.sheet=null;ST.ov=null;break;
-    case'youprog':case'yourem':case'youlook':case'youbk':ST.sheet=null;ST.ov=a;break;
+    case'youprog':case'youlook':case'youbk':ST.sheet=null;ST.ov=a;break;
+    case'yourem':goRem();break;
     case'lib':ST.sheet=null;ST.ov='lib';ST.arg=el.dataset.v;break;
     case'libseg':ST.lib=el.dataset.v;break;
     case'libg':ST.libg=el.dataset.v;break;
     case'libclear':ST.libq='';break;
     case'breaths':ST.tab='practice';ST.ov=null;ST.sheet=null;ST.scrollTo='p_breath';break;
     case'sitnow':ST.tab='practice';mtBegin();break;
-    case'remdaily':{const c=pushCfg();if(!c.rem.length){c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);}
-      ST.sheet=null;ST.ov='yourem';toast(c.on?'Choose the time and days':'Choose the time and days, then turn on notifications');pushSync();break;}
     case'theme':setTheme(el.dataset.v);break;
     case'size':setSize(+el.dataset.v);break;
     case'pick':sheet('pick');break;
@@ -4872,18 +5021,36 @@ document.getElementById('app').addEventListener('click',e=>{
     case'dailyadd':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);shareICS(icsDoc([dailyEvent(t)]),'daily-practice.ics',{title:'Daily practice reminder'});return;}
     case'dailygcal':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);el.href=gcalLink(dailyEvent(t));return;}
     case'feed':sheet('feed');break;
-    case'push':ST.sheet=null;ST.ov='yourem';break;
-    case'pushon':pushReadForm();pushOn();return;
-    case'pushoff':pushOff();return;
-    case'pushtoggle':{const c=pushReadForm();lsSet('esm_push',{...c,[el.dataset.v]:!c[el.dataset.v]});pushSync();break;}
-    case'premadd':{const c=pushReadForm();c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);pushSync();break;}
-    case'premfor':{const c=pushCfg(),id=el.dataset.id;if(!c.rem.some(r=>r.pr===id)){c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:'',pr:id});lsSet('esm_push',c);}
-      ST.sheet=null;ST.ov='yourem';toast(c.on?'Choose the time and days':'Choose the time and days, then turn on notifications');pushSync();break;}
-    case'premdel':{const c=pushReadForm();c.rem.splice(+el.dataset.v,1);lsSet('esm_push',c);pushSync();break;}
-    case'premday':{const c=pushReadForm(),r=c.rem[+el.dataset.v],w=+el.dataset.w;r.d=r.d.includes(w)?r.d.filter(x=>x!==w):[...r.d,w];lsSet('esm_push',c);pushSync();break;}
-    case'pbelltog':{const c=pushReadForm();c.bell.on=!c.bell.on;lsSet('esm_push',c);pushSync();break;}
-    case'pbellday':{const c=pushReadForm(),w=+el.dataset.w;c.bell.d=c.bell.d.includes(w)?c.bell.d.filter(x=>x!==w):[...c.bell.d,w];lsSet('esm_push',c);pushSync();break;}
-    case'pmoontog':{const c=pushReadForm();c.moon.on=!c.moon.on;lsSet('esm_push',c);pushSync();break;}
+    case'push':goRem();break;
+    case'pushon':{const perm=askPerm();pushMsg='Turning notifications on…';render();
+      pushEnable(true,perm).then(f=>{pushMsg=f?PUSH_WHY[f]:'Notifications are on, and a test one is on its way.';render();});return;}
+    case'pushtest':pushMsg='Sending a test…';render();
+      pushTest().then(f=>{pushMsg=f?PUSH_WHY[f]:'Sent. It should appear within a few seconds. If nothing shows, your phone is holding it back: check Do Not Disturb or Focus, and that notifications are allowed for this app in your phone’s settings.';render();});return;
+    case'pushoff':pushOff().then(render);return;
+    // The "Add a reminder" sheet (sheetRAdd). data-v: the kind, data-i: which practice reminder, data-id: a practice to open.
+    case'radd':if(ST.su)suDone();if(!pushOK()){goRem();break;}if(ST.ov!=='yourem')goRem();
+      raOpen(el.dataset.v||'',el.dataset.i!=null?+el.dataset.i:-1,id||'');sheet('radd');break;
+    case'rakind':raOpen(el.dataset.v);ST.ra.direct=false;break;
+    case'raback':case'ramore':ST.ra={step:0};break;
+    case'raday':{raRead();const d=ST.ra.d,w=+el.dataset.w;d.d=d.d.includes(w)?d.d.filter(x=>x!==w):[...d.d,w];break;}
+    case'raopt':raRead();ST.ra.d.before=el.dataset.v==='1';break;
+    case'racal':{raRead();const d=ST.ra.d;if(!isT(d.t)){raErr('Please choose a time first.');break;}
+      shareICS(icsDoc([calRemEvent(d)]),'practice-reminder.ics',{title:remTitle(d)});return;}
+    case'rasave':{const R=ST.ra;if(!R||R.busy)return;raRead();const d=R.d,c=pushCfg();R.err='';
+      if(R.kind==='practice'){if(!isT(d.t)){raErr('Please choose a time.');break;}if(!d.d.length){raErr('Please choose at least one day.');break;}
+        const r={id:d.id||Date.now().toString(36).slice(-6),t:d.t,d:d.d,label:(d.label||'').slice(0,80),pr:d.pr&&findPR(d.pr)?d.pr:''};
+        if(R.i>=0&&c.rem[R.i])c.rem[R.i]=r;else if(c.rem.length>=12){raErr('The app can keep 12 practice reminders. Remove one first.');break;}else R.i=c.rem.push(r)-1;}
+      else if(R.kind==='bell'){if(!isT(d.from)||!isT(d.to)){raErr('Please choose both times.');break;}if(hm(d.to)<=hm(d.from)){raErr('“Until” needs to be later than “From”.');break;}
+        if(!d.d.length){raErr('Please choose at least one day.');break;}
+        c.bell={on:true,every:+d.every||60,from:d.from,to:d.to,d:d.d,sound:BELLS[d.sound]?d.sound:'bell'};}
+      else{if(!isT(d.time)){raErr('Please choose a time.');break;}
+        if(R.kind==='ausp')c.ausp={on:true,time:d.time,before:!!d.before};else if(R.kind==='moon')c.moon={on:true,time:d.time};
+        else if(R.kind==='quote'){c.quote=true;c.quoteTime=d.time;}else if(R.kind==='nudge'){c.nudge=true;c.nudgeTime=d.time;}else return;}
+      const perm=askPerm();lsSet('esm_push',c);R.busy=true;render();raFinish(perm);return;}
+    case'raretry':{const R=ST.ra;if(!R||R.busy)return;const perm=askPerm();R.busy=true;render();raFinish(perm);return;}
+    case'radel':{const R=ST.ra,c=pushCfg();if(!R)return;
+      if(R.kind==='practice'){if(R.i>=0)c.rem.splice(R.i,1);}else if(R.kind==='bell')c.bell.on=false;else if(R.kind==='ausp')c.ausp.on=false;else if(R.kind==='moon')c.moon.on=false;else if(R.kind==='quote')c.quote=false;else if(R.kind==='nudge')c.nudge=false;
+      lsSet('esm_push',c);ST.sheet=null;ST.ra=null;pushSync();toast('Reminder removed');return;}
     case'calrule':lsSet('esm_cal_rule',el.dataset.v);toast(el.dataset.v==='after'?'Skipped days: the day after. Doubled days: the first.':'Skipped days: the day before. Doubled days: the second.');break;
     // meditation timer
     case'mtset':mtSave({min:+el.dataset.v,open:false});break;
@@ -4998,7 +5165,7 @@ ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup r
   }
   render();
 });
-document.getElementById('app').addEventListener('change',e=>{if(e.target.dataset.pf){pushReadForm();pushSync();if(/^rem\.\d+\.pr$/.test(e.target.dataset.pf))render();return;}if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
+document.getElementById('app').addEventListener('change',e=>{if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
 // The two backup-code forms (save to passwords, restore with the code).
 document.getElementById('app').addEventListener('submit',e=>{const id=e.target&&e.target.id;
   if(id==='absave'){e.preventDefault();abSave();}
@@ -5215,11 +5382,14 @@ if(!ST.sheet&&!ST.seenLink&&!ls('esm_seen')&&ls('esm_welcome_day')!==dayKey()){l
   if(hasPracticeData()||ls('esm_tradition',null))ST.sheet='welcome';else{ST.su={step:0};ST.sheet='setup';}}
 if(history.state&&history.state.dp)hGuard=true;
 if(location.hash==='#fullmoon'){ST.ov='fullmoon';history.replaceState(null,'',location.pathname+location.search);}
-if(pushCfg().on&&pushSupported()&&Date.now()-(ls('esm_push_sync',0)||0)>20*86400000)navigator.serviceWorker.ready.then(()=>pushSubscribe(false)).catch(()=>{});
+// A tapped auspicious-day notification: that day, on the calendar.
+{const dm=location.hash.match(/^#day=(\d{4}-\d{2}-\d{2})$/);if(dm){ST.ov='cal';ST.sheet='day';ST.sarg=dm[1];history.replaceState(null,'',location.pathname+location.search);}}
+pushStart();
 // A mindfulness bell that arrives while the app is open rings with the chosen sound.
-if('serviceWorker'in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.kind==='bell'&&!document.hidden)bell(pushCfg().bell.sound||'bell',.7);
+if('serviceWorker'in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.kind==='bell')bellRing(true);
   // A tapped notification while the app is already open: go to that practice (or the full-moon page).
-  if(e.data&&e.data.kind==='open'){const h=String(e.data.hash||''),m=h.match(/^#practice=([\w-]+)$/);ST.sheet=null;
+  if(e.data&&e.data.kind==='open'){const h=String(e.data.hash||''),m=h.match(/^#practice=([\w-]+)$/),dm=h.match(/^#day=(\d{4}-\d{2}-\d{2})$/);ST.sheet=null;
+    if(dm){ST.ov='cal';ST.sheet='day';ST.sarg=dm[1];}else
     if(m&&findPR(m[1])){ST.tab='practice';ST.ov='practice';ST.arg=m[1];}else if(h==='#fullmoon')ST.ov='fullmoon';render();}});
 // A sitting timer from before a reload: carry on, or (if it ended long ago) let it go.
 if(ST.sit){if(!ST.sit.done){sitT=setInterval(sitTick,1000);sitTick();}if(ST.sit&&Date.now()-sitEnd()>6*3600000)sitStop();}   // reloaded on our back-button entry: reuse it
