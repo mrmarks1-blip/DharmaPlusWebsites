@@ -146,6 +146,13 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
 .bar i { display:block; height:100%; background:var(--accent); border-radius:6px; }
 .tag { font-size:13px; font-weight:700; padding:4px 9px; border-radius:9px; background:var(--sunk); color:var(--ink-2); white-space:nowrap; }
 .tag.ok { color:var(--ok); }
+/* A switch: the whole row is the button; this is only the picture of it. */
+.sw { flex:none; width:50px; height:30px; border-radius:15px; background:var(--ink-3); position:relative; transition:background .15s; }
+.sw::after { content:''; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.35); transition:transform .15s; }
+[aria-checked="true"] > .sw { background:var(--ok); }
+[aria-checked="true"] > .sw::after { transform:translateX(20px); }
+.item.subrow { min-height:0; padding-block:10px; cursor:default; color:var(--ink-2); }
+.item.subrow input { width:auto; flex:none; }
 .note { font-size:var(--fs-sm); color:var(--ink-2); border-left:3px solid var(--accent); padding-left:12px; }
 
 /* Lists of tappable rows */
@@ -246,7 +253,8 @@ details summary { cursor:pointer; min-height:44px; display:flex; align-items:cen
 .wdays { display:flex; gap:6px; flex-wrap:wrap; }
 .wday { width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--surface); font-weight:700; color:var(--ink-2); }
 .wday.on { background:var(--accent); border-color:var(--accent); color:var(--on-accent,#fff); }
-.remgrid { display:grid; grid-template-columns:minmax(0,7.5em) minmax(0,1fr) auto; gap:8px; align-items:center; }
+.remgrid { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; }
+.remgrid input[type=text] { grid-column:1 / -1; grid-row:2; }
 .remgrid input { width:100%; min-width:0; }
 .seedthig { position:relative; width:180px; height:180px; margin:0 auto 12px; border-radius:50%;
   background:radial-gradient(circle at 50% 50%,#ffffff 0%,#f3f2ff 22%,#c9c8ff 55%,#9d9cf6 82%,#b9b8ff 100%);
@@ -770,11 +778,11 @@ setSize(ls('esm_size',1));
 const PR=[
   {id:'refuge',   name:'Short Refuge',    sub:'Short refuge formulas',  target:11000,  cv:100,  bg:0, acc:'#5a9ece', img:'refuge-tree.jpg'},
   {id:'prostr',   name:'Prostrations',    sub:'Full body prostrations', target:111111, cv:1000, bg:1, acc:'#d07850', img:'refuge-tree.jpg'},
-  {id:'diamond',  name:'Diamond Mind',    sub:'Vajrasattva mantras',    target:111111, cv:1000, bg:2, acc:'#9070d8', img:'dm.jpg',         mantra:'OM VAJRASATTVA HUNG'},
+  {id:'diamond',  name:'Vajrasattva recitation',sub:'Vajrasattva mantras',   target:111111, cv:1000, bg:2, acc:'#9070d8', img:'dm.jpg',         mantra:'OM VAJRASATTVA HUNG'},
   {id:'mandala',  name:'Mandala Offering',sub:'Mandala offerings',      target:111111, cv:1000, bg:3, acc:'#40a880', img:'mandala.jpg'},
   {id:'guruyoga', name:'Guru Yoga',       sub:'Guru Yoga mantras',      target:111111, cv:1000, bg:4, acc:'#c89040', img:'guru.jpg',        mantra:'KARMAPA KHENNO'},
   {id:'phowa',    name:'Phowa Prep.',     sub:'Om Ami Dewa Hrih',       target:500000, cv:5000, bg:5, acc:'#5878d8', img:'phowa.jpg',       mantra:'OM AMI DEWA HRIH'},
-  {id:'vajraguru',name:'Vajra Guru mantra',sub:'Guru Rinpoche’s mantra',target:1000,cv:10,bg:4,acc:'#b8873a',mantra:'OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG'},
+  {id:'vajraguru',name:'Precious Guru Mantra',sub:'Guru Rinpoche’s mantra',target:1000000,cv:10000,bg:4,acc:'#b8873a',mantra:'OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG'},
   {id:'loving',   name:'Loving Eyes',     sub:'Om Mani Peme Hung',      target:1000000,cv:10000,bg:6, acc:'#c85880', img:'lovingeyes.jpg',  mantra:'OM MANI PEME HUNG'},
 ];
 const COLS=12;
@@ -1926,6 +1934,8 @@ function doy(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
 // PRACTICE EXPLAINERS — short, plain-English "what is this?"
 // ═══════════════════════════════════════════════════════════
 const NGONDRO=['refuge','prostr','diamond','mandala','guruyoga'];
+// The four shown under “Ngöndro” on the Practice page, in this order (Gareth, 2026-11-11). Short Refuge is listed with the other practices.
+const NGONDRO_LIST=['prostr','diamond','mandala','guruyoga'];
 // Shown under Prostrations (practice page and Learn → The practices). Gareth: "people can do whatever they can";
 // sources: Lama Zopa Rinpoche (lamayeshe.com/advice/prostrations), Lion's Roar (Carlo Carranza, "Understanding the Ngöndro").
 const PROSTR_NOTE=`<p><b>Prostrations for every body.</b> Do what your body allows. Many teachers allow modified prostrations when full ones aren’t possible: on the knees, or bowing with the hands on a table or chair. If even that is too much, you can visualise. Lama Zopa Rinpoche advises imagining countless bodies, vast as mountains, all prostrating with you, while you recite with your hands joined in the prostration mudra; done with a good visualisation, he says, it can bring even more merit than the physical prostration.</p>
@@ -2086,7 +2096,7 @@ const plusDays=(d,k)=>{const x=noonOf(d);x.setDate(x.getDate()+k);return x;};
 
 function customPR(){return ls('esm_custom',[]);}
 function allPR(){
-  return[...PR.map(p=>({...p,group:NGONDRO.includes(p.id)?'ngondro':'other'})),
+  return[...PR.map(p=>({...p,group:NGONDRO_LIST.includes(p.id)?'ngondro':'other'})),
     ...customPR().map(c=>({...c,group:'custom',custom:true,acc:c.acc||'#9a7a52',cv:Math.max(1,Math.ceil(c.target/111))}))];
 }
 const findPR=id=>allPR().find(p=>p.id===id);
@@ -2500,17 +2510,19 @@ function medTimerCard(now){const o=mt(),s=ST.sit&&ST.sit.ov==='sit'?ST.sit:null;
     <button class="btn link" data-act="mtsettings" style="align-self:center">${esc(sum)} · Change</button>
     ${medStreak(now)}</div>`;}
 function sheetMT(){const o=mt(),seg=(act,cur,opts)=>`<div class="sitopts">${opts.map(([v,l])=>`<button class="opt${cur===v?' on':''}" data-act="${act}" data-v="${v}">${l}</button>`).join('')}</div>`,
-  sw=(act,on,l)=>`<button class="item" data-act="${act}" role="switch" aria-checked="${on}"><span class="grow"><span class="t">${l}</span></span><span class="tag${on?' ok':''}">${on?'On':'Off'}</span></button>`;
+  sw=(act,on,l)=>`<button class="item" data-act="${act}" role="switch" aria-checked="${on}"><span class="grow"><span class="t">${l}</span></span><span class="sw"></span></button>`;
   return`<div class="grab"></div><h2 class="h1">Timer settings</h2>
   <p class="h2" style="margin:0">Settling in</p><p class="small">Time to sit down and settle before the first bell.</p>${seg('mtsettle',o.settle,[[0,'None'],[10,'10 s'],[20,'20 s'],[30,'30 s']])}
   <p class="h2" style="margin:0">Interval bells</p><p class="small">A soft bell every few minutes, to check your posture or change practice.</p>${seg('mtint',o.interval,[[0,'Off'],[5,'5 min'],[10,'10 min'],[15,'15 min'],[20,'20 min']])}
-  <p class="h2" style="margin:0">Bell</p><div class="list">${Object.entries(BELLS).map(([k,l])=>`<div class="item" style="cursor:default"><button class="grow" data-act="mtbell" data-v="${k}" style="text-align:left"><span class="t">${l}</span>${o.bell===k?'<span class="s">Chosen</span>':''}</button><button class="btn soft" data-act="mthear" data-v="${k}">Hear it</button></div>`).join('')}</div>
+  <p class="h2" style="margin:0">Bell</p><p class="small">A bell rings when the sitting begins and three times when it ends.</p>
+  ${ls('esm_sound',true)?'':`<p class="note">Sounds are switched off, so the bell won’t ring in a sitting. <button class="btn link" data-act="sound" data-v="1" style="min-height:0;padding:0">Turn sounds on</button></p>`}
+  <div class="list">${Object.entries(BELLS).map(([k,l])=>`<div class="item" style="cursor:default"><button class="grow" data-act="mtbell" data-v="${k}" style="text-align:left"><span class="t">${l}</span>${o.bell===k?'<span class="s">Chosen</span>':''}</button><button class="btn soft" data-act="mthear" data-v="${k}">Hear it</button></div>`).join('')}</div>
   <div class="list">${sw('mtdim',o.dim,'Eyes-closed screen (dim; tap to see the time)')}${sw('mtmotiv',o.motiv,'Set a motivation before you begin')}${sw('mtdedic',o.dedic,'Dedicate at the end')}</div>
   <p class="h2" style="margin:0">Save as a preset</p>
   <input id="mtname" type="text" maxlength="30" placeholder="e.g. Morning sit" aria-label="Name for this preset">
   <button class="btn soft wide" data-act="mtsavepre">Save ${o.open?'open sitting':`${o.min} min`}${o.interval?`, bell every ${o.interval} min`:''}</button>
   ${o.presets.length?`<div class="list">${o.presets.map((p,i)=>`<div class="item" style="cursor:default"><span class="grow"><span class="t">${esc(p.name)}</span><span class="s">${p.open?'Open sitting':`${p.min} min`}${p.interval?` · bell every ${p.interval} min`:''}${p.settle?` · settle ${p.settle} s`:''}</span></span><button class="iconbtn" data-act="mtdelpre" data-v="${i}" aria-label="Delete ${esc(p.name)}">${ico('trash')}</button></div>`).join('')}</div>`:''}
-  <p class="h2" style="margin:0">Reminders to sit</p><div class="list">${pushSupported()?item('push','Notifications from the app','Daily reminders, a mindfulness bell, full moons',{ico:'phone'}):''}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}</div>
+  <p class="h2" style="margin:0">Reminders to sit</p><div class="list">${item('push','Reminders','Daily reminders, a mindfulness bell, full moons',{ico:'bell'})}${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}</div>
   <button class="btn primary wide" data-act="closesheet">Done</button>`;}
 // The beginning and the end, after Longchenpa's three principles: bodhicitta at the start,
 // resting in the main part, dedication at the close.
@@ -2529,7 +2541,7 @@ function ovSit(){const s=ST.sit;
 // Begin: motivation first if wanted, then the timer (settling time, then the first bell).
 function mtBegin(){const o=mt();ST.sitDim=o.dim;ST.sitPeek=0;ST.ov='sit';
   if(o.motiv){ST.sitPhase='motiv';return;}mtGo();}
-function mtGo(){const o=mt();ST.sitPhase=null;ST.ov='sit';sitStart(o.open?0:o.min,{settle:o.settle,interval:o.interval,bell:o.bell,open:o.open});keepAwake(true);}
+function mtGo(){const o=mt();sndSession('playback');sndUnlock();stopSnds();ST.sitPhase=null;ST.ov='sit';sitStart(o.open?0:o.min,{settle:o.settle,interval:o.interval,bell:o.bell,open:o.open});keepAwake(true);}
 // Ending early or an open sitting: the minutes sat still go into the diary.
 function mtEnd(){const s=ST.sit;if(!s)return;const sat=Math.floor(Math.max(0,Date.now()-s.start)/60000);
   if(sat>0&&acts().some(a=>a.id==='meditation'))addActAmount(dayKey(),'meditation',sat);
@@ -2715,20 +2727,22 @@ const breathList=()=>`<div class="list">
     ${item('brahm','The beautiful breath','Ajahn Brahm’s stages of meditation',{ico:'breath'})}
     ${item('count','Counting the breath','One to ten, then begin again',{ico:'breath'})}
     ${item('breath','Nine-Round Breathing','About 10 minutes · you set the pace',{ico:'breath'})}</div>`;
-// Everything you do, in plain sight: your practices, meditation, the breath, and practicing together.
-// People from other traditions get meditation first and Ngöndro last.
+// Everything you do, in plain sight. The meditation timer comes first, then "Count a session", then the
+// practices (Gareth, 2026-11-11). People from other traditions get their own practices before Ngöndro.
 function pagePractice(){const all=allPR(),other=['theravada','zen','pureland'].includes(ls('esm_tradition'));
-  const ng=all.filter(p=>p.group==='ngondro'),op=all.filter(p=>p.group!=='ngondro');
-  const count=`<div id="p_list" class="stack">${other?'':`<p class="h2">Ngöndro</p><div class="list">${ng.map(prRow).join('')}</div>`}
+  const ng=NGONDRO_LIST.map(id=>all.find(p=>p.id===id)).filter(Boolean),op=all.filter(p=>p.group!=='ngondro');
+  const ngList=t=>`<p class="h2">${t}</p><div class="list">${ng.map(prRow).join('')}</div>`;
+  const count=`<div id="p_list" class="stack">${other?'':ngList('Ngöndro')}
     <p class="h2">${other?'Your practices':'Other practices'}</p><div class="list">${op.map(prRow).join('')}
       ${item('newpr','Add your own','Any mantra or practice, with its own target',{ico:'plus'})}</div>
-    ${other?`<p class="h2">Ngöndro · Tibetan preliminaries</p><div class="list">${ng.map(prRow).join('')}</div>`:''}</div>`;
-  const sit=`<div id="p_med" class="stack">${medTimerCard(noonOf(new Date()))}${medKindsRow()}
+    ${other?ngList('Ngöndro · Tibetan preliminaries'):''}</div>`;
+  const sit=`<div class="stack">${medKindsRow()}
     <div class="list"><button class="item" data-act="threeaa"><span class="ico" style="font-family:var(--f-tib);font-size:22px">ཨ</span><span class="grow"><span class="t">The Three Aa</span><span class="s">Open sitting · James Low</span></span>${chev}</button></div></div>
     <div id="p_breath" class="stack"><p class="h2">Breath</p>${breathList()}</div>`;
   return`<div class="page"><div class="col"><h1 class="h1">Practice</h1>
+  <div id="p_med" class="stack">${medTimerCard(noonOf(new Date()))}</div>
   <button class="bigtile" data-act="start" data-id="">${ico('mala')}<span><b>Count a session</b><span>Tap anywhere to count. Choose where it goes at the end.</span></span></button>
-  ${other?sit+count:count+sit}
+  ${count}${sit}
   <div id="p_together" class="stack"><p class="h2">Practice together</p><div class="card stack">${groupsBody()}</div></div>
   </div></div>`;}
 
@@ -2782,7 +2796,7 @@ const beadText=c=>c?`Mala ${Math.floor((c-1)/108)+1} · bead ${((c-1)%108)+1}`:'
 // Tap-count background (Gareth, 2026-11-05): none, a practice picture, one of the drawn patterns from the share
 // images, or the person's own photo. Each practice keeps its own (esm_sess_bg {pid:choice}); strength in esm_sess_bga.
 // Before this there was one on/off switch for the practice's own picture (esm_sess_img), still used as the default.
-const SESS_PICS=[['refuge-tree.jpg','Refuge tree'],['dm.jpg','Diamond Mind'],['mandala.jpg','Mandala'],['guru.jpg','Guru Yoga'],['phowa.jpg','Phowa'],['lovingeyes.jpg','Loving Eyes']];
+const SESS_PICS=[['refuge-tree.jpg','Refuge tree'],['dm.jpg','Vajrasattva'],['mandala.jpg','Mandala'],['guru.jpg','Guru Yoga'],['phowa.jpg','Phowa'],['lovingeyes.jpg','Loving Eyes']];
 const SESS_BGA={faint:.22,medium:.45,clear:.75};
 // Stored values can come from a restored backup file, so only known choices and a real JPEG data URL are used.
 let sessPhotoC;const sessPhoto=()=>{if(sessPhotoC===undefined){const u=ls('esm_sess_photo',null);sessPhotoC=typeof u==='string'&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(u)?u:null;}return sessPhotoC;};
@@ -2907,7 +2921,7 @@ const ACT_SUGGEST=[
   {id:'a_prostr',name:'Prostrations',color:'#c9713c',pr:'prostr'},
   {id:'a_guruyoga',name:'Guru Yoga',color:'#c4903d',pr:'guruyoga'},
   {id:'sang',name:'Smoke offering',color:'#8a8f98'},
-  {id:'a_diamond',name:'Diamond Mind',color:'#8a6bd1',pr:'diamond'},
+  {id:'a_diamond',name:'Vajrasattva recitation',color:'#8a6bd1',pr:'diamond'},
   {id:'a_mandala',name:'Mandala offering',color:'#3f9a78',pr:'mandala'},
   {id:'a_loving',name:'Loving Eyes',color:'#c05b80',pr:'loving'},
   {id:'prayers',name:'Prayers',color:'#7a2230'},
@@ -3074,21 +3088,46 @@ function ovProgress(){const now=noonOf(new Date()),ms=medStreak(now),got=Object.
     ${item('acts','What my diary keeps track of',acts().map(a=>esc(a.name)).join(' · '),{ico:'edit'})}
     ${item('exportcsv','Save my diary as a spreadsheet','A file you can open in Excel or Google Sheets',{ico:'save'})}
   </div></div></div>`;}
-// Daily practice reminders first; the other kinds of reminder below.
-function ovReminders(){const c=pushCfg(),ok=pushSupported()&&!(isIOS()&&!isStandalone());
-  const wd=d=>d.length===7?'every day':WD_ORDER.filter(w=>d.includes(w)).map(w=>['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][w]).join(' ');
+// Reminders: one page for everything (Gareth, 2026-11-11: the old page plus pop-up was confusing, and the
+// On/Off labels looked like switches but didn't respond). Every switch is a whole row, and changes save by themselves.
+let pushMsg='';
+function ovReminders(){const c=pushCfg(),ios=isIOS(),ok=pushSupported()&&!(ios&&!isStandalone()),B=c.bell,M=c.moon;
+  const sw=(act,on,t,s,v='')=>`<button class="item" data-act="${act}" data-v="${v}" role="switch" aria-checked="${!!on}"><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span><span class="sw"></span></button>`;
+  const at=(pf,v,label)=>`<label class="item subrow"><span class="grow">At</span><input data-pf="${pf}" type="time" value="${esc(v)}" aria-label="${label}"></label>`;
+  const days=(d,act,i)=>`<div class="wdays">${WD_ORDER.map(w=>`<button class="wday${d.includes(w)?' on':''}" data-act="${act}" data-v="${i}" data-w="${w}" aria-pressed="${d.includes(w)}" aria-label="${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][w]}">${WD[w]}</button>`).join('')}</div>`;
+  const cal=`<p class="h2">In your phone’s own calendar</p><p class="small">These work on every phone and don’t need notifications.</p><div class="list">
+    ${item('daily','A daily reminder in my calendar','An event that repeats every day',{ico:'cal'})}
+    ${calTib()?item('feed','Auspicious days in my calendar','Subscribe once; stays up to date',{ico:'cal'}):''}</div>`;
+  if(!ok)return`${topbar('Reminders')}<div class="ovbody"><div class="col">
+    <div class="card stack"><b>${ios?'Add the app to your Home Screen first':'This browser can’t send reminders'}</b>
+      <p class="small">${ios?'On iPhone and iPad, the app can send reminders once it’s on your Home Screen (iOS 16.4 or later). Add it, open it from there, and come back to this page.':'This browser can’t show notifications from a web app. Try Chrome, Edge or Firefox, or add the app to your phone.'}</p>
+      ${isStandalone()?'':`<button class="btn primary wide" data-act="install">${ico('phone')} Add to phone</button>`}</div>
+    ${cal}</div></div>`;
   return`${topbar('Reminders')}<div class="ovbody"><div class="col">
-  <p class="sub">Gentle ones only. A reminder says “Time for practice”, or your own words, with a line from the quotes.</p>
-  <p class="h2">Daily practice reminders</p>
-  ${c.rem.length?`<div class="list">${c.rem.map(r=>item('push',`${r.t} · ${esc(remTitle(r))}`,`${r.pr&&findPR(r.pr)?esc(findPR(r.pr).name)+' · ':''}${wd(r.d||[])}`,{ico:'bell'})).join('')}</div>
-    ${c.on?'':'<p class="small">These are saved, but notifications are off. Open one and turn notifications on to receive them.</p>'}`:'<p class="small">None yet. Choose a time and the days, and the app will nudge you.</p>'}
-  <button class="btn primary wide" data-act="${c.rem.length?'push':'remdaily'}">${ico(c.rem.length?'edit':'plus')} ${c.rem.length?'Add or change reminders':'Set a daily reminder'}</button>
-  ${ok?'':'<p class="small">This phone or browser can’t show notifications from the app yet (on iPhone, add the app to your Home Screen first). A reminder in your calendar, below, works on every phone.</p>'}
-  <p class="h2">Other reminders</p><div class="list">
-    ${item('push','Notifications from the app',c.on?'Words for today, an evening nudge, a mindfulness bell, full moons':'Off · words for today, an evening nudge, a mindfulness bell, full moons',{ico:'phone'})}
-    ${item('daily','A reminder in my calendar','An event in your phone’s own calendar; works on every phone',{ico:'cal'})}
-    ${calTib()?item('feed','Auspicious days in your calendar','Subscribe once; stays up to date',{ico:'cal'}):''}
-  </div></div></div>`;}
+  ${c.on?`<div class="card safe"><i></i><div><b>Notifications are on</b><p class="small" id="pushstate">${esc(pushMsg||'Switch on what you’d like below. Changes save by themselves.')}</p></div></div>`
+    :`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Notifications are off</b><p class="small">Nothing below is sent until you turn them on. Your phone will ask you to allow it, and a test one arrives straight away.</p></div>
+      <button class="btn primary wide" data-act="pushon">${ico('bell')} Turn on notifications</button></div>`}
+  <p class="h2">Practice reminders</p>
+  <p class="small">A nudge at a time you choose. It says “Time for practice”, or your own words, with a line from the quotes.</p>
+  ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${esc(r.t)}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="Time for practice" aria-label="What it says"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>
+    <label class="small">Tapping it opens <select data-pf="rem.${i}.pr"><option value="">The app</option>${allPR().map(p=>`<option value="${esc(p.id)}"${r.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>${days(r.d||[],'premday',i)}</div>`).join('')}
+  <button class="btn soft wide" data-act="premadd">${ico('plus')} Add a reminder</button>
+  <p class="h2">Every day</p>
+  <div class="list">${sw('pushtoggle',c.quote,'Words for today','A different quote each morning','quote')}${c.quote?at('quoteTime',c.quoteTime,'Time for words for today'):''}
+    ${sw('pushtoggle',c.nudge,'An evening nudge','Only on days you haven’t practiced, with a word of encouragement','nudge')}${c.nudge?at('nudgeTime',c.nudgeTime,'Time for the evening nudge'):''}</div>
+  <p class="h2">Mindfulness bell</p>
+  <div class="list">${sw('pbelltog',B.on,'A bell through the day','A moment to pause and come back to the breath')}</div>
+  ${B.on?`<div class="card stack"><label class="small">Every <select data-pf="bell.every">${[[15,'15 minutes'],[30,'30 minutes'],[45,'45 minutes'],[60,'hour, on the hour'],[90,'90 minutes'],[120,'2 hours'],[180,'3 hours']].map(([v,l])=>`<option value="${v}"${B.every==v?' selected':''}>${l}</option>`).join('')}</select></label>
+    <div class="btns even"><label class="small">From <input data-pf="bell.from" type="time" value="${esc(B.from)}"></label><label class="small">Until <input data-pf="bell.to" type="time" value="${esc(B.to)}"></label></div>
+    ${days(B.d||[],'pbellday',0)}
+    <label class="small">Sound when the app is open <select data-pf="bell.sound">${Object.entries(BELLS).map(([k,l])=>`<option value="${k}"${B.sound===k?' selected':''}>${l}</option>`).join('')}</select></label>
+    <p class="small">When the app is closed, your phone plays its own notification sound.</p></div>`:''}
+  <p class="h2">Full moon</p>
+  <div class="list">${sw('pmoontog',M.on,'On the day of each full moon','A reminder that it’s a day for practice')}${M.on?at('moon.time',M.time,'Time for the full-moon reminder'):''}</div>
+  ${cal}
+  <p class="small">Reminders can arrive a few minutes late, because they’re sent in small batches from a free server. To send them, our server keeps only this phone’s notification address, its time zone, these times and labels, and the full-moon dates. Never your practice, counts or name. Turning notifications off deletes it.</p>
+  ${c.on?`<button class="btn soft wide" data-act="pushoff">Turn notifications off</button>`:''}
+  </div></div>`;}
 function ovBackup(){const on=abOn(),safe=on||(!!ls('esm_last_backup',0)&&!backupDue());
   return`${topbar('Backup')}<div class="ovbody"><div class="col">
   <div class="card safe"><i class="${safe?'':'due'}"></i><div><b>${on?'A locked copy is kept online':'Your practice lives on this phone'}</b>
@@ -3463,12 +3502,27 @@ const sndBuf={},sndJob={};
 const actx=()=>audioCtx||(audioCtx=new(window.AudioContext||window.webkitAudioContext)());
 function loadSnd(k){if(sndBuf[k])return Promise.resolve(sndBuf[k]);
   return sndJob[k]||(sndJob[k]=fetch(SOUNDS[k]).then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>actx().decodeAudioData(b,ok,no))).then(b=>sndBuf[k]=b).catch(e=>{delete sndJob[k];throw e;}));}
-function playSnd(k,vol=1,fallback){if(!ls('esm_sound',true))return;try{const ac=actx();if(ac.state==='suspended')ac.resume();
-  loadSnd(k).then(b=>{const src=ac.createBufferSource(),g=ac.createGain();src.buffer=b;g.gain.value=vol;src.connect(g);g.connect(ac.destination);src.start();}).catch(()=>{if(fallback)fallback();});}catch{}}
+// Every recorded sound that is still ringing, so a new "Hear it" can stop the one before.
+const sndLive=new Set();let sndGen=0;
+// Phones only let sound start from a tap. Wake the audio on every tap, so a bell rung later by the timer
+// (after "settling in", say) is allowed to sound. iPhone can also leave it "interrupted" after a call or the lock screen.
+function sndUnlock(){try{const ac=actx();if(ac.state!=='running')ac.resume().catch(()=>{});}catch{}}
+['touchend','click','keydown'].forEach(ev=>addEventListener(ev,sndUnlock,{capture:true,passive:true}));
+// iPhone mutes web-app sound when the side switch is on silent. While the meditation timer is in use
+// (a sitting, or its settings sheet) ask to play like a music app, so the bell is still heard. Safari 16.4+; ignored elsewhere.
+let sndSess='auto';
+function sndSession(t){if(t===sndSess)return;sndSess=t;try{if(navigator.audioSession)navigator.audioSession.type=t;}catch{}}
+function stopSnds(){sndGen++;sndLive.forEach(n=>{try{const t=actx().currentTime;n.g.gain.setValueAtTime(n.g.gain.value,t);n.g.gain.linearRampToValueAtTime(0,t+.08);n.src.stop(t+.1);}catch{}});sndLive.clear();}
+// o.force: play even when Sounds are off (someone tapped "Hear it"). o.solo: drop it if another "Hear it" came first.
+function playSnd(k,vol=1,fallback,o={}){if(!o.force&&!ls('esm_sound',true))return;try{const ac=actx(),gen=sndGen;if(ac.state!=='running')ac.resume().catch(()=>{});
+  loadSnd(k).then(b=>{if(o.solo&&gen!==sndGen)return;const src=ac.createBufferSource(),g=ac.createGain(),n={src,g};src.buffer=b;g.gain.value=vol;src.connect(g);g.connect(ac.destination);
+    sndLive.add(n);src.onended=()=>sndLive.delete(n);src.start();}).catch(()=>{if(fallback&&!(o.solo&&gen!==sndGen))fallback();});}catch{}}
 // Load the common ones at the first touch, so the first bell isn't late.
 addEventListener('pointerdown',()=>{try{actx();['bowl','bowlsmall','rin'].forEach(k=>loadSnd(k).catch(()=>{}));}catch{}},{once:true});
 const BELL_TONES={bowl:[[0,528,.3],[.12,396,.2],[.26,264,.16]],bell:[[0,1046,.22],[.02,1568,.12],[.05,2093,.06]],gong:[[0,196,.34],[.08,147,.24],[.2,98,.2]]};
-function bell(kind='bowl',vol=1,times=1){for(let i=1;i<times;i++)setTimeout(()=>bell(kind,vol),i*4500);playSnd(BELL_FILE[kind]||'bowl',vol,()=>synthBell(kind,vol));}
+function bell(kind='bowl',vol=1,times=1,o){for(let i=1;i<times;i++)setTimeout(()=>bell(kind,vol),i*4500);playSnd(BELL_FILE[kind]||'bowl',vol,()=>synthBell(kind,vol),o);}
+// "Hear it": one bell at a time. Whatever was ringing stops first.
+function hearBell(kind){sndSession('playback');stopSnds();bell(kind,1,1,{force:true,solo:true});}
 function synthBell(kind='bowl',vol=1){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const ac=audioCtx;
   (BELL_TONES[kind]||BELL_TONES.bowl).map(([dl,fr,g])=>[dl,fr,g*vol]).forEach(([dl,fr,g])=>{const o=ac.createOscillator(),gn=ac.createGain(),t=ac.currentTime+dl;
     o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(fr,t);o.frequency.exponentialRampToValueAtTime(fr*.5,t+3);
@@ -3703,38 +3757,17 @@ async function pushOff(){try{const reg=await navigator.serviceWorker.ready,sub=a
 // "Practiced today", once a day, so the evening nudge knows to stay quiet.
 function pushDone(){const c=pushCfg(),k=dayKey();if(!c.on||!c.nudge||ls('esm_push_done')===k||!pushSupported())return;lsSet('esm_push_done',k);
   navigator.serviceWorker.ready.then(r=>r.pushManager.getSubscription()).then(sub=>sub&&fetch('/api/done',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint,date:k})})).catch(()=>{});}
-function sheetPush(){const c=pushCfg(),ios=isIOS();
-  if(!pushSupported()||(ios&&!isStandalone()))return`<div class="grab"></div><h2 class="h1">Notifications</h2>
-    ${ios&&!isStandalone()?'<p>On iPhone and iPad, notifications work once the app is on your Home Screen (iOS 16.4 or later). Add it to your Home Screen, open it from there, and come back here.</p>':'<p>This browser can’t show notifications from a web app. Try Chrome, Edge or Firefox, or add the app to your phone.</p>'}
-    ${isStandalone()?'':`<button class="btn soft wide" data-act="install">${ico('phone')} Add to phone</button>`}
-    <p class="small">A reminder in your own calendar works on every phone: You → Reminders → A reminder in my calendar.</p><button class="btn soft wide" data-act="closesheet">Close</button>`;
-  const row=(k,label,sub,tk)=>`<div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pushtoggle" data-v="${k}" style="text-align:left" role="switch" aria-checked="${c[k]}"><span class="t">${label}</span><span class="s">${sub}</span></button><span class="tag${c[k]?' ok':''}">${c[k]?'On':'Off'}</span>${c[k]?`<input id="${tk}" type="time" value="${c[tk]}" aria-label="Time for ${label}">`:''}</div>`;
-  const days=(d,act,i)=>`<div class="wdays">${WD_ORDER.map(w=>`<button class="wday${d.includes(w)?' on':''}" data-act="${act}" data-v="${i}" data-w="${w}" aria-pressed="${d.includes(w)}" aria-label="${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][w]}">${WD[w]}</button>`).join('')}</div>`;
-  const B=c.bell,M=c.moon;
-  return`<div class="grab"></div><h2 class="h1">Notifications from the app</h2>
-  <div class="list">${row('quote','Words for today','A different quote each morning','quoteTime')}${row('nudge','An evening nudge','Only on days you haven’t practiced, with a word of encouragement','nudgeTime')}</div>
-  <p class="h2" style="margin:0">Reminders</p>
-  ${c.rem.map((r,i)=>`<div class="card stack remrow"><div class="remgrid"><input data-pf="rem.${i}.t" type="time" value="${r.t}" aria-label="Time"><input data-pf="rem.${i}.label" type="text" maxlength="80" value="${esc(r.label||'')}" placeholder="Time for practice" aria-label="What it’s for"><button class="iconbtn" data-act="premdel" data-v="${i}" aria-label="Remove this reminder">${ico('trash')}</button></div>
-    <label class="small">Practice <select data-pf="rem.${i}.pr"><option value="">Any practice</option>${allPR().map(p=>`<option value="${esc(p.id)}"${r.pr===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select></label>${days(r.d,'premday',i)}</div>`).join('')}
-  <p class="small">Each reminder comes with a few words from the quotes. Tapping it opens the practice. Reminders can arrive a few minutes late, because they’re sent in small batches from a free server.</p>
-  <button class="btn soft wide" data-act="premadd">${ico('plus')} Add a reminder</button>
-  <p class="h2" style="margin:0">Mindfulness bell</p>
-  <div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pbelltog" style="text-align:left" role="switch" aria-checked="${B.on}"><span class="t">A bell through the day</span><span class="s">A moment to pause and come back to the breath</span></button><span class="tag${B.on?' ok':''}">${B.on?'On':'Off'}</span></div>
-  ${B.on?`<div class="card stack"><label class="small">Every <select data-pf="bell.every">${[[15,'15 minutes'],[30,'30 minutes'],[45,'45 minutes'],[60,'hour, on the hour'],[90,'90 minutes'],[120,'2 hours'],[180,'3 hours']].map(([v,l])=>`<option value="${v}"${B.every==v?' selected':''}>${l}</option>`).join('')}</select></label>
-    <div class="btns even"><label class="small">From <input data-pf="bell.from" type="time" value="${B.from}"></label><label class="small">Until <input data-pf="bell.to" type="time" value="${B.to}"></label></div>
-    ${days(B.d,'pbellday',0)}
-    <label class="small">Sound when the app is open <select data-pf="bell.sound">${Object.entries(BELLS).map(([k,l])=>`<option value="${k}"${B.sound===k?' selected':''}>${l}</option>`).join('')}</select></label>
-    <p class="small">When the app is closed, your phone plays its own notification sound.</p></div>`:''}
-  <p class="h2" style="margin:0">Full moon</p>
-  <div class="item" style="cursor:default;flex-wrap:wrap;gap:10px"><button class="grow" data-act="pmoontog" style="text-align:left" role="switch" aria-checked="${M.on}"><span class="t">On the day of each full moon</span><span class="s">A reminder that it’s a day for practice</span></button><span class="tag${M.on?' ok':''}">${M.on?'On':'Off'}</span>${M.on?`<input data-pf="moon.time" type="time" value="${M.time}" aria-label="Time for the full-moon reminder">`:''}</div>
-  ${c.on?`<button class="btn primary wide" data-act="pushsave">Save</button><button class="btn soft wide" data-act="pushoff">Turn notifications off</button>`
-    :`<button class="btn primary wide" data-act="pushon">Turn on notifications</button>`}
-  <p class="small">To send them, our server keeps only this phone’s notification address, its time zone, these times and labels, and the full-moon dates. Never your practice, counts or name. Turning them off deletes it.</p>
-  <button class="btn soft wide" data-act="closesheet">Close</button>`;}
-// Read the notification form back into esm_push before any change re-draws it.
+// Read the Reminders page back into esm_push before any change re-draws it.
 function pushReadForm(){const c=pushCfg();document.querySelectorAll('[data-pf]').forEach(el=>{const [a,b,k]=el.dataset.pf.split('.');
-  if(a==='rem'&&c.rem[+b])c.rem[+b][k]=el.value;else if(a==='bell')c.bell[b]=b==='every'?+el.value:el.value;else if(a==='moon')c.moon[b]=el.value;});
-  const q=val('quoteTime'),n=val('nudgeTime');if(q)c.quoteTime=q;if(n)c.nudgeTime=n;lsSet('esm_push',c);return c;}
+  if(a==='rem'&&c.rem[+b])c.rem[+b][k]=el.value;else if(a==='bell')c.bell[b]=b==='every'?+el.value:el.value;else if(a==='moon')c.moon[b]=el.value||c.moon[b];
+  else if(a==='quoteTime'||a==='nudgeTime')c[a]=el.value||c[a];});
+  lsSet('esm_push',c);return c;}
+// Send the choices to the server a moment after the last change (only while notifications are on). The
+// line under "Notifications are on" says how it went. If it fails, the next time the app opens tries again.
+let pushT=null;
+function pushSync(){if(!pushCfg().on||!pushSupported())return;const st=m=>{pushMsg=m;const e=document.getElementById('pushstate');if(e)e.textContent=m;};
+  st('Saving…');clearTimeout(pushT);
+  pushT=setTimeout(()=>pushSubscribe(false).then(()=>st('Saved.')).catch(()=>{lsSet('esm_push_sync',0);st('Couldn’t reach the server just now. Your choices are kept, and the app will send them next time it opens.');}),900);}
 // ── First-run setup (Phase 3): welcome → tradition → what to use → a goal → reminders. Every step can be
 // skipped. Saves esm_tradition, esm_uses (what Today shows), esm_caldays (via the tradition's default);
 // finishing sets esm_seen, so the daily welcome stops. You → "Tradition, Today page and goals" reopens it.
@@ -3789,7 +3822,7 @@ const TOUR=[
   ['Words for today','A teaching for each day. Swipe for another. Tap Share to send it as an image.','today','#qcard'],
   ['Counting a session','Tap “Count a session”, then tap anywhere on the screen, once for each mantra, prostration or round. At the end, choose which practice it goes to.','practice','.bigtile'],
   ['Your practices','Open a practice to count, change the words, and set a finish date: the app works out how many a day you need.','practice','#p_list'],
-  ['Meditation','Set the length and the bells, then sit; each sit goes in your diary. Below it, the kinds of meditation, and the Three Aa as taught by James Low.','practice','#p_med'],
+  ['Meditation','Set the length and the bells, then sit; each sit goes in your diary. Further down are the kinds of meditation, and the Three Aa as taught by James Low.','practice','#p_med'],
   ['Breath','Guided breathing: vajra breathing, the beautiful breath, counting the breath and Nine-Round. Each one follows your own breath.','practice','#p_breath'],
   ['Practice together','A shared count with your sangha or friends. Start one, or join with a six-letter code. Plan when you meet, in person or online.','practice','#p_together'],
   ['The Library','Prayers to chant one verse at a time. Type in the search box to find a prayer by its name or by any words in it.','texts','.search'],
@@ -4176,7 +4209,7 @@ function sheetBardo(){const d=dayKey();
   <button class="btn primary wide" data-act="bardoadd">Mark the weeks</button><button class="btn soft wide" data-act="closesheet">Cancel</button>`;}
 // ── Practicing together: shared counts (Gareth: e.g. the Seven-Line Prayer). The server keeps only the group's
 // name, what is counted, the target and the running total; nobody's name. esm_groups = [{code,name,practice,target,mine}].
-const GROUP_PRESETS=[['Seven-Line Prayer','Seven-Line Prayer',1000,'count'],['Minutes of meditation','Minutes of meditation',1000,'minutes'],['Vajra Guru mantra','OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG',100000,'count'],['Mani mantra','OM MANI PEME HUNG',1000000,'count'],['Something else','',10000,'count']];
+const GROUP_PRESETS=[['Seven-Line Prayer','Seven-Line Prayer',1000,'count'],['Minutes of meditation','Minutes of meditation',1000,'minutes'],['Precious Guru Mantra','OM AA HUNG BENDZA GURU PEMA SIDDHI HUNG',100000,'count'],['Mani mantra','OM MANI PEME HUNG',1000000,'count'],['Something else','',10000,'count']];
 const myGroups=()=>ls('esm_groups',[])||[];
 // The start-a-group form keeps what you typed while you choose a preset (ST.gf), and stays open.
 const gf=()=>ST.gf||(ST.gf={name:'',p:0,prac:GROUP_PRESETS[0][1],target:GROUP_PRESETS[0][2],unit:'count'});
@@ -4441,7 +4474,7 @@ function sheetFull(){return`<div class="grab"></div><h2 class="h1">Your phone is
   <button class="btn primary wide" data-act="sharebackup">${ico('save')} Send a copy</button>${backupHint()}
   <button class="btn soft wide" data-act="closesheet">Close</button>`;}
 const SHEETS={full:sheetFull,pick:sheetPick,pace:sheetPace,edit:sheetEdit,add:sheetAdd,date:sheetDate,finish:sheetFinish,fresh:sheetFresh,
-  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,abcode:sheetAbCode,aboff:sheetAbOff,abrestore:sheetAbRestore,install:sheetInstall,push:sheetPush,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,gaccept:sheetGAccept,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
+  newpr:sheetNewPr,delpr:sheetDelPr,image:sheetImage,sessbg:sheetSessBg,backup:sheetBackup,restore:sheetRestore,abcode:sheetAbCode,aboff:sheetAbOff,abrestore:sheetAbRestore,install:sheetInstall,welcome:sheetWelcome,setup:sheetSetup,caldays:sheetCalDays,sharequote:sheetShareQuote,gsit:sheetGSit,groups:sheetGroups,group:sheetGroup,gaccept:sheetGAccept,prayabout:sheetPrayAbout,bardo:sheetBardo,mile:sheetMile,miles:sheetMiles,locked:sheetLocked,mantra:sheetMantra,mt:sheetMT,aamic:()=>`<div class="grab"></div><h2 class="h1">Listen for your Aa?</h2><p>The app can use the microphone to notice when your sounded Aa begins and ends, and move on by itself, so you can keep your eyes closed.</p><p>It only measures how loud the sound is, moment by moment, on this phone. Nothing is recorded, saved or sent anywhere.</p><p class="small">Your phone will ask for permission. Works best in a quiet room. You can still tap at any time.</p><button class="btn primary wide" data-act="aamicok">Yes, listen</button><button class="btn soft wide" data-act="closesheet">Not now</button>`,remind:sheetRemind,daily:sheetDaily,feed:sheetFeed,day:sheetDay,nr:sheetNR,info:sheetInfo,acts:sheetActs};
 const TABS=[['today','Today'],['practice','Practice'],['texts','Library'],['you','You']];
 let lastView='',lastSheet=null,lastToast=null,lastTab=null;const pageScroll={};
 // Drag a sheet down by its top bar to close it.
@@ -4479,6 +4512,7 @@ function render(){
   if(pg&&lastTab)pageScroll[lastTab]=pg.scrollTop;const sameTab=lastTab===ST.tab;lastTab=ST.tab;
   const shEl=content.querySelector('.sheet'),keepSheet=shEl&&ST.sheet===lastSheet?shEl.scrollTop:0;
   nav.innerHTML=TABS.map(([k,l])=>`<button class="tab${ST.tab===k?' on':''}" data-act="tab" data-v="${k}" ${ST.tab===k?'aria-current="page"':''}><span class="ind">${ico(k)}</span><span>${l}</span></button>`).join('');
+  sndSession(ST.sit||ST.sheet==='mt'?'playback':'auto');
   let html=PAGES[ST.tab]();
   if(ST.ov)html+=`<div class="overlay${ST.ov==='session'?' session':''}" id="ov">${OVERLAYS[ST.ov]()}</div>`;
   // Sheets slide in only when they first open (re-renders inside a sheet mustn't
@@ -4676,7 +4710,7 @@ document.getElementById('app').addEventListener('click',e=>{
       ST.su.step=4;ST.su.goals=[];ST.su.own=null;break;}
     case'sudone':suDone();if(!ls('esm_toured'))tourGo(0);break;
     case'sutour':suDone();tourGo(0);break;
-    case'supush':suDone();sheet('push');break;
+    case'supush':suDone();ST.sheet=null;ST.ov='yourem';break;
     case'sudaily':suDone();sheet('daily');break;
     case'sufeed':suDone();sheet('feed');break;
     case'tour':tourGo(0);break;
@@ -4715,7 +4749,7 @@ document.getElementById('app').addEventListener('click',e=>{
     case'breaths':ST.tab='practice';ST.ov=null;ST.sheet=null;ST.scrollTo='p_breath';break;
     case'sitnow':ST.tab='practice';mtBegin();break;
     case'remdaily':{const c=pushCfg();if(!c.rem.length){c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);}
-      sheet('push');toast(c.on?'Choose the time and days, then Save':'Choose the time and days, then turn on notifications');break;}
+      ST.sheet=null;ST.ov='yourem';toast(c.on?'Choose the time and days':'Choose the time and days, then turn on notifications');pushSync();break;}
     case'theme':setTheme(el.dataset.v);break;
     case'size':setSize(+el.dataset.v);break;
     case'pick':sheet('pick');break;
@@ -4838,20 +4872,18 @@ document.getElementById('app').addEventListener('click',e=>{
     case'dailyadd':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);shareICS(icsDoc([dailyEvent(t)]),'daily-practice.ics',{title:'Daily practice reminder'});return;}
     case'dailygcal':{const t=val('dailytime')||'07:30';lsSet('esm_daily_time',t);el.href=gcalLink(dailyEvent(t));return;}
     case'feed':sheet('feed');break;
-    case'push':sheet('push');break;
+    case'push':ST.sheet=null;ST.ov='yourem';break;
     case'pushon':pushReadForm();pushOn();return;
     case'pushoff':pushOff();return;
-    case'pushtoggle':{const c=pushReadForm();lsSet('esm_push',{...c,[el.dataset.v]:!c[el.dataset.v]});break;}
-    case'premadd':{const c=pushReadForm();c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);break;}
+    case'pushtoggle':{const c=pushReadForm();lsSet('esm_push',{...c,[el.dataset.v]:!c[el.dataset.v]});pushSync();break;}
+    case'premadd':{const c=pushReadForm();c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:''});lsSet('esm_push',c);pushSync();break;}
     case'premfor':{const c=pushCfg(),id=el.dataset.id;if(!c.rem.some(r=>r.pr===id)){c.rem.push({id:Date.now().toString(36).slice(-6),t:'07:30',d:[0,1,2,3,4,5,6],label:'',pr:id});lsSet('esm_push',c);}
-      sheet('push');toast(c.on?'Choose the time and days, then Save':'Choose the time and days, then turn on notifications');break;}
-    case'premdel':{const c=pushReadForm();c.rem.splice(+el.dataset.v,1);lsSet('esm_push',c);break;}
-    case'premday':{const c=pushReadForm(),r=c.rem[+el.dataset.v],w=+el.dataset.w;r.d=r.d.includes(w)?r.d.filter(x=>x!==w):[...r.d,w];lsSet('esm_push',c);break;}
-    case'pbelltog':{const c=pushReadForm();c.bell.on=!c.bell.on;lsSet('esm_push',c);break;}
-    case'pbellday':{const c=pushReadForm(),w=+el.dataset.w;c.bell.d=c.bell.d.includes(w)?c.bell.d.filter(x=>x!==w):[...c.bell.d,w];lsSet('esm_push',c);break;}
-    case'pmoontog':{const c=pushReadForm();c.moon.on=!c.moon.on;lsSet('esm_push',c);break;}
-    case'pushsave':{pushReadForm();
-      pushSubscribe(false).then(()=>toast('Saved')).catch(()=>toast('Couldn’t reach the notification server. Please try again later.'));return;}
+      ST.sheet=null;ST.ov='yourem';toast(c.on?'Choose the time and days':'Choose the time and days, then turn on notifications');pushSync();break;}
+    case'premdel':{const c=pushReadForm();c.rem.splice(+el.dataset.v,1);lsSet('esm_push',c);pushSync();break;}
+    case'premday':{const c=pushReadForm(),r=c.rem[+el.dataset.v],w=+el.dataset.w;r.d=r.d.includes(w)?r.d.filter(x=>x!==w):[...r.d,w];lsSet('esm_push',c);pushSync();break;}
+    case'pbelltog':{const c=pushReadForm();c.bell.on=!c.bell.on;lsSet('esm_push',c);pushSync();break;}
+    case'pbellday':{const c=pushReadForm(),w=+el.dataset.w;c.bell.d=c.bell.d.includes(w)?c.bell.d.filter(x=>x!==w):[...c.bell.d,w];lsSet('esm_push',c);pushSync();break;}
+    case'pmoontog':{const c=pushReadForm();c.moon.on=!c.moon.on;lsSet('esm_push',c);pushSync();break;}
     case'calrule':lsSet('esm_cal_rule',el.dataset.v);toast(el.dataset.v==='after'?'Skipped days: the day after. Doubled days: the first.':'Skipped days: the day before. Doubled days: the second.');break;
     // meditation timer
     case'mtset':mtSave({min:+el.dataset.v,open:false});break;
@@ -4865,8 +4897,8 @@ document.getElementById('app').addEventListener('click',e=>{
     case'mtsettings':sheet('mt');break;
     case'mtsettle':mtSave({settle:+el.dataset.v});break;
     case'mtint':mtSave({interval:+el.dataset.v});break;
-    case'mtbell':mtSave({bell:el.dataset.v});bell(el.dataset.v);break;
-    case'mthear':bell(el.dataset.v);return;
+    case'mtbell':mtSave({bell:el.dataset.v});hearBell(el.dataset.v);break;
+    case'mthear':hearBell(el.dataset.v);return;
     case'mtdim':mtSave({dim:!mt().dim});break;
     case'mtmotiv':mtSave({motiv:!mt().motiv});break;
     case'mtdedic':mtSave({dedic:!mt().dedic});break;
@@ -4966,7 +4998,7 @@ ST.restore=null;ST.sheet=null;ST.ov=null;ST.tab='today';render();toast('Backup r
   }
   render();
 });
-document.getElementById('app').addEventListener('change',e=>{if(/^rem\.\d+\.pr$/.test(e.target.dataset.pf||'')){pushReadForm();render();return;}if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
+document.getElementById('app').addEventListener('change',e=>{if(e.target.dataset.pf){pushReadForm();pushSync();if(/^rem\.\d+\.pr$/.test(e.target.dataset.pf))render();return;}if(e.target.id==='mtmin'){const v=Math.min(240,Math.max(1,parseInt(e.target.value)||mt().min));mtSave({min:v,open:false});render();}});
 // The two backup-code forms (save to passwords, restore with the code).
 document.getElementById('app').addEventListener('submit',e=>{const id=e.target&&e.target.id;
   if(id==='absave'){e.preventDefault();abSave();}

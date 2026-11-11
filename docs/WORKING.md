@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
-| Service worker | `practice/sw.js`. Live: `dp-v10-25` (11 Nov 2026: the Dharma Soup logo on the home page and Today). Next release: `dp-v10-26`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-25` (11 Nov 2026: the Dharma Soup logo on the home page and Today). Waiting to go live: `dp-v10-26` on branch `claude/laughing-goodall-e5af0a` (11 Nov 2026: Practice page order, bells, Reminders page; see section 6). Release after that: `dp-v10-27`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -96,8 +96,9 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 - **Calendar (D1):** people choose the skipped/doubled-day rule (`esm_cal_rule`). The default matches
   tibetanbuddhistcalendar.org: skipped day → the day after; doubled day → the first.
 - **"Auspicious days" is the term (D2).** Each day keeps its own name (Guru Rinpoche Day, Uposatha and so on).
-- **The day-one preset is the Vajra Guru mantra (D3):** OM Aa HUNG BENDZA GURU PEMA SIDDHI HUNG (the second A
-  smaller), and it can be edited.
+- **The day-one preset is the Precious Guru Mantra (D3; renamed from "Vajra Guru mantra" on 2026-11-11, target
+  now 1,000,000):** OM Aa HUNG BENDZA GURU PEMA SIDDHI HUNG (the second A smaller), and it can be edited. Its saved
+  id is still `vajraguru`.
 - **Quick-add remembers the last amount (D4, changed).** The person chooses the + amount for each practice. A
   practice they haven't set yet uses the last + amount they chose (`esm_last_pace`), else 100. "Add a number" opens
   with the last number they added (`esm_last_add`).
@@ -176,6 +177,21 @@ testing), and so do the content rules in section 3.
     that day. (`feedEvents` looks unused but `tools/make-feed.html` calls it: keep.)
   - Tested in the local preview at 375×812 and 375×667, light and dark. Not tested on a real phone, with real
     saved data, or at desktop width before going live: Gareth is checking on his phone.
+
+**Built 2026-11-11, not live yet (branch `claude/laughing-goodall-e5af0a`, SW `dp-v10-26`). Asked for by Gareth.**
+- Practice page order: Meditation timer, Count a session, Ngöndro, Other practices, then kinds of meditation,
+  Three Aa, breath, Practice together. Ngöndro lists Prostrations, Vajrasattva recitation (was "Diamond Mind"),
+  Mandala Offering, Guru Yoga (`NGONDRO_LIST`); Short Refuge is under Other practices.
+- "Vajra Guru mantra" is now "Precious Guru Mantra", target 1,000,000 (group preset renamed too, still 100,000).
+- Bells: "Hear it" stops whatever was ringing first, and plays even when Sounds are off. Audio is woken on every
+  tap, so the start bell rings after "settling in". While the timer is in use the app asks iPhone to play even on
+  silent (`navigator.audioSession`, Safari 16.4+). Timer settings say so when Sounds are off.
+- Reminders is one page now (the "Notifications from the app" pop-up is gone). Real switches (the whole row),
+  and changes save by themselves; no Save button. Sections: Practice reminders, Every day, Mindfulness bell, Full
+  moon, In your phone's own calendar.
+- Tested in a desktop browser at 375×812 and 375×667, light and dark. **Not tested on a real phone:** Gareth to
+  check "Hear it", the start bell, and the bell and full-moon switches on his own phone. If the bells are still
+  silent there, note which phone and whether its silent switch is on.
 
 Live since 2026-11-09 (main 1cbf57b, SW `dp-v10-20`): Dharma Soup rename and dharmasoup.org, automatic backup,
 group organiser tools, minute-by-minute reminders, phone-safety cards and feedback (section 5).
