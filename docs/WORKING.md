@@ -17,8 +17,8 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 |---|---|
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
-| The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** (keep them; never use sed on it) |
-| Service worker | `practice/sw.js`. Live: `dp-v10-24` (main 1ca99a1, 10 Nov 2026: the redesign). Next release: `dp-v10-25`. |
+| The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-24` (main 1ca99a1, 10 Nov 2026: the redesign). `dp-v10-25` is taken by the Dharma Soup logo on branch `claude/great-carson-pmqllo` (not live yet), so the release after that is `dp-v10-26`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -114,6 +114,12 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
   switch (`esm_sess_img`) is still the default for practices that haven't been set.
 - **Logo (D7):** made in-house in the spirit of OM AH HUNG, not imitating Tashi Mannox. The current icon is a white
   ཨ in a five-coloured thigle.
+- **Dharma Soup logo (2026-11-11), separate from the app icon.** Gareth's Samantabhadra-in-a-bowl logo (source:
+  `design/logo/dharmasoup_logo_samantabhadraV5.html`). The app icon stays the ཨ thigle. Used in two places only:
+  the home page (small round bowl beside "Dharma Soup" in the top bar; the full logo with the spoon above the
+  heading, cream box removed and bowl centred, spoon to the right) and the app's Today page (small bowl to the
+  right of the greeting). Images: `practice/soup-mark.png` (128 px, precached for offline) and
+  `practice/soup-logo.png` (690 px), made from the source with `design/logo/export-pngs.js`.
 - **Ko-fi (D8, changed):** a simple link (ko-fi.com/raccoonhands) with a little text on the app's costs and the
   hoped-for benefit to beings. The words are in `KOFI_WHY` and `KOFI_SHORT` in the app (About, Generosity, You)
   and in the home page footer.

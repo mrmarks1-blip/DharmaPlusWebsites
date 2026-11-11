@@ -116,6 +116,8 @@ input:focus,textarea:focus { outline:none; border-color:var(--accent); }
    TYPE & COMMON PIECES
 ═══════════════════════════════════════════ */
 .h1 { font-weight:750; font-size:var(--fs-h); line-height:1.15; letter-spacing:-.02em; text-wrap:balance; }
+.hello { display:flex; align-items:center; gap:10px; }
+.hello img { width:1.3em; height:1.3em; flex:none; }
 .h2 { font-size:var(--fs-sm); font-weight:700; color:var(--ink-2); margin-top:8px; }
 .sub { color:var(--ink-2); }
 .small { font-size:var(--fs-sm); color:var(--ink-2); }
@@ -2675,7 +2677,7 @@ function sheetFeed(){return`<div class="grab"></div><h2 class="h1">Auspicious da
 // ═══════════════════════════════════════════════════════════
 function pageToday(){
   const now=noonOf(new Date()),U=uses(),o=mt(),counting=ST.tap.count>0,sitting=ST.sit&&ST.sit.ov==='sit';
-  const out=[`<div><p class="eyebrow">${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p><h1 class="h1">${greeting()}</h1></div>`];
+  const out=[`<div><p class="eyebrow">${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</p><h1 class="h1 hello">${greeting()}<img src="soup-mark.png" alt="" width="128" height="128"></h1></div>`];
   const sc=startCard();if(sc)out.push(sc);
   if(counting){const sp=findPR(ST.tap.pid);out.push(`<div class="card glow stack"><div><b style="font-size:var(--fs-lg)">Session in progress</b>
     <p class="sub">${fmt(ST.tap.count)} counted${sp?` · ${esc(sp.name)}`:''}</p></div>

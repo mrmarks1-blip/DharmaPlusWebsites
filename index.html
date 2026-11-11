@@ -47,7 +47,9 @@
   .wrap{max-width:720px;margin:0 auto}
 
   .top{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
-  .brand{font-family:var(--f-display);font-weight:600;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:.2px}
+  .brand{font-family:var(--f-display);font-weight:600;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:.2px;display:inline-flex;align-items:center;gap:8px}
+  .brand img{width:34px;height:34px}
+  .hero .logo{display:block;width:230px;height:auto;margin:0 auto 10px}
   .top a.small{font-size:15px;text-decoration:none}
 
   .hero{text-align:center;padding:5vh 0 34px}
@@ -112,11 +114,12 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="./">Dharma Soup</a>
+    <a class="brand" href="./"><img src="practice/soup-mark.png" alt="" width="128" height="128">Dharma Soup</a>
     <a class="small" href="./practice/">Open the app ›</a>
   </header>
 
   <section class="hero">
+    <img class="logo" src="practice/soup-logo.png" alt="The Dharma Soup logo: Samantabhadra seated in a bowl of sky, with a wooden spoon beside it" width="690" height="673">
     <span class="tib" lang="bo" aria-hidden="true">ཨོཾ་ཨཱཿཧཱུྃ།</span>
     <h1>Simple tools for daily practice</h1>
     <p>Free and easy to use, whatever your school, even if you don’t get on with technology.</p>
