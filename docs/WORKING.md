@@ -18,7 +18,7 @@ Its app shows a "We've moved" card until then. dharmasoup.org is registered with
 | Repo (canonical) | GitHub `mrmarks1-blip/DharmaPlusWebsites`, cloned at `Ngondro-webapp\V10 - BigUiUpdate` |
 | Working branch | `v10-redesign`. `main` is the live site. |
 | The app | `practice/index.html`: one file, about 5,200 lines, **CRLF line endings** on Gareth's PC (keep them; never use sed on it). The repo itself stores it with LF; Git converts on Windows, so a cloud session keeps LF. |
-| Service worker | `practice/sw.js`. Live: `dp-v10-28` (11 Nov 2026: Reminders rebuilt, automatic backup keeps up with changes; see section 6). Next release: `dp-v10-29`. |
+| Service worker | `practice/sw.js`. Live: `dp-v10-29` (12 Nov 2026: restore shows now beside the copy, session message no longer covers Done; see section 6). Next release: `dp-v10-30`. |
 | Old address | `/ngondro/` serves the same files through the Worker (`worker/index.js`, noindex). It isn't a redirect. |
 | Server (`/api/*`) | `worker/` + D1 database `dharma-push`: reminders, groups, automatic backups. Cron every minute (`wrangler.jsonc`). Free Workers plan: each run gets 10 ms CPU and 50 fetches/queries, so reminders go out at most 15 a minute, longest-waiting first, up to 2 hours late. The $5 plan is the fix if that ever bites. Preview builds share the live database. |
 | Email | Cloudflare Email Routing: feedback@ and texts@dharmasoup.org (and texts@slicedharma.com) forward to mrmarks1@gmail.com. |
@@ -189,14 +189,13 @@ testing), and so do the content rules in section 3.
   - Tested in the local preview at 375×812 and 375×667, light and dark. Not tested on a real phone, with real
     saved data, or at desktop width before going live: Gareth is checking on his phone.
 
-**Ready on branch `claude/amazing-mendel-fe64tz`, not live yet (SW `dp-v10-29`), asked for by Gareth on 2026-11-12.**
+**Live since 2026-11-12 (main 28edb8f, SW `dp-v10-29`), pushed at Gareth's request from branch `claude/amazing-mendel-fe64tz`.**
 - Restore: "Put this copy back?" now shows a table, one row per practice, with "In the app now" beside "In this
   copy", then the days in the diary. A number that is lower in the copy is red, with a line saying so. The copy's
   own added practices are listed too. With an empty app it shows the plain list as before.
 - The message after a counting session ("Added 108 to …") now appears at the top of the dedication screen, so it
   no longer covers Done. Any message shown on that screen does the same.
 - Tested in a desktop browser at 375×812 and 375×667, light and dark. Not tested on a real phone.
-- When Gareth says to go live: push to `main`, then the next release is `dp-v10-30`.
 
 **Live since 2026-11-11 (SW `dp-v10-26`), asked for by Gareth. Pushed to `main` from branch `claude/laughing-goodall-e5af0a`; `v10-redesign` is behind `main` until it is fast-forwarded.**
 - Practice page order: Meditation timer, Count a session, Ngöndro, Other practices, then kinds of meditation,
