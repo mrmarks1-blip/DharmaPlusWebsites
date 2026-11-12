@@ -1,4 +1,4 @@
-const CACHE = 'dp-v10-28';
+const CACHE = 'dp-v10-29';
 // Small app shell, precached so the app opens offline. Not precached, but
 // cached the first time they're used: the ~2MB practice booklet PDF and the ~0.7MB
 // Tibetan font (fonts/noto-serif-tibetan.woff2).

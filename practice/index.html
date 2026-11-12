@@ -339,6 +339,16 @@ body.touring .page { padding-bottom:300px; }
 .grab { width:44px; height:5px; border-radius:3px; background:var(--line); margin:4px auto 2px; flex-shrink:0; }
 .toast { position:absolute; left:14px; right:14px; bottom:14px; max-width:520px; margin:0 auto; background:var(--ink); color:var(--bg); border-radius:var(--r); padding:10px 14px; display:flex; align-items:center; gap:10px; z-index:50; font-weight:700; }
 .toast.enter { animation:up .25s; }
+.toast.top { bottom:auto; top:calc(8px + var(--safe-t)); }   /* on the dedication screen, so it never covers Done */
+.toast.top.enter { animation:down .25s; }
+@keyframes down { from { transform:translateY(-40px); opacity:0; } to { transform:none; opacity:1; } }
+.cmp { width:100%; border-collapse:collapse; margin-top:8px; font-variant-numeric:tabular-nums; }
+.cmp th, .cmp td { padding:7px 0 7px 8px; border-top:1px solid var(--line); text-align:right; vertical-align:top; }
+.cmp thead th { border-top:0; font-size:var(--fs-sm); color:var(--ink-2); font-weight:700; }
+.cmp th:first-child { text-align:left; padding-left:0; font-weight:400; overflow-wrap:anywhere; }
+.cmp thead th:first-child { font-weight:700; }
+.cmp td.less { color:var(--bad); font-weight:700; }
+.cmp .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 .toast button { margin-left:auto; text-decoration:underline; font-weight:700; min-height:40px; padding:0 6px; color:inherit; }
 @keyframes up { from { transform:translateY(40px); opacity:0; } to { transform:none; opacity:1; } }
 @keyframes fade { from { opacity:0; } to { opacity:1; } }
@@ -2156,6 +2166,15 @@ function parseBackup(text){
   return null;}
 function summarise(data){try{const pd=JSON.parse(data.esm_pr_data||'{}');
   return allPR().filter(p=>(pd[p.id]||{}).counter).map(p=>`${p.name}: ${fmt(pd[p.id].counter)}`);}catch{return[];}}
+// Side by side: what is in the app now and what is in the copy about to be put back. One row per practice that has
+// a count in either, then the diary days. Names can come from the copy's own practices, so the caller escapes them.
+function compareBackup(data){const J=(s,d)=>{try{const v=JSON.parse(s);return v&&typeof v==='object'?v:d;}catch{return d;}},num=v=>Math.max(0,Math.floor(+v)||0);
+  const pd=J(data.esm_pr_data,{}),cust=J(data.esm_custom,[]),names=allPR().map(p=>({id:p.id,name:p.name}));
+  (Array.isArray(cust)?cust:[]).forEach(c=>{if(c&&c.id&&!names.some(n=>n.id===c.id))names.push({id:String(c.id),name:String(c.name||'A practice')});});
+  const rows=names.map(n=>({name:n.name,now:num(getPD(n.id).counter),copy:num((pd[n.id]||{}).counter)})).filter(r=>r.now||r.copy);
+  const dn=Object.keys(ls('esm_journal',{})).length,dc=Object.keys(J(data.esm_journal,{})).length;
+  if(dn||dc)rows.push({name:'Days in your diary',now:dn,copy:dc});
+  return rows;}
 // ── Keeping data safe, for people who aren't "techy" ──
 // 1) Ask the browser to keep our storage permanently (no prompt on most phones).
 // 2) A gentle reminder on Today when it's been a while since a copy was sent.
@@ -4580,8 +4599,12 @@ function sheetRestore(){const R=ST.restore||{step:0};
       <button class="btn soft wide" data-act="restorecheck" style="margin-top:8px">Check this text</button></details>`;}
   const lines=summarise(R.o.data),when_=R.o.created?new Date(R.o.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}):'an unknown date';
   const nothingToLose=!hasPracticeData();
+  const cmp=nothingToLose?[]:compareBackup(R.o.data),less=cmp.some(r=>r.copy<r.now);
   if(R.step===1)return`<div class="grab"></div><h2 class="h1">Put this copy back?</h2>
-    <div class="card"><b>Your copy from ${when_}</b>${lines.length?`<ul style="padding-left:1.2em;margin-top:6px">${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="small">There are no counts in this copy.</p>'}</div>
+    <div class="card"><b>Your copy from ${when_}</b>${cmp.length?`<table class="cmp"><thead><tr><th scope="col">Practice</th><th scope="col">In the app now</th><th scope="col">In this copy</th></tr></thead>
+      <tbody>${cmp.map(r=>`<tr><th scope="row">${esc(r.name)}</th><td>${fmt(r.now)}</td><td${r.copy<r.now?' class="less"':''}>${fmt(r.copy)}${r.copy<r.now?'<span class="sr"> (less than now)</span>':''}</td></tr>`).join('')}</tbody></table>
+      ${less?'<p class="small" style="margin-top:8px">The numbers in red are lower in this copy than in the app now.</p>':''}`
+    :lines.length?`<ul style="padding-left:1.2em;margin-top:6px">${lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`:'<p class="small">There are no counts in this copy.</p>'}</div>
     ${nothingToLose?`<p>There's nothing in the app yet, so nothing will be lost.</p><button class="btn primary wide" data-act="restorego">Yes, put it back</button>`
     :`<p class="note" style="border-color:var(--bad)">This <b>replaces</b> what is in the app now. Just in case, the app keeps a copy of what you have now first, which you can go back to.</p>
     <button class="btn primary wide" data-act="restorenext">Continue</button>`}
@@ -4675,7 +4698,7 @@ function render(){
   html+=sitPill();
   if(ST.tourOn!=null&&!ST.sheet&&!ST.ov)html+=tourCard();
   const toastNew=ST.toast&&ST.toast!==lastToast;lastToast=ST.toast;
-  if(ST.toast)html+=`<div class="toast${toastNew?' enter':''}" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
+  if(ST.toast)html+=`<div class="toast${ST.ov==='dedicate'&&!ST.sheet?' top':''}${toastNew?' enter':''}" role="status"><span>${esc(ST.toast.msg)}</span>${ST.toast.undo?'<button data-act="toastundo">Undo</button>':''}</div>`;
   content.innerHTML=html;
   {const p=content.querySelector('.page');if(p){if(keep.p!=null)p.scrollTop=keep.p;else if(sameTab&&pageScroll[ST.tab])p.scrollTop=pageScroll[ST.tab];}}
   if(keep.o!=null){const o=content.querySelector('.ovbody');if(o)o.scrollTop=keep.o;}

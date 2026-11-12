@@ -189,6 +189,15 @@ testing), and so do the content rules in section 3.
   - Tested in the local preview at 375×812 and 375×667, light and dark. Not tested on a real phone, with real
     saved data, or at desktop width before going live: Gareth is checking on his phone.
 
+**Ready on branch `claude/amazing-mendel-fe64tz`, not live yet (SW `dp-v10-29`), asked for by Gareth on 2026-11-12.**
+- Restore: "Put this copy back?" now shows a table, one row per practice, with "In the app now" beside "In this
+  copy", then the days in the diary. A number that is lower in the copy is red, with a line saying so. The copy's
+  own added practices are listed too. With an empty app it shows the plain list as before.
+- The message after a counting session ("Added 108 to …") now appears at the top of the dedication screen, so it
+  no longer covers Done. Any message shown on that screen does the same.
+- Tested in a desktop browser at 375×812 and 375×667, light and dark. Not tested on a real phone.
+- When Gareth says to go live: push to `main`, then the next release is `dp-v10-30`.
+
 **Live since 2026-11-11 (SW `dp-v10-26`), asked for by Gareth. Pushed to `main` from branch `claude/laughing-goodall-e5af0a`; `v10-redesign` is behind `main` until it is fast-forwarded.**
 - Practice page order: Meditation timer, Count a session, Ngöndro, Other practices, then kinds of meditation,
   Three Aa, breath, Practice together. Ngöndro lists Prostrations, Vajrasattva recitation (was "Diamond Mind"),
